@@ -1,0 +1,160 @@
+---
+description: "Code Review rules"
+globs: lib/**/*.dart
+alwaysApply: false
+---
+# Code Review
+
+When asked to review code, analyze ALL the following areas on every modified file.
+Provide the result grouped by area using this format:
+
+- **✅ Passed** — compliant
+- **⚠️ Warning** — suggestion, non-blocking
+- **🔴 Violation** — must fix before push
+
+---
+
+## 1. Architecture & Layer Separation
+
+- No imports from upper layers (data must not import application, domain must not import application)
+- No imports from inner layers going outward (domain must not import data)
+- Only elements in shared folder can be cross layers
+- Repository interfaces are in `domain/`, implementations in `data/`
+- Data interfaces are in `data/`, implementations in `data/`
+- ViewModel communicates only with domain layer (use cases/services)
+- UI layer (pages/widgets) does not contain business logic
+- Feature folders are self-contained: no cross-feature imports without going through `core/`
+
+## 2. Dart Code Quality
+
+- No `dynamic` types unless strictly necessary — prefer strong typing
+- No `as` casting without prior `is` check
+- No unused imports, variables or parameters
+- No deprecated API usage
+- `const` constructors used wherever possible
+- `final` used for variables that are never reassigned
+- `late` used only when initialization is guaranteed before access
+- No magic numbers or hardcoded strings — use constants
+- Prefer `sealed class` or `enum` over raw strings for state/type representation
+- No `print()` in production code — use a logging system
+
+## 3. Null Safety
+
+- No unnecessary `!` (bang operator) — handle null cases explicitly
+- No `?.` chains longer than 2 levels — extract into variables
+- Default values provided where `null` is not a valid state
+- Nullable return types are intentional and documented
+
+## 4. Flutter Widget Quality
+
+- `StatelessWidget` preferred over `StatefulWidget` when no local state is needed
+- `build()` method does not exceed ~30 lines
+- No business logic inside `build()`, `initState()`, or `dispose()`
+- `const` keyword used on widget constructors and static child trees
+- `Key` parameter included in widgets used inside lists or conditional rendering
+- No inline anonymous widget classes — extract named widgets
+- `@immutable` every where is possible for class
+
+## 5. State Management (Riverpod)
+
+- One provider per file
+- Providers are properly scoped (feature-level vs global)
+- `AsyncValue` used for async states (loading/error/data)
+- No `ref.read` inside `build()` — use `ref.watch` for reactive UI
+- `ref.read` used only inside callbacks and event handlers
+- `autoDispose` used where the provider should not outlive the consumer
+- No direct state mutation — always go through Notifier methods
+
+## 6. Error Handling
+
+- Every async call wrapped in `try/catch` with specific exception types
+- No empty `catch` blocks — at minimum log the error
+- Custom exceptions defined for domain-specific errors
+- User-facing errors are handled with proper UI feedback (dialog, snackbar)
+- No `catchError` — prefer `try/catch` for readability
+
+## 7. Performance
+
+- No unnecessary `setState()` or provider rebuilds
+- Images use proper caching (`CachedNetworkImage` or similar)
+- Lists use `ListView.builder` instead of `ListView(children: [...])` for long lists
+- No rebuilds of entire widget trees — use `const`, `select`, or granular providers
+- Animations use `AnimatedBuilder` or `AnimatedWidget` instead of rebuilding parent
+- No repeated `MediaQuery.of(context)` calls — cache in a local variable
+- Dispose controllers, streams, and subscriptions in `dispose()`
+
+## 8. Security
+
+- No credentials, API keys, or secrets in the codebase
+- No sensitive data logged or printed
+- User input validated and sanitized before processing
+- No data persisted in plain text that should be encrypted
+
+## 9. Naming & Conventions
+
+## Coding Conventions
+
+- Code Language: english
+- Comments language: english
+- File naming: `snake_case`
+- Class naming: `PascalCase`
+- Variable and method naming: `camelCase`
+- Private members prefixed with `_`
+- Boolean variables/methods use `is`, `has`, `should`, `can` prefix
+- Page files: `<feature>_page.dart`
+- Widget files: `<name>_widget.dart`
+- DTO files: `<name>_dto.dart`
+- Entity files: `<name>_entity.dart`
+- Every provider in his riverpod file
+- Use Flutter and dart formatter
+- No `dynamic` types unless strictly necessary — prefer strong typing
+- No `as` casting without prior `is` check
+- No unused imports, variables or parameters
+- No deprecated API usage
+- `const` constructors used wherever possible
+- `final` used for variables that are never reassigned
+- `late` used only when initialization is guaranteed before access
+- No hardcoded or magic value, insert in the specific dart file contained in the *constants* folder.
+- Use `@immutable` every where is possible for class
+- No `catchError` — prefer `try/catch` for readability
+- No unnecessary `!` (bang operator) — handle null cases explicitly
+- No `?.` chains longer than 2 levels — extract into variables
+- Default values provided where `null` is not a valid state
+- Nullable return types are intentional and documented
+- Max line length: 120 characters
+
+## 10. Platform & Responsiveness
+
+- No platform-specific code without `Platform` check or conditional import
+- UI adapts to different screen sizes (no fixed pixel widths on containers)
+- Safe areas handled (`SafeArea`, `MediaQuery.padding`)
+- Keyboard overflow handled on form pages (`SingleChildScrollView` or `resizeToAvoidBottomInset`)
+- Text scales properly with system font size settings (`MediaQuery.textScaleFactor`)
+
+## 11. Dependencies & Imports
+
+- No unused dependencies in `pubspec.yaml`
+- Import order: dart → flutter → packages → project (relative)
+- Prefer relative imports within the same feature
+- No circular dependencies between features
+- New packages justified and reviewed for maintenance/popularity
+
+---
+
+## Output Summary
+
+After the review, provide a final summary table:
+
+| Area | Result | Issues |
+|---|---|---|
+| Architecture | ✅ / ⚠️ / 🔴 | Brief description |
+| Code Quality | ✅ / ⚠️ / 🔴 | Brief description |
+| Null Safety | ✅ / ⚠️ / 🔴 | Brief description |
+| Widget Quality | ✅ / ⚠️ / 🔴 | Brief description |
+| State Management | ✅ / ⚠️ / 🔴 | Brief description |
+| Error Handling | ✅ / ⚠️ / 🔴 | Brief description |
+| Performance | ✅ / ⚠️ / 🔴 | Brief description |
+| Security | ✅ / ⚠️ / 🔴 | Brief description |
+| Naming | ✅ / ⚠️ / 🔴 | Brief description |
+| Responsiveness | ✅ / ⚠️ / 🔴 | Brief description |
+| Dependencies | ✅ / ⚠️ / 🔴 | Brief description |

@@ -1,0 +1,12 @@
+---
+description: Rules for data layer, repository implementations, DTO and datasources
+globs: lib/*/data/**/*.dart
+alwaysApply: false
+---
+# Data Layer
+
+- Never import application or ux layer files.
+- Every DTO must use `freezed` + `json_serializable`.
+- Every datasource must implement the interface defined in `data/`.
+- Every repository must implement the interface defined in `domain/`.
+- Never expose Firebase-specific types outside the data layer.

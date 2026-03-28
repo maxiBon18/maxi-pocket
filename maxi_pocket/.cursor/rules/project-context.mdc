@@ -1,0 +1,111 @@
+---
+description: "High level description and description for this Flutter mobile app project (IOS/ANDROID)"
+alwaysApply: true
+---
+
+# Application Context
+
+## Project Overview
+
+- **App description:** Mobile Flutter App to track and managing personal fixed expenses, such as subscriptions and financing.
+- **Target:** Flutter android and Flutter ios
+- **Design:** developed in Figma.
+
+## Technology stack
+
+- Flutter **3.41.6**
+- Dart SDK version: **Dart 3.11.4** 
+- DevTools version: **2.54.2**
+- Android toolchain - develop for Android devices (Android SDK version **36.1.0**)
+- Xcode **26.4**
+- FVM for Flutter version management
+- Firebase
+
+## Architecture
+
+Use a clean architecture with **MVVM** design pattern with a **feature first approach**
+In the **/lib** folder there are 2 main type of folder: 
+- **core:** contain all the general variables, methods and code that can we use in the features code
+- **specific feature** contain the specific feature code
+
+Every feature follow this directory pattern:
+
+- data
+  - source
+    - DTO -> contains all the concrete DTO implementation for the feature
+    - *.dart -> contains concrete implementation of source data interface
+  - repo
+    - source -> contain the interface of source feature
+    - DTO -> contain the interface of DTO
+    - *.dart -> contains concrete implementation of repository interface
+- domain
+  - entities -> contain all the feature entities and entities interface
+  - services -> contains usecase and services
+  - repo -> contain the interface of repository feature
+- application
+  - viewmodel -> feature viewmodel
+  - ux:
+    - pages -> all the pages of app
+    - widgets: -> reusable feature widget
+- shared -> variables, constants and method shared between layers
+  - mixins
+  - exceptions
+  - controllers -> used for DI and general controller of feature.
+  - constants
+  - utils
+
+**There aren't any violation if in one layer there are folders that groups logically related files**
+
+## Architectural constraints
+
+- Application layer depends on domain layer. Domain layer defines repository interfaces. Data layer implements those interfaces. Dependencies always point inward.
+- Use a clean architecture with **feature first approach MVVM design pattern**
+- Storage data locally with **Drift and Shared Preferences**
+- Don't commit any credential or API keys or sensitive data.
+- **CRITICAL** For every dart and flutter command use **ALWAYS** fvm tool
+- All the variables, constants and method shared between layers **MUST BE INSERT IN THE SHARED FOLDER**
+
+
+## Coding Conventions
+
+- Code Language: english
+- Comments language: english
+- File naming: `snake_case`
+- Class naming: `PascalCase`
+- Variable and method naming: `camelCase`
+- Private members prefixed with `_`
+- Boolean variables/methods use `is`, `has`, `should`, `can` prefix
+- Page files: `<feature>_page.dart`
+- Widget files: `<name>_widget.dart`
+- DTO files: `<name>_dto.dart`
+- Entity files: `<name>_entity.dart`
+- Every provider in his riverpod file
+- Use Flutter and dart formatter
+- No `dynamic` types unless strictly necessary — prefer strong typing
+- No `as` casting without prior `is` check
+- No unused imports, variables or parameters
+- No deprecated API usage
+- `const` constructors used wherever possible
+- `final` used for variables that are never reassigned
+- `late` used only when initialization is guaranteed before access
+- No hardcoded or magic value, insert in the specific dart file contained in the *constants* folder.
+- Use `@immutable` every where is possible for class
+- No `catchError` — prefer `try/catch` for readability
+- No unnecessary `!` (bang operator) — handle null cases explicitly
+- No `?.` chains longer than 2 levels — extract into variables
+- Default values provided where `null` is not a valid state
+- Nullable return types are intentional and documented
+
+
+## Important packages
+
+- State Manager: 
+  - Riverpod 
+  - flutter_riverpod
+- Local Storage:
+  - shared_preferences
+  - drifts
+- Dependency Injection:
+  - get_it
+  
+**For packages and versions, always refer to pubspec.yaml as the single source of truth**

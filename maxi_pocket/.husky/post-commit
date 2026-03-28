@@ -1,0 +1,28 @@
+#!/usr/bin/env zsh
+
+echo ""
+echo "══════════════════════════════════════════"
+echo "  📦 POST-COMMIT — Summary"
+echo "══════════════════════════════════════════"
+echo ""
+
+COMMIT_HASH=$(git log --oneline -1 --format="%h")
+COMMIT_MSG=$(git log --oneline -1 --format="%s")
+COMMIT_AUTHOR=$(git log -1 --format="%an")
+COMMIT_DATE=$(git log -1 --format="%ci")
+BRANCH=$(git branch --show-current)
+FILES_CHANGED=$(git diff-tree --no-commit-id --name-only -r HEAD | wc -l | xargs)
+
+echo "  ✅ Commit successful!"
+echo ""
+echo "  Hash:    $COMMIT_HASH"
+echo "  Message: $COMMIT_MSG"
+echo "  Author:  $COMMIT_AUTHOR"
+echo "  Date:    $COMMIT_DATE"
+echo "  Branch:  $BRANCH"
+echo "  Files:   $FILES_CHANGED file(s) changed"
+echo ""
+echo "══════════════════════════════════════════"
+echo ""
+
+exit 0

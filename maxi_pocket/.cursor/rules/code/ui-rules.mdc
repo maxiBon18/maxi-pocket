@@ -1,0 +1,58 @@
+---
+description: Rules for Pages and Widget construction
+globs: lib/*/application/ux/**/*.dart
+alwaysApply: false
+---
+
+# UI Guidelines
+
+## General
+
+- UI doesn't contain business logic.
+- Business logic is delegated to viewmodel.
+- Try to prefer where possible widget `const` and `Stateless` 
+
+## Pages
+
+- Every Page file must be called <feature_name>_page.dart
+- Every Page widget name must start with **Runaya** word
+  - Example: *lib/registration/application/ux/pages/registration_verify_email_page.dart*
+- For every page use as start widget the **RunayaPage**. It is a custom page with custom transition and lifecycle.
+  - Example: *lib/registration/application/ux/pages/registration_verify_email_page.dart*
+
+## Widgets
+
+- Every widget name must start with **Runaya** word
+  - Example: *lib/core/application/ux/widgets/textfield_widget.dart*
+- Specific feature widget must be insert in the feature folder itself.
+- Shared or reusable components from 2 or more features must be insert in the **lib/core/application/ux**
+
+## Composition
+
+- Try to have always small and reusable widget.
+- Keep the `build()` method under ~30 lines (ideal).
+- If it exceeds 50-60 lines, extract sub-widgets into dedicated files.
+- Each extracted widget should have a single visual responsibility.
+- No unnecessary `setState()` or provider rebuilds
+- Images use proper caching (`CachedNetworkImage` or similar)
+- Lists use `ListView.builder` instead of `ListView(children: [...])` for long lists
+- No rebuilds of entire widget trees — use `const`, `select`, or granular providers
+
+## Style and Theme
+
+- Don't use hardcoded colors or style.
+  - All the colors must be insert in *lib/core/application/ux/theme/color.dart*
+  - All the theme component must be insert in lib/core/application/ux/theme/theme.dart
+- For the Design component try to generalize it in the *ThemeData*. If is not possible or there are limitations, create a custom widget. 
+  - Example: **Custom Textfield** in *lib/core/application/ux/widgets/textfield_widget.dart* with the basic design in  **InputDecorationTheme** in *lib/core/application/ux/theme/color.dart*
+
+## Responsive
+
+- Try to not use fixed pixel value for dimension. Use it only in exceptional cases.
+
+## Best Pattern
+
+- Try to use the loading, error and success state of riverpod for the UI where is possible.
+  - There are *lib/core/application/ux/widgets/shimmer_loading_widget.dart* and *lib/core/application/ux/widgets/overlay_loading_widget.dart* for loading state
+  - There are *lib/core/application/ux/widgets/dialog_widget.dart* and *lib/core/application/ux/widgets/snackbar_widget.dart* for the error.
+  - Example: *lib/registration/application/ux/pages/registration_verify_email_page.dart*

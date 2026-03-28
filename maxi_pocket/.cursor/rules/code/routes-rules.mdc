@@ -1,0 +1,16 @@
+---
+description: Rules for creating a new app route
+alwaysApply: false
+---
+
+# Routes
+
+## Create new route
+
+- New routes must be insert in the *lib/core/shared/constants/routes.dart*
+  - Example: *lib/core/shared/constants/routes.dart*
+- Every route must be insert also in the `routes` variables where the key is the route name and the value the relative page.
+- For navigation and routes is used:
+  - onGenerateRoute & initialRoute 
+  - Flutter native navigation system
+    - Preferred always the named navigation.

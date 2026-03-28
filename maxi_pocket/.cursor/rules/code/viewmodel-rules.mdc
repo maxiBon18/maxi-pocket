@@ -1,0 +1,12 @@
+---
+description: Rules for ViewModel layer with Riverpod
+globs: lib/*/application/viewmodel/**/*.dart
+alwaysApply: false
+---
+
+# ViewModel
+
+- One ViewModel per file.
+- ViewModel communicates only with domain layer (use cases/services).
+- Never import data layer or Firebase-specific code.
+- Try to use the loading, error and success state of riverpod for the UI where is possible.

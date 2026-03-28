@@ -1,0 +1,10 @@
+---
+description: "Rules for didactic explanations"
+alwaysApply: false
+---
+
+When asked to explain code or concepts:
+1. Use clear, middle-developer-friendly language.
+2. Always link the explanation to the actual code in the project.
+3. Highlight the design pattern used.
+4. Suggest any improvements.
