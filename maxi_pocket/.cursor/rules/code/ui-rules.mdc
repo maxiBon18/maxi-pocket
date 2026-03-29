@@ -1,58 +1,60 @@
 ---
-description: Rules for Pages and Widget construction
-globs: lib/*/application/ux/**/*.dart
+description: "Rules for pages, widgets, theming, and responsive UI"
+globs: lib/*/presentation/ux/**/*.dart
 alwaysApply: false
 ---
 
 # UI Guidelines
 
-## General
+> Naming conventions and code quality rules are defined in `coding-conventions.mdc`. This file covers UI-specific structure, composition, and theming.
 
-- UI doesn't contain business logic.
-- Business logic is delegated to viewmodel.
-- Try to prefer where possible widget `const` and `Stateless` 
+## General Principles
 
-## Pages
+- UI layer MUST NOT contain business logic. Delegate all business logic to ViewModels.
+- Prefer `StatelessWidget` over `StatefulWidget` when no local mutable state is needed.
+- Use `const` constructors on all widgets and static child trees.
 
-- Every Page file must be called <feature_name>_page.dart
-- Every Page widget name must start with **Runaya** word
-  - Example: *lib/registration/application/ux/pages/registration_verify_email_page.dart*
-- For every page use as start widget the **RunayaPage**. It is a custom page with custom transition and lifecycle.
-  - Example: *lib/registration/application/ux/pages/registration_verify_email_page.dart*
+## Page Rules
 
-## Widgets
+- Page file name: `<feature_name>_page.dart`.
+- Page widget class name MUST start with `MaxiPocket` (e.g., `MaxiPocketHomePage`).
+- Every page MUST use `MaxiPocketPage` as its root widget (custom page with transitions and lifecycle).
 
-- Every widget name must start with **Runaya** word
-  - Example: *lib/core/application/ux/widgets/textfield_widget.dart*
-- Specific feature widget must be insert in the feature folder itself.
-- Shared or reusable components from 2 or more features must be insert in the **lib/core/application/ux**
+## Widget Rules
+
+- Widget class name MUST start with `MaxiPocket` (e.g., `MaxiPocketBalanceCard`).
+- Feature-specific widgets reside in the feature's `application/ux/widgets/` folder.
+- Shared widgets used by 2+ features reside in `lib/core/presentation/ux/widgets/`.
+- Use small, private `Widget` classes instead of private helper methods returning a `Widget`.
 
 ## Composition
 
-- Try to have always small and reusable widget.
-- Keep the `build()` method under ~30 lines (ideal).
-- If it exceeds 50-60 lines, extract sub-widgets into dedicated files.
-- Each extracted widget should have a single visual responsibility.
-- No unnecessary `setState()` or provider rebuilds
-- Images use proper caching (`CachedNetworkImage` or similar)
-- Lists use `ListView.builder` instead of `ListView(children: [...])` for long lists
-- No rebuilds of entire widget trees — use `const`, `select`, or granular providers
+- Keep `build()` methods ≤ 20 lines.
+- If `build()` exceeds 20 lines, extract sub-widgets into dedicated files. Each extracted widget has a single visual responsibility.
+- No business logic inside `build()`, `initState()`, or `dispose()`.
+- `Key` parameter required on widgets used inside lists or conditional rendering.
+
+## Performance
+
+- Use `ListView.builder` or `SliverList` for lists exceeding ~10 items.
+- Use `const` constructors in `build()` methods to reduce rebuilds.
+- No expensive operations (network calls, heavy computation) inside `build()`.
+- Use `Isolate.run()` (or `compute()`) for CPU-intensive work such as JSON parsing.
+- No repeated `MediaQuery.of(context)` calls — cache the result in a local variable.
+- Dispose controllers, streams, and subscriptions in `dispose()`.
 
 ## Style and Theme
 
-- Don't use hardcoded colors or style.
-  - All the colors must be insert in *lib/core/application/ux/theme/color.dart*
-  - All the theme component must be insert in lib/core/application/ux/theme/theme.dart
-- For the Design component try to generalize it in the *ThemeData*. If is not possible or there are limitations, create a custom widget. 
-  - Example: **Custom Textfield** in *lib/core/application/ux/widgets/textfield_widget.dart* with the basic design in  **InputDecorationTheme** in *lib/core/application/ux/theme/color.dart*
+- No hardcoded colors, text or text styles anywhere in widget code.
+- All colors defined in `lib/core/presentation/ux/theme/color.dart`.
+- All theme components defined in `lib/core/presentation/ux/theme/theme.dart`.
+- Generalize design tokens in `ThemeData`. When `ThemeData` is insufficient, create a custom widget.
+  - Example: custom TextField in `lib/core/presentation/ux/widgets/textfield_widget.dart` with base styling via `InputDecorationTheme` in the theme file.
 
-## Responsive
+## Responsive Design
 
-- Try to not use fixed pixel value for dimension. Use it only in exceptional cases.
-
-## Best Pattern
-
-- Try to use the loading, error and success state of riverpod for the UI where is possible.
-  - There are *lib/core/application/ux/widgets/shimmer_loading_widget.dart* and *lib/core/application/ux/widgets/overlay_loading_widget.dart* for loading state
-  - There are *lib/core/application/ux/widgets/dialog_widget.dart* and *lib/core/application/ux/widgets/snackbar_widget.dart* for the error.
-  - Example: *lib/registration/application/ux/pages/registration_verify_email_page.dart*
+- No fixed pixel widths on layout containers. Use relative sizing (`Expanded`, `Flexible`, `FractionallySizedBox`, `LayoutBuilder`).
+- Handle safe areas with `SafeArea` or `MediaQuery.padding`.
+- Handle keyboard overflow on form pages with `SingleChildScrollView` or `resizeToAvoidBottomInset`.
+- Text MUST scale with system font size settings (use `MediaQuery.textScalerOf(context)`, NOT the deprecated `textScaleFactor`).
+- Platform-specific code MUST use `Platform` checks or conditional imports.

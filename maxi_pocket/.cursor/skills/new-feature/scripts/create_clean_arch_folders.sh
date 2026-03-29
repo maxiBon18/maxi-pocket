@@ -6,7 +6,7 @@ mydir="$(pwd)"
 echo "Current dir: $mydir"
 
 # Get path where create clean architecture structure.
-featureFolderName="profile"
+featureFolderName=<featureFolderName>
 
 if [ -z "$featureFolderName" ]; then
     echo "Feature folder name must not be empty!"
@@ -20,8 +20,9 @@ mkdir -p "$pathCleanArch"
 
 # Create Single feature structure.
 mkdir -p "$pathCleanArch/data"
-mkdir -p "$pathCleanArch/application"
+mkdir -p "$pathCleanArch/presentation"
 mkdir -p "$pathCleanArch/domain"
+mkdir -p "$pathCleanArch/shared"
 
 # Create Data folder Structure
 mkdir -p "$pathCleanArch/data/source"
@@ -34,13 +35,15 @@ mkdir -p "$pathCleanArch/domain/entities"
 mkdir -p "$pathCleanArch/domain/services"
 mkdir -p "$pathCleanArch/domain/services/repo"
 
-# Create Application folder structure
-mkdir -p "$pathCleanArch/application/constants"
-mkdir -p "$pathCleanArch/application/controllers"
-mkdir -p "$pathCleanArch/application/exceptions"
-mkdir -p "$pathCleanArch/application/mixins"
-mkdir -p "$pathCleanArch/application/utils"
-mkdir -p "$pathCleanArch/application/ux"
-mkdir -p "$pathCleanArch/application/ux/pages"
-mkdir -p "$pathCleanArch/application/ux/widgets"
-mkdir -p "$pathCleanArch/application/viewmodel"
+# Create Presentation folder structure
+mkdir -p "$pathCleanArch/presentation/ux"
+mkdir -p "$pathCleanArch/presentation/ux/pages"
+mkdir -p "$pathCleanArch/presentation/ux/widgets"
+mkdir -p "$pathCleanArch/presentation/viewmodel"
+
+# Create Shared folder structure
+mkdir -p "$pathCleanArch/shared/constants"
+mkdir -p "$pathCleanArch/shared/controllers"
+mkdir -p "$pathCleanArch/shared/exceptions"
+mkdir -p "$pathCleanArch/shared/mixins"
+mkdir -p "$pathCleanArch/shared/utils"
