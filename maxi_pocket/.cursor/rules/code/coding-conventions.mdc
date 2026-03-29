@@ -1,0 +1,64 @@
+---
+description: "Naming, style, code quality, and null safety conventions for all Dart code"
+globs: lib/**/*.dart
+alwaysApply: false
+---
+
+# Coding Conventions
+
+## Language
+
+- All code (identifiers, comments, documentation) MUST be written in English.
+
+## Naming
+
+| Element | Convention | Example |
+| --- | --- | --- |
+| Files | `snake_case` with suffix | `home_page.dart`, `user_widget.dart`, `payment_dto.dart`, `subscription_entity.dart` |
+| Classes | `PascalCase` | `SubscriptionEntity` |
+| Variables, methods | `camelCase` | `totalAmount`, `fetchSubscriptions()` |
+| Private members | `_` prefix | `_controller`, `_calculateTotal()` |
+| Booleans | `is`/`has`/`should`/`can` prefix | `isActive`, `hasExpired`, `canDelete` |
+| Provider files | One provider per file | `subscription_provider.dart` |
+
+### File Naming by Type
+
+- Pages: `<feature>_page.dart`
+- Widgets: `<name>_widget.dart`
+- DTOs: `<name>_dto.dart`
+- Entities: `<name>_entity.dart`
+- ViewModels: `<name>_viewmodel.dart`
+- Services: `<name>_service.dart`
+- Abstract Repositories: `<name>_repository.dart`
+- Implementation Repositories: `<name>_repository_impl.dart`
+- Abstract Source: `<name>_sourcedart`
+- Implementation Source: `<name>_source_impl.dart`
+
+## Code Quality
+
+- Use the Flutter and Dart formatter. 
+- Max line length: **120 characters**.
+- No `dynamic` types unless strictly necessary — prefer strong typing.
+- No `as` casting without a prior `is` check.
+- No unused imports, variables, or parameters.
+- No deprecated API usage.
+- `const` constructors used wherever possible.
+- `final` for variables that are never reassigned.
+- `late` only when initialization is guaranteed before access.
+- `@immutable` annotation on every class where applicable.
+- No hardcoded or magic values — store in the feature's `shared/constants/` folder.
+- Keep functions short, single-purpose. Target ≤ 20 lines per function.
+
+## Null Safety
+
+- No unnecessary `!` (bang operator) — handle null cases explicitly.
+- No `?.` chains longer than 2 levels — extract into named variables.
+- Provide default values where `null` is not a valid state.
+- Nullable return types MUST be intentional and documented with a comment.
+
+## Error Handling
+
+- No `catchError` — use `try/catch` for readability.
+- Every `catch` block MUST specify the exception type. No bare `catch (e)` without a type.
+- No empty `catch` blocks — at minimum, log the error.
+- Define custom exceptions for domain-specific error conditions.

@@ -1,0 +1,47 @@
+---
+description: "Dart language best practices and idioms"
+globs: lib/**/*.dart
+alwaysApply: false
+---
+
+# Dart Best Practices
+
+> Naming, null safety, and error handling conventions are defined in `coding-conventions.mdc`. This file covers Dart-specific language idioms and patterns.
+
+## Reference
+
+Follow the official [Effective Dart](https://dart.dev/effective-dart) guidelines as the baseline.
+
+## Code Organization
+
+- Define related classes within the same library file. For large libraries, export smaller private libraries from a single top-level library.
+- Group related libraries in the same folder.
+
+## Async / Await
+
+- Use `Future`, `async`, and `await` for asynchronous operations.
+- Use `Stream` for sequences of asynchronous events.
+- Every async call MUST have error handling (defined in `coding-conventions.mdc`).
+
+## Language Features
+
+- **Pattern Matching:** Use pattern matching (`switch` expressions, destructuring) where it simplifies logic.
+- **Records:** Use records to return multiple values when defining a full class is excessive.
+- **Exhaustive Switch:** Prefer exhaustive `switch` expressions. Do NOT use `break` in switch expressions.
+- **Arrow Functions:** Use `=>` syntax for single-expression functions and getters.
+
+## SOLID Principles
+
+Apply SOLID principles throughout the codebase:
+
+- **S** — Each class has one reason to change.
+- **O** — Extend behavior through composition or interfaces, not by modifying existing classes.
+- **L** — Subtypes must be substitutable for their base types.
+- **I** — Prefer small, focused interfaces over large ones.
+- **D** — Depend on abstractions (interfaces), not concrete implementations.
+
+## Style
+
+- Prefer functional and declarative patterns over imperative style.
+- Favor composition over inheritance for building complex logic.
+- Prefer immutable data structures. Mark classes with `@immutable` when all fields are final.

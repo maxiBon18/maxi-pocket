@@ -15,7 +15,6 @@ alwaysApply: true
 - Before responding, internally analyze the user's request to identify their true intent.
 - If any data is uncertain, state the uncertainty instead of inventing (No hallucinations).
 - Always use Markdown to improve readability (bold for key concepts, tables for comparisons).
-- If the request is ambiguous, ask for clarification before executing the task.
 
 ## Style
 
