@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
-cd ..
+# Resolve Flutter package root (parent of lib/) from this script's location:
+# .../maxi_pocket/.cursor/skills/new-feature/scripts/this-file.sh
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../../.." && pwd)"
+cd "$PROJECT_ROOT" || exit 1
 
 echo "Get current directory"
 mydir="$(pwd)"
@@ -14,6 +18,23 @@ if [ -z "$featureFolderName" ]; then
 fi
 
 pathCleanArch="$mydir/lib/$featureFolderName"
+pathAssets="$mydir/assets"
+
+if [ -z "$pathAssets" ]; then
+    echo "Assets folder must not be empty!"
+    exit 1
+fi
+
+# Create Assets folder and subfolders.
+mkdir -p "$pathAssets"
+mkdir -p "$pathAssets/images"
+mkdir -p "$pathAssets/images/svg"
+mkdir -p "$pathAssets/images/1.5x"
+mkdir -p "$pathAssets/images/2.0x"
+mkdir -p "$pathAssets/images/3.0x"
+mkdir -p "$pathAssets/images/4.0x"
+mkdir -p "$pathAssets/fonts"
+mkdir -p "$pathAssets/icons"
 
 # Create Feature folder.
 mkdir -p "$pathCleanArch"
