@@ -1,0 +1,77 @@
+---
+description: "Generate or update the project README.md by scanning the codebase"
+globs: README.md
+alwaysApply: false
+---
+
+# README Generator
+
+A comprehensive rules definition for automatically generating and maintaining high-quality `README.md` files for Flutter mobile projects. This document serves as both a best-practices reference and the authoritative source the readme generation.
+
+---
+
+## README Best Practices Reference
+
+This section codifies what a production-quality README for a Flutter mobile project should contain. The guidelines are derived from open-source community standards, Flutter ecosystem conventions, and team-scale maintainability concerns.
+
+### Mandatory Sections
+
+Every README **must** include the following sections, in the order listed:
+
+| #   | Section                             | Purpose                                     | Content Guidelines                                                                                                                                                                                                                                                                         |
+| --- | ----------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | **Project Title & Description**     | First impression — what the project is      | Project name as H1. 1–2 sentence description immediately below. Badges row (build status, platform, Flutter version, license) on the line after the H1.                                                                                                                                    |
+| 2   | **Screenshots / Demo**              | Visual proof of what the app looks like     | 2–4 annotated screenshots or an animated GIF showing core flows. Use a markdown table with `Android` / `iOS` column headers for side-by-side comparison. If screenshots are not yet available, include a placeholder table with `<!-- TODO: Add screenshots after first UI milestone -->`. |
+| 3   | **Features**                        | What the app does from a user's perspective | Bullet list of user-facing features. Group by feature module if the list exceeds 10 items. Use `- [x]` for implemented and `- [ ]` for planned features.                                                                                                                                   |
+| 4   | **Tech Stack**                      | Technology choices at a glance              | Table with columns: **Category** → **Technology** → **Version**. Categories: Framework, Language, State Management, Database, CI/CD, Design System. Example row: `Framework                                                                                                                | Flutter | 3.22.x`. Always include version numbers. |
+| 5   | **Architecture**                    | How the code is organized                   | Name the pattern (e.g., *Clean Architecture + MVVM, feature-first*). Include an ASCII or Mermaid folder-tree diagram of `/lib`. Briefly describe each layer (data, domain, application, shared). Link to Architecture Decision Records (ADRs) if they exist.                               |
+| 6   | **Getting Started / Prerequisites** | How to run the project from zero            | Numbered step-by-step: (1) Install FVM, (2) `fvm install`, (3) `fvm flutter pub get`, (4) Firebase setup, (5) `fvm flutter run`. List all prerequisites (FVM, Android SDK, Xcode, Firebase CLI) with minimum versions.                                                                     |
+| 7   | **Configuration / Environment**     | Environment-specific setup                  | How to configure environments (dev / staging / prod). Where `.env` or Firebase config files are placed. Explicitly state what is `.gitignore`-d.                                                                                                                                           |
+| 8   | **Project Structure**               | Detailed folder map                         | Full annotated folder tree of `/lib` showing feature-first layout with `data/`, `domain/`, `application/`, and `shared/` layers per feature, plus a top-level `core/` directory.                                                                                                           |
+| 9   | **State Management**                | How state flows through the app             | Brief explanation of Riverpod usage: provider scoping, `AsyncValue` pattern, `Notifier` pattern. Link to the relevant `.cursor/rules/*.mdc` file for detailed conventions.                                                                                                                 |
+| 10  | **Dependencies**                    | Key packages used                           | Table: **Package** → **Purpose** → **Version**. Include only meaningful direct dependencies (`drift`, `riverpod`, `go_router`, `firebase_*`, `cached_network_image`, etc.). Exclude transitive and dev dependencies unless they are architecturally significant.                           |
+| 11  | **Scripts & Commands**              | Common dev commands                         | Table of frequently used commands: build, test, lint, generate, clean. All commands **must** be prefixed with `fvm`. Example: `fvm flutter build apk --release`.                                                                                                                           |
+| 12  | **Testing**                         | How to run and write tests                  | Test strategy (unit, widget, integration). How to run: `fvm flutter test`. Folder structure for tests mirroring `/lib`. Coverage target if defined.                                                                                                                                        |
+| 13  | **Contributing**                    | How team members contribute                 | Branch naming convention, commit message format (e.g., Conventional Commits), PR process, link to code review cursor rule.                                                                                                                                                                 |
+| 14  | **License**                         | Legal terms                                 | License type (e.g., MIT, proprietary) and link to `LICENSE` file in the repository root.                                                                                                                                                                                                   |
+
+### Optional Sections
+
+Include these sections when the stated condition applies:
+
+| Section                   | When to Include                                                                                                   |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **API Reference**         | If the app exposes or consumes documented REST / GraphQL APIs                                                     |
+| **Deployment**            | If CI/CD pipelines or app store deployment steps exist                                                            |
+| **Troubleshooting / FAQ** | After 3+ recurring setup issues have been documented by team members                                              |
+| **Changelog**             | If the project maintains a versioned changelog (ideally following [Keep a Changelog](https://keepachangelog.com)) |
+| **Acknowledgements**      | If third-party assets, designs, or significant open-source tools deserve attribution                              |
+| **Roadmap**               | If there is a public or team-visible feature roadmap (link to issue board or planning doc)                        |
+
+### Flutter-Specific Best Practices for README
+
+- **FVM-first commands** — All CLI commands **must** use the `fvm` prefix. Never write bare `flutter` or `dart` commands.
+- **SDK version prominence** — Include the minimum Flutter and Dart SDK versions prominently in both the badges row and the Tech Stack table.
+- **Platform targets** — State supported platforms (Android, iOS) explicitly, including minimum OS versions (e.g., Android 7.0 / API 24, iOS 15.0).
+- **Firebase documentation** — Firebase project setup must be documented inline or linked to a dedicated setup guide.
+- **FVM version pinning** — Explain the role of `.fvmrc` or `.fvm/fvm_config.json` and instruct contributors to run `fvm install` before anything else.
+- **Screenshot table format** — Use platform labels (`Android` / `iOS`) as column headers so reviewers can verify both platforms at a glance.
+- **Architecture diagrams** — Use simple ASCII or Mermaid folder trees embedded in the README. Avoid external image files that go stale or break when URLs change.
+
+---
+
+## General Best Practices
+
+Key principles that inform the design of effective README generation skills:
+
+- **Scanning before writing prevents hallucinated content.** When an LLM generates documentation without grounding in actual project files, it confidently produces plausible-sounding but fictitious features, dependencies, and folder structures. By mandating a silent scan of `pubspec.yaml`, `/lib`, `.fvmrc`, and config files *before* any writing begins, the skill constrains the model's output to verifiable facts. This is the single most impactful rule for documentation accuracy.
+
+- **Update mode must show a change plan before writing.** README files accumulate manually written context — onboarding tips, known issues, team-specific notes — that no automated scan can reconstruct. If the skill silently regenerates the entire file, this institutional knowledge is lost. Presenting a numbered change plan and requiring explicit confirmation ensures the human retains editorial control while still benefiting from automated detection of stale sections.
+
+- **Mandatory section ordering matters for consistency across projects.** When every project in an organization uses the same README structure, developers build spatial memory: "Tech Stack is always section 4, Getting Started is always section 6." This reduces onboarding time and makes cross-project navigation intuitive. Without enforced ordering, each README becomes a unique snowflake that requires full reading to locate basic information.
+
+- **Collapsible blocks improve scannability without sacrificing completeness.** A full `/lib` folder tree or a 30-row dependency table is essential reference material, but it dominates the page and pushes high-value sections (Getting Started, Architecture) below the fold. Wrapping verbose sections in `<details><summary>` tags gives scanners a clean outline while giving deep readers one click to expand. This balances the needs of both audiences in a single document.
+
+- **Self-validation checklists reduce revision cycles.** Without a checklist, the model may produce a README that *looks* complete but contains a mismatched Flutter version, a folder tree from a previous project state, or a bare `dart` command. The self-validation step forces a structured review against nine concrete criteria before output, catching errors that would otherwise require a human review round-trip. Each criterion maps to a specific class of defect observed in prior README generations.
+
+---

@@ -41,7 +41,7 @@ Report each check using this format:
 
 - One provider per file.
 - Providers scoped appropriately (feature-level vs. global).
-- `AsyncValue` used for all async states (loading / error / data).
+- `AsyncValue` used for all async states (loading / error / data) except for `lib/core/presentation/viewmodel/loading_viewmodel dart`.
 - `ref.watch` inside `build()` for reactive UI. `ref.read` only inside callbacks and event handlers.
 - `autoDispose` used when the provider should not outlive its consumer.
 - No direct state mutation — use Notifier methods exclusively.
@@ -89,18 +89,18 @@ Additionally verify:
 
 After the review, provide a final summary table:
 
-| Area | Result | Issues |
-| --- | --- | --- |
-| Architecture | ✅ / ⚠️ / 🔴 | Brief description |
-| Code Quality | ✅ / ⚠️ / 🔴 | Brief description |
-| Null Safety | ✅ / ⚠️ / 🔴 | Brief description |
-| Widget Quality | ✅ / ⚠️ / 🔴 | Brief description |
+| Area             | Result    | Issues            |
+| ---------------- | --------- | ----------------- |
+| Architecture     | ✅ / ⚠️ / 🔴 | Brief description |
+| Code Quality     | ✅ / ⚠️ / 🔴 | Brief description |
+| Null Safety      | ✅ / ⚠️ / 🔴 | Brief description |
+| Widget Quality   | ✅ / ⚠️ / 🔴 | Brief description |
 | State Management | ✅ / ⚠️ / 🔴 | Brief description |
-| Error Handling | ✅ / ⚠️ / 🔴 | Brief description |
-| Performance | ✅ / ⚠️ / 🔴 | Brief description |
-| Security | ✅ / ⚠️ / 🔴 | Brief description |
-| Responsiveness | ✅ / ⚠️ / 🔴 | Brief description |
-| Dependencies | ✅ / ⚠️ / 🔴 | Brief description |
+| Error Handling   | ✅ / ⚠️ / 🔴 | Brief description |
+| Performance      | ✅ / ⚠️ / 🔴 | Brief description |
+| Security         | ✅ / ⚠️ / 🔴 | Brief description |
+| Responsiveness   | ✅ / ⚠️ / 🔴 | Brief description |
+| Dependencies     | ✅ / ⚠️ / 🔴 | Brief description |
 
 Then list every 🔴 Violation with:
 - **File and line** (or range)
