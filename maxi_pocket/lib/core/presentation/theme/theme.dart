@@ -366,3 +366,113 @@ class ThemeTextStyles {
     fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
   );
 }
+
+final ThemeData lightAppTheme = ThemeData(
+  useMaterial3: true,
+  brightness: Brightness.light,
+  colorSchemeSeed: ThemeColors.primaryColor,
+  textTheme: ThemeTextStyles.appLightTextTheme,
+  scaffoldBackgroundColor: ThemeColors.backgroundColor,
+  inputDecorationTheme: InputDecorationTheme(
+    errorMaxLines: 2,
+    fillColor: ThemeColors.backgroundColor,
+    filled: true,
+    alignLabelWithHint: true,
+    isDense: true,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16.0),
+      borderSide: const BorderSide(
+        color: ThemeColors.surfaceVariantColor,
+        width: 1,
+        strokeAlign: BorderSide.strokeAlignOutside,
+      ),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16.0),
+      borderSide: const BorderSide(
+        color: ThemeColors.errorColor,
+        width: 1.5,
+        strokeAlign: BorderSide.strokeAlignOutside,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16.0),
+      borderSide: const BorderSide(
+        color: ThemeColors.primaryColor,
+        width: 1.5,
+        strokeAlign: BorderSide.strokeAlignOutside,
+      ),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16.0),
+      borderSide: const BorderSide(
+        color: ThemeColors.errorColor,
+        width: 1.5,
+        strokeAlign: BorderSide.strokeAlignOutside,
+      ),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(4.0),
+      borderSide: const BorderSide(
+        color: ThemeColors.surfaceVariantColor,
+        width: 1.5,
+        strokeAlign: BorderSide.strokeAlignOutside,
+      ),
+    ),
+  ),
+);
+
+final ThemeData darkAppTheme = ThemeData(
+  useMaterial3: true,
+  brightness: Brightness.dark,
+  colorSchemeSeed: ThemeColors.primaryColor,
+  textTheme: ThemeTextStyles.appDarkTextTheme,
+  scaffoldBackgroundColor: ThemeColors.darkBackgroundColor,
+  inputDecorationTheme: InputDecorationTheme(
+    errorMaxLines: 2,
+    fillColor: ThemeColors.darkBackgroundColor,
+    filled: true,
+    alignLabelWithHint: true,
+    isDense: true,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16.0),
+      borderSide: const BorderSide(
+        color: ThemeColors.darkSurfaceVariantColor,
+        width: 1,
+        strokeAlign: BorderSide.strokeAlignOutside,
+      ),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16.0),
+      borderSide: const BorderSide(
+        color: ThemeColors.errorColor,
+        width: 1.5,
+        strokeAlign: BorderSide.strokeAlignOutside,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16.0),
+      borderSide: const BorderSide(
+        color: ThemeColors.primaryDarkColor,
+        width: 1.5,
+        strokeAlign: BorderSide.strokeAlignOutside,
+      ),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16.0),
+      borderSide: const BorderSide(
+        color: ThemeColors.errorColor,
+        width: 1.5,
+        strokeAlign: BorderSide.strokeAlignOutside,
+      ),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(4.0),
+      borderSide: const BorderSide(
+        color: ThemeColors.darkSurfaceVariantColor,
+        width: 1.5,
+        strokeAlign: BorderSide.strokeAlignOutside,
+      ),
+    ),
+  ),
+);
