@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:maxi_pocket/core/presentation/ux/routing_service.dart';
 import 'package:maxi_pocket/core/shared/controllers/custom_navigator_observer.dart';
 import 'package:maxi_pocket/core/shared/utils/loggers.dart';
+import 'package:maxi_pocket/routes.dart' show Routes;
 
 R getDI<R extends Object>() => GetIt.instance<R>();
 
@@ -24,7 +25,9 @@ void setupDependencies(GetIt getIt) {
     dispose: (Logger logger) => logger.close(),
   );
   getIt.registerSingletonIfAbsent<MaxiPocketNavigatorObserver>(() => MaxiPocketNavigatorObserver());
-  getIt.registerSingletonIfAbsent<RoutingService>(() => RoutingService(getDI<MaxiPocketNavigatorObserver>()));
+  getIt.registerSingletonIfAbsent<RoutingService>(
+    () => RoutingService(getDI<MaxiPocketNavigatorObserver>(), Routes.routes),
+  );
   if (kDebugMode) {
     getIt.registerSingletonIfAbsent<ProviderLogger>(() => ProviderLogger());
   }

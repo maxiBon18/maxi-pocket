@@ -29,8 +29,8 @@ alwaysApply: false
 
 ## Composition
 
-- Keep `build()` methods ≤ 20 lines.
-- If `build()` exceeds 20 lines, extract sub-widgets into dedicated files. Each extracted widget has a single visual responsibility.
+- Keep `build()` methods ≤ 30 lines.
+- If `build()` exceeds 30 lines, extract sub-widgets into dedicated files. Each extracted widget has a single visual responsibility.
 - No business logic inside `build()`, `initState()`, or `dispose()`.
 - `Key` parameter required on widgets used inside lists or conditional rendering.
 

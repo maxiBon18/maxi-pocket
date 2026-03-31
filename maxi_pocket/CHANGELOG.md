@@ -25,7 +25,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Route constants (`Routes`) and `RoutingService` with named-route arguments retrieval. ([`7829df2`](https://github.com/maxiBon18/maxi-pocket/commit/7829df2))
 - `MaxiPocketNavigatorObserver` for route stack tracking. ([`7829df2`](https://github.com/maxiBon18/maxi-pocket/commit/7829df2))
 - `ProviderLogger` observer registered in debug mode for Riverpod state tracing. ([`7829df2`](https://github.com/maxiBon18/maxi-pocket/commit/7829df2))
-- `form_validator.dart`, `extensions.dart`, and `loggers.dart` utilities in `core/shared/utils/`. ([`7829df2`](https://github.com/maxiBon18/maxi-pocket/commit/7829df2))
+- `extensions.dart` and `loggers.dart` utilities in `core/shared/utils/`. ([`7829df2`](https://github.com/maxiBon18/maxi-pocket/commit/7829df2))
+- Core bootstrap and shared UI: GetIt DI, injectable `RoutingService` with platform-adaptive transitions, portrait-only orientation lock via `SystemChrome`, shared pages and inputs (`MaxiPocketPage`, `LifecyclePage`, text fields, shimmer/overlay loading), `LoadingViewModel` with throttled overlay, and home shell (`MaxiPocketHome`). ([`e4a1306`](https://github.com/maxiBon18/maxi-pocket/commit/e4a1306))
+- Project documentation: `CHANGELOG.md`, expanded `README.md`, and Cursor skills for README/changelog generation. ([`e4a1306`](https://github.com/maxiBon18/maxi-pocket/commit/e4a1306))
+- Branding: `flutter_launcher_icons` (Android adaptive icons and iOS), splash/launch image assets, Android launch themes, application label **Maxi Pocket**, and `pubspec` asset registration; dependency setup ordered so `Logger` is registered before the portrait orientation lock runs. ([`c0749b4`](https://github.com/maxiBon18/maxi-pocket/commit/c0749b4))
+- VS Code workspace settings for XML and Dart editors. ([`c0749b4`](https://github.com/maxiBon18/maxi-pocket/commit/c0749b4))
 
 ### Changed
 
@@ -35,4 +39,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[Unreleased]: https://github.com/maxiBon18/maxi-pocket/compare/HEAD...HEAD
+[Unreleased]: https://github.com/maxiBon18/maxi-pocket/commits/main
