@@ -4,8 +4,8 @@ import 'package:maxi_pocket/core/presentation/theme/theme.dart' show darkAppThem
 import 'package:maxi_pocket/core/presentation/ux/widgets/custom_text_scaling.dart';
 import 'package:maxi_pocket/core/shared/constants/app_constants.dart';
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
-import 'package:maxi_pocket/core/shared/constants/routes.dart' show Routes;
 import 'package:maxi_pocket/core/shared/controllers/di.dart';
+import 'package:maxi_pocket/routes.dart';
 
 class MaxiPocketApp extends StatefulWidget {
   const MaxiPocketApp({super.key});

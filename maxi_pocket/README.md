@@ -5,25 +5,29 @@
 ![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS-lightgrey)
 ![License](https://img.shields.io/badge/License-Proprietary-red)
 
-Flutter mobile app for tracking and managing personal fixed expenses such as subscriptions and financing commitments.
+## Description
+
+Flutter mobile app for managing fixed expenses, such as subscriptions and financing.
 
 ---
 
 ## Table of Contents
 
-1. [Screenshots / Demo](#screenshots--demo)
-2. [Features](#features)
-3. [Tech Stack](#tech-stack)
-4. [Architecture](#architecture)
-5. [Getting Started](#getting-started)
-6. [Configuration / Environment](#configuration--environment)
-7. [Project Structure](#project-structure)
-8. [State Management](#state-management)
-9. [Dependencies](#dependencies)
-10. [Scripts & Commands](#scripts--commands)
-11. [Testing](#testing)
-12. [Contributing](#contributing)
-13. [License](#license)
+1. [Description](#description)
+2. [Screenshots / Demo](#screenshots--demo)
+3. [Features](#features)
+4. [Tech Stack](#tech-stack)
+5. [Architecture](#architecture)
+6. [Getting Started](#getting-started)
+7. [Configuration / Environment](#configuration--environment)
+8. [Project Structure](#project-structure)
+9. [State Management](#state-management)
+10. [Dependencies](#dependencies)
+11. [Scripts & Commands](#scripts--commands)
+12. [Testing](#testing)
+13. [Contributing](#contributing)
+14. [Changelog](#changelog)
+15. [License](#license)
 
 ---
 
@@ -46,10 +50,13 @@ Flutter mobile app for tracking and managing personal fixed expenses such as sub
 
 ### App
 
+- [x] Branded splash screen with timed navigation to home
 - [x] Portrait-only orientation lock
 - [x] Platform-adaptive page transitions (Material on Android, Cupertino on iOS)
+- [x] Centralised routing via `lib/routes.dart` and injected `RoutingService`
 - [x] Unknown route handling (404 page)
 - [x] App lifecycle management
+- [x] Launcher icons configured for Android and iOS (`flutter_launcher_icons`)
 
 ---
 
@@ -62,10 +69,12 @@ Flutter mobile app for tracking and managing personal fixed expenses such as sub
 | State Management | Riverpod | 3.2.1 |
 | Dependency Injection | GetIt | 9.2.1 |
 | Design System | Material Design 3 + Google Fonts | — |
+| Vector assets | flutter_svg | 2.2.4 |
 | Linting | flutter_lints | 6.0.0 |
 | Version Manager | FVM | latest |
 
 **Supported Platforms:**
+
 - Android (portrait mode)
 - iOS (portrait mode)
 
@@ -79,9 +88,12 @@ Clean Architecture with **MVVM** pattern and a **feature-first** folder layout.
 
 Dependency direction is strictly inward: `presentation → domain ← data`. Domain never imports from presentation or data layers.
 
+**Routing:** Route name constants and the `Map<String, WidgetBuilder>` used by `MaterialApp` live in `lib/routes.dart`, so feature pages can be registered without placing feature imports inside `core/`. `RoutingService` receives that map from GetIt at startup (`RoutingService(observer, Routes.routes)`).
+
 ```
 lib/
 ├── main.dart                  # Entry point — DI bootstrap, orientation lock, ProviderScope
+├── routes.dart                # Route names + builder map (features referenced here, not from core)
 ├── core/                      # Cross-feature infrastructure and shared UI
 │   ├── data/
 │   │   ├── repo/
@@ -96,32 +108,22 @@ lib/
 │   │   │   ├── app.dart       # MaterialApp root
 │   │   │   ├── routing_service.dart
 │   │   │   ├── pages/         # Shared pages (WrapperPage, NotFoundPage, LifecyclePage)
-│   │   │   └── widgets/       # Shared widgets (TextField, shimmer, overlay loading…)
+│   │   │   └── widgets/       # Shared widgets (TextField, image, shimmer, overlay loading…)
 │   │   └── viewmodel/         # Shared ViewModels (e.g. LoadingViewModel)
 │   └── shared/
-│       ├── constants/         # Routes, design tokens, app/widget constants
+│       ├── constants/         # App, design, and widget constants (not app-wide routes)
 │       ├── controllers/       # DI registration, NavigatorObserver
 │       ├── exceptions/        # Cross-feature exceptions
 │       ├── mixins/            # Shared mixins
-│       └── utils/             # Extensions, form validator, loggers
+│       └── utils/             # Extensions, loggers
+├── splashscreen/              # Splash feature (presentation + shared in use)
+│   ├── presentation/ux/pages/ # MaxiPocketSplashPage
+│   └── shared/                # Splash assets/design constants, time utils
 └── home/                      # Home feature module
-    ├── data/
-    │   ├── repo/source/dto/   # Home data-source DTOs
-    │   └── source/            # Home data-source implementations
-    ├── domain/
-    │   ├── entities/          # Home entities
-    │   └── services/repo/     # Home repository interfaces
-    ├── presentation/
-    │   ├── ux/
-    │   │   ├── pages/         # home_page.dart
-    │   │   └── widgets/       # Home-specific widgets
-    │   └── viewmodel/         # Home ViewModels
-    └── shared/
-        ├── constants/
-        ├── controllers/       # Home DI registration
-        ├── exceptions/
-        ├── mixins/
-        └── utils/
+    ├── data/ …                # Layer folders scaffolded for future use
+    ├── domain/ …
+    ├── presentation/ux/pages/ # MaxiPocketHomePage
+    └── shared/ …
 ```
 
 ### Layer Responsibilities
@@ -178,6 +180,10 @@ fvm flutter run
 
 <!-- TODO: Add Firebase setup instructions after `firebase.json`, `google-services.json`, and `GoogleService-Info.plist` are configured -->
 
+### App icons
+
+Launcher icons are generated with [`flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons). Configuration lives under the `flutter_launcher_icons:` key in `pubspec.yaml` (image paths and adaptive icon colours). After changing assets, regenerate icons (see [Scripts & Commands](#scripts--commands)).
+
 ### Gitignored Files
 
 The following are excluded from version control:
@@ -197,33 +203,35 @@ The following are excluded from version control:
 ```
 lib/
 ├── main.dart
+├── routes.dart                    # Routes + WidgetBuilder map; initial = splash → home
 │
 ├── core/
 │   ├── data/
 │   │   ├── repo/
 │   │   │   └── source/
-│   │   │       └── dto/          # Core data-source interface DTOs
-│   │   └── source/               # Core data-source implementations
+│   │   │       └── dto/
+│   │   └── source/
 │   ├── domain/
 │   │   ├── entities/
-│   │   │   └── loading.dart      # Loading state entity
+│   │   │   └── loading.dart
 │   │   └── services/
-│   │       └── repo/             # Core repository interfaces
+│   │       └── repo/
 │   ├── presentation/
 │   │   ├── theme/
-│   │   │   └── theme.dart        # Global ThemeData
+│   │   │   └── theme.dart
 │   │   ├── viewmodel/
 │   │   │   └── loading_viewmodel.dart
 │   │   └── ux/
-│   │       ├── app.dart          # MaxiPocketApp root widget
+│   │       ├── app.dart
 │   │       ├── routing_service.dart
 │   │       ├── pages/
 │   │       │   ├── lifecycle_page.dart
 │   │       │   ├── not_found_page.dart
-│   │       │   └── wrapper_page.dart  # MaxiPocketPage base page
+│   │       │   └── wrapper_page.dart
 │   │       └── widgets/
 │   │           ├── custom_text_scaling.dart
 │   │           ├── date_textfield_widget.dart
+│   │           ├── image_widget.dart
 │   │           ├── overlay_loading_widget.dart
 │   │           ├── shimmer_loading_widget.dart
 │   │           └── textfield_widget.dart
@@ -231,31 +239,38 @@ lib/
 │       ├── constants/
 │       │   ├── app_constants.dart
 │       │   ├── design_constants.dart
-│       │   ├── routes.dart       # Route name constants
 │       │   └── widget_constants.dart
 │       ├── controllers/
 │       │   ├── custom_navigator_observer.dart
-│       │   └── di.dart           # GetIt dependency registration
+│       │   └── di.dart
 │       ├── exceptions/
 │       ├── mixins/
 │       └── utils/
 │           ├── extensions.dart
-│           ├── form_validator.dart
 │           └── loggers.dart
 │
+├── splashscreen/
+│   ├── data/ …                    # Scaffolded layers (no Dart sources yet)
+│   ├── domain/ …
+│   ├── presentation/
+│   │   └── ux/
+│   │       └── pages/
+│   │           └── splash_page.dart
+│   └── shared/
+│       ├── constants/
+│       │   ├── assets_constants.dart
+│       │   └── design_constants.dart
+│       └── utils/
+│           └── time_utils.dart
+│
 └── home/
-    ├── data/
-    │   ├── repo/source/dto/
-    │   └── source/
-    ├── domain/
-    │   ├── entities/
-    │   └── services/repo/
+    ├── data/ …
+    ├── domain/ …
     ├── presentation/
-    │   ├── ux/
-    │   │   ├── pages/
-    │   │   │   └── home_page.dart   # MaxiPocketHome
-    │   │   └── widgets/
-    │   └── viewmodel/
+    │   └── ux/
+    │       ├── pages/
+    │       │   └── home_page.dart
+    │       └── widgets/
     └── shared/
         ├── constants/
         ├── controllers/
@@ -297,6 +312,8 @@ See `.cursor/rules/review/code-review.mdc` § 5 for the full Riverpod review che
 | `riverpod` | Core Riverpod state management | ^3.2.1 |
 | `get_it` | Service-locator dependency injection | ^9.2.1 |
 | `google_fonts` | Google Fonts integration | ^8.0.2 |
+| `flutter_svg` | SVG rendering (splash branding, icons) | ^2.2.4 |
+| `flutter_launcher_icons` | Launcher icon generation (configured in `pubspec.yaml`) | ^0.14.4 |
 | `collection` | Dart collection utilities (`lastWhereOrNull`, etc.) | ^1.19.1 |
 | `easy_debounce` | Debounce utility for user-input handlers | ^2.0.3 |
 | `intl` | Internationalisation and date/number formatting | ^0.20.2 |
@@ -314,6 +331,7 @@ See `.cursor/rules/review/code-review.mdc` § 5 for the full Riverpod review che
 | Build Android APK (release) | `fvm flutter build apk --release` |
 | Build Android App Bundle | `fvm flutter build appbundle --release` |
 | Build iOS (release) | `fvm flutter build ios --release` |
+| Regenerate launcher icons | `fvm dart run flutter_launcher_icons` |
 | Analyse code | `fvm flutter analyze` |
 | Format code | `fvm dart format lib` |
 | Run tests | `fvm flutter test` |
@@ -383,6 +401,12 @@ Commit message linting is enforced via `commitlint.config.js`.
 3. Ensure `fvm flutter analyze` and `fvm flutter test` pass locally before opening a PR.
 4. Request review from at least one team member.
 5. Apply all `.cursor/rules/review/code-review.mdc` checks before requesting review.
+
+---
+
+## Changelog
+
+Version history is recorded in [`CHANGELOG.md`](CHANGELOG.md) using [Keep a Changelog](https://keepachangelog.com/) and Semantic Versioning.
 
 ---
 

@@ -34,7 +34,6 @@ and explains what isn't immediately apparent.
 - Write clear comments for complex or non-obvious code. Avoid over-commenting.
 - Don't add trailing comments
 - No commented-out code — remove it, Git preserves history
-- TODO comments include author
 
 ## Writing Style
 

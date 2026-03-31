@@ -12,14 +12,14 @@ alwaysApply: false
 
 ## Naming
 
-| Element | Convention | Example |
-| --- | --- | --- |
-| Files | `snake_case` with suffix | `home_page.dart`, `user_widget.dart`, `payment_dto.dart`, `subscription_entity.dart` |
-| Classes | `PascalCase` | `SubscriptionEntity` |
-| Variables, methods | `camelCase` | `totalAmount`, `fetchSubscriptions()` |
-| Private members | `_` prefix | `_controller`, `_calculateTotal()` |
-| Booleans | `is`/`has`/`should`/`can` prefix | `isActive`, `hasExpired`, `canDelete` |
-| Provider files | One provider per file | `subscription_provider.dart` |
+| Element            | Convention                       | Example                                                                              |
+| ------------------ | -------------------------------- | ------------------------------------------------------------------------------------ |
+| Files              | `snake_case` with suffix         | `home_page.dart`, `user_widget.dart`, `payment_dto.dart`, `subscription_entity.dart` |
+| Classes            | `PascalCase`                     | `SubscriptionEntity`                                                                 |
+| Variables, methods | `camelCase`                      | `totalAmount`, `fetchSubscriptions()`                                                |
+| Private members    | `_` prefix                       | `_controller`, `_calculateTotal()`                                                   |
+| Booleans           | `is`/`has`/`should`/`can` prefix | `isActive`, `hasExpired`, `canDelete`                                                |
+| Provider files     | One provider per file            | `subscription_provider.dart`                                                         |
 
 ### File Naming by Type
 
@@ -47,7 +47,7 @@ alwaysApply: false
 - `late` only when initialization is guaranteed before access.
 - `@immutable` annotation on every class where applicable.
 - No hardcoded or magic values — store in the feature's `shared/constants/` folder.
-- Keep functions short, single-purpose. Target ≤ 20 lines per function.
+- Keep functions short, single-purpose. Target ≤30 lines per function.
 
 ## Null Safety
 
