@@ -9,8 +9,8 @@ import 'package:maxi_pocket/core/shared/utils/loggers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await _lockOrientationToPortrait();
   setupAllDependencies();
+  await _lockOrientationToPortrait();
   if (kDebugMode) {
     runApp(ProviderScope(observers: <ProviderObserver>[getDI<ProviderLogger>()], child: const MaxiPocketApp()));
   } else {
