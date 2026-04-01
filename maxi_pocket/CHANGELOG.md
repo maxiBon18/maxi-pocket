@@ -30,12 +30,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project documentation: `CHANGELOG.md`, expanded `README.md`, and Cursor skills for README/changelog generation. ([`e4a1306`](https://github.com/maxiBon18/maxi-pocket/commit/e4a1306))
 - Branding: `flutter_launcher_icons` (Android adaptive icons and iOS), splash/launch image assets, Android launch themes, application label **Maxi Pocket**, and `pubspec` asset registration; dependency setup ordered so `Logger` is registered before the portrait orientation lock runs. ([`c0749b4`](https://github.com/maxiBon18/maxi-pocket/commit/c0749b4))
 - VS Code workspace settings for XML and Dart editors. ([`c0749b4`](https://github.com/maxiBon18/maxi-pocket/commit/c0749b4))
+- Splash screen: `MaxiPocketSplashPage` with timed transition to home; splash feature constants and utilities under `splashscreen/shared/`. ([`78d1d11`](https://github.com/maxiBon18/maxi-pocket/commit/78d1d11))
+- Centralised routing: `lib/routes.dart` holds route name constants and the `WidgetBuilder` map, injected into `RoutingService` via GetIt so `core` stays free of feature imports. ([`78d1d11`](https://github.com/maxiBon18/maxi-pocket/commit/78d1d11))
+- `MaxiPocketImage` widget for raster and SVG assets (`flutter_svg`); home entry screen renamed to `MaxiPocketHomePage`. ([`78d1d11`](https://github.com/maxiBon18/maxi-pocket/commit/78d1d11))
 
 ### Changed
 
 - Modularised Cursor rules: extracted coding conventions, Dart best practices, UI guidelines, ViewModel rules, DI rules, data-layer rules, routing rules, and testing rules into dedicated `.mdc` files. ([`044e34c`](https://github.com/maxiBon18/maxi-pocket/commit/044e34c))
 - Renamed `application` layer to `presentation` across all Cursor rules and scaffold scripts to align with the MVVM architecture naming. ([`044e34c`](https://github.com/maxiBon18/maxi-pocket/commit/044e34c))
 - Updated `.gitignore` and clean-architecture scaffold script to reflect the new `presentation` layer naming and folder structure. ([`044e34c`](https://github.com/maxiBon18/maxi-pocket/commit/044e34c))
+- README, CHANGELOG, and Cursor rules updated for splash routing, centralised routes, and UI conventions. ([`78d1d11`](https://github.com/maxiBon18/maxi-pocket/commit/78d1d11))
+
+### Removed
+
+- Empty `form_validator` stub. ([`78d1d11`](https://github.com/maxiBon18/maxi-pocket/commit/78d1d11))
 
 ---
 

@@ -57,6 +57,7 @@ Flutter mobile app for managing fixed expenses, such as subscriptions and financ
 - [x] Unknown route handling (404 page)
 - [x] App lifecycle management
 - [x] Launcher icons configured for Android and iOS (`flutter_launcher_icons`)
+- [x] Core local preferences layer (`shared_preferences`: async API + optional in-memory cache with allow-listed keys)
 
 ---
 
@@ -68,6 +69,7 @@ Flutter mobile app for managing fixed expenses, such as subscriptions and financ
 | Language | Dart | ≥ 3.11.4 |
 | State Management | Riverpod | 3.2.1 |
 | Dependency Injection | GetIt | 9.2.1 |
+| Local storage | shared_preferences | 2.5.5 |
 | Design System | Material Design 3 + Google Fonts | — |
 | Vector assets | flutter_svg | 2.2.4 |
 | Linting | flutter_lints | 6.0.0 |
@@ -90,6 +92,10 @@ Dependency direction is strictly inward: `presentation → domain ← data`. Dom
 
 **Routing:** Route name constants and the `Map<String, WidgetBuilder>` used by `MaterialApp` live in `lib/routes.dart`, so feature pages can be registered without placing feature imports inside `core/`. `RoutingService` receives that map from GetIt at startup (`RoutingService(observer, Routes.routes)`).
 
+**Local preferences:** The data layer wraps the `shared_preferences` plugin behind source interfaces (`SharedPrefAsyncSource`, `SharedPrefWithCacheSource` in `core/data/repo/source/`), repository implementations (`shared_pref_repo_impl.dart`), and domain-facing services (`SharedPrefAsyncService`, `SharedPrefWithCacheService` in `core/domain/services/`). Repository contracts live in `core/domain/services/repo/shared_pref_repo.dart`. Implementations use `SharedPreferencesAsync` for fully async I/O and `SharedPreferencesWithCache` for synchronous reads from an in-memory cache once opened. ViewModels and use cases depend on the services or repository abstractions—not on `shared_preferences` types directly.
+
+**Composition root:** GetIt registers the async stack: `SharedPrefAsyncSource` → `SharedPrefAsyncRepo` → `SharedPrefAsyncService`. `SharedPreferencesWithCache` is created asynchronously with `SharedPreferencesWithCacheOptions(allowList: CacheKeys.allKeys)` from `core/shared/constants/cache_constants.dart`; add keys to `CacheKeys.allKeys` before using the cached API.
+
 ```
 lib/
 ├── main.dart                  # Entry point — DI bootstrap, orientation lock, ProviderScope
@@ -97,11 +103,17 @@ lib/
 ├── core/                      # Cross-feature infrastructure and shared UI
 │   ├── data/
 │   │   ├── repo/
-│   │   │   └── source/dto/    # Core data-source interfaces and DTOs
-│   │   └── source/            # Core data-source implementations
+│   │   │   ├── shared_pref_repo_impl.dart
+│   │   │   └── source/
+│   │   │       ├── dto/       # Core data-source DTOs (when used)
+│   │   │       └── shared_pref_source.dart
+│   │   └── source/
+│   │       └── shared_pref_source_impl.dart
 │   ├── domain/
 │   │   ├── entities/          # Shared domain entities (e.g. Loading)
-│   │   └── services/repo/     # Shared repository interfaces
+│   │   └── services/
+│   │       ├── shared_pref_service.dart
+│   │       └── repo/          # Shared repository interfaces (e.g. shared_pref_repo.dart)
 │   ├── presentation/
 │   │   ├── theme/             # ThemeData, colour tokens
 │   │   ├── ux/
@@ -111,7 +123,7 @@ lib/
 │   │   │   └── widgets/       # Shared widgets (TextField, image, shimmer, overlay loading…)
 │   │   └── viewmodel/         # Shared ViewModels (e.g. LoadingViewModel)
 │   └── shared/
-│       ├── constants/         # App, design, and widget constants (not app-wide routes)
+│       ├── constants/         # App, design, widget, cache allow-list (`cache_constants.dart`)
 │       ├── controllers/       # DI registration, NavigatorObserver
 │       ├── exceptions/        # Cross-feature exceptions
 │       ├── mixins/            # Shared mixins
@@ -184,6 +196,10 @@ fvm flutter run
 
 Launcher icons are generated with [`flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons). Configuration lives under the `flutter_launcher_icons:` key in `pubspec.yaml` (image paths and adaptive icon colours). After changing assets, regenerate icons (see [Scripts & Commands](#scripts--commands)).
 
+### Shared preferences cache allow-list
+
+`SharedPreferencesWithCache` is configured with `SharedPreferencesWithCacheOptions(allowList: CacheKeys.allKeys)` in `core/shared/constants/cache_constants.dart`. Only keys listed in `CacheKeys.allKeys` participate in the cached API; extend that set when you introduce new persisted keys that must be readable synchronously from the cache.
+
 ### Gitignored Files
 
 The following are excluded from version control:
@@ -208,14 +224,19 @@ lib/
 ├── core/
 │   ├── data/
 │   │   ├── repo/
+│   │   │   ├── shared_pref_repo_impl.dart
 │   │   │   └── source/
-│   │   │       └── dto/
+│   │   │       ├── dto/
+│   │   │       └── shared_pref_source.dart
 │   │   └── source/
+│   │       └── shared_pref_source_impl.dart
 │   ├── domain/
 │   │   ├── entities/
 │   │   │   └── loading.dart
 │   │   └── services/
+│   │       ├── shared_pref_service.dart
 │   │       └── repo/
+│   │           └── shared_pref_repo.dart
 │   ├── presentation/
 │   │   ├── theme/
 │   │   │   └── theme.dart
@@ -238,11 +259,12 @@ lib/
 │   └── shared/
 │       ├── constants/
 │       │   ├── app_constants.dart
+│       │   ├── cache_constants.dart
 │       │   ├── design_constants.dart
 │       │   └── widget_constants.dart
 │       ├── controllers/
 │       │   ├── custom_navigator_observer.dart
-│       │   └── di.dart
+│       │   └── di.dart          # SharedPreferences + routing registration
 │       ├── exceptions/
 │       ├── mixins/
 │       └── utils/
@@ -302,6 +324,10 @@ In debug mode a `ProviderLogger` observer is registered to log all provider stat
 
 See `.cursor/rules/review/code-review.mdc` § 5 for the full Riverpod review checklist.
 
+### Local persistence
+
+Cross-cutting key-value storage uses the domain `SharedPrefAsyncService` (backed by `SharedPrefAsyncRepo` and `SharedPreferencesAsync`). Prefer injecting that service from GetIt in ViewModels or use cases rather than calling `shared_preferences` from widgets. Cached reads (`SharedPrefWithCacheRepo` / `SharedPrefWithCacheService`) are available for composition roots that wire `SharedPreferencesWithCache`; ensure `CacheKeys.allKeys` includes every key you read through the cache.
+
 ---
 
 ## Dependencies
@@ -318,6 +344,7 @@ See `.cursor/rules/review/code-review.mdc` § 5 for the full Riverpod review che
 | `easy_debounce` | Debounce utility for user-input handlers | ^2.0.3 |
 | `intl` | Internationalisation and date/number formatting | ^0.20.2 |
 | `logger` | Structured, leveled logging with pretty-print | ^2.7.0 |
+| `shared_preferences` | Local key-value persistence (`SharedPreferencesAsync`, optional `SharedPreferencesWithCache`) | ^2.5.5 |
 
 ---
 
