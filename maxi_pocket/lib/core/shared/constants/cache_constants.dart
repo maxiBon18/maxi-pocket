@@ -1,3 +1,5 @@
 class CacheKeys {
-  static const Set<String> allKeys = <String>{};
+  static const String themeMode = 'themeMode';
+
+  static const Set<String> allKeys = <String>{themeMode};
 }

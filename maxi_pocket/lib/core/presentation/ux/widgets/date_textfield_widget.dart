@@ -1,15 +1,35 @@
+/// Shared date input that uses the system date picker and app theme colors.
+library;
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeColors;
 import 'package:maxi_pocket/core/shared/constants/app_constants.dart' show AppConstants;
 import 'package:maxi_pocket/core/shared/constants/widget_constants.dart' show WidgetConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart';
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 import 'package:maxi_pocket/core/shared/utils/loggers.dart';
 
+/// Read-only date field that opens a platform [showDatePicker] on tap or via the calendar action.
+///
+/// The displayed text uses [format] or a locale date pattern from [AppConstants.languageCode].
+/// Pass [controller] to control or observe the text from outside; otherwise an internal
+/// controller is created and owned by this widget. Validation runs when focus is lost if
+/// [validator] is non-null. [themeMode] drives label and hint colors to match the app theme.
+///
+/// ```dart
+/// MaxiPocketDateTextField(
+///   label: 'Due date',
+///   hint: 'Select a date',
+///   themeMode: ref.watch(themeProvider),
+///   onChanged: (DateTime? value) { },
+/// )
+/// ```
 class MaxiPocketDateTextField extends StatefulWidget {
   const MaxiPocketDateTextField({
     required this.label,
     required this.hint,
+    required this.themeMode,
     super.key,
     this.initialDate,
     this.firstDate,
@@ -33,6 +53,7 @@ class MaxiPocketDateTextField extends StatefulWidget {
   final String? Function(String?)? validator;
   final DateFormat? format;
   final TextEditingController? controller;
+  final MaxiPocketThemeMode themeMode;
 
   @override
   State<MaxiPocketDateTextField> createState() => _MaxiPocketDateTextFieldState();
@@ -131,16 +152,24 @@ class _MaxiPocketDateTextFieldState extends State<MaxiPocketDateTextField> {
           hintText: widget.hint,
           errorText: _error,
           hintStyle: context.textTheme.bodyLarge!.copyWith(
-            color: ThemeColors.textLightPrimaryColor.withValues(alpha: 0.5),
+            color: widget.themeMode == MaxiPocketThemeMode.light
+                ? ThemeColors.textLightPrimaryColor.withValues(alpha: 0.5)
+                : ThemeColors.textDarkPrimaryColor.withValues(alpha: 0.5),
           ),
-          labelStyle: context.textTheme.titleSmall!.copyWith(color: ThemeColors.textLightPrimaryColor),
+          labelStyle: context.textTheme.titleSmall!.copyWith(
+            color: widget.themeMode == MaxiPocketThemeMode.light
+                ? ThemeColors.textLightPrimaryColor
+                : ThemeColors.textDarkPrimaryColor,
+          ),
           errorStyle: context.textTheme.bodyMedium!.copyWith(color: ThemeColors.errorColor),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14.0),
           suffixIcon: IconButton(
             tooltip: WidgetConstants.dateTextFieldPickDate,
-            icon: const Icon(
+            icon: Icon(
               Icons.calendar_month,
-              color: ThemeColors.textLightPrimaryColor,
+              color: widget.themeMode == MaxiPocketThemeMode.light
+                  ? ThemeColors.textLightPrimaryColor
+                  : ThemeColors.textDarkPrimaryColor,
               fontWeight: FontWeight.bold,
               size: 24.0,
             ),

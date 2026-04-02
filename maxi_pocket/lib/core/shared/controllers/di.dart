@@ -15,15 +15,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 R getDI<R extends Object>() => GetIt.instance<R>();
 
-void setupAllDependencies() {
+Future<void> setupAllDependencies() async {
   final GetIt getIt = GetIt.instance;
-  setupDependencies(getIt);
+  await setupDependencies(getIt);
+  await getIt.allReady();
 }
 
 /// Registers all application-wide singletons with GetIt.
 ///
 /// Registration order: infrastructure → observers → services.
-void setupDependencies(GetIt getIt) {
+Future<void> setupDependencies(GetIt getIt) async {
+  getIt.registerSingletonAsync<SharedPrefWithCacheSource>(
+    () async => SharedPrefWithCacheSourceImpl(
+      await SharedPreferencesWithCache.create(
+        cacheOptions: const SharedPreferencesWithCacheOptions(allowList: CacheKeys.allKeys),
+      ),
+    ),
+  );
   getIt.registerSingletonIfAbsent<Logger>(
     () => Logger(
       level: Level.all,
@@ -31,6 +39,7 @@ void setupDependencies(GetIt getIt) {
     ),
     dispose: (Logger logger) => logger.close(),
   );
+  getIt.registerSingletonIfAbsent<SharedPrefAsyncSource>(() => SharedPrefAsyncSourceImpl(SharedPreferencesAsync()));
   getIt.registerSingletonIfAbsent<MaxiPocketNavigatorObserver>(() => MaxiPocketNavigatorObserver());
   getIt.registerSingletonIfAbsent<RoutingService>(
     () => RoutingService(getDI<MaxiPocketNavigatorObserver>(), Routes.routes),
@@ -39,16 +48,18 @@ void setupDependencies(GetIt getIt) {
   if (kDebugMode) {
     getIt.registerSingletonIfAbsent<ProviderLogger>(() => ProviderLogger());
   }
-  getIt.registerLazySingleton<SharedPrefAsyncSource>(() => SharedPrefAsyncSourceImpl(SharedPreferencesAsync()));
-  getIt.registerLazySingletonAsync(
-    () async => SharedPrefWithCacheSourceImpl(
-      await SharedPreferencesWithCache.create(
-        cacheOptions: const SharedPreferencesWithCacheOptions(allowList: CacheKeys.allKeys),
-      ),
-    ),
+
+  /// Data Layer
+
+  /// Repository Layer
+  getIt.registerLazySingleton<SharedPrefAsyncRepo>(() => SharedPrefAsyncRepoImpl(getDI<SharedPrefAsyncSource>()));
+  getIt.registerLazySingleton<SharedPrefWithCacheRepo>(
+    () => SharedPrefWithCacheRepoImpl(getDI<SharedPrefWithCacheSource>()),
   );
 
-  getIt.registerLazySingleton<SharedPrefAsyncRepo>(() => SharedPrefAsyncRepoImpl(getDI<SharedPrefAsyncSource>()));
-
+  /// Service Layer
   getIt.registerLazySingleton<SharedPrefAsyncService>(() => SharedPrefAsyncService(getDI<SharedPrefAsyncRepo>()));
+  getIt.registerLazySingleton<SharedPrefWithCacheService>(
+    () => SharedPrefWithCacheService(getDI<SharedPrefWithCacheRepo>()),
+  );
 }

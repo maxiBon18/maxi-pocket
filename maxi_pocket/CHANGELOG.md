@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Splash screen: `MaxiPocketSplashPage` with timed transition to home; splash feature constants and utilities under `splashscreen/shared/`. ([`78d1d11`](https://github.com/maxiBon18/maxi-pocket/commit/78d1d11))
 - Centralised routing: `lib/routes.dart` holds route name constants and the `WidgetBuilder` map, injected into `RoutingService` via GetIt so `core` stays free of feature imports. ([`78d1d11`](https://github.com/maxiBon18/maxi-pocket/commit/78d1d11))
 - `MaxiPocketImage` widget for raster and SVG assets (`flutter_svg`); home entry screen renamed to `MaxiPocketHomePage`. ([`78d1d11`](https://github.com/maxiBon18/maxi-pocket/commit/78d1d11))
+- Local preferences: `shared_preferences`-backed async and cached stacks (`SharedPrefAsyncSource` / `SharedPrefWithCacheSource`, `SharedPrefAsyncRepo` / `SharedPrefWithCacheRepo`, domain services), `CacheKeys.allKeys` allow-list for `SharedPreferencesWithCache`, and GetIt registration. ([`a09626d`](https://github.com/maxiBon18/maxi-pocket/commit/a09626d))
 
 ### Changed
 
@@ -40,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed `application` layer to `presentation` across all Cursor rules and scaffold scripts to align with the MVVM architecture naming. ([`044e34c`](https://github.com/maxiBon18/maxi-pocket/commit/044e34c))
 - Updated `.gitignore` and clean-architecture scaffold script to reflect the new `presentation` layer naming and folder structure. ([`044e34c`](https://github.com/maxiBon18/maxi-pocket/commit/044e34c))
 - README, CHANGELOG, and Cursor rules updated for splash routing, centralised routes, and UI conventions. ([`78d1d11`](https://github.com/maxiBon18/maxi-pocket/commit/78d1d11))
+- README: architecture and dependency sections updated for the local preferences layer, cache allow-list, and `shared_preferences` package. ([`a09626d`](https://github.com/maxiBon18/maxi-pocket/commit/a09626d))
 
 ### Removed
 
