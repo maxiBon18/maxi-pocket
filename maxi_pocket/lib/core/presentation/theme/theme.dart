@@ -48,7 +48,7 @@ class ThemeColors {
 class ThemeTextStyles {
   ThemeTextStyles._();
 
-  static TextTheme appLightTextTheme = TextTheme(
+  static final TextTheme appLightTextTheme = TextTheme(
     /// displayLarge — hero banners, onboarding screens.
     displayLarge: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
@@ -185,7 +185,7 @@ class ThemeTextStyles {
     ),
   );
 
-  static TextTheme appDarkTextTheme = TextTheme(
+  static final TextTheme appDarkTextTheme = TextTheme(
     /// displayLarge — hero banners, onboarding screens.
     displayLarge: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
@@ -373,6 +373,11 @@ final ThemeData lightAppTheme = ThemeData(
   colorSchemeSeed: ThemeColors.primaryColor,
   textTheme: ThemeTextStyles.appLightTextTheme,
   scaffoldBackgroundColor: ThemeColors.backgroundColor,
+  switchTheme: SwitchThemeData(
+    trackOutlineWidth: WidgetStatePropertyAll<double>(0),
+    thumbColor: WidgetStateProperty.all<Color>(ThemeColors.backgroundColor),
+    trackColor: WidgetStateProperty.all<Color>(ThemeColors.primaryColor),
+  ),
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
     fillColor: ThemeColors.backgroundColor,
@@ -428,6 +433,15 @@ final ThemeData darkAppTheme = ThemeData(
   colorSchemeSeed: ThemeColors.primaryColor,
   textTheme: ThemeTextStyles.appDarkTextTheme,
   scaffoldBackgroundColor: ThemeColors.darkBackgroundColor,
+  switchTheme: SwitchThemeData(
+    thumbColor: WidgetStateProperty.all<Color>(ThemeColors.backgroundColor),
+    trackColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
+        return ThemeColors.primaryDarkColor;
+      }
+      return ThemeColors.darkOnSurfaceVariantColor;
+    }),
+  ),
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
     fillColor: ThemeColors.darkBackgroundColor,

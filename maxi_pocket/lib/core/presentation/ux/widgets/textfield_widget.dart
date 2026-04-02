@@ -1,11 +1,30 @@
+/// Shared themed text form fields (plain and password) for core and features.
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeColors;
+import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 import 'package:maxi_pocket/core/shared/utils/loggers.dart' show customDebugPrint;
 
+/// Styled [TextFormField] aligned with app theme tokens and optional password visibility.
+///
+/// When [onTimeValidation] is true and [validator] is set, validation runs on each change.
+/// When [onFocusLossValidation] is true (default), validation runs when the field loses focus.
+/// [isPassword] shows a visibility toggle and obscures text until toggled. Pass [controller]
+/// and [externalFocusNode] to integrate with a parent [Form] or focus traversal.
+///
+/// ```dart
+/// MaxiPocketTextFormFieldWidget(
+///   themeMode: ref.watch(themeProvider),
+///   label: 'Email',
+///   validator: (String? v) => v?.isEmpty ?? true ? 'Required' : null,
+/// )
+/// ```
 class MaxiPocketTextFormFieldWidget extends StatefulWidget {
   const MaxiPocketTextFormFieldWidget({
+    required this.themeMode,
     super.key,
     this.validator,
     this.keyboardType,
@@ -51,6 +70,7 @@ class MaxiPocketTextFormFieldWidget extends StatefulWidget {
   final TextInputAction textInputAction;
   final TextEditingController? controller;
   final void Function(String)? onChanged;
+  final MaxiPocketThemeMode themeMode;
 
   @override
   State<MaxiPocketTextFormFieldWidget> createState() => _MaxiPocketTextFormFieldWidgetState();
@@ -97,7 +117,7 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
       textAlignVertical: TextAlignVertical.center,
       readOnly: widget.readOnly,
       style: context.textTheme.bodyLarge,
-      keyboardAppearance: Brightness.light,
+      keyboardAppearance: widget.themeMode == MaxiPocketThemeMode.light ? Brightness.light : Brightness.dark,
       autocorrect: widget.autocorrect,
       enableSuggestions: widget.enableSuggestions,
       obscureText: widget.isPassword ? !_showPassword : widget.obscureText,
@@ -128,10 +148,18 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
         hintText: widget.hint,
         errorText: widget.error,
         hintStyle: context.textTheme.bodyLarge!.copyWith(
-          color: ThemeColors.textLightPrimaryColor.withValues(alpha: 0.5),
+          color: widget.themeMode == MaxiPocketThemeMode.light
+              ? ThemeColors.textLightPrimaryColor.withValues(alpha: 0.5)
+              : ThemeColors.textDarkPrimaryColor.withValues(alpha: 0.5),
         ),
         labelStyle: context.textTheme.titleSmall!.copyWith(
-          color: widget.enabled ? ThemeColors.textLightPrimaryColor : ThemeColors.textLightDisabledColor,
+          color: widget.enabled
+              ? (widget.themeMode == MaxiPocketThemeMode.light
+                    ? ThemeColors.textLightPrimaryColor
+                    : ThemeColors.textDarkPrimaryColor)
+              : (widget.themeMode == MaxiPocketThemeMode.light
+                    ? ThemeColors.textLightDisabledColor
+                    : ThemeColors.textDarkDisabledColor),
         ),
         errorStyle: context.textTheme.bodyMedium!.copyWith(color: ThemeColors.errorColor),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14.0),
@@ -155,16 +183,24 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
             ? Icon(
                 Icons.visibility_off,
                 color: widget.enabled
-                    ? ThemeColors.onSurfaceVariantColor
-                    : ThemeColors.onSurfaceVariantColor.withValues(alpha: 0.5),
+                    ? (widget.themeMode == MaxiPocketThemeMode.light
+                          ? ThemeColors.onSurfaceVariantColor
+                          : ThemeColors.darkOnSurfaceVariantColor)
+                    : (widget.themeMode == MaxiPocketThemeMode.light
+                          ? ThemeColors.onSurfaceVariantColor.withValues(alpha: 0.5)
+                          : ThemeColors.darkOnSurfaceVariantColor.withValues(alpha: 0.5)),
                 fontWeight: FontWeight.bold,
                 size: 24.0,
               )
             : Icon(
                 Icons.visibility,
                 color: widget.enabled
-                    ? ThemeColors.onSurfaceVariantColor
-                    : ThemeColors.onSurfaceVariantColor.withValues(alpha: 0.5),
+                    ? (widget.themeMode == MaxiPocketThemeMode.light
+                          ? ThemeColors.onSurfaceVariantColor
+                          : ThemeColors.darkOnSurfaceVariantColor)
+                    : (widget.themeMode == MaxiPocketThemeMode.light
+                          ? ThemeColors.onSurfaceVariantColor.withValues(alpha: 0.5)
+                          : ThemeColors.darkOnSurfaceVariantColor.withValues(alpha: 0.5)),
                 fontWeight: FontWeight.bold,
                 size: 24.0,
               ),
@@ -200,5 +236,3 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
     return;
   }
 }
-
-// TODO: Add theme support for the textfield.

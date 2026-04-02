@@ -58,6 +58,7 @@ Flutter mobile app for managing fixed expenses, such as subscriptions and financ
 - [x] App lifecycle management
 - [x] Launcher icons configured for Android and iOS (`flutter_launcher_icons`)
 - [x] Core local preferences layer (`shared_preferences`: async API + optional in-memory cache with allow-listed keys)
+- [x] Light/dark app theme with persistence (`themeProvider` / `ThemeViewModel`), system brightness fallback when unset, and high-contrast theme wiring in `MaxiPocketApp`
 
 ---
 
@@ -94,7 +95,11 @@ Dependency direction is strictly inward: `presentation → domain ← data`. Dom
 
 **Local preferences:** The data layer wraps the `shared_preferences` plugin behind source interfaces (`SharedPrefAsyncSource`, `SharedPrefWithCacheSource` in `core/data/repo/source/`), repository implementations (`shared_pref_repo_impl.dart`), and domain-facing services (`SharedPrefAsyncService`, `SharedPrefWithCacheService` in `core/domain/services/`). Repository contracts live in `core/domain/services/repo/shared_pref_repo.dart`. Implementations use `SharedPreferencesAsync` for fully async I/O and `SharedPreferencesWithCache` for synchronous reads from an in-memory cache once opened. ViewModels and use cases depend on the services or repository abstractions—not on `shared_preferences` types directly.
 
-**Composition root:** GetIt registers the async stack: `SharedPrefAsyncSource` → `SharedPrefAsyncRepo` → `SharedPrefAsyncService`. `SharedPreferencesWithCache` is created asynchronously with `SharedPreferencesWithCacheOptions(allowList: CacheKeys.allKeys)` from `core/shared/constants/cache_constants.dart`; add keys to `CacheKeys.allKeys` before using the cached API.
+**Composition root:** `main.dart` awaits `setupAllDependencies()` (async) so `SharedPreferencesWithCache` and the rest of GetIt finish registering before `runApp`. Registration includes: `SharedPrefWithCacheSource` (async singleton) → `SharedPrefWithCacheRepo` → `SharedPrefWithCacheService`, plus `SharedPrefAsyncSource` → `SharedPrefAsyncRepo` → `SharedPrefAsyncService`, logger, navigator observer, and `RoutingService`. `CacheKeys.allKeys` controls the cache allow-list (for example `themeMode` for persisted theme).
+
+**Theming:** `MaxiPocketApp` is a `ConsumerStatefulWidget` that watches `themeProvider` and maps `MaxiPocketThemeMode` (see `core/shared/utils/enums.dart`) to `ThemeMode` via extensions. `ThemeViewModel` persists the choice with `SharedPrefWithCacheService` and uses `isDarkMode` from `core/shared/utils/methods.dart` when no value is stored yet. The `builder` wraps routes in `MaxiPocketCustomTextScaling` and an `Overlay` for consistent scaling and overlays.
+
+**Shared inputs:** `MaxiPocketTextFormFieldWidget` (`textfield_widget.dart`) provides themed text/password fields with optional on-change vs on-focus-loss validation. `MaxiPocketDateTextField` (`date_textfield_widget.dart`) is a read-only date field that opens `showDatePicker`, uses `intl` date formatting, and takes `themeMode` for colours.
 
 ```
 lib/
@@ -120,14 +125,14 @@ lib/
 │   │   │   ├── app.dart       # MaterialApp root
 │   │   │   ├── routing_service.dart
 │   │   │   ├── pages/         # Shared pages (WrapperPage, NotFoundPage, LifecyclePage)
-│   │   │   └── widgets/       # Shared widgets (TextField, image, shimmer, overlay loading…)
-│   │   └── viewmodel/         # Shared ViewModels (e.g. LoadingViewModel)
+│   │   │   └── widgets/       # TextField, date field, switch, image, shimmer, overlay loading…
+│   │   └── viewmodel/         # LoadingViewModel, ThemeViewModel (`themeProvider`)
 │   └── shared/
 │       ├── constants/         # App, design, widget, cache allow-list (`cache_constants.dart`)
-│       ├── controllers/       # DI registration, NavigatorObserver
+│       ├── controllers/       # Async DI registration, NavigatorObserver
 │       ├── exceptions/        # Cross-feature exceptions
 │       ├── mixins/            # Shared mixins
-│       └── utils/             # Extensions, loggers
+│       └── utils/             # `enums.dart`, `extensions.dart`, `loggers.dart`, `methods.dart`
 ├── splashscreen/              # Splash feature (presentation + shared in use)
 │   ├── presentation/ux/pages/ # MaxiPocketSplashPage
 │   └── shared/                # Splash assets/design constants, time utils
@@ -182,6 +187,8 @@ cd ios && pod install && cd ..
 fvm flutter run
 ```
 
+`main.dart` awaits asynchronous dependency setup (`setupAllDependencies`) so SharedPreferences-backed singletons are ready before the first frame.
+
 ---
 
 ## Configuration / Environment
@@ -198,7 +205,7 @@ Launcher icons are generated with [`flutter_launcher_icons`](https://pub.dev/pac
 
 ### Shared preferences cache allow-list
 
-`SharedPreferencesWithCache` is configured with `SharedPreferencesWithCacheOptions(allowList: CacheKeys.allKeys)` in `core/shared/constants/cache_constants.dart`. Only keys listed in `CacheKeys.allKeys` participate in the cached API; extend that set when you introduce new persisted keys that must be readable synchronously from the cache.
+`SharedPreferencesWithCache` is configured with `SharedPreferencesWithCacheOptions(allowList: CacheKeys.allKeys)` in `core/shared/constants/cache_constants.dart`. Only keys listed in `CacheKeys.allKeys` participate in the cached API; extend that set when you introduce new persisted keys that must be readable synchronously from the cache. The theme preference uses `CacheKeys.themeMode` (included in `allKeys`).
 
 ### Gitignored Files
 
@@ -241,7 +248,8 @@ lib/
 │   │   ├── theme/
 │   │   │   └── theme.dart
 │   │   ├── viewmodel/
-│   │   │   └── loading_viewmodel.dart
+│   │   │   ├── loading_viewmodel.dart
+│   │   │   └── theme_viewmodel.dart
 │   │   └── ux/
 │   │       ├── app.dart
 │   │       ├── routing_service.dart
@@ -255,6 +263,7 @@ lib/
 │   │           ├── image_widget.dart
 │   │           ├── overlay_loading_widget.dart
 │   │           ├── shimmer_loading_widget.dart
+│   │           ├── switch_widget.dart
 │   │           └── textfield_widget.dart
 │   └── shared/
 │       ├── constants/
@@ -268,8 +277,10 @@ lib/
 │       ├── exceptions/
 │       ├── mixins/
 │       └── utils/
+│           ├── enums.dart
 │           ├── extensions.dart
-│           └── loggers.dart
+│           ├── loggers.dart
+│           └── methods.dart
 │
 ├── splashscreen/
 │   ├── data/ …                    # Scaffolded layers (no Dart sources yet)
@@ -324,9 +335,13 @@ In debug mode a `ProviderLogger` observer is registered to log all provider stat
 
 See `.cursor/rules/review/code-review.mdc` § 5 for the full Riverpod review checklist.
 
+### Theme mode
+
+`themeProvider` is a `NotifierProvider<ThemeViewModel, MaxiPocketThemeMode>` (`core/presentation/viewmodel/theme_viewmodel.dart`). `ThemeViewModel` reads and writes `CacheKeys.themeMode` through `SharedPrefWithCacheService`; if nothing is stored, it picks light or dark using `isDarkMode` (`PlatformDispatcher` brightness). Call `setThemeMode` to persist and update UI. Watch `themeProvider` in widgets that need `MaxiPocketThemeMode` (for example `MaxiPocketApp`, `MaxiPocketTextFormFieldWidget`, `MaxiPocketDateTextField`).
+
 ### Local persistence
 
-Cross-cutting key-value storage uses the domain `SharedPrefAsyncService` (backed by `SharedPrefAsyncRepo` and `SharedPreferencesAsync`). Prefer injecting that service from GetIt in ViewModels or use cases rather than calling `shared_preferences` from widgets. Cached reads (`SharedPrefWithCacheRepo` / `SharedPrefWithCacheService`) are available for composition roots that wire `SharedPreferencesWithCache`; ensure `CacheKeys.allKeys` includes every key you read through the cache.
+Cross-cutting key-value storage uses domain services: `SharedPrefAsyncService` for fully async access, and `SharedPrefWithCacheService` for synchronous reads after the cache is opened (used by `ThemeViewModel`). Prefer injecting these from GetIt in ViewModels or use cases rather than calling `shared_preferences` from widgets. Ensure `CacheKeys.allKeys` includes every key you read through the cache API.
 
 ---
 

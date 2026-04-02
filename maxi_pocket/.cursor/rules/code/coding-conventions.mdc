@@ -59,6 +59,6 @@ alwaysApply: false
 ## Error Handling
 
 - No `catchError` — use `try/catch` for readability.
-- Every `catch` block MUST specify the exception type. No bare `catch (e)` without a type.
+- Is nice to have that Every `catch` block specify the exception type, otherwise  `catch (e)` without a type.
 - No empty `catch` blocks — at minimum, log the error.
 - Define custom exceptions for domain-specific error conditions.
