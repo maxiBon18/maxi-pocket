@@ -17,8 +17,8 @@ class Routes {
   ///
   /// Passed into [RoutingService] at registration time via GetIt.
   static final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
-    Routes.initialRoute: (BuildContext context) => const MaxiPocketSplashPage(),
-    Routes.homeRoute: (BuildContext context) => const MaxiPocketHomePage(),
+    initialRoute: (BuildContext context) => const MaxiPocketSplashPage(),
+    homeRoute: (BuildContext context) => const MaxiPocketHomePage(),
   };
 
   static const String initialRoute = '/';
