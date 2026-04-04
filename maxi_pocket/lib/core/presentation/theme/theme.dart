@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
 
+/// Font family name constants used as reference tokens across the design system.
 class ThemeConstants {
   const ThemeConstants._();
 
@@ -9,12 +11,15 @@ class ThemeConstants {
   static const String jetBrainsMonoFontFamily = 'JetBrainsMono'; //(amounts/numbers)
 }
 
-class ThemeColors {
-  const ThemeColors._();
+/// Color tokens for the light theme.
+///
+/// Shared palette colors (primary, secondary, etc.) are duplicated in
+/// [ThemeDarkColors] with the same value so each theme class is self-contained.
+class ThemeLightColors {
+  const ThemeLightColors._();
 
   static const Color primaryColor = Color(0xFFFFB3C1); // Main CTA buttons, FAB, active nav icons
   static const Color primaryLightColor = Color(0xFFFFD6E0); // Selected chips, subtle highlights
-  static const Color primaryDarkColor = Color(0xFFE0899B); // Pressed states, active indicators
   static const Color primarySurfaceColor = Color(0xFFFFF0F3); // Card backgrounds, input fills (light mode)
   static const Color secondaryColor = Color(0xFFA8D5BA); // Income indicators, positive trends, success
   static const Color secondaryDarkColor = Color(0xFF7BB894); // Positive amount text
@@ -25,26 +30,57 @@ class ThemeColors {
   static const Color onSurfaceVariantColor = Color(0xFF5C4F53); // Secondary text (light mode)
   static const Color surfaceVariantColor = Color(0xFFF0E6E8); // Dividers, disabled fields (light mode)
   static const Color backgroundColor = Color(0xFFFFFBFC); // App scaffold (light mode)
-  static const Color darkBackgroundColor = Color(0xFF1A1215); // Scaffold (dark mode)
-  static const Color darkSurfaceColor = Color(0xFF2B2024); // Cards (dark mode)
-  static const Color darkOnSurfaceColor = Color(0xFFF0E6E8); // Primary text (dark mode)
-  static const Color darkOnSurfaceVariantColor = Color(0xFFA89598); // Secondary text (dark mode)
-  static const Color darkSurfaceVariantColor = Color(0xFF3D2F33); // Dividers, disabled fields (dark mode)
+  static const Color bottomNavigationBarBackgroundColor = Color(0xFFFFFFFF); // Bottom navigation bar background color
 
-  static const Color textLightPrimaryColor = Color(0xFF2B2024);
-  static const Color textLightSecondaryColor = Color(0xFF5C4F53);
-  static const Color textLightDisabledColor = Color(0xFFA8A0AE);
-  static const Color textLightOnPrimaryColor = Color(0xFF2B2024);
-  static const Color textLightOnSurfaceColor = Color(0xFF2B2024);
-  static const Color textLightInverseColor = Color(0xFFF5F0EB);
-  static const Color textDarkPrimaryColor = Color(0xFFF5F0EB);
-  static const Color textDarkSecondaryColor = Color(0xFFC4B8CB);
-  static const Color textDarkDisabledColor = Color(0xFF6B5F72);
-  static const Color textDarkOnPrimaryColor = Color(0xFF2B2024);
-  static const Color textDarkOnSurfaceColor = Color(0xFFF5F0EB);
-  static const Color textDarkInverseColor = Color(0xFF2B2024);
+  /// Text Colors
+  static const Color textPrimaryColor = Color(0xFF2B2024);
+  static const Color textSecondaryColor = Color(0xFF5C4F53);
+  static const Color textDisabledColor = Color(0xFFA8A0AE);
+  static const Color textOnPrimaryColor = Color(0xFF2B2024);
+  static const Color textOnSurfaceColor = Color(0xFF2B2024);
+  static const Color textInverseColor = Color(0xFFF5F0EB);
+
+  /// Navigation Bottom Bar Colors
+  static const Color bottomNavigationBarTopBorderColor = Color(0xFFF0E6EB);
+  static const Color bottomNavigationBarShadowsColor = Color(0xFF000000);
 }
 
+/// Color tokens for the dark theme.
+///
+/// Shared palette colors (primary, secondary, etc.) are duplicated from
+/// [ThemeLightColors] with the same value so each theme class is self-contained.
+class ThemeDarkColors {
+  const ThemeDarkColors._();
+
+  static const Color primaryColor = Color(0xFFFFB3C1); // Main CTA buttons, FAB, active nav icons
+  static const Color primaryDarkColor = Color(0xFFE0899B); // Pressed states, active indicators
+  static const Color secondaryColor = Color(0xFFA8D5BA); // Income indicators, positive trends, success
+  static const Color secondaryDarkColor = Color(0xFF7BB894); // Positive amount text
+  static const Color tertiaryColor = Color(0xFFC9B1D0); // Categories, chart segments, tags
+  static const Color accentColor = Color(0xFFF4A261); // Warnings, budget alerts, over-limit badges
+  static const Color errorColor = Color(0xFFD64550); // Expense amounts, negative trends, validation
+  static const Color backgroundColor = Color(0xFFFFFBFC); // Used for switch thumb in dark mode
+  static const Color scaffoldBackgroundColor = Color(0xFF1A1215); // Scaffold (dark mode)
+  static const Color surfaceColor = Color(0xFF2B2024); // Cards (dark mode)
+  static const Color onSurfaceColor = Color(0xFFF0E6E8); // Primary text (dark mode)
+  static const Color onSurfaceVariantColor = Color(0xFFA89598); // Secondary text (dark mode)
+  static const Color surfaceVariantColor = Color(0xFF3D2F33); // Dividers, disabled fields (dark mode)
+
+  /// Text Colors
+  static const Color textPrimaryColor = Color(0xFFF5F0EB);
+  static const Color textSecondaryColor = Color(0xFFC4B8CB);
+  static const Color textDisabledColor = Color(0xFF6B5F72);
+  static const Color textOnPrimaryColor = Color(0xFF2B2024);
+  static const Color textOnSurfaceColor = Color(0xFFF5F0EB);
+  static const Color textInverseColor = Color(0xFF2B2024);
+
+  /// Navigation Bottom Bar Colors
+  static const Color bottomNavigationBarBackgroundColor = Color(0xFF1A1216);
+  static const Color bottomNavigationBarTopBorderColor = Color(0xFF2E2329);
+  static const Color bottomNavigationBarShadowsColor = Color(0xFFFFFFFF);
+}
+
+/// Pre-built [TextTheme]s and custom monetary [TextStyle]s for light and dark modes.
 class ThemeTextStyles {
   ThemeTextStyles._();
 
@@ -55,7 +91,7 @@ class ThemeTextStyles {
       fontSize: 57, // M3 default for displayLarge
       height: 64 / 57,
       letterSpacing: -0.25,
-      color: ThemeColors.textLightPrimaryColor,
+      color: ThemeLightColors.textPrimaryColor,
     ),
 
     /// displayMedium — section heroes, large totals.
@@ -64,7 +100,7 @@ class ThemeTextStyles {
       fontSize: 45, // M3 default for displayMedium
       height: 52 / 45,
       letterSpacing: 0,
-      color: ThemeColors.textLightPrimaryColor,
+      color: ThemeLightColors.textPrimaryColor,
     ),
 
     /// displaySmall — dashboard balance, month summary.
@@ -73,7 +109,7 @@ class ThemeTextStyles {
       fontSize: 36,
       height: 44 / 36,
       letterSpacing: 0,
-      color: ThemeColors.textLightPrimaryColor,
+      color: ThemeLightColors.textPrimaryColor,
     ),
 
     /// headlineLarge — closest mapping to source `font.display.lg` (32sp/40sp).
@@ -82,7 +118,7 @@ class ThemeTextStyles {
       fontSize: 32,
       height: 40 / 32,
       letterSpacing: 0,
-      color: ThemeColors.textLightPrimaryColor,
+      color: ThemeLightColors.textPrimaryColor,
     ),
 
     /// headlineMedium — maps to source `font.display.md` (28sp/36sp).
@@ -91,7 +127,7 @@ class ThemeTextStyles {
       fontSize: 28,
       height: 36 / 28,
       letterSpacing: 0,
-      color: ThemeColors.textLightPrimaryColor,
+      color: ThemeLightColors.textPrimaryColor,
     ),
 
     /// headlineSmall — maps to source `font.headline` (22sp/28sp).
@@ -100,7 +136,7 @@ class ThemeTextStyles {
       fontSize: 22,
       height: 28 / 22,
       letterSpacing: 0,
-      color: ThemeColors.textLightPrimaryColor,
+      color: ThemeLightColors.textPrimaryColor,
     ),
 
     /// titleLarge — card titles, dialog headers.
@@ -109,7 +145,7 @@ class ThemeTextStyles {
       fontSize: 20,
       height: 28 / 20,
       letterSpacing: 0,
-      color: ThemeColors.textLightPrimaryColor,
+      color: ThemeLightColors.textPrimaryColor,
     ),
 
     /// titleMedium — list-tile titles, tab labels.
@@ -118,7 +154,7 @@ class ThemeTextStyles {
       fontSize: 16,
       height: 24 / 16,
       letterSpacing: 0.15,
-      color: ThemeColors.textLightPrimaryColor,
+      color: ThemeLightColors.textPrimaryColor,
     ),
 
     /// titleSmall — sub-headers, grouped list section titles.
@@ -127,7 +163,7 @@ class ThemeTextStyles {
       fontSize: 14,
       height: 20 / 14,
       letterSpacing: 0.1,
-      color: ThemeColors.textLightPrimaryColor,
+      color: ThemeLightColors.textPrimaryColor,
     ),
 
     /// bodyLarge — primary paragraph text.
@@ -136,7 +172,7 @@ class ThemeTextStyles {
       fontSize: 16,
       height: 24 / 16,
       letterSpacing: 0.5,
-      color: ThemeColors.textLightPrimaryColor,
+      color: ThemeLightColors.textPrimaryColor,
     ),
 
     /// bodyMedium — default body, transaction descriptions.
@@ -145,7 +181,7 @@ class ThemeTextStyles {
       fontSize: 14,
       height: 20 / 14,
       letterSpacing: 0.25,
-      color: ThemeColors.textLightSecondaryColor,
+      color: ThemeLightColors.textSecondaryColor,
     ),
 
     /// bodySmall — timestamps, metadata, fine print.
@@ -154,7 +190,7 @@ class ThemeTextStyles {
       fontSize: 12,
       height: 16 / 12,
       letterSpacing: 0.4,
-      color: ThemeColors.textLightSecondaryColor, // secondary text color for less-prominent content
+      color: ThemeLightColors.textSecondaryColor, // secondary text color for less-prominent content
     ),
 
     /// labelLarge — button text, prominent chips.
@@ -163,7 +199,7 @@ class ThemeTextStyles {
       fontSize: 14,
       height: 20 / 14,
       letterSpacing: 0.1,
-      color: ThemeColors.textLightSecondaryColor,
+      color: ThemeLightColors.textSecondaryColor,
     ),
 
     /// labelMedium — navigation labels, input hints.
@@ -172,7 +208,7 @@ class ThemeTextStyles {
       fontSize: 12,
       height: 16 / 12,
       letterSpacing: 0.5,
-      color: ThemeColors.textLightSecondaryColor,
+      color: ThemeLightColors.textSecondaryColor,
     ),
 
     /// labelSmall — captions, badges, overline text.
@@ -181,7 +217,7 @@ class ThemeTextStyles {
       fontSize: 11,
       height: 16 / 11,
       letterSpacing: 0.5,
-      color: ThemeColors.textLightSecondaryColor,
+      color: ThemeLightColors.textSecondaryColor,
     ),
   );
 
@@ -192,7 +228,7 @@ class ThemeTextStyles {
       fontSize: 57, // M3 default for displayLarge
       height: 64 / 57,
       letterSpacing: -0.25,
-      color: ThemeColors.textDarkPrimaryColor,
+      color: ThemeDarkColors.textPrimaryColor,
     ),
 
     /// displayMedium — section heroes, large totals.
@@ -201,7 +237,7 @@ class ThemeTextStyles {
       fontSize: 45, // M3 default for displayMedium
       height: 52 / 45,
       letterSpacing: 0,
-      color: ThemeColors.textDarkPrimaryColor,
+      color: ThemeDarkColors.textPrimaryColor,
     ),
 
     /// displaySmall — dashboard balance, month summary.
@@ -210,7 +246,7 @@ class ThemeTextStyles {
       fontSize: 36,
       height: 44 / 36,
       letterSpacing: 0,
-      color: ThemeColors.textDarkPrimaryColor,
+      color: ThemeDarkColors.textPrimaryColor,
     ),
 
     /// headlineLarge — closest mapping to source `font.display.lg` (32sp/40sp).
@@ -219,7 +255,7 @@ class ThemeTextStyles {
       fontSize: 32,
       height: 40 / 32,
       letterSpacing: 0,
-      color: ThemeColors.textDarkPrimaryColor,
+      color: ThemeDarkColors.textPrimaryColor,
     ),
 
     /// headlineMedium — maps to source `font.display.md` (28sp/36sp).
@@ -228,7 +264,7 @@ class ThemeTextStyles {
       fontSize: 28,
       height: 36 / 28,
       letterSpacing: 0,
-      color: ThemeColors.textDarkPrimaryColor,
+      color: ThemeDarkColors.textPrimaryColor,
     ),
 
     /// headlineSmall — maps to source `font.headline` (22sp/28sp).
@@ -237,7 +273,7 @@ class ThemeTextStyles {
       fontSize: 22,
       height: 28 / 22,
       letterSpacing: 0,
-      color: ThemeColors.textDarkPrimaryColor,
+      color: ThemeDarkColors.textPrimaryColor,
     ),
 
     /// titleLarge — card titles, dialog headers.
@@ -246,7 +282,7 @@ class ThemeTextStyles {
       fontSize: 20,
       height: 28 / 20,
       letterSpacing: 0,
-      color: ThemeColors.textDarkPrimaryColor,
+      color: ThemeDarkColors.textPrimaryColor,
     ),
 
     /// titleMedium — list-tile titles, tab labels.
@@ -255,7 +291,7 @@ class ThemeTextStyles {
       fontSize: 16,
       height: 24 / 16,
       letterSpacing: 0.15,
-      color: ThemeColors.textDarkPrimaryColor,
+      color: ThemeDarkColors.textPrimaryColor,
     ),
 
     /// titleSmall — sub-headers, grouped list section titles.
@@ -264,7 +300,7 @@ class ThemeTextStyles {
       fontSize: 14,
       height: 20 / 14,
       letterSpacing: 0.1,
-      color: ThemeColors.textDarkPrimaryColor,
+      color: ThemeDarkColors.textPrimaryColor,
     ),
 
     /// bodyLarge — primary paragraph text.
@@ -273,7 +309,7 @@ class ThemeTextStyles {
       fontSize: 16,
       height: 24 / 16,
       letterSpacing: 0.5,
-      color: ThemeColors.textDarkPrimaryColor,
+      color: ThemeDarkColors.textPrimaryColor,
     ),
 
     /// bodyMedium — default body, transaction descriptions.
@@ -282,7 +318,7 @@ class ThemeTextStyles {
       fontSize: 14,
       height: 20 / 14,
       letterSpacing: 0.25,
-      color: ThemeColors.textDarkSecondaryColor,
+      color: ThemeDarkColors.textSecondaryColor,
     ),
 
     /// bodySmall — timestamps, metadata, fine print.
@@ -291,7 +327,7 @@ class ThemeTextStyles {
       fontSize: 12,
       height: 16 / 12,
       letterSpacing: 0.4,
-      color: ThemeColors.textDarkSecondaryColor, // secondary text color for less-prominent content
+      color: ThemeDarkColors.textSecondaryColor, // secondary text color for less-prominent content
     ),
 
     /// labelLarge — button text, prominent chips.
@@ -300,7 +336,7 @@ class ThemeTextStyles {
       fontSize: 14,
       height: 20 / 14,
       letterSpacing: 0.1,
-      color: ThemeColors.textDarkSecondaryColor,
+      color: ThemeDarkColors.textSecondaryColor,
     ),
 
     /// labelMedium — navigation labels, input hints.
@@ -309,7 +345,7 @@ class ThemeTextStyles {
       fontSize: 12,
       height: 16 / 12,
       letterSpacing: 0.5,
-      color: ThemeColors.textDarkSecondaryColor,
+      color: ThemeDarkColors.textSecondaryColor,
     ),
 
     /// labelSmall — captions, badges, overline text.
@@ -318,7 +354,7 @@ class ThemeTextStyles {
       fontSize: 11,
       height: 16 / 11,
       letterSpacing: 0.5,
-      color: ThemeColors.textDarkSecondaryColor,
+      color: ThemeDarkColors.textSecondaryColor,
     ),
   );
 
@@ -328,7 +364,7 @@ class ThemeTextStyles {
     fontSize: 20,
     height: 28 / 20,
     letterSpacing: 0,
-    color: ThemeColors.textLightSecondaryColor,
+    color: ThemeLightColors.textSecondaryColor,
     fontFeatures: const <FontFeature>[
       FontFeature.tabularFigures(), // `tnum` — equal-width digits
     ],
@@ -340,7 +376,7 @@ class ThemeTextStyles {
     fontSize: 14,
     height: 20 / 14,
     letterSpacing: 0,
-    color: ThemeColors.textLightSecondaryColor,
+    color: ThemeLightColors.textSecondaryColor,
     fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
   );
 
@@ -350,7 +386,7 @@ class ThemeTextStyles {
     fontSize: 20,
     height: 28 / 20,
     letterSpacing: 0,
-    color: ThemeColors.textDarkSecondaryColor,
+    color: ThemeDarkColors.textSecondaryColor,
     fontFeatures: const <FontFeature>[
       FontFeature.tabularFigures(), // `tnum` — equal-width digits
     ],
@@ -362,32 +398,58 @@ class ThemeTextStyles {
     fontSize: 14,
     height: 20 / 14,
     letterSpacing: 0,
-    color: ThemeColors.textDarkSecondaryColor,
+    color: ThemeDarkColors.textSecondaryColor,
     fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
   );
 }
 
+/// Material 3 [ThemeData] for light mode.
 final ThemeData lightAppTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
-  colorSchemeSeed: ThemeColors.primaryColor,
+  colorSchemeSeed: ThemeLightColors.primaryColor,
   textTheme: ThemeTextStyles.appLightTextTheme,
-  scaffoldBackgroundColor: ThemeColors.backgroundColor,
+  scaffoldBackgroundColor: ThemeLightColors.backgroundColor,
+  navigationBarTheme: NavigationBarThemeData(
+    backgroundColor: ThemeLightColors.bottomNavigationBarBackgroundColor,
+    elevation: 5,
+    labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> state) {
+      if (state.contains(WidgetState.selected)) {
+        return IconThemeData(
+          size: DesignConstants.iconSize,
+          color: ThemeLightColors.primaryColor,
+          applyTextScaling: false,
+        );
+      }
+      return IconThemeData(
+        size: DesignConstants.iconSize,
+        color: ThemeLightColors.textDisabledColor,
+        applyTextScaling: false,
+      );
+    }),
+    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((Set<WidgetState> state) {
+      if (state.contains(WidgetState.selected)) {
+        return ThemeTextStyles.appLightTextTheme.labelMedium!.copyWith(color: ThemeLightColors.primaryColor);
+      }
+      return ThemeTextStyles.appLightTextTheme.labelMedium!.copyWith(color: ThemeLightColors.textDisabledColor);
+    }),
+  ),
   switchTheme: SwitchThemeData(
-    trackOutlineWidth: WidgetStatePropertyAll<double>(0),
-    thumbColor: WidgetStateProperty.all<Color>(ThemeColors.backgroundColor),
-    trackColor: WidgetStateProperty.all<Color>(ThemeColors.primaryColor),
+    trackOutlineWidth: const WidgetStatePropertyAll<double>(0),
+    thumbColor: WidgetStateProperty.all<Color>(ThemeLightColors.backgroundColor),
+    trackColor: WidgetStateProperty.all<Color>(ThemeLightColors.primaryColor),
   ),
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
-    fillColor: ThemeColors.backgroundColor,
+    fillColor: ThemeLightColors.backgroundColor,
     filled: true,
     alignLabelWithHint: true,
     isDense: true,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(16.0),
       borderSide: const BorderSide(
-        color: ThemeColors.surfaceVariantColor,
+        color: ThemeLightColors.surfaceVariantColor,
         width: 1,
         strokeAlign: BorderSide.strokeAlignOutside,
       ),
@@ -395,7 +457,7 @@ final ThemeData lightAppTheme = ThemeData(
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(16.0),
       borderSide: const BorderSide(
-        color: ThemeColors.errorColor,
+        color: ThemeLightColors.errorColor,
         width: 1.5,
         strokeAlign: BorderSide.strokeAlignOutside,
       ),
@@ -403,7 +465,7 @@ final ThemeData lightAppTheme = ThemeData(
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(16.0),
       borderSide: const BorderSide(
-        color: ThemeColors.primaryColor,
+        color: ThemeLightColors.primaryColor,
         width: 1.5,
         strokeAlign: BorderSide.strokeAlignOutside,
       ),
@@ -411,7 +473,7 @@ final ThemeData lightAppTheme = ThemeData(
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(16.0),
       borderSide: const BorderSide(
-        color: ThemeColors.errorColor,
+        color: ThemeLightColors.errorColor,
         width: 1.5,
         strokeAlign: BorderSide.strokeAlignOutside,
       ),
@@ -419,7 +481,7 @@ final ThemeData lightAppTheme = ThemeData(
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(4.0),
       borderSide: const BorderSide(
-        color: ThemeColors.surfaceVariantColor,
+        color: ThemeLightColors.surfaceVariantColor,
         width: 1.5,
         strokeAlign: BorderSide.strokeAlignOutside,
       ),
@@ -427,31 +489,57 @@ final ThemeData lightAppTheme = ThemeData(
   ),
 );
 
+/// Material 3 [ThemeData] for dark mode.
 final ThemeData darkAppTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.dark,
-  colorSchemeSeed: ThemeColors.primaryColor,
+  colorSchemeSeed: ThemeDarkColors.primaryColor,
   textTheme: ThemeTextStyles.appDarkTextTheme,
-  scaffoldBackgroundColor: ThemeColors.darkBackgroundColor,
+  scaffoldBackgroundColor: ThemeDarkColors.scaffoldBackgroundColor,
+  navigationBarTheme: NavigationBarThemeData(
+    backgroundColor: ThemeDarkColors.bottomNavigationBarBackgroundColor,
+    elevation: 5,
+    labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> state) {
+      if (state.contains(WidgetState.selected)) {
+        return IconThemeData(
+          size: DesignConstants.iconSize,
+          color: ThemeDarkColors.primaryColor,
+          applyTextScaling: false,
+        );
+      }
+      return IconThemeData(
+        size: DesignConstants.iconSize,
+        color: ThemeDarkColors.textDisabledColor,
+        applyTextScaling: false,
+      );
+    }),
+    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((Set<WidgetState> state) {
+      if (state.contains(WidgetState.selected)) {
+        return ThemeTextStyles.appDarkTextTheme.labelMedium!.copyWith(color: ThemeDarkColors.primaryColor);
+      }
+      return ThemeTextStyles.appDarkTextTheme.labelMedium!.copyWith(color: ThemeDarkColors.textDisabledColor);
+    }),
+  ),
   switchTheme: SwitchThemeData(
-    thumbColor: WidgetStateProperty.all<Color>(ThemeColors.backgroundColor),
+    thumbColor: WidgetStateProperty.all<Color>(ThemeDarkColors.backgroundColor),
     trackColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
       if (states.contains(WidgetState.selected)) {
-        return ThemeColors.primaryDarkColor;
+        return ThemeDarkColors.primaryDarkColor;
       }
-      return ThemeColors.darkOnSurfaceVariantColor;
+      return ThemeDarkColors.onSurfaceVariantColor;
     }),
   ),
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
-    fillColor: ThemeColors.darkBackgroundColor,
+    fillColor: ThemeDarkColors.scaffoldBackgroundColor,
     filled: true,
     alignLabelWithHint: true,
     isDense: true,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(16.0),
       borderSide: const BorderSide(
-        color: ThemeColors.darkSurfaceVariantColor,
+        color: ThemeDarkColors.surfaceVariantColor,
         width: 1,
         strokeAlign: BorderSide.strokeAlignOutside,
       ),
@@ -459,7 +547,7 @@ final ThemeData darkAppTheme = ThemeData(
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(16.0),
       borderSide: const BorderSide(
-        color: ThemeColors.errorColor,
+        color: ThemeDarkColors.errorColor,
         width: 1.5,
         strokeAlign: BorderSide.strokeAlignOutside,
       ),
@@ -467,7 +555,7 @@ final ThemeData darkAppTheme = ThemeData(
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(16.0),
       borderSide: const BorderSide(
-        color: ThemeColors.primaryDarkColor,
+        color: ThemeDarkColors.primaryDarkColor,
         width: 1.5,
         strokeAlign: BorderSide.strokeAlignOutside,
       ),
@@ -475,7 +563,7 @@ final ThemeData darkAppTheme = ThemeData(
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(16.0),
       borderSide: const BorderSide(
-        color: ThemeColors.errorColor,
+        color: ThemeDarkColors.errorColor,
         width: 1.5,
         strokeAlign: BorderSide.strokeAlignOutside,
       ),
@@ -483,7 +571,7 @@ final ThemeData darkAppTheme = ThemeData(
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(4.0),
       borderSide: const BorderSide(
-        color: ThemeColors.darkSurfaceVariantColor,
+        color: ThemeDarkColors.surfaceVariantColor,
         width: 1.5,
         strokeAlign: BorderSide.strokeAlignOutside,
       ),

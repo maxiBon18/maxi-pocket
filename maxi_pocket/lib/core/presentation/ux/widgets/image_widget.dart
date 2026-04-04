@@ -35,6 +35,7 @@ class MaxiPocketImage extends StatelessWidget {
     this.adaHint,
     this.quality,
     this.isSvg = false,
+    this.color,
   });
 
   final String image;
@@ -64,11 +65,21 @@ class MaxiPocketImage extends StatelessWidget {
   /// Set to `true` to render [image] as an SVG via [SvgPicture.asset].
   final bool isSvg;
 
+  /// Color to apply to the image.
+  final Color? color;
+
   @override
   Widget build(BuildContext context) {
     final Widget imageWidget = isSvg
         ? SvgPicture.asset(image, height: height, width: width, fit: fit)
-        : Image.asset(image, height: height, width: width, fit: fit, filterQuality: quality ?? FilterQuality.medium);
+        : Image.asset(
+            image,
+            height: height,
+            width: width,
+            fit: fit,
+            color: color,
+            filterQuality: quality ?? FilterQuality.medium,
+          );
     return Semantics(
       container: true,
       image: true,

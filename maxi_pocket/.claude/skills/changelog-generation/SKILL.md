@@ -1,4 +1,5 @@
 ---
+name: changelog-generation
 description: "Generate or update the project CHANGELOG.md from git history"
 paths:
   - CHANGELOG.md

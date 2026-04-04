@@ -108,7 +108,7 @@ Clean Architecture with **MVVM** pattern and **feature-first** approach.
 4. Repository **interfaces** live in `domain/repo/`. Repository **implementations** live in `data/repo/`.
 5. Data source **interfaces** live in `data/repo/source/`. Data source **implementations** live in `data/source/`.
 6. ViewModels communicate exclusively with the domain layer (use cases / services).
-7. Local storage uses **Drift** and **SharedPreferences**.
+7. Local storage currently uses **SharedPreferences** only. Drift is planned but not yet added to `pubspec.yaml`.
 8. All cross-layer shared code MUST reside in the feature's `shared/` folder.
 
 ## Rules Files
@@ -117,18 +117,17 @@ Detailed conventions are defined in `.claude/rules/`.
 Read the relevant rule file BEFORE writing or modifying code in the corresponding area.
 NEVER load all the rules — only those whose scope matches the current task.
 
-| File                          | Scope                                                                |
-| ----------------------------- | -------------------------------------------------------------------- |
-| `coding-conventions.md`       | Naming, style, null safety, error handling, async, language features |
-| `presentation-layer-rules.md` | Pages, widgets, theming, responsive design, performance              |
-| `viewmodel-rules.md`          | ViewModel layer and Riverpod state management                        |
-| `data-layer-rules.md`         | Data layer, repository implementations, DTOs, data sources           |
-| `domain-layer-rules.md`       | Domain layer, repository interfaces, entities, services              |
-| `di-rules.md`                 | Dependency injection with GetIt                                      |
-| `routing-rules.md`            | Navigation and route registration                                    |
-| `testing-rules.md`            | Unit, widget, and integration testing                                |
-| `documentation.md`            | Code documentation and commenting style                              |
-| `code-review.md`              | Code review checklist                                                |
+| File                               | Scope                                                                |
+| ---------------------------------- | -------------------------------------------------------------------- |
+| `code/coding-conventions.md`       | Naming, style, null safety, error handling, async, language features |
+| `code/presentation-layer-rules.md` | Pages, widgets, theming, responsive design, performance              |
+| `code/viewmodel-rules.md`          | ViewModel layer and Riverpod state management                        |
+| `code/data-layer-rules.md`         | Data layer, repository implementations, DTOs, data sources           |
+| `code/domain-layer-rules.md`       | Domain layer, repository interfaces, entities, services              |
+| `code/di-rules.md`                 | Dependency injection with GetIt                                      |
+| `code/routing-rules.md`            | Navigation and route registration                                    |
+| `documentation/documentation.md`   | Code documentation and commenting style                              |
+| `review/code-review.md`            | Code review checklist                                                |
 
 ## Common Commands
 
@@ -160,7 +159,7 @@ fvm flutter pub add <package_name>
 fvm flutter pub add dev:<package_name>
 fvm dart pub remove <package_name>
 
-# Code generation (Drift, Freezed, etc.)
+# Code generation (Freezed, etc.)
 fvm dart run build_runner build --delete-conflicting-outputs
 ```
 

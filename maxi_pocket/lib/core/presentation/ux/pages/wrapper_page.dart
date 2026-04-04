@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maxi_pocket/core/presentation/ux/pages/lifecycle_page.dart';
+import 'package:maxi_pocket/core/presentation/ux/widgets/bottom_bar_widget.dart';
 
 /// Standard page scaffold that every screen in MaxiPocket must use as its root.
 ///
@@ -33,6 +34,7 @@ class MaxiPocketPage extends StatelessWidget {
     this.topSafeArea = true,
     this.bottomSafeArea = true,
     this.backgroundColor,
+    this.showBottomBar = true,
   });
 
   final Widget? child;
@@ -89,6 +91,8 @@ class MaxiPocketPage extends StatelessWidget {
   /// Forwarded to [Scaffold.backgroundColor].
   final Color? backgroundColor;
 
+  final bool showBottomBar;
+
   @override
   Widget build(BuildContext context) {
     return LifecyclePage(
@@ -110,6 +114,7 @@ class MaxiPocketPage extends StatelessWidget {
           // TODO(maxibon): implement app bar
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
           extendBodyBehindAppBar: extendBodyBehindAppBar,
+          bottomNavigationBar: showBottomBar ? const MaxiPocketBottomBarWidget() : null,
           body: SafeArea(top: topSafeArea ?? true, bottom: bottomSafeArea ?? true, child: child ?? const SizedBox()),
         ),
       ),

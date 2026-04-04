@@ -1,7 +1,7 @@
 import 'dart:async' show Timer;
 
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart';
+import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors;
 import 'package:maxi_pocket/core/presentation/ux/pages/wrapper_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/image_widget.dart';
 import 'package:maxi_pocket/core/shared/constants/app_constants.dart';
@@ -48,7 +48,8 @@ class _MaxiPocketSplashPageState extends State<MaxiPocketSplashPage> {
       allowBack: false,
       showAppBar: false,
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.primaryColor,
+      backgroundColor: ThemeLightColors.primaryColor,
+      showBottomBar: false,
       child: Center(child: const _SplashContent()),
     );
   }
@@ -75,12 +76,12 @@ class _SplashContent extends StatelessWidget {
         ),
         Text(
           AppConstants.appName,
-          style: context.textTheme.displaySmall!.copyWith(color: ThemeColors.textLightInverseColor),
+          style: context.textTheme.displaySmall!.copyWith(color: ThemeLightColors.textInverseColor),
           semanticsLabel: AppConstants.appName,
         ),
         Text(
           AppConstants.appDescription,
-          style: context.textTheme.bodyLarge!.copyWith(color: ThemeColors.textLightInverseColor),
+          style: context.textTheme.bodyLarge!.copyWith(color: ThemeLightColors.textInverseColor),
           semanticsLabel: AppConstants.appDescription,
         ),
       ],

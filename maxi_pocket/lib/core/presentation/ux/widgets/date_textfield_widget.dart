@@ -3,7 +3,7 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeColors;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors;
 import 'package:maxi_pocket/core/shared/constants/app_constants.dart' show AppConstants;
 import 'package:maxi_pocket/core/shared/constants/widget_constants.dart' show WidgetConstants;
 import 'package:maxi_pocket/core/shared/utils/enums.dart';
@@ -110,7 +110,7 @@ class _MaxiPocketDateTextFieldState extends State<MaxiPocketDateTextField> {
       lastDate: last,
       helpText: widget.label,
       locale: const Locale(AppConstants.languageCode, AppConstants.countryCode),
-      barrierColor: ThemeColors.onSurfaceColor.withValues(alpha: 0.7),
+      barrierColor: ThemeLightColors.onSurfaceColor.withValues(alpha: 0.7),
       keyboardType: TextInputType.datetime,
       builder: (BuildContext context, Widget? child) {
         return child ?? const SizedBox();
@@ -153,23 +153,23 @@ class _MaxiPocketDateTextFieldState extends State<MaxiPocketDateTextField> {
           errorText: _error,
           hintStyle: context.textTheme.bodyLarge!.copyWith(
             color: widget.themeMode == MaxiPocketThemeMode.light
-                ? ThemeColors.textLightPrimaryColor.withValues(alpha: 0.5)
-                : ThemeColors.textDarkPrimaryColor.withValues(alpha: 0.5),
+                ? ThemeLightColors.textPrimaryColor.withValues(alpha: 0.5)
+                : ThemeDarkColors.textPrimaryColor.withValues(alpha: 0.5),
           ),
           labelStyle: context.textTheme.titleSmall!.copyWith(
             color: widget.themeMode == MaxiPocketThemeMode.light
-                ? ThemeColors.textLightPrimaryColor
-                : ThemeColors.textDarkPrimaryColor,
+                ? ThemeLightColors.textPrimaryColor
+                : ThemeDarkColors.textPrimaryColor,
           ),
-          errorStyle: context.textTheme.bodyMedium!.copyWith(color: ThemeColors.errorColor),
+          errorStyle: context.textTheme.bodyMedium!.copyWith(color: ThemeLightColors.errorColor),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14.0),
           suffixIcon: IconButton(
             tooltip: WidgetConstants.dateTextFieldPickDate,
             icon: Icon(
               Icons.calendar_month,
               color: widget.themeMode == MaxiPocketThemeMode.light
-                  ? ThemeColors.textLightPrimaryColor
-                  : ThemeColors.textDarkPrimaryColor,
+                  ? ThemeLightColors.textPrimaryColor
+                  : ThemeDarkColors.textPrimaryColor,
               fontWeight: FontWeight.bold,
               size: 24.0,
             ),

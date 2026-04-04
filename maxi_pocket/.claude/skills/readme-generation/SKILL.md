@@ -1,4 +1,5 @@
 ---
+name: readme-generation
 description: "Generate or update the project README.md by scanning the codebase"
 paths:
   - README.md

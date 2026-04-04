@@ -3,7 +3,7 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeColors;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors;
 import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 import 'package:maxi_pocket/core/shared/utils/loggers.dart' show customDebugPrint;
@@ -140,7 +140,7 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
             }
           : null,
       onTapOutside: (PointerDownEvent event) => FocusManager.instance.primaryFocus?.unfocus(),
-      cursorErrorColor: ThemeColors.errorColor,
+      cursorErrorColor: ThemeLightColors.errorColor,
       showCursor: true,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.auto,
@@ -149,19 +149,19 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
         errorText: widget.error,
         hintStyle: context.textTheme.bodyLarge!.copyWith(
           color: widget.themeMode == MaxiPocketThemeMode.light
-              ? ThemeColors.textLightPrimaryColor.withValues(alpha: 0.5)
-              : ThemeColors.textDarkPrimaryColor.withValues(alpha: 0.5),
+              ? ThemeLightColors.textPrimaryColor.withValues(alpha: 0.5)
+              : ThemeDarkColors.textPrimaryColor.withValues(alpha: 0.5),
         ),
         labelStyle: context.textTheme.titleSmall!.copyWith(
           color: widget.enabled
               ? (widget.themeMode == MaxiPocketThemeMode.light
-                    ? ThemeColors.textLightPrimaryColor
-                    : ThemeColors.textDarkPrimaryColor)
+                    ? ThemeLightColors.textPrimaryColor
+                    : ThemeDarkColors.textPrimaryColor)
               : (widget.themeMode == MaxiPocketThemeMode.light
-                    ? ThemeColors.textLightDisabledColor
-                    : ThemeColors.textDarkDisabledColor),
+                    ? ThemeLightColors.textDisabledColor
+                    : ThemeDarkColors.textDisabledColor),
         ),
-        errorStyle: context.textTheme.bodyMedium!.copyWith(color: ThemeColors.errorColor),
+        errorStyle: context.textTheme.bodyMedium!.copyWith(color: ThemeLightColors.errorColor),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14.0),
         suffixIcon: _buildSuffixIcon(),
       ),
@@ -184,11 +184,11 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
                 Icons.visibility_off,
                 color: widget.enabled
                     ? (widget.themeMode == MaxiPocketThemeMode.light
-                          ? ThemeColors.onSurfaceVariantColor
-                          : ThemeColors.darkOnSurfaceVariantColor)
+                          ? ThemeLightColors.onSurfaceVariantColor
+                          : ThemeDarkColors.onSurfaceVariantColor)
                     : (widget.themeMode == MaxiPocketThemeMode.light
-                          ? ThemeColors.onSurfaceVariantColor.withValues(alpha: 0.5)
-                          : ThemeColors.darkOnSurfaceVariantColor.withValues(alpha: 0.5)),
+                          ? ThemeLightColors.onSurfaceVariantColor.withValues(alpha: 0.5)
+                          : ThemeDarkColors.onSurfaceVariantColor.withValues(alpha: 0.5)),
                 fontWeight: FontWeight.bold,
                 size: 24.0,
               )
@@ -196,11 +196,11 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
                 Icons.visibility,
                 color: widget.enabled
                     ? (widget.themeMode == MaxiPocketThemeMode.light
-                          ? ThemeColors.onSurfaceVariantColor
-                          : ThemeColors.darkOnSurfaceVariantColor)
+                          ? ThemeLightColors.onSurfaceVariantColor
+                          : ThemeDarkColors.onSurfaceVariantColor)
                     : (widget.themeMode == MaxiPocketThemeMode.light
-                          ? ThemeColors.onSurfaceVariantColor.withValues(alpha: 0.5)
-                          : ThemeColors.darkOnSurfaceVariantColor.withValues(alpha: 0.5)),
+                          ? ThemeLightColors.onSurfaceVariantColor.withValues(alpha: 0.5)
+                          : ThemeDarkColors.onSurfaceVariantColor.withValues(alpha: 0.5)),
                 fontWeight: FontWeight.bold,
                 size: 24.0,
               ),
