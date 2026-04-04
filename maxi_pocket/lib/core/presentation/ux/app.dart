@@ -42,7 +42,7 @@ class _MaxiPocketAppConsumerState extends ConsumerState<MaxiPocketApp> {
       debugShowCheckedModeBanner: false,
       debugShowMaterialGrid: false,
       showSemanticsDebugger: false,
-      locale: const Locale(AppConstants.languageCode, AppConstants.countryCode),
+      locale: AppConstants.appLocale,
       navigatorObservers: <NavigatorObserver>[_routingService.navigatorObserver, _routingService.routeObserver],
       onGenerateRoute: (RouteSettings routeSettings) => _routingService.onGenerateRoute(routeSettings),
       onUnknownRoute: (RouteSettings routeSettings) => _routingService.onUnknownRoute(routeSettings),

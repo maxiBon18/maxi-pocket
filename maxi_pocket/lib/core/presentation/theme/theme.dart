@@ -88,8 +88,8 @@ class ThemeTextStyles {
     /// displayLarge — hero banners, onboarding screens.
     displayLarge: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
-      fontSize: 57, // M3 default for displayLarge
-      height: 64 / 57,
+      fontSize: 60, // M3 default for displayLarge
+      height: 64 / 60,
       letterSpacing: -0.25,
       color: ThemeLightColors.textPrimaryColor,
     ),
@@ -225,8 +225,8 @@ class ThemeTextStyles {
     /// displayLarge — hero banners, onboarding screens.
     displayLarge: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
-      fontSize: 57, // M3 default for displayLarge
-      height: 64 / 57,
+      fontSize: 60, // M3 default for displayLarge
+      height: 64 / 60,
       letterSpacing: -0.25,
       color: ThemeDarkColors.textPrimaryColor,
     ),
@@ -510,7 +510,7 @@ final ThemeData darkAppTheme = ThemeData(
       }
       return IconThemeData(
         size: DesignConstants.iconSize,
-        color: ThemeDarkColors.textDisabledColor,
+        color: ThemeDarkColors.textSecondaryColor,
         applyTextScaling: false,
       );
     }),
@@ -518,7 +518,7 @@ final ThemeData darkAppTheme = ThemeData(
       if (state.contains(WidgetState.selected)) {
         return ThemeTextStyles.appDarkTextTheme.labelMedium!.copyWith(color: ThemeDarkColors.primaryColor);
       }
-      return ThemeTextStyles.appDarkTextTheme.labelMedium!.copyWith(color: ThemeDarkColors.textDisabledColor);
+      return ThemeTextStyles.appDarkTextTheme.labelMedium!.copyWith(color: ThemeDarkColors.textSecondaryColor);
     }),
   ),
   switchTheme: SwitchThemeData(

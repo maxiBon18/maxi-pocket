@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' show WidgetBuilder, BuildContext;
+import 'package:maxi_pocket/core/presentation/ux/pages/not_found_page.dart';
 import 'package:maxi_pocket/home/presentation/ux/pages/home_page.dart';
 import 'package:maxi_pocket/splashscreen/presentation/ux/pages/splash_page.dart';
 
@@ -19,6 +20,7 @@ class Routes {
   static final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     initialRoute: (BuildContext context) => const MaxiPocketSplashPage(),
     homeRoute: (BuildContext context) => const MaxiPocketHomePage(),
+    notFoundRoute: (BuildContext context) => const MaxiPocketNotFoundPage(),
   };
 
   static const String initialRoute = '/';
