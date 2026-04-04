@@ -14,10 +14,14 @@ dependencies:
   flutter_launcher_icons: ^0.14.4
   flutter_riverpod: ^3.3.1
   flutter_svg: ^2.2.4
+  freezed: ^3.2.5
+  freezed_annotation: ^3.1.0
   get_it: ^9.2.1
   google_fonts: ^8.0.2
   intl: ^0.20.2
+  json_annotation: ^4.11.0
   logger: ^2.7.0
+  package_info_plus: ^9.0.1
   riverpod: ^3.2.1
   shared_preferences: ^2.5.5
 
@@ -25,6 +29,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  build_runner: ^2.13.1
+  json_serializable: ^6.13.1
 
 flutter:
   generate: true
