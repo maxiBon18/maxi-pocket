@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart' show WidgetBuilder, BuildContext;
 import 'package:maxi_pocket/core/presentation/ux/pages/not_found_page.dart';
 import 'package:maxi_pocket/home/presentation/ux/pages/home_page.dart';
+import 'package:maxi_pocket/settings/presentation/ux/pages/notifications_page.dart';
+import 'package:maxi_pocket/settings/presentation/ux/pages/settings_page.dart';
+import 'package:maxi_pocket/settings/presentation/ux/pages/theme_page.dart';
 import 'package:maxi_pocket/splashscreen/presentation/ux/pages/splash_page.dart';
 
 import 'package:flutter/foundation.dart';
@@ -21,6 +24,9 @@ class Routes {
     initialRoute: (BuildContext context) => const MaxiPocketSplashPage(),
     homeRoute: (BuildContext context) => const MaxiPocketHomePage(),
     notFoundRoute: (BuildContext context) => const MaxiPocketNotFoundPage(),
+    settingsRoute: (BuildContext context) => const MaxiPocketSettingsPage(),
+    themeRoute: (BuildContext context) => const MaxiPocketThemePage(),
+    notificationsSettingsRoute: (BuildContext context) => const MaxiPocketNotificationsPage(),
   };
 
   static const String initialRoute = '/';
@@ -30,4 +36,7 @@ class Routes {
   static const String expensesSubscriptionsRoute = '/subscriptions';
   static const String expensesFinancingRoute = '/financing';
   static const String expensesAllRoute = '/all';
+  static const String settingsRoute = '/settings';
+  static const String themeRoute = '/theme';
+  static const String notificationsSettingsRoute = '/notifications-settings';
 }

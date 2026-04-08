@@ -41,6 +41,5 @@ extension MaterialThemeModeExtension on MaxiPocketThemeMode {
 
 /// Responsive sizing helpers for screen-dimension doubles.
 extension DoubleExtension on double {
-  /// Scales this screen height to the bottom-bar height using the Figma reference height.
-  double get bottomBarHeight => this * DesignConstants.bottomBarDesignHeight / DesignConstants.appHeightByDesign;
+  double responsiveHeight(double componentHeight) => this * componentHeight / DesignConstants.appHeightByDesign;
 }

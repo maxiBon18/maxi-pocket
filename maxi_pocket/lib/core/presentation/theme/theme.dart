@@ -43,6 +43,12 @@ class ThemeLightColors {
   /// Navigation Bottom Bar Colors
   static const Color bottomNavigationBarTopBorderColor = Color(0xFFF0E6EB);
   static const Color bottomNavigationBarShadowsColor = Color(0xFF000000);
+
+  // Theme Settings Colors
+  static const Color changeThemeIconColor = Color(0xFFEDE4F0);
+
+  // Switch Colors
+  static const Color switchTrackColor = Color(0xFFE5E5E5);
 }
 
 /// Color tokens for the dark theme.
@@ -68,7 +74,7 @@ class ThemeDarkColors {
 
   /// Text Colors
   static const Color textPrimaryColor = Color(0xFFF5F0EB);
-  static const Color textSecondaryColor = Color(0xFFC4B8CB);
+  static const Color textSecondaryColor = Color(0xFFC9B8C0);
   static const Color textDisabledColor = Color(0xFF6B5F72);
   static const Color textOnPrimaryColor = Color(0xFF2B2024);
   static const Color textOnSurfaceColor = Color(0xFFF5F0EB);
@@ -78,6 +84,10 @@ class ThemeDarkColors {
   static const Color bottomNavigationBarBackgroundColor = Color(0xFF1A1216);
   static const Color bottomNavigationBarTopBorderColor = Color(0xFF2E2329);
   static const Color bottomNavigationBarShadowsColor = Color(0xFFFFFFFF);
+
+  /// List Tile Colors
+  static const Color listTileBorderColor = Color(0xFF3D3438);
+  static const Color changeThemeIconColor = Color(0xFFC9B1D0);
 }
 
 /// Pre-built [TextTheme]s and custom monetary [TextStyle]s for light and dark modes.
@@ -151,7 +161,7 @@ class ThemeTextStyles {
     /// titleMedium — list-tile titles, tab labels.
     titleMedium: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
-      fontSize: 16,
+      fontSize: 18,
       height: 24 / 16,
       letterSpacing: 0.15,
       color: ThemeLightColors.textPrimaryColor,
@@ -288,7 +298,7 @@ class ThemeTextStyles {
     /// titleMedium — list-tile titles, tab labels.
     titleMedium: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
-      fontSize: 16,
+      fontSize: 18,
       height: 24 / 16,
       letterSpacing: 0.15,
       color: ThemeDarkColors.textPrimaryColor,
@@ -410,20 +420,38 @@ final ThemeData lightAppTheme = ThemeData(
   colorSchemeSeed: ThemeLightColors.primaryColor,
   textTheme: ThemeTextStyles.appLightTextTheme,
   scaffoldBackgroundColor: ThemeLightColors.backgroundColor,
-  navigationBarTheme: NavigationBarThemeData(
+  appBarTheme: AppBarTheme(
     backgroundColor: ThemeLightColors.bottomNavigationBarBackgroundColor,
+    surfaceTintColor: Colors.transparent,
+    elevation: DesignConstants.appBarElevation,
+    centerTitle: true,
+    titleTextStyle: ThemeTextStyles.appLightTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
+    iconTheme: IconThemeData(
+      color: ThemeLightColors.onSurfaceVariantColor,
+      size: DesignConstants.icon24,
+      applyTextScaling: false,
+    ),
+    actionsIconTheme: IconThemeData(
+      color: ThemeLightColors.onSurfaceVariantColor,
+      size: DesignConstants.icon24,
+      applyTextScaling: false,
+    ),
+    toolbarTextStyle: ThemeTextStyles.appLightTextTheme.titleLarge,
+  ),
+  navigationBarTheme: NavigationBarThemeData(
+    backgroundColor: ThemeLightColors.backgroundColor,
     elevation: 5,
     labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
     iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> state) {
       if (state.contains(WidgetState.selected)) {
         return IconThemeData(
-          size: DesignConstants.iconSize,
+          size: DesignConstants.icon24,
           color: ThemeLightColors.primaryColor,
           applyTextScaling: false,
         );
       }
       return IconThemeData(
-        size: DesignConstants.iconSize,
+        size: DesignConstants.icon24,
         color: ThemeLightColors.textDisabledColor,
         applyTextScaling: false,
       );
@@ -438,7 +466,12 @@ final ThemeData lightAppTheme = ThemeData(
   switchTheme: SwitchThemeData(
     trackOutlineWidth: const WidgetStatePropertyAll<double>(0),
     thumbColor: WidgetStateProperty.all<Color>(ThemeLightColors.backgroundColor),
-    trackColor: WidgetStateProperty.all<Color>(ThemeLightColors.primaryColor),
+    trackColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
+        return ThemeLightColors.primaryColor;
+      }
+      return ThemeLightColors.switchTrackColor;
+    }),
   ),
   inputDecorationTheme: InputDecorationTheme(
     errorMaxLines: 2,
@@ -487,6 +520,25 @@ final ThemeData lightAppTheme = ThemeData(
       ),
     ),
   ),
+  listTileTheme: ListTileThemeData(
+    style: ListTileStyle.list,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadiusGeometry.circular(DesignConstants.radius16),
+      side: BorderSide(
+        color: ThemeLightColors.bottomNavigationBarTopBorderColor,
+        width: DesignConstants.bottomBarBorderWidth,
+      ),
+    ),
+    titleAlignment: .center,
+    titleTextStyle: ThemeTextStyles.appLightTextTheme.titleMedium,
+    subtitleTextStyle: ThemeTextStyles.appLightTextTheme.titleSmall!.copyWith(
+      color: ThemeLightColors.textSecondaryColor,
+    ),
+    dense: false,
+    tileColor: ThemeLightColors.backgroundColor,
+    selectedTileColor: ThemeLightColors.primaryColor,
+    selectedColor: ThemeLightColors.primaryColor,
+  ),
 );
 
 /// Material 3 [ThemeData] for dark mode.
@@ -496,20 +548,38 @@ final ThemeData darkAppTheme = ThemeData(
   colorSchemeSeed: ThemeDarkColors.primaryColor,
   textTheme: ThemeTextStyles.appDarkTextTheme,
   scaffoldBackgroundColor: ThemeDarkColors.scaffoldBackgroundColor,
-  navigationBarTheme: NavigationBarThemeData(
+  appBarTheme: AppBarTheme(
     backgroundColor: ThemeDarkColors.bottomNavigationBarBackgroundColor,
+    surfaceTintColor: Colors.transparent,
+    elevation: DesignConstants.appBarElevation,
+    centerTitle: true,
+    titleTextStyle: ThemeTextStyles.appDarkTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
+    iconTheme: IconThemeData(
+      color: ThemeDarkColors.onSurfaceVariantColor,
+      size: DesignConstants.icon24,
+      applyTextScaling: false,
+    ),
+    actionsIconTheme: IconThemeData(
+      color: ThemeDarkColors.onSurfaceVariantColor,
+      size: DesignConstants.icon24,
+      applyTextScaling: false,
+    ),
+    toolbarTextStyle: ThemeTextStyles.appDarkTextTheme.titleLarge,
+  ),
+  navigationBarTheme: NavigationBarThemeData(
+    backgroundColor: ThemeDarkColors.scaffoldBackgroundColor,
     elevation: 5,
     labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
     iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> state) {
       if (state.contains(WidgetState.selected)) {
         return IconThemeData(
-          size: DesignConstants.iconSize,
+          size: DesignConstants.icon24,
           color: ThemeDarkColors.primaryColor,
           applyTextScaling: false,
         );
       }
       return IconThemeData(
-        size: DesignConstants.iconSize,
+        size: DesignConstants.icon24,
         color: ThemeDarkColors.textSecondaryColor,
         applyTextScaling: false,
       );
@@ -576,5 +646,19 @@ final ThemeData darkAppTheme = ThemeData(
         strokeAlign: BorderSide.strokeAlignOutside,
       ),
     ),
+  ),
+  listTileTheme: ListTileThemeData(
+    style: ListTileStyle.list,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadiusGeometry.circular(DesignConstants.radius16),
+      side: BorderSide(color: ThemeDarkColors.listTileBorderColor, width: DesignConstants.bottomBarBorderWidth),
+    ),
+    titleAlignment: .center,
+    titleTextStyle: ThemeTextStyles.appDarkTextTheme.titleMedium,
+    subtitleTextStyle: ThemeTextStyles.appDarkTextTheme.titleSmall!.copyWith(color: ThemeDarkColors.textSecondaryColor),
+    dense: false,
+    tileColor: ThemeDarkColors.surfaceColor,
+    selectedTileColor: ThemeDarkColors.primaryColor,
+    selectedColor: ThemeDarkColors.primaryColor,
   ),
 );

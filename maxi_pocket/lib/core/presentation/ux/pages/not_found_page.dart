@@ -15,20 +15,21 @@ class MaxiPocketNotFoundPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaxiPocketPage(
       routeName: Routes.notFoundRoute,
+      showAppBar: false,
       child: Column(
         mainAxisAlignment: .center,
         crossAxisAlignment: .center,
         children: [
           const MaxiPocketEmptyDataImageWidget(),
-          const SizedBox(height: DesignConstants.spacingMedium),
+          const SizedBox(height: DesignConstants.spacing16),
           Text(
             WidgetConstants.notFoundErrorCode,
             style: context.textTheme.displayLarge!.copyWith(color: ThemeLightColors.primaryColor),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: DesignConstants.spacing),
+          const SizedBox(height: DesignConstants.spacing8),
           Text(WidgetConstants.notFoundPageTitle, style: context.textTheme.headlineMedium, textAlign: TextAlign.center),
-          const SizedBox(height: DesignConstants.spacing),
+          const SizedBox(height: DesignConstants.spacing8),
           Text(
             WidgetConstants.notFoundPageDescription,
             style: context.textTheme.titleMedium,

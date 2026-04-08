@@ -1,9 +1,9 @@
 ---
 name: readme-generation
 description: "Generate or update the project README.md by scanning the codebase"
-paths:
-  - README.md
+disable-model-invocation: true
 ---
+
 # README Generator
 
 - For section definitions and formatting reference, see [reference.md](reference.md)

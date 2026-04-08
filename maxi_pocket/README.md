@@ -48,6 +48,13 @@ Flutter mobile app for managing fixed expenses, such as subscriptions and financ
 - [ ] Manage subscription expenses
 - [ ] Manage financing expenses
 
+### Settings
+
+- [x] Settings page with app version display
+- [x] Theme settings page with dark mode toggle and persistence
+- [x] Notifications settings page (UI ready, provider pending)
+- [x] Bottom navigation bar with light/dark themed styling
+
 ### App
 
 - [x] Branded splash screen with timed navigation to home
@@ -59,6 +66,7 @@ Flutter mobile app for managing fixed expenses, such as subscriptions and financ
 - [x] Launcher icons configured for Android and iOS (`flutter_launcher_icons`)
 - [x] Core local preferences layer (`shared_preferences`: async API + optional in-memory cache with allow-listed keys)
 - [x] Light/dark app theme with persistence (`themeProvider` / `ThemeViewModel`), system brightness fallback when unset, and high-contrast theme wiring in `MaxiPocketApp`
+- [x] Reusable shared widget library (list tiles, icon containers, switches, bullet points, text fields, loading indicators, shimmer effects)
 
 ---
 
@@ -71,6 +79,7 @@ Flutter mobile app for managing fixed expenses, such as subscriptions and financ
 | State Management | Riverpod | 3.2.1 |
 | Dependency Injection | GetIt | 9.2.1 |
 | Local storage | shared_preferences | 2.5.5 |
+| Code Generation | Freezed + json_serializable | 3.2.5 / 6.13.1 |
 | Design System | Material Design 3 + Google Fonts | — |
 | Vector assets | flutter_svg | 2.2.4 |
 | Linting | flutter_lints | 6.0.0 |
@@ -108,39 +117,100 @@ lib/
 ├── core/                      # Cross-feature infrastructure and shared UI
 │   ├── data/
 │   │   ├── repo/
+│   │   │   ├── app_info_repo_impl.dart
 │   │   │   ├── shared_pref_repo_impl.dart
 │   │   │   └── source/
-│   │   │       ├── dto/       # Core data-source DTOs (when used)
+│   │   │       ├── dto/
+│   │   │       │   └── app_info_dto.dart (+freezed/.g.dart)
+│   │   │       ├── app_info_source.dart
 │   │   │       └── shared_pref_source.dart
 │   │   └── source/
+│   │       ├── app_info_source_impl.dart
 │   │       └── shared_pref_source_impl.dart
 │   ├── domain/
-│   │   ├── entities/          # Shared domain entities (e.g. Loading)
+│   │   ├── entities/
+│   │   │   ├── app_info.dart
+│   │   │   └── loading.dart
 │   │   └── services/
+│   │       ├── app_info_service.dart
 │   │       ├── shared_pref_service.dart
-│   │       └── repo/          # Shared repository interfaces (e.g. shared_pref_repo.dart)
+│   │       └── repo/
+│   │           ├── app_info_repo.dart
+│   │           └── shared_pref_repo.dart
 │   ├── presentation/
-│   │   ├── theme/             # ThemeData, colour tokens
-│   │   ├── ux/
-│   │   │   ├── app.dart       # MaterialApp root
-│   │   │   ├── routing_service.dart
-│   │   │   ├── pages/         # Shared pages (WrapperPage, NotFoundPage, LifecyclePage)
-│   │   │   └── widgets/       # TextField, date field, switch, image, shimmer, overlay loading…
-│   │   └── viewmodel/         # LoadingViewModel, ThemeViewModel (`themeProvider`)
+│   │   ├── theme/
+│   │   │   └── theme.dart
+│   │   ├── viewmodel/
+│   │   │   ├── bottom_bar_viewmodel.dart
+│   │   │   ├── loading_viewmodel.dart
+│   │   │   └── theme_viewmodel.dart
+│   │   └── ux/
+│   │       ├── app.dart
+│   │       ├── routing_service.dart
+│   │       ├── pages/
+│   │       │   ├── lifecycle_page.dart
+│   │       │   ├── not_found_page.dart
+│   │       │   └── wrapper_page.dart
+│   │       └── widgets/
+│   │           ├── app_bar_title_widget.dart
+│   │           ├── bottom_bar_widget.dart
+│   │           ├── box_decoration_widget.dart
+│   │           ├── bullet_point_widget.dart
+│   │           ├── custom_text_scaling_widget.dart
+│   │           ├── date_textfield_widget.dart
+│   │           ├── empty_data_image_widget.dart
+│   │           ├── icon_container_widget.dart
+│   │           ├── image_widget.dart
+│   │           ├── list_tile_widget.dart
+│   │           ├── overlay_loading_widget.dart
+│   │           ├── shimmer_loading_widget.dart
+│   │           ├── switch_widget.dart
+│   │           └── textfield_widget.dart
 │   └── shared/
-│       ├── constants/         # App, design, widget, cache allow-list (`cache_constants.dart`)
-│       ├── controllers/       # Async DI registration, NavigatorObserver
-│       ├── exceptions/        # Cross-feature exceptions
-│       ├── mixins/            # Shared mixins
-│       └── utils/             # `enums.dart`, `extensions.dart`, `loggers.dart`, `methods.dart`
+│       ├── constants/
+│       │   ├── app_constants.dart
+│       │   ├── assets_constants.dart
+│       │   ├── cache_constants.dart
+│       │   ├── design_constants.dart
+│       │   └── widget_constants.dart
+│       ├── controllers/
+│       │   ├── custom_navigator_observer.dart
+│       │   └── di.dart
+│       ├── exceptions/
+│       ├── mixins/
+│       └── utils/
+│           ├── enums.dart
+│           ├── extensions.dart
+│           ├── loggers.dart
+│           └── methods.dart
 ├── splashscreen/              # Splash feature (presentation + shared in use)
-│   ├── presentation/ux/pages/ # MaxiPocketSplashPage
-│   └── shared/                # Splash assets/design constants, time utils
-└── home/                      # Home feature module
+│   ├── presentation/ux/pages/
+│   │   └── splash_page.dart
+│   └── shared/
+│       ├── constants/
+│       │   ├── assets_constants.dart
+│       │   └── design_constants.dart
+│       └── utils/
+│           └── time_utils.dart
+├── home/                      # Home feature module
+│   ├── data/ …                # Layer folders scaffolded for future use
+│   ├── domain/ …
+│   ├── presentation/ux/pages/
+│   │   └── home_page.dart
+│   └── shared/ …
+└── settings/                  # Settings feature module
     ├── data/ …                # Layer folders scaffolded for future use
     ├── domain/ …
-    ├── presentation/ux/pages/ # MaxiPocketHomePage
-    └── shared/ …
+    ├── presentation/
+    │   ├── ux/pages/
+    │   │   ├── notifications_page.dart
+    │   │   ├── settings_page.dart
+    │   │   └── theme_page.dart
+    │   └── viewmodel/
+    │       └── settings_viewmodel.dart
+    └── shared/
+        └── constants/
+            └── widget_constants.dart
 ```
 
 ### Layer Responsibilities
@@ -231,23 +301,31 @@ lib/
 ├── core/
 │   ├── data/
 │   │   ├── repo/
+│   │   │   ├── app_info_repo_impl.dart
 │   │   │   ├── shared_pref_repo_impl.dart
 │   │   │   └── source/
 │   │   │       ├── dto/
+│   │   │       │   └── app_info_dto.dart (+freezed/.g.dart)
+│   │   │       ├── app_info_source.dart
 │   │   │       └── shared_pref_source.dart
 │   │   └── source/
+│   │       ├── app_info_source_impl.dart
 │   │       └── shared_pref_source_impl.dart
 │   ├── domain/
 │   │   ├── entities/
+│   │   │   ├── app_info.dart
 │   │   │   └── loading.dart
 │   │   └── services/
+│   │       ├── app_info_service.dart
 │   │       ├── shared_pref_service.dart
 │   │       └── repo/
+│   │           ├── app_info_repo.dart
 │   │           └── shared_pref_repo.dart
 │   ├── presentation/
 │   │   ├── theme/
 │   │   │   └── theme.dart
 │   │   ├── viewmodel/
+│   │   │   ├── bottom_bar_viewmodel.dart
 │   │   │   ├── loading_viewmodel.dart
 │   │   │   └── theme_viewmodel.dart
 │   │   └── ux/
@@ -258,9 +336,16 @@ lib/
 │   │       │   ├── not_found_page.dart
 │   │       │   └── wrapper_page.dart
 │   │       └── widgets/
-│   │           ├── custom_text_scaling.dart
+│   │           ├── app_bar_title_widget.dart
+│   │           ├── bottom_bar_widget.dart
+│   │           ├── box_decoration_widget.dart
+│   │           ├── bullet_point_widget.dart
+│   │           ├── custom_text_scaling_widget.dart
 │   │           ├── date_textfield_widget.dart
+│   │           ├── empty_data_image_widget.dart
+│   │           ├── icon_container_widget.dart
 │   │           ├── image_widget.dart
+│   │           ├── list_tile_widget.dart
 │   │           ├── overlay_loading_widget.dart
 │   │           ├── shimmer_loading_widget.dart
 │   │           ├── switch_widget.dart
@@ -268,12 +353,13 @@ lib/
 │   └── shared/
 │       ├── constants/
 │       │   ├── app_constants.dart
+│       │   ├── assets_constants.dart
 │       │   ├── cache_constants.dart
 │       │   ├── design_constants.dart
 │       │   └── widget_constants.dart
 │       ├── controllers/
 │       │   ├── custom_navigator_observer.dart
-│       │   └── di.dart          # SharedPreferences + routing registration
+│       │   └── di.dart          # SharedPreferences + routing + app info registration
 │       ├── exceptions/
 │       ├── mixins/
 │       └── utils/
@@ -296,16 +382,36 @@ lib/
 │       └── utils/
 │           └── time_utils.dart
 │
-└── home/
-    ├── data/ …
+├── home/
+│   ├── data/ …
+│   ├── domain/ …
+│   ├── presentation/
+│   │   └── ux/
+│   │       ├── pages/
+│   │       │   └── home_page.dart
+│   │       └── widgets/
+│   └── shared/
+│       ├── constants/
+│       ├── controllers/
+│       ├── exceptions/
+│       ├── mixins/
+│       └── utils/
+│
+└── settings/
+    ├── data/ …                    # Scaffolded layers (no Dart sources yet)
     ├── domain/ …
     ├── presentation/
-    │   └── ux/
-    │       ├── pages/
-    │       │   └── home_page.dart
-    │       └── widgets/
+    │   ├── ux/
+    │   │   ├── pages/
+    │   │   │   ├── notifications_page.dart
+    │   │   │   ├── settings_page.dart
+    │   │   │   └── theme_page.dart
+    │   │   └── widgets/
+    │   └── viewmodel/
+    │       └── settings_viewmodel.dart
     └── shared/
         ├── constants/
+        │   └── widget_constants.dart
         ├── controllers/
         ├── exceptions/
         ├── mixins/
@@ -333,7 +439,7 @@ MaxiPocket uses **Riverpod** (`flutter_riverpod` + `riverpod`) for reactive stat
 
 In debug mode a `ProviderLogger` observer is registered to log all provider state changes.
 
-See `.cursor/rules/review/code-review.mdc` § 5 for the full Riverpod review checklist.
+See `.claude/rules/review/code-review.md` § 5 for the full Riverpod review checklist.
 
 ### Theme mode
 
@@ -355,6 +461,10 @@ Cross-cutting key-value storage uses domain services: `SharedPrefAsyncService` f
 | `google_fonts` | Google Fonts integration | ^8.0.2 |
 | `flutter_svg` | SVG rendering (splash branding, icons) | ^2.2.4 |
 | `flutter_launcher_icons` | Launcher icon generation (configured in `pubspec.yaml`) | ^0.14.4 |
+| `freezed` | Code generation for immutable data classes | ^3.2.5 |
+| `freezed_annotation` | Annotations for Freezed | ^3.1.0 |
+| `json_annotation` | Annotations for JSON serialization | ^4.11.0 |
+| `package_info_plus` | Package info (version, build number) | ^9.0.1 |
 | `collection` | Dart collection utilities (`lastWhereOrNull`, etc.) | ^1.19.1 |
 | `easy_debounce` | Debounce utility for user-input handlers | ^2.0.3 |
 | `intl` | Internationalisation and date/number formatting | ^0.20.2 |
@@ -374,8 +484,9 @@ Cross-cutting key-value storage uses domain services: `SharedPrefAsyncService` f
 | Build Android App Bundle | `fvm flutter build appbundle --release` |
 | Build iOS (release) | `fvm flutter build ios --release` |
 | Regenerate launcher icons | `fvm dart run flutter_launcher_icons` |
-| Analyse code | `fvm flutter analyze` |
-| Format code | `fvm dart format lib` |
+| Analyse code | `fvm dart analyze` |
+| Format code | `fvm dart format lib/` |
+| Code generation (Freezed, etc.) | `fvm dart run build_runner build --delete-conflicting-outputs` |
 | Run tests | `fvm flutter test` |
 | Clean build artefacts | `fvm flutter clean` |
 | List available devices | `fvm flutter devices` |
@@ -440,9 +551,9 @@ Commit message linting is enforced via `commitlint.config.js`.
 
 1. Branch off `main` (or the relevant base branch).
 2. Keep PRs focused — one feature or fix per PR.
-3. Ensure `fvm flutter analyze` and `fvm flutter test` pass locally before opening a PR.
+3. Ensure `fvm dart analyze` and `fvm flutter test` pass locally before opening a PR.
 4. Request review from at least one team member.
-5. Apply all `.cursor/rules/review/code-review.mdc` checks before requesting review.
+5. Apply all `.claude/rules/review/code-review.md` checks before requesting review.
 
 ---
 

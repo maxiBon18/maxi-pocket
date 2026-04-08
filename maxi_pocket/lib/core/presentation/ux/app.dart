@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/core/presentation/ux/routing_service.dart';
 import 'package:maxi_pocket/core/presentation/theme/theme.dart' show darkAppTheme, lightAppTheme;
-import 'package:maxi_pocket/core/presentation/ux/widgets/custom_text_scaling.dart';
+import 'package:maxi_pocket/core/presentation/ux/widgets/custom_text_scaling_widget.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart';
 import 'package:maxi_pocket/core/shared/constants/app_constants.dart';
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;

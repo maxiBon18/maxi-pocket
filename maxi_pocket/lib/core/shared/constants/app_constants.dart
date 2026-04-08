@@ -12,4 +12,5 @@ class AppConstants {
   static const String languageCode = 'it';
   static const String countryCode = 'IT';
   static const Locale appLocale = Locale(languageCode, countryCode);
+  static const String versionTitle = 'Versione';
 }

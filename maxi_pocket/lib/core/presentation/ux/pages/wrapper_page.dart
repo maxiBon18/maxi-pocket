@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/core/presentation/ux/pages/lifecycle_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/bottom_bar_widget.dart';
+import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart' show themeProvider;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/shared/utils/extensions.dart' show DoubleExtension;
+import 'package:maxi_pocket/core/shared/utils/methods.dart' show getShadowsColor;
 
 /// Standard page scaffold that every screen in MaxiPocket must use as its root.
 ///
@@ -13,7 +19,7 @@ import 'package:maxi_pocket/core/presentation/ux/widgets/bottom_bar_widget.dart'
 ///   child: HomeContent(),
 /// );
 /// ```
-class MaxiPocketPage extends StatelessWidget {
+class MaxiPocketPage extends ConsumerWidget {
   const MaxiPocketPage({
     required this.routeName,
     this.child,
@@ -24,17 +30,20 @@ class MaxiPocketPage extends StatelessWidget {
     this.didPushNext,
     this.didPop,
     this.leading,
-    this.actions,
+    this.showLeading = true,
+    this.leadingIsBackButton = true,
     this.allowBack = true,
+    this.actions,
     this.automaticallyImplyLeading = false,
     this.resizeToAvoidBottomInset = true,
     this.extendBodyBehindAppBar = false,
+    this.title,
     this.showAppBar = true,
-    this.showLeading = false,
+    this.showBottomBar = true,
+    this.useSliverAppBar = false,
     this.topSafeArea = true,
     this.bottomSafeArea = true,
     this.backgroundColor,
-    this.showBottomBar = true,
   });
 
   final Widget? child;
@@ -93,8 +102,16 @@ class MaxiPocketPage extends StatelessWidget {
 
   final bool showBottomBar;
 
+  final bool useSliverAppBar;
+
+  final Widget? title;
+
+  final bool leadingIsBackButton;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final MaxiPocketThemeMode themeMode = ref.watch(themeProvider);
+    final double screenHeight = MediaQuery.of(context).size.height;
     return LifecyclePage(
       didPopNext: didPopNext,
       didPush: didPush,
@@ -111,13 +128,42 @@ class MaxiPocketPage extends StatelessWidget {
         },
         child: Scaffold(
           backgroundColor: backgroundColor,
-          // TODO(maxibon): implement app bar
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
           extendBodyBehindAppBar: extendBodyBehindAppBar,
+          appBar: showAppBar == true
+              ? useSliverAppBar == false
+                    ? AppBar(
+                        toolbarHeight: screenHeight.responsiveHeight(DesignConstants.bottomBarDesignHeight),
+                        automaticallyImplyLeading: automaticallyImplyLeading,
+                        shadowColor: getShadowsColor(
+                          themeMode,
+                        ).withValues(alpha: DesignConstants.bottomBarShadowOpacity),
+                        leading: showLeading == false
+                            ? null
+                            : leadingIsBackButton == true
+                            ? _getBackButtonAppBar(context: context, themeMode: themeMode, customOnBack: customOnBack)
+                            : leading,
+                        actions: actions,
+                        title: title,
+                      )
+                    : null
+              : null,
           bottomNavigationBar: showBottomBar ? const MaxiPocketBottomBarWidget() : null,
           body: SafeArea(top: topSafeArea ?? true, bottom: bottomSafeArea ?? true, child: child ?? const SizedBox()),
         ),
       ),
+    );
+  }
+
+  Widget _getBackButtonAppBar({
+    required BuildContext context,
+    required MaxiPocketThemeMode themeMode,
+    VoidCallback? customOnBack,
+  }) {
+    return IconButton(
+      onPressed: () => customOnBack != null ? customOnBack.call() : Navigator.pop(context),
+      enableFeedback: true,
+      icon: const Icon(Icons.arrow_back_ios_new),
     );
   }
 }
