@@ -15,6 +15,8 @@ class MaxiPocketListTileWidget extends StatelessWidget {
     this.trailing,
     this.onTap,
     required this.themeMode,
+    this.height,
+    this.isThreeLine = false,
   });
 
   final Widget title;
@@ -23,6 +25,8 @@ class MaxiPocketListTileWidget extends StatelessWidget {
   final Widget? leading;
   final Widget? trailing;
   final VoidCallback? onTap;
+  final double? height;
+  final bool isThreeLine;
 
   List<BoxShadow> _getBoxShadows(MaxiPocketThemeMode themeMode) => [
     BoxShadow(
@@ -51,7 +55,7 @@ class MaxiPocketListTileWidget extends StatelessWidget {
       border: Border.all(color: getListTileBorderColor(themeMode), width: DesignConstants.bottomBarBorderWidth),
       child: SizedBox(
         width: double.infinity,
-        height: screenSize.responsiveHeight(DesignConstants.containerSize85),
+        height: height != null ? screenSize.responsiveHeight(height!) : null,
         child: ListTile(
           contentPadding: EdgeInsets.only(
             right: DesignConstants.spacing16,
@@ -69,6 +73,7 @@ class MaxiPocketListTileWidget extends StatelessWidget {
           leading: leading,
           trailing: trailing,
           onTap: onTap,
+          isThreeLine: isThreeLine,
           splashColor: ThemeDarkColors.primaryColor.withValues(alpha: DesignConstants.alpha20),
         ),
       ),

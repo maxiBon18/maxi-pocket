@@ -49,6 +49,12 @@ class ThemeLightColors {
 
   // Switch Colors
   static const Color switchTrackColor = Color(0xFFE5E5E5);
+
+  /// Card Colors
+  static const Color cardGradientColor1 = Color(0xFFB399BA);
+
+  /// Badge Colors
+  static const Color badgeFinancingBackgroundColor = Color(0xFFD6EFE0);
 }
 
 /// Color tokens for the dark theme.

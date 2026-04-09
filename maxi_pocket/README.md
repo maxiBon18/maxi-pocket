@@ -44,6 +44,8 @@ Flutter mobile app for managing fixed expenses, such as subscriptions and financ
 ### Expense Management
 
 - [x] Home dashboard
+  - [x] Weekly and monthly expense summary cards
+  - [x] Weekly recap section with expense list tile
 - [ ] View all fixed expenses
 - [ ] Manage subscription expenses
 - [ ] Manage financing expenses
@@ -153,9 +155,11 @@ lib/
 │   │       │   └── wrapper_page.dart
 │   │       └── widgets/
 │   │           ├── app_bar_title_widget.dart
+│   │           ├── badge_widget.dart
 │   │           ├── bottom_bar_widget.dart
 │   │           ├── box_decoration_widget.dart
 │   │           ├── bullet_point_widget.dart
+│   │           ├── card_widget.dart
 │   │           ├── custom_text_scaling_widget.dart
 │   │           ├── date_textfield_widget.dart
 │   │           ├── empty_data_image_widget.dart
@@ -183,7 +187,7 @@ lib/
 │           ├── extensions.dart
 │           ├── loggers.dart
 │           └── methods.dart
-├── splashscreen/              # Splash feature (presentation + shared in use)
+├── splashscreen/              # Splash feature
 │   ├── presentation/ux/pages/
 │   │   └── splash_page.dart
 │   └── shared/
@@ -195,9 +199,18 @@ lib/
 ├── home/                      # Home feature module
 │   ├── data/ …                # Layer folders scaffolded for future use
 │   ├── domain/ …
-│   ├── presentation/ux/pages/
-│   │   └── home_page.dart
-│   └── shared/ …
+│   ├── presentation/
+│   │   └── ux/
+│   │       ├── pages/
+│   │       │   └── home_page.dart
+│   │       └── widgets/
+│   │           ├── home_expense_list_widget.dart
+│   │           ├── home_expense_tile_widget.dart
+│   │           ├── home_section_header_widget.dart
+│   │           └── home_summary_cards_widget.dart
+│   └── shared/
+│       └── constants/
+│           └── widget_constants.dart
 └── settings/                  # Settings feature module
     ├── data/ …                # Layer folders scaffolded for future use
     ├── domain/ …
@@ -337,9 +350,11 @@ lib/
 │   │       │   └── wrapper_page.dart
 │   │       └── widgets/
 │   │           ├── app_bar_title_widget.dart
+│   │           ├── badge_widget.dart          # Expense type badge (subscription / financing)
 │   │           ├── bottom_bar_widget.dart
 │   │           ├── box_decoration_widget.dart
 │   │           ├── bullet_point_widget.dart
+│   │           ├── card_widget.dart           # Summary card with gradient + shadow
 │   │           ├── custom_text_scaling_widget.dart
 │   │           ├── date_textfield_widget.dart
 │   │           ├── empty_data_image_widget.dart
@@ -369,8 +384,6 @@ lib/
 │           └── methods.dart
 │
 ├── splashscreen/
-│   ├── data/ …                    # Scaffolded layers (no Dart sources yet)
-│   ├── domain/ …
 │   ├── presentation/
 │   │   └── ux/
 │   │       └── pages/
@@ -383,19 +396,20 @@ lib/
 │           └── time_utils.dart
 │
 ├── home/
-│   ├── data/ …
+│   ├── data/ …                    # Scaffolded layers (no Dart sources yet)
 │   ├── domain/ …
 │   ├── presentation/
 │   │   └── ux/
 │   │       ├── pages/
 │   │       │   └── home_page.dart
 │   │       └── widgets/
+│   │           ├── home_expense_list_widget.dart   # ListView of expense tiles
+│   │           ├── home_expense_tile_widget.dart   # Single expense list tile + subtitle
+│   │           ├── home_section_header_widget.dart # "In questa settimana" row
+│   │           └── home_summary_cards_widget.dart  # Weekly + monthly summary card row
 │   └── shared/
-│       ├── constants/
-│       ├── controllers/
-│       ├── exceptions/
-│       ├── mixins/
-│       └── utils/
+│       └── constants/
+│           └── widget_constants.dart
 │
 └── settings/
     ├── data/ …                    # Scaffolded layers (no Dart sources yet)

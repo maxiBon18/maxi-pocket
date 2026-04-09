@@ -42,4 +42,5 @@ extension MaterialThemeModeExtension on MaxiPocketThemeMode {
 /// Responsive sizing helpers for screen-dimension doubles.
 extension DoubleExtension on double {
   double responsiveHeight(double componentHeight) => this * componentHeight / DesignConstants.appHeightByDesign;
+  double responsiveWidth(double componentWidth) => this * componentWidth / DesignConstants.appWidthByDesign;
 }
