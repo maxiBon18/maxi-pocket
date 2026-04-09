@@ -8,8 +8,10 @@ class DesignConstants {
 
   static const double appMaxTextScaler = 1.6;
   static const double appHeightByDesign = 853;
+  static const double appWidthByDesign = 448;
 
   /// Text Size
+  static const double textSize12 = 12.0;
   static const double textSize14 = 14.0;
   static const double textSize16 = 16.0;
   static const double textSize18 = 18.0;
@@ -20,7 +22,9 @@ class DesignConstants {
   static const double textSize28 = 28.0;
 
   /// Icon
+  static const double icon16 = 16.0;
   static const double icon24 = 24.0;
+  static const double icon32 = 32.0;
   static const double icon40 = 40.0;
 
   /// Container Size
@@ -35,6 +39,7 @@ class DesignConstants {
   static const double containerSize85 = 85.0;
   static const double containerSize88 = 88.0;
   static const double containerSize100 = 100.0;
+  static const double containerSize120 = 120.0;
 
   /// Alpha
   static const double alpha10 = 0.1;
@@ -96,6 +101,15 @@ class DesignConstants {
   static const double bottomBarSpreadRadiusFirst = -1.0;
   static const double bottomBarSpreadRadiusSecond = -7.0;
   static const double bottomBarShadowOpacity = 0.1;
+
+  /// Card
+  static const Offset cardOffsetFirst = Offset(0, 10);
+  static const Offset cardOffsetSecond = Offset(0, 4);
+  static const double cardBlurRadiusFirst = 12.0;
+  static const double cardBlurRadiusSecond = 6.0;
+  static const double cardSpreadRadiusFirst = -3.0;
+  static const double cardSpreadRadiusSecond = -4.0;
+  static const double cardShadowOpacity = 0.2;
 
   /// Empty Data
   static const double emptyDataImageSize = 170.0;
