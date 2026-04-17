@@ -8,10 +8,6 @@ import 'package:maxi_pocket/core/shared/constants/widget_constants.dart';
 import 'package:maxi_pocket/core/shared/utils/enums.dart';
 import 'package:maxi_pocket/core/shared/utils/extensions.dart' show DoubleExtension;
 import 'package:maxi_pocket/core/shared/utils/methods.dart' show getShadowsColor, getBottomBarBorderColor;
-import 'package:maxi_pocket/routes.dart' show Routes;
-
-/// Maps each bottom-bar tab index to its named route.
-const Map<int, String> _tabRoutes = {0: Routes.homeRoute, 1: Routes.expensesRoute, 2: Routes.settingsRoute};
 
 /// App-wide bottom navigation bar with themed border, shadow, and page-index state.
 ///
@@ -32,6 +28,11 @@ class MaxiPocketBottomBarWidget extends ConsumerWidget {
         icon: Icon(Icons.payments_outlined),
         label: WidgetConstants.bottomBarExpensesLabel,
         tooltip: WidgetConstants.bottomBarExpensesLabel,
+      ),
+      NavigationDestination(
+        icon: Icon(Icons.calendar_today_outlined),
+        label: WidgetConstants.bottomBarAppointmentLabel,
+        tooltip: WidgetConstants.bottomBarAppointmentLabel,
       ),
       NavigationDestination(
         icon: Icon(Icons.settings_outlined),
@@ -62,6 +63,7 @@ class MaxiPocketBottomBarWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    /// Maps each bottom-bar tab index to its named route.
     final MaxiPocketThemeMode themeMode = ref.watch(themeProvider);
     final int currentPageIndex = ref.watch(bottomBarProvider);
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -77,7 +79,7 @@ class MaxiPocketBottomBarWidget extends ConsumerWidget {
         height: screenHeight.responsiveHeight(DesignConstants.bottomBarDesignHeight),
         onDestinationSelected: (int index) {
           ref.read(bottomBarProvider.notifier).setCurrentIndex(index);
-          final String? route = _tabRoutes[index];
+          final String? route = WidgetConstants.tabRoutes[index];
           if (route != null) Navigator.of(context).pushReplacementNamed(route);
         },
       ),

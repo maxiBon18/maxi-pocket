@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/core/presentation/ux/pages/lifecycle_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/bottom_bar_widget.dart';
+import 'package:maxi_pocket/core/presentation/ux/widgets/fab_widget.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart' show themeProvider;
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
 import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
@@ -44,6 +45,7 @@ class MaxiPocketPage extends ConsumerWidget {
     this.topSafeArea = true,
     this.bottomSafeArea = true,
     this.backgroundColor,
+    this.showFloatingActionButton = false,
   });
 
   final Widget? child;
@@ -108,6 +110,8 @@ class MaxiPocketPage extends ConsumerWidget {
 
   final bool leadingIsBackButton;
 
+  final bool showFloatingActionButton;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MaxiPocketThemeMode themeMode = ref.watch(themeProvider);
@@ -148,6 +152,8 @@ class MaxiPocketPage extends ConsumerWidget {
                       )
                     : null
               : null,
+          floatingActionButton: showFloatingActionButton ? const MaxiPocketFloatingActionButtonWidget() : null,
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           bottomNavigationBar: showBottomBar ? const MaxiPocketBottomBarWidget() : null,
           body: SafeArea(top: topSafeArea ?? true, bottom: bottomSafeArea ?? true, child: child ?? const SizedBox()),
         ),

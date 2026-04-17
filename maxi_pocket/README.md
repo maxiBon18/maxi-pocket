@@ -45,10 +45,17 @@ Flutter mobile app for managing fixed expenses, such as subscriptions and financ
 
 - [x] Home dashboard
   - [x] Weekly and monthly expense summary cards
-  - [x] Weekly recap section with expense list tile
-- [ ] View all fixed expenses
-- [ ] Manage subscription expenses
-- [ ] Manage financing expenses
+  - [x] Weekly recap section with expense list
+- [x] Expenses hub — navigation tiles for subscriptions, financing, and all expenses
+- [x] Subscriptions page with monthly/yearly tab view
+- [x] Financing page with monthly/yearly tab view
+- [x] All expenses page with monthly/yearly tab view
+- [x] Add expense bottom sheet — type, frequency, name, amount, date fields (UI complete; submit handler pending)
+
+### Appointments
+
+- [x] Appointments page with recap card and item list
+- [x] Appointment tile with badge, next-appointment date, and edit/delete actions
 
 ### Settings
 
@@ -68,7 +75,7 @@ Flutter mobile app for managing fixed expenses, such as subscriptions and financ
 - [x] Launcher icons configured for Android and iOS (`flutter_launcher_icons`)
 - [x] Core local preferences layer (`shared_preferences`: async API + optional in-memory cache with allow-listed keys)
 - [x] Light/dark app theme with persistence (`themeProvider` / `ThemeViewModel`), system brightness fallback when unset, and high-contrast theme wiring in `MaxiPocketApp`
-- [x] Reusable shared widget library (list tiles, icon containers, switches, bullet points, text fields, loading indicators, shimmer effects)
+- [x] Reusable shared widget library (list tiles, icon containers, switches, bullet points, text fields, loading indicators, shimmer effects, selectors, FAB, recap cards)
 
 ---
 
@@ -152,24 +159,29 @@ lib/
 │   │       ├── pages/
 │   │       │   ├── lifecycle_page.dart
 │   │       │   ├── not_found_page.dart
+│   │       │   ├── section_page.dart
 │   │       │   └── wrapper_page.dart
 │   │       └── widgets/
+│   │           ├── add_expenses_widget.dart
 │   │           ├── app_bar_title_widget.dart
 │   │           ├── badge_widget.dart
 │   │           ├── bottom_bar_widget.dart
-│   │           ├── box_decoration_widget.dart
-│   │           ├── bullet_point_widget.dart
+│   │           ├── button_widget.dart
 │   │           ├── card_widget.dart
 │   │           ├── custom_text_scaling_widget.dart
 │   │           ├── date_textfield_widget.dart
 │   │           ├── empty_data_image_widget.dart
+│   │           ├── fab_widget.dart
 │   │           ├── icon_container_widget.dart
-│   │           ├── image_widget.dart
+│   │           ├── leading_trailing_icon_widget.dart
 │   │           ├── list_tile_widget.dart
-│   │           ├── overlay_loading_widget.dart
+│   │           ├── list_widget.dart
+│   │           ├── recap_widget.dart
+│   │           ├── selector_widget.dart
 │   │           ├── shimmer_loading_widget.dart
 │   │           ├── switch_widget.dart
-│   │           └── textfield_widget.dart
+│   │           ├── textfield_widget.dart
+│   │           └── wrapper_tile_widget.dart
 │   └── shared/
 │       ├── constants/
 │       │   ├── app_constants.dart
@@ -180,11 +192,10 @@ lib/
 │       ├── controllers/
 │       │   ├── custom_navigator_observer.dart
 │       │   └── di.dart
-│       ├── exceptions/
-│       ├── mixins/
 │       └── utils/
 │           ├── enums.dart
 │           ├── extensions.dart
+│           ├── helpers_method.dart
 │           ├── loggers.dart
 │           └── methods.dart
 ├── splashscreen/              # Splash feature
@@ -204,10 +215,32 @@ lib/
 │   │       ├── pages/
 │   │       │   └── home_page.dart
 │   │       └── widgets/
-│   │           ├── home_expense_list_widget.dart
-│   │           ├── home_expense_tile_widget.dart
 │   │           ├── home_section_header_widget.dart
 │   │           └── home_summary_cards_widget.dart
+│   └── shared/
+│       └── constants/
+│           └── widget_constants.dart
+├── expenses/                  # Expenses feature module
+│   ├── presentation/
+│   │   └── ux/
+│   │       ├── pages/
+│   │       │   ├── all_expenses_page.dart
+│   │       │   ├── expenses_home_page.dart
+│   │       │   ├── financing_page.dart
+│   │       │   └── subscriptions_page.dart
+│   │       └── widgets/
+│   │           └── expenses_tile_widget.dart
+│   └── shared/
+│       └── constants/
+│           ├── expenses_constants.dart
+│           └── widget_constants.dart
+├── appointments/              # Appointments feature module
+│   ├── presentation/
+│   │   └── ux/
+│   │       ├── pages/
+│   │       │   └── appointments_page.dart
+│   │       └── widgets/
+│   │           └── appointments_tile_widget.dart
 │   └── shared/
 │       └── constants/
 │           └── widget_constants.dart
@@ -347,24 +380,30 @@ lib/
 │   │       ├── pages/
 │   │       │   ├── lifecycle_page.dart
 │   │       │   ├── not_found_page.dart
+│   │       │   ├── section_page.dart        # Recap card + tile list, shared by expenses and appointments
 │   │       │   └── wrapper_page.dart
 │   │       └── widgets/
+│   │           ├── add_expenses_widget.dart  # Add-expense bottom sheet (keyboard-aware)
 │   │           ├── app_bar_title_widget.dart
-│   │           ├── badge_widget.dart          # Expense type badge (subscription / financing)
+│   │           ├── badge_widget.dart         # Expense type badge (subscription / financing)
 │   │           ├── bottom_bar_widget.dart
-│   │           ├── box_decoration_widget.dart
-│   │           ├── bullet_point_widget.dart
-│   │           ├── card_widget.dart           # Summary card with gradient + shadow
+│   │           ├── button_widget.dart        # Primary CTA button with responsive height
+│   │           ├── card_widget.dart          # Summary card with gradient + shadow
 │   │           ├── custom_text_scaling_widget.dart
 │   │           ├── date_textfield_widget.dart
 │   │           ├── empty_data_image_widget.dart
+│   │           ├── fab_widget.dart           # FAB that opens add-expense sheet
 │   │           ├── icon_container_widget.dart
-│   │           ├── image_widget.dart
+│   │           ├── leading_trailing_icon_widget.dart
 │   │           ├── list_tile_widget.dart
+│   │           ├── list_widget.dart          # Placeholder tile list (ViewModel wiring pending)
 │   │           ├── overlay_loading_widget.dart
+│   │           ├── recap_widget.dart         # Active-item count + monetary total row
+│   │           ├── selector_widget.dart      # Generic single-select chip row
 │   │           ├── shimmer_loading_widget.dart
 │   │           ├── switch_widget.dart
-│   │           └── textfield_widget.dart
+│   │           ├── textfield_widget.dart
+│   │           └── wrapper_tile_widget.dart  # Expense / appointment tile with edit + delete
 │   └── shared/
 │       ├── constants/
 │       │   ├── app_constants.dart
@@ -380,6 +419,7 @@ lib/
 │       └── utils/
 │           ├── enums.dart
 │           ├── extensions.dart
+│           ├── helpers_method.dart  # Form validators (name, amount, date)
 │           ├── loggers.dart
 │           └── methods.dart
 │
@@ -403,10 +443,34 @@ lib/
 │   │       ├── pages/
 │   │       │   └── home_page.dart
 │   │       └── widgets/
-│   │           ├── home_expense_list_widget.dart   # ListView of expense tiles
-│   │           ├── home_expense_tile_widget.dart   # Single expense list tile + subtitle
-│   │           ├── home_section_header_widget.dart # "In questa settimana" row
-│   │           └── home_summary_cards_widget.dart  # Weekly + monthly summary card row
+│   │           ├── home_section_header_widget.dart  # "In questa settimana" row
+│   │           └── home_summary_cards_widget.dart   # Weekly + monthly summary card row
+│   └── shared/
+│       └── constants/
+│           └── widget_constants.dart
+│
+├── expenses/
+│   ├── presentation/
+│   │   └── ux/
+│   │       ├── pages/
+│   │       │   ├── all_expenses_page.dart
+│   │       │   ├── expenses_home_page.dart   # Hub with subscription / financing / all tiles
+│   │       │   ├── financing_page.dart
+│   │       │   └── subscriptions_page.dart
+│   │       └── widgets/
+│   │           └── expenses_tile_widget.dart  # Monthly / yearly TabBar + SectionPage
+│   └── shared/
+│       └── constants/
+│           ├── expenses_constants.dart
+│           └── widget_constants.dart
+│
+├── appointments/
+│   ├── presentation/
+│   │   └── ux/
+│   │       ├── pages/
+│   │       │   └── appointments_page.dart
+│   │       └── widgets/
+│   │           └── appointments_tile_widget.dart
 │   └── shared/
 │       └── constants/
 │           └── widget_constants.dart

@@ -5,8 +5,7 @@ import 'package:maxi_pocket/core/presentation/ux/widgets/app_bar_title_widget.da
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart';
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
 import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
-import 'package:maxi_pocket/home/presentation/ux/widgets/home_expense_list_widget.dart'
-    show MaxiPocketHomeExpenseListWidget;
+import 'package:maxi_pocket/core/presentation/ux/widgets/list_widget.dart' show MaxiPocketListWidget;
 import 'package:maxi_pocket/home/presentation/ux/widgets/home_section_header_widget.dart'
     show MaxiPocketHomeSectionHeaderWidget;
 import 'package:maxi_pocket/home/presentation/ux/widgets/home_summary_cards_widget.dart'
@@ -32,6 +31,7 @@ class MaxiPocketHomePage extends ConsumerWidget {
         subtitle: HomeWidgetConstants.homePageSubtitle,
         themeMode: themeMode,
       ),
+      showFloatingActionButton: true,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: DesignConstants.spacing16, vertical: DesignConstants.spacing24),
         child: Column(
@@ -42,7 +42,7 @@ class MaxiPocketHomePage extends ConsumerWidget {
             const SizedBox(height: DesignConstants.spacing24),
             const MaxiPocketHomeSectionHeaderWidget(),
             const SizedBox(height: DesignConstants.spacing12),
-            Expanded(child: MaxiPocketHomeExpenseListWidget(themeMode: themeMode)),
+            Expanded(child: MaxiPocketListWidget(themeMode: themeMode)),
           ],
         ),
       ),

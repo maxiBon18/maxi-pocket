@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart' show WidgetBuilder, BuildContext;
+import 'package:maxi_pocket/appointments/presentation/ux/pages/appointments_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/pages/not_found_page.dart';
+import 'package:maxi_pocket/expenses/presentation/ux/pages/all_expenses_page.dart';
+import 'package:maxi_pocket/expenses/presentation/ux/pages/expenses_home_page.dart';
+import 'package:maxi_pocket/expenses/presentation/ux/pages/financing_page.dart';
+import 'package:maxi_pocket/expenses/presentation/ux/pages/subscriptions_page.dart';
 import 'package:maxi_pocket/home/presentation/ux/pages/home_page.dart';
 import 'package:maxi_pocket/settings/presentation/ux/pages/notifications_page.dart';
 import 'package:maxi_pocket/settings/presentation/ux/pages/settings_page.dart';
@@ -27,6 +32,11 @@ class Routes {
     settingsRoute: (BuildContext context) => const MaxiPocketSettingsPage(),
     themeRoute: (BuildContext context) => const MaxiPocketThemePage(),
     notificationsSettingsRoute: (BuildContext context) => const MaxiPocketNotificationsPage(),
+    expensesRoute: (BuildContext context) => const MaxiPocketExpensesHomePage(),
+    expensesSubscriptionsRoute: (BuildContext context) => const MaxiPocketSubscriptionsPage(),
+    expensesFinancingRoute: (BuildContext context) => const MaxiPocketFinancingPage(),
+    expensesAllRoute: (BuildContext context) => const MaxiPocketAllExpensesPage(),
+    appointmentsRoute: (BuildContext context) => const MaxiPocketAppointmentsPage(),
   };
 
   static const String initialRoute = '/';
@@ -35,6 +45,7 @@ class Routes {
   static const String expensesRoute = '/expenses';
   static const String expensesSubscriptionsRoute = '/subscriptions';
   static const String expensesFinancingRoute = '/financing';
+  static const String appointmentsRoute = '/appointments';
   static const String expensesAllRoute = '/all';
   static const String settingsRoute = '/settings';
   static const String themeRoute = '/theme';

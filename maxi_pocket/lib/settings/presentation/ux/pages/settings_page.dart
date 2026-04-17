@@ -7,6 +7,7 @@ import 'package:maxi_pocket/core/presentation/ux/widgets/app_bar_title_widget.da
 import 'package:maxi_pocket/core/presentation/ux/widgets/icon_container_widget.dart' show MaxiPocketIconContainerWidget;
 import 'package:maxi_pocket/core/presentation/ux/widgets/list_tile_widget.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/overlay_loading_widget.dart' show MaxiPocketLoadingWidget;
+import 'package:maxi_pocket/core/presentation/ux/widgets/leading_trailing_icon_widget.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart' show themeProvider;
 import 'package:maxi_pocket/core/shared/constants/app_constants.dart';
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
@@ -70,18 +71,10 @@ class _SettingsListTilesWidget extends StatelessWidget {
     final Color colorBackgroundChangeTheme = themeMode == MaxiPocketThemeMode.light
         ? ThemeDarkColors.changeThemeIconColor.withValues(alpha: DesignConstants.alpha10)
         : ThemeDarkColors.listTileBorderColor;
-    final Color colorIconTrailing = themeMode == MaxiPocketThemeMode.light
-        ? ThemeLightColors.onSurfaceVariantColor
-        : ThemeDarkColors.tertiaryColor;
+
     final TextStyle textStyleSubtitle = themeMode == MaxiPocketThemeMode.light
         ? ThemeTextStyles.appLightTextTheme.titleSmall!.copyWith(color: ThemeLightColors.textSecondaryColor)
         : ThemeTextStyles.appDarkTextTheme.titleSmall!.copyWith(color: ThemeDarkColors.textSecondaryColor);
-    final Widget trailingWidget = Icon(
-      Icons.arrow_forward_ios_outlined,
-      color: colorIconTrailing,
-      size: DesignConstants.icon24,
-      applyTextScaling: false,
-    );
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -110,7 +103,7 @@ class _SettingsListTilesWidget extends StatelessWidget {
               applyTextScaling: false,
             ),
           ),
-          trailing: trailingWidget,
+          trailing: MaxiPocketLeadingTrailingIconWidget(themeMode: themeMode, icon: Icons.arrow_forward_ios_outlined),
           onTap: () => Navigator.pushNamed(context, Routes.notificationsSettingsRoute),
           themeMode: themeMode,
         ),
@@ -139,7 +132,7 @@ class _SettingsListTilesWidget extends StatelessWidget {
               applyTextScaling: false,
             ),
           ),
-          trailing: trailingWidget,
+          trailing: MaxiPocketLeadingTrailingIconWidget(themeMode: themeMode, icon: Icons.arrow_forward_ios_outlined),
           onTap: () => Navigator.pushNamed(context, Routes.themeRoute),
           themeMode: themeMode,
         ),
