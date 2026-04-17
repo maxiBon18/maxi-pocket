@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors, ThemeTextStyles;
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
 import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
@@ -91,14 +91,7 @@ class _SummaryCardContent extends StatelessWidget {
         children: [
           _SummaryCardHeader(iconData: iconData, label: label),
           const SizedBox(height: DesignConstants.spacing8),
-          Text(
-            amount,
-            style: context.textTheme.headlineLarge?.copyWith(
-              color: ThemeDarkColors.backgroundColor,
-              fontWeight: FontWeight.w700,
-              fontSize: DesignConstants.textSize24,
-            ),
-          ),
+          Text(amount, style: ThemeTextStyles.monetaryAmountLight.copyWith(color: ThemeDarkColors.backgroundColor)),
           const SizedBox(height: DesignConstants.spacing4),
           Text(subtitle, style: context.textTheme.bodySmall?.copyWith(color: ThemeDarkColors.backgroundColor)),
         ],

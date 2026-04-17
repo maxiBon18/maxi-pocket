@@ -15,13 +15,31 @@ class MaxiPocketBadgeWidget extends StatelessWidget {
   final String label;
   final MaxiPocketExpensesType expensesType;
 
-  Color _getBackgroundColor() => expensesType == MaxiPocketExpensesType.subscription
-      ? ThemeLightColors.primaryLightColor
-      : ThemeLightColors.badgeFinancingBackgroundColor;
+  Color _getBackgroundColor() {
+    switch (expensesType) {
+      case MaxiPocketExpensesType.subscription:
+        return ThemeLightColors.primaryLightColor;
+      case MaxiPocketExpensesType.financing:
+        return ThemeLightColors.badgeFinancingBackgroundColor;
+      case MaxiPocketExpensesType.appointments:
+        return ThemeLightColors.appointmentsBadgeBackgroundColor;
+      default:
+        return ThemeLightColors.primaryLightColor;
+    }
+  }
 
-  Color _getTextColor() => expensesType == MaxiPocketExpensesType.subscription
-      ? ThemeLightColors.errorColor
-      : ThemeLightColors.secondaryDarkColor;
+  Color _getTextColor() {
+    switch (expensesType) {
+      case MaxiPocketExpensesType.subscription:
+        return ThemeLightColors.errorColor;
+      case MaxiPocketExpensesType.financing:
+        return ThemeLightColors.secondaryDarkColor;
+      case MaxiPocketExpensesType.appointments:
+        return ThemeLightColors.textPrimaryColor;
+      default:
+        return ThemeLightColors.errorColor;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

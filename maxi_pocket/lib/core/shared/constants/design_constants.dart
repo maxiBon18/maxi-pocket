@@ -10,6 +10,10 @@ class DesignConstants {
   static const double appHeightByDesign = 853;
   static const double appWidthByDesign = 448;
 
+  /// Elevation
+  static const double elevation0 = 0.0;
+  static const double elevation5 = 5.0;
+
   /// Text Size
   static const double textSize12 = 12.0;
   static const double textSize14 = 14.0;
@@ -113,4 +117,11 @@ class DesignConstants {
 
   /// Empty Data
   static const double emptyDataImageSize = 170.0;
+
+  /// Modal
+  static const double modalHeight = 550.0;
+
+  /// Button
+  static const double minButtonHeight = 48.0;
+  static const double buttonHeight = 56.0;
 }

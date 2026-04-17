@@ -55,6 +55,18 @@ class ThemeLightColors {
 
   /// Badge Colors
   static const Color badgeFinancingBackgroundColor = Color(0xFFD6EFE0);
+
+  /// Expenses Colors
+  static const Color expensesSubscriptionIconBackgroundColor = Color(0xFFFFF0F3);
+  static const Color expensesFinancingIconBackgroundColor = Color(0xFFF0F8F4);
+  static const Color expensesAllIconBackgroundColor = Color(0xFFF7F3F8);
+  static const Color expensesSubscriptionIconColor = Color(0xFFFFB3C1);
+  static const Color expensesFinancingIconColor = Color(0xFFA8D5BA);
+  static const Color expensesAllIconColor = Color(0xFFC9B1D0);
+
+  /// Appointments Colors
+  static const Color appointmentsBulletPointColor = Color(0xFFFFD6A5);
+  static const Color appointmentsBadgeBackgroundColor = Color(0xFFD7A567);
 }
 
 /// Color tokens for the dark theme.
@@ -66,6 +78,7 @@ class ThemeDarkColors {
 
   static const Color primaryColor = Color(0xFFFFB3C1); // Main CTA buttons, FAB, active nav icons
   static const Color primaryDarkColor = Color(0xFFE0899B); // Pressed states, active indicators
+  static const Color primarySurfaceColor = Color(0xFF3D2030); // Selected chip/card backgrounds (dark mode)
   static const Color secondaryColor = Color(0xFFA8D5BA); // Income indicators, positive trends, success
   static const Color secondaryDarkColor = Color(0xFF7BB894); // Positive amount text
   static const Color tertiaryColor = Color(0xFFC9B1D0); // Categories, chart segments, tags
@@ -94,6 +107,18 @@ class ThemeDarkColors {
   /// List Tile Colors
   static const Color listTileBorderColor = Color(0xFF3D3438);
   static const Color changeThemeIconColor = Color(0xFFC9B1D0);
+
+  /// Expenses Colors
+  static const Color expensesSubscriptionIconBackgroundColor = Color(0xFF3D2830);
+  static const Color expensesFinancingIconBackgroundColor = Color(0xFF2A3832);
+  static const Color expensesAllIconBackgroundColor = Color(0xFF352E38);
+  static const Color expensesSubscriptionIconColor = Color(0xFFFFB3C1);
+  static const Color expensesFinancingIconColor = Color(0xFFA8D5BA);
+  static const Color expensesAllIconColor = Color(0xFFC9B1D0);
+
+  /// Appointments Colors
+  static const Color appointmentsBulletPointColor = Color(0xFFFFD6A5);
+  static const Color appointmentsBadgeBackgroundColor = Color(0xFFD7A567);
 }
 
 /// Pre-built [TextTheme]s and custom monetary [TextStyle]s for light and dark modes.
@@ -376,9 +401,9 @@ class ThemeTextStyles {
 
   /// Monospaced style for monetary amounts and financial data.
   static final TextStyle monetaryAmountLight = GoogleFonts.jetBrainsMono(
-    fontWeight: FontWeight.w600,
-    fontSize: 20,
-    height: 28 / 20,
+    fontWeight: FontWeight.w700,
+    fontSize: 24,
+    height: 28 / 24,
     letterSpacing: 0,
     color: ThemeLightColors.textSecondaryColor,
     fontFeatures: const <FontFeature>[
@@ -388,9 +413,9 @@ class ThemeTextStyles {
 
   /// Smaller monetary amount variant for inline / list-item use (14sp).
   static final TextStyle monetaryAmountSmallLight = GoogleFonts.jetBrainsMono(
-    fontWeight: FontWeight.w600,
-    fontSize: 14,
-    height: 20 / 14,
+    fontWeight: FontWeight.w700,
+    fontSize: 18,
+    height: 24 / 18,
     letterSpacing: 0,
     color: ThemeLightColors.textSecondaryColor,
     fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
@@ -518,7 +543,7 @@ final ThemeData lightAppTheme = ThemeData(
       ),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(4.0),
+      borderRadius: BorderRadius.circular(16.0),
       borderSide: const BorderSide(
         color: ThemeLightColors.surfaceVariantColor,
         width: 1.5,
@@ -612,6 +637,11 @@ final ThemeData darkAppTheme = ThemeData(
     filled: true,
     alignLabelWithHint: true,
     isDense: true,
+    outlineBorder: const BorderSide(
+      color: ThemeDarkColors.surfaceVariantColor,
+      width: 1,
+      strokeAlign: BorderSide.strokeAlignOutside,
+    ),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(16.0),
       borderSide: const BorderSide(
@@ -645,7 +675,7 @@ final ThemeData darkAppTheme = ThemeData(
       ),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(4.0),
+      borderRadius: BorderRadius.circular(16.0),
       borderSide: const BorderSide(
         color: ThemeDarkColors.surfaceVariantColor,
         width: 1.5,

@@ -19,7 +19,7 @@ class MaxiPocketCustomTextScaling extends StatelessWidget {
     final MediaQueryData modifiedMediaQueryData = blockText
         ? mediaQueryData.copyWith(textScaler: TextScaler.noScaling)
         : mediaQueryData.copyWith(
-            textScaler: mediaQueryData.textScaler.clamp(minScaleFactor: 1.0, maxScaleFactor: maxTextScalerValue),
+            textScaler: mediaQueryData.textScaler.clamp(maxScaleFactor: maxTextScalerValue),
           );
     return MediaQuery(data: modifiedMediaQueryData, child: child);
   }

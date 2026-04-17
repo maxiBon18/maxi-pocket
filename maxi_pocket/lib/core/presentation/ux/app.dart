@@ -2,6 +2,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/core/presentation/ux/routing_service.dart';
 import 'package:maxi_pocket/core/presentation/theme/theme.dart' show darkAppTheme, lightAppTheme;
@@ -43,6 +44,12 @@ class _MaxiPocketAppConsumerState extends ConsumerState<MaxiPocketApp> {
       debugShowMaterialGrid: false,
       showSemanticsDebugger: false,
       locale: AppConstants.appLocale,
+      localizationsDelegates: const <LocalizationsDelegate<Object>>[
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const <Locale>[AppConstants.appLocale],
       navigatorObservers: <NavigatorObserver>[_routingService.navigatorObserver, _routingService.routeObserver],
       onGenerateRoute: (RouteSettings routeSettings) => _routingService.onGenerateRoute(routeSettings),
       onUnknownRoute: (RouteSettings routeSettings) => _routingService.onUnknownRoute(routeSettings),
