@@ -14,16 +14,15 @@ Every README **must** include these sections in order:
 | 2   | **Screenshots / Demo**          | 2–4 screenshots or animated GIF. Markdown table with `Android` / `iOS` column headers. Placeholder with `<!-- TODO -->` if unavailable.                             |
 | 3   | **Features**                    | Bullet list of user-facing features. Group by module if >10 items. `- [x]` for implemented, `- [ ]` for planned.                                                    |
 | 4   | **Tech Stack**                  | Table: **Category** → **Technology** → **Version**. Categories: Framework, Language, State Management, Database, CI/CD, Design System.                              |
-| 5   | **Architecture**                | Name the pattern (e.g., *Clean Architecture + MVVM, feature-first*). ASCII or Mermaid folder tree. Brief layer descriptions. Link to ADRs if they exist.            |
+| 5   | **Architecture**                | Name the pattern (e.g., *Clean Architecture + MVVM, feature-first*).                                                                                                |
 | 6   | **Getting Started**             | Numbered steps: (1) Install FVM, (2) `fvm install`, (3) `fvm flutter pub get`, (4) Firebase setup, (5) `fvm flutter run`. List prerequisites with minimum versions. |
 | 7   | **Configuration / Environment** | Environment setup (dev / staging / prod). Location of `.env` or Firebase config files. State what is `.gitignore`-d.                                                |
-| 8   | **Project Structure**           | Full annotated folder tree of `/lib` showing feature-first layout with `data/`, `domain/`, `presentation/`, and `shared/` layers per feature, plus `core/`.         |
-| 9   | **State Management**            | Riverpod usage: provider scoping, `AsyncValue` pattern, `Notifier` pattern. Link to `.claude/rules/viewmodel-rules.md`.                                             |
-| 10  | **Dependencies**                | Table: **Package** → **Purpose** → **Version**. Direct dependencies only. Exclude transitive/dev unless architecturally significant.                                |
-| 11  | **Scripts & Commands**          | Table of common commands. All commands prefixed with `fvm`.                                                                                                         |
-| 12  | **Testing**                     | Test strategy (unit, widget, integration). How to run: `fvm flutter test`. Test folder structure mirroring `/lib`.                                                  |
-| 13  | **Contributing**                | Branch naming, commit message format (Conventional Commits), PR process, link to `.claude/rules/code-review.md`.                                                    |
-| 14  | **License**                     | License type and link to `LICENSE` file.                                                                                                                            |
+| 8   | **State Management**            | Riverpod usage: provider scoping, `AsyncValue` pattern, `Notifier` pattern. Link to `.claude/rules/viewmodel-rules.md`.                                             |
+| 9   | **Dependencies**                | Table: **Package** → **Purpose** → **Version**. Direct dependencies only. Exclude transitive/dev unless architecturally significant.                                |
+| 10  | **Scripts & Commands**          | Table of common commands. All commands prefixed with `fvm`.                                                                                                         |
+| 11  | **Testing**                     | Test strategy (unit, widget, integration). How to run: `fvm flutter test`. Test folder structure mirroring `/lib`.                                                  |
+| 12  | **Contributing**                | Branch naming, commit message format (Conventional Commits), PR process, link to `.claude/rules/code-review.md`.                                                    |
+| 13  | **License**                     | License type and link to `LICENSE` file.                                                                                                                            |
 
 ## Optional Sections
 

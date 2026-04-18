@@ -39,6 +39,8 @@ class ThemeLightColors {
   static const Color textOnPrimaryColor = Color(0xFF2B2024);
   static const Color textOnSurfaceColor = Color(0xFF2B2024);
   static const Color textInverseColor = Color(0xFFF5F0EB);
+  static const Color textAnnualColor = Color(0xFFF59E0B);
+  static const Color textMonthlyColor = Color(0xFF3B82F6);
 
   /// Navigation Bottom Bar Colors
   static const Color bottomNavigationBarTopBorderColor = Color(0xFFF0E6EB);
@@ -63,6 +65,8 @@ class ThemeLightColors {
   static const Color expensesSubscriptionIconColor = Color(0xFFFFB3C1);
   static const Color expensesFinancingIconColor = Color(0xFFA8D5BA);
   static const Color expensesAllIconColor = Color(0xFFC9B1D0);
+  static const Color expensesAnnualColor = Color(0xFFFFF4E8);
+  static const Color expensesMonthlyColor = Color(0xFFE8F4FF);
 
   /// Appointments Colors
   static const Color appointmentsBulletPointColor = Color(0xFFFFD6A5);
@@ -98,6 +102,8 @@ class ThemeDarkColors {
   static const Color textOnPrimaryColor = Color(0xFF2B2024);
   static const Color textOnSurfaceColor = Color(0xFFF5F0EB);
   static const Color textInverseColor = Color(0xFF2B2024);
+  static const Color textAnnualColor = Color(0xFFF59E0B);
+  static const Color textMonthlyColor = Color(0xFF3B82F6);
 
   /// Navigation Bottom Bar Colors
   static const Color bottomNavigationBarBackgroundColor = Color(0xFF1A1216);
@@ -115,6 +121,8 @@ class ThemeDarkColors {
   static const Color expensesSubscriptionIconColor = Color(0xFFFFB3C1);
   static const Color expensesFinancingIconColor = Color(0xFFA8D5BA);
   static const Color expensesAllIconColor = Color(0xFFC9B1D0);
+  static const Color expensesAnnualColor = Color(0xFF38342E);
+  static const Color expensesMonthlyColor = Color(0xFF2E3438);
 
   /// Appointments Colors
   static const Color appointmentsBulletPointColor = Color(0xFFFFD6A5);

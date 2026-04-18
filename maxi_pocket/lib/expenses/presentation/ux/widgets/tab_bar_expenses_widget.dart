@@ -11,16 +11,16 @@ import 'package:maxi_pocket/expenses/shared/constants/widget_constants.dart';
 ///
 /// Uses a [TabController] to host two [MaxiPocketSectionPage] instances.
 /// [themeMode] is forwarded to all child widgets for consistent color adaptation.
-class MaxiPocketExpensesTileWidget extends StatefulWidget {
-  const MaxiPocketExpensesTileWidget({super.key, required this.themeMode});
+class MaxiPocketTabBarExpensesWidget extends StatefulWidget {
+  const MaxiPocketTabBarExpensesWidget({super.key, required this.themeMode});
 
   final MaxiPocketThemeMode themeMode;
 
   @override
-  State<MaxiPocketExpensesTileWidget> createState() => _MaxiPocketExpensesTileWidgetState();
+  State<MaxiPocketTabBarExpensesWidget> createState() => _MaxiPocketTabBarExpensesWidgetState();
 }
 
-class _MaxiPocketExpensesTileWidgetState extends State<MaxiPocketExpensesTileWidget>
+class _MaxiPocketTabBarExpensesWidgetState extends State<MaxiPocketTabBarExpensesWidget>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   @override
@@ -35,6 +35,7 @@ class _MaxiPocketExpensesTileWidgetState extends State<MaxiPocketExpensesTileWid
     super.dispose();
   }
 
+  /// Builds tab labels with [numberOfExpenses] appended in parentheses.
   List<Tab> _getTabs(String numberOfExpenses) => [
     Tab(text: '${ExpensesWidgetConstants.monthlyExpenses} ($numberOfExpenses)'),
     Tab(text: '${ExpensesWidgetConstants.yearlyExpenses} ($numberOfExpenses)'),
@@ -52,26 +53,28 @@ class _MaxiPocketExpensesTileWidgetState extends State<MaxiPocketExpensesTileWid
                 ? ThemeLightColors.primaryColor
                 : ThemeDarkColors.primaryColor,
             tabAlignment: TabAlignment.fill,
-            labelStyle: (widget.themeMode == MaxiPocketThemeMode.light
-                    ? ThemeTextStyles.appLightTextTheme
-                    : ThemeTextStyles.appDarkTextTheme)
-                .bodyLarge
-                ?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: widget.themeMode == MaxiPocketThemeMode.light
-                      ? ThemeLightColors.primaryColor
-                      : ThemeDarkColors.primaryColor,
-                ),
-            unselectedLabelStyle: (widget.themeMode == MaxiPocketThemeMode.light
-                    ? ThemeTextStyles.appLightTextTheme
-                    : ThemeTextStyles.appDarkTextTheme)
-                .bodyLarge
-                ?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: widget.themeMode == MaxiPocketThemeMode.light
-                      ? ThemeLightColors.textSecondaryColor
-                      : ThemeDarkColors.textSecondaryColor,
-                ),
+            labelStyle:
+                (widget.themeMode == MaxiPocketThemeMode.light
+                        ? ThemeTextStyles.appLightTextTheme
+                        : ThemeTextStyles.appDarkTextTheme)
+                    .bodyLarge
+                    ?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: widget.themeMode == MaxiPocketThemeMode.light
+                          ? ThemeLightColors.primaryColor
+                          : ThemeDarkColors.primaryColor,
+                    ),
+            unselectedLabelStyle:
+                (widget.themeMode == MaxiPocketThemeMode.light
+                        ? ThemeTextStyles.appLightTextTheme
+                        : ThemeTextStyles.appDarkTextTheme)
+                    .bodyLarge
+                    ?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: widget.themeMode == MaxiPocketThemeMode.light
+                          ? ThemeLightColors.textSecondaryColor
+                          : ThemeDarkColors.textSecondaryColor,
+                    ),
           ),
           Expanded(
             child: TabBarView(

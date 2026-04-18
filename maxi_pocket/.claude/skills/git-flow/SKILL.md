@@ -28,7 +28,7 @@ Scope: feature or module name (e.g., `registration`, `auth`, `core`).
 
 ### Step 1 — Stage files
 
-- Run `git add .` from the project root.
+- Run `git add .` from the project root **ONLY FOR maxi_pocket git**.
 
 ### Step 2 — Analyze changes
 

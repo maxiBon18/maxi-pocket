@@ -9,4 +9,4 @@ enum MaxiPocketThemeMode { light, dark }
 
 enum MaxiPocketExpensesType { subscription, financing, appointments, all }
 
-enum MaxiPocketExpensesFrequency { weekly, monthly }
+enum MaxiPocketExpensesFrequency { annual, monthly }
