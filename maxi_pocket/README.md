@@ -13,28 +13,48 @@ Flutter mobile app for managing fixed expenses, such as subscriptions and financ
 
 ## Table of Contents
 
-1. [Description](#description)
-2. [Screenshots / Demo](#screenshots--demo)
-3. [Features](#features)
-4. [Tech Stack](#tech-stack)
-5. [Architecture](#architecture)
-6. [Getting Started](#getting-started)
-7. [Configuration / Environment](#configuration--environment)
-8. [Project Structure](#project-structure)
-9. [State Management](#state-management)
-10. [Dependencies](#dependencies)
-11. [Scripts & Commands](#scripts--commands)
-12. [Testing](#testing)
-13. [Contributing](#contributing)
-14. [Changelog](#changelog)
-15. [License](#license)
+- [MaxiPocket](#maxipocket)
+  - [Description](#description)
+  - [Table of Contents](#table-of-contents)
+  - [Screenshots / Demo](#screenshots--demo)
+  - [Features](#features)
+    - [Expense Management](#expense-management)
+    - [Appointments](#appointments)
+    - [Settings](#settings)
+    - [App](#app)
+  - [Tech Stack](#tech-stack)
+  - [Architecture](#architecture)
+    - [Layer Responsibilities](#layer-responsibilities)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Setup](#setup)
+  - [Configuration / Environment](#configuration--environment)
+    - [Firebase](#firebase)
+    - [App icons](#app-icons)
+    - [Shared preferences cache allow-list](#shared-preferences-cache-allow-list)
+    - [Gitignored Files](#gitignored-files)
+  - [State Management](#state-management)
+    - [Key patterns](#key-patterns)
+    - [Theme mode](#theme-mode)
+    - [Local persistence](#local-persistence)
+  - [Dependencies](#dependencies)
+  - [Scripts \& Commands](#scripts--commands)
+  - [Testing](#testing)
+    - [Strategy](#strategy)
+    - [Running Tests](#running-tests)
+  - [Contributing](#contributing)
+    - [Branch Naming](#branch-naming)
+    - [Commit Messages](#commit-messages)
+    - [Pull Request Process](#pull-request-process)
+  - [Changelog](#changelog)
+  - [License](#license)
 
 ---
 
 ## Screenshots / Demo
 
-| Android | iOS |
-|---------|-----|
+| Android                                                        | iOS                                                        |
+| -------------------------------------------------------------- | ---------------------------------------------------------- |
 | <!-- TODO: Add Android screenshot after first UI milestone --> | <!-- TODO: Add iOS screenshot after first UI milestone --> |
 
 ---
@@ -81,18 +101,18 @@ Flutter mobile app for managing fixed expenses, such as subscriptions and financ
 
 ## Tech Stack
 
-| Category | Technology | Version |
-|---|---|---|
-| Framework | Flutter | 3.41.6 |
-| Language | Dart | ≥ 3.11.4 |
-| State Management | Riverpod | 3.2.1 |
-| Dependency Injection | GetIt | 9.2.1 |
-| Local storage | shared_preferences | 2.5.5 |
-| Code Generation | Freezed + json_serializable | 3.2.5 / 6.13.1 |
-| Design System | Material Design 3 + Google Fonts | — |
-| Vector assets | flutter_svg | 2.2.4 |
-| Linting | flutter_lints | 6.0.0 |
-| Version Manager | FVM | latest |
+| Category             | Technology                       | Version        |
+| -------------------- | -------------------------------- | -------------- |
+| Framework            | Flutter                          | 3.41.6         |
+| Language             | Dart                             | ≥ 3.11.4       |
+| State Management     | Riverpod                         | 3.2.1          |
+| Dependency Injection | GetIt                            | 9.2.1          |
+| Local storage        | shared_preferences               | 2.5.5          |
+| Code Generation      | Freezed + json_serializable      | 3.2.5 / 6.13.1 |
+| Design System        | Material Design 3 + Google Fonts | —              |
+| Vector assets        | flutter_svg                      | 2.2.4          |
+| Linting              | flutter_lints                    | 6.0.0          |
+| Version Manager      | FVM                              | latest         |
 
 **Supported Platforms:**
 
@@ -119,155 +139,16 @@ Dependency direction is strictly inward: `presentation → domain ← data`. Dom
 
 **Shared inputs:** `MaxiPocketTextFormFieldWidget` (`textfield_widget.dart`) provides themed text/password fields with optional on-change vs on-focus-loss validation. `MaxiPocketDateTextField` (`date_textfield_widget.dart`) is a read-only date field that opens `showDatePicker`, uses `intl` date formatting, and takes `themeMode` for colours.
 
-```
-lib/
-├── main.dart                  # Entry point — DI bootstrap, orientation lock, ProviderScope
-├── routes.dart                # Route names + builder map (features referenced here, not from core)
-├── core/                      # Cross-feature infrastructure and shared UI
-│   ├── data/
-│   │   ├── repo/
-│   │   │   ├── app_info_repo_impl.dart
-│   │   │   ├── shared_pref_repo_impl.dart
-│   │   │   └── source/
-│   │   │       ├── dto/
-│   │   │       │   └── app_info_dto.dart (+freezed/.g.dart)
-│   │   │       ├── app_info_source.dart
-│   │   │       └── shared_pref_source.dart
-│   │   └── source/
-│   │       ├── app_info_source_impl.dart
-│   │       └── shared_pref_source_impl.dart
-│   ├── domain/
-│   │   ├── entities/
-│   │   │   ├── app_info.dart
-│   │   │   └── loading.dart
-│   │   └── services/
-│   │       ├── app_info_service.dart
-│   │       ├── shared_pref_service.dart
-│   │       └── repo/
-│   │           ├── app_info_repo.dart
-│   │           └── shared_pref_repo.dart
-│   ├── presentation/
-│   │   ├── theme/
-│   │   │   └── theme.dart
-│   │   ├── viewmodel/
-│   │   │   ├── bottom_bar_viewmodel.dart
-│   │   │   ├── loading_viewmodel.dart
-│   │   │   └── theme_viewmodel.dart
-│   │   └── ux/
-│   │       ├── app.dart
-│   │       ├── routing_service.dart
-│   │       ├── pages/
-│   │       │   ├── lifecycle_page.dart
-│   │       │   ├── not_found_page.dart
-│   │       │   ├── section_page.dart
-│   │       │   └── wrapper_page.dart
-│   │       └── widgets/
-│   │           ├── add_expenses_widget.dart
-│   │           ├── app_bar_title_widget.dart
-│   │           ├── badge_widget.dart
-│   │           ├── bottom_bar_widget.dart
-│   │           ├── button_widget.dart
-│   │           ├── card_widget.dart
-│   │           ├── custom_text_scaling_widget.dart
-│   │           ├── date_textfield_widget.dart
-│   │           ├── empty_data_image_widget.dart
-│   │           ├── fab_widget.dart
-│   │           ├── icon_container_widget.dart
-│   │           ├── leading_trailing_icon_widget.dart
-│   │           ├── list_tile_widget.dart
-│   │           ├── list_widget.dart
-│   │           ├── recap_widget.dart
-│   │           ├── selector_widget.dart
-│   │           ├── shimmer_loading_widget.dart
-│   │           ├── switch_widget.dart
-│   │           ├── textfield_widget.dart
-│   │           └── wrapper_tile_widget.dart
-│   └── shared/
-│       ├── constants/
-│       │   ├── app_constants.dart
-│       │   ├── assets_constants.dart
-│       │   ├── cache_constants.dart
-│       │   ├── design_constants.dart
-│       │   └── widget_constants.dart
-│       ├── controllers/
-│       │   ├── custom_navigator_observer.dart
-│       │   └── di.dart
-│       └── utils/
-│           ├── enums.dart
-│           ├── extensions.dart
-│           ├── helpers_method.dart
-│           ├── loggers.dart
-│           └── methods.dart
-├── splashscreen/              # Splash feature
-│   ├── presentation/ux/pages/
-│   │   └── splash_page.dart
-│   └── shared/
-│       ├── constants/
-│       │   ├── assets_constants.dart
-│       │   └── design_constants.dart
-│       └── utils/
-│           └── time_utils.dart
-├── home/                      # Home feature module
-│   ├── data/ …                # Layer folders scaffolded for future use
-│   ├── domain/ …
-│   ├── presentation/
-│   │   └── ux/
-│   │       ├── pages/
-│   │       │   └── home_page.dart
-│   │       └── widgets/
-│   │           ├── home_section_header_widget.dart
-│   │           └── home_summary_cards_widget.dart
-│   └── shared/
-│       └── constants/
-│           └── widget_constants.dart
-├── expenses/                  # Expenses feature module
-│   ├── presentation/
-│   │   └── ux/
-│   │       ├── pages/
-│   │       │   ├── all_expenses_page.dart
-│   │       │   ├── expenses_home_page.dart
-│   │       │   ├── financing_page.dart
-│   │       │   └── subscriptions_page.dart
-│   │       └── widgets/
-│   │           └── expenses_tile_widget.dart
-│   └── shared/
-│       └── constants/
-│           ├── expenses_constants.dart
-│           └── widget_constants.dart
-├── appointments/              # Appointments feature module
-│   ├── presentation/
-│   │   └── ux/
-│   │       ├── pages/
-│   │       │   └── appointments_page.dart
-│   │       └── widgets/
-│   │           └── appointments_tile_widget.dart
-│   └── shared/
-│       └── constants/
-│           └── widget_constants.dart
-└── settings/                  # Settings feature module
-    ├── data/ …                # Layer folders scaffolded for future use
-    ├── domain/ …
-    ├── presentation/
-    │   ├── ux/pages/
-    │   │   ├── notifications_page.dart
-    │   │   ├── settings_page.dart
-    │   │   └── theme_page.dart
-    │   └── viewmodel/
-    │       └── settings_viewmodel.dart
-    └── shared/
-        └── constants/
-            └── widget_constants.dart
-```
 
 ### Layer Responsibilities
 
-| Layer | Responsibility |
-|---|---|
-| `data/` | Repository implementations, data-source implementations, DTOs |
-| `domain/` | Entities, repository interfaces, use cases / services |
-| `presentation/` | ViewModels (MVVM), pages, widgets |
-| `shared/` | Constants, utilities, mixins, and exceptions shared between layers |
-| `core/` | Cross-feature infrastructure, shared widgets, and theme |
+| Layer           | Responsibility                                                     |
+| --------------- | ------------------------------------------------------------------ |
+| `data/`         | Repository implementations, data-source implementations, DTOs      |
+| `domain/`       | Entities, repository interfaces, use cases / services              |
+| `presentation/` | ViewModels (MVVM), pages, widgets                                  |
+| `shared/`       | Constants, utilities, mixins, and exceptions shared between layers |
+| `core/`         | Cross-feature infrastructure, shared widgets, and theme            |
 
 ---
 
@@ -275,13 +156,13 @@ lib/
 
 ### Prerequisites
 
-| Tool | Minimum Version | Install |
-|---|---|---|
-| FVM | latest | `dart pub global activate fvm` |
-| Flutter (via FVM) | 3.41.6 | `fvm install` |
-| Android SDK | 36.1.0 | Android Studio |
-| Xcode | 26.4 | Mac App Store |
-| CocoaPods | latest | `sudo gem install cocoapods` |
+| Tool              | Minimum Version | Install                        |
+| ----------------- | --------------- | ------------------------------ |
+| FVM               | latest          | `dart pub global activate fvm` |
+| Flutter (via FVM) | 3.41.6          | `fvm install`                  |
+| Android SDK       | 36.1.0          | Android Studio                 |
+| Xcode             | 26.4            | Mac App Store                  |
+| CocoaPods         | latest          | `sudo gem install cocoapods`   |
 
 ### Setup
 
@@ -334,186 +215,20 @@ The following are excluded from version control:
 
 ---
 
-## Project Structure
-
-<details>
-<summary>Full annotated <code>/lib</code> tree</summary>
-
-```
-lib/
-├── main.dart
-├── routes.dart                    # Routes + WidgetBuilder map; initial = splash → home
-│
-├── core/
-│   ├── data/
-│   │   ├── repo/
-│   │   │   ├── app_info_repo_impl.dart
-│   │   │   ├── shared_pref_repo_impl.dart
-│   │   │   └── source/
-│   │   │       ├── dto/
-│   │   │       │   └── app_info_dto.dart (+freezed/.g.dart)
-│   │   │       ├── app_info_source.dart
-│   │   │       └── shared_pref_source.dart
-│   │   └── source/
-│   │       ├── app_info_source_impl.dart
-│   │       └── shared_pref_source_impl.dart
-│   ├── domain/
-│   │   ├── entities/
-│   │   │   ├── app_info.dart
-│   │   │   └── loading.dart
-│   │   └── services/
-│   │       ├── app_info_service.dart
-│   │       ├── shared_pref_service.dart
-│   │       └── repo/
-│   │           ├── app_info_repo.dart
-│   │           └── shared_pref_repo.dart
-│   ├── presentation/
-│   │   ├── theme/
-│   │   │   └── theme.dart
-│   │   ├── viewmodel/
-│   │   │   ├── bottom_bar_viewmodel.dart
-│   │   │   ├── loading_viewmodel.dart
-│   │   │   └── theme_viewmodel.dart
-│   │   └── ux/
-│   │       ├── app.dart
-│   │       ├── routing_service.dart
-│   │       ├── pages/
-│   │       │   ├── lifecycle_page.dart
-│   │       │   ├── not_found_page.dart
-│   │       │   ├── section_page.dart        # Recap card + tile list, shared by expenses and appointments
-│   │       │   └── wrapper_page.dart
-│   │       └── widgets/
-│   │           ├── add_expenses_widget.dart  # Add-expense bottom sheet (keyboard-aware)
-│   │           ├── app_bar_title_widget.dart
-│   │           ├── badge_widget.dart         # Expense type badge (subscription / financing)
-│   │           ├── bottom_bar_widget.dart
-│   │           ├── button_widget.dart        # Primary CTA button with responsive height
-│   │           ├── card_widget.dart          # Summary card with gradient + shadow
-│   │           ├── custom_text_scaling_widget.dart
-│   │           ├── date_textfield_widget.dart
-│   │           ├── empty_data_image_widget.dart
-│   │           ├── fab_widget.dart           # FAB that opens add-expense sheet
-│   │           ├── icon_container_widget.dart
-│   │           ├── leading_trailing_icon_widget.dart
-│   │           ├── list_tile_widget.dart
-│   │           ├── list_widget.dart          # Placeholder tile list (ViewModel wiring pending)
-│   │           ├── overlay_loading_widget.dart
-│   │           ├── recap_widget.dart         # Active-item count + monetary total row
-│   │           ├── selector_widget.dart      # Generic single-select chip row
-│   │           ├── shimmer_loading_widget.dart
-│   │           ├── switch_widget.dart
-│   │           ├── textfield_widget.dart
-│   │           └── wrapper_tile_widget.dart  # Expense / appointment tile with edit + delete
-│   └── shared/
-│       ├── constants/
-│       │   ├── app_constants.dart
-│       │   ├── assets_constants.dart
-│       │   ├── cache_constants.dart
-│       │   ├── design_constants.dart
-│       │   └── widget_constants.dart
-│       ├── controllers/
-│       │   ├── custom_navigator_observer.dart
-│       │   └── di.dart          # SharedPreferences + routing + app info registration
-│       ├── exceptions/
-│       ├── mixins/
-│       └── utils/
-│           ├── enums.dart
-│           ├── extensions.dart
-│           ├── helpers_method.dart  # Form validators (name, amount, date)
-│           ├── loggers.dart
-│           └── methods.dart
-│
-├── splashscreen/
-│   ├── presentation/
-│   │   └── ux/
-│   │       └── pages/
-│   │           └── splash_page.dart
-│   └── shared/
-│       ├── constants/
-│       │   ├── assets_constants.dart
-│       │   └── design_constants.dart
-│       └── utils/
-│           └── time_utils.dart
-│
-├── home/
-│   ├── data/ …                    # Scaffolded layers (no Dart sources yet)
-│   ├── domain/ …
-│   ├── presentation/
-│   │   └── ux/
-│   │       ├── pages/
-│   │       │   └── home_page.dart
-│   │       └── widgets/
-│   │           ├── home_section_header_widget.dart  # "In questa settimana" row
-│   │           └── home_summary_cards_widget.dart   # Weekly + monthly summary card row
-│   └── shared/
-│       └── constants/
-│           └── widget_constants.dart
-│
-├── expenses/
-│   ├── presentation/
-│   │   └── ux/
-│   │       ├── pages/
-│   │       │   ├── all_expenses_page.dart
-│   │       │   ├── expenses_home_page.dart   # Hub with subscription / financing / all tiles
-│   │       │   ├── financing_page.dart
-│   │       │   └── subscriptions_page.dart
-│   │       └── widgets/
-│   │           └── expenses_tile_widget.dart  # Monthly / yearly TabBar + SectionPage
-│   └── shared/
-│       └── constants/
-│           ├── expenses_constants.dart
-│           └── widget_constants.dart
-│
-├── appointments/
-│   ├── presentation/
-│   │   └── ux/
-│   │       ├── pages/
-│   │       │   └── appointments_page.dart
-│   │       └── widgets/
-│   │           └── appointments_tile_widget.dart
-│   └── shared/
-│       └── constants/
-│           └── widget_constants.dart
-│
-└── settings/
-    ├── data/ …                    # Scaffolded layers (no Dart sources yet)
-    ├── domain/ …
-    ├── presentation/
-    │   ├── ux/
-    │   │   ├── pages/
-    │   │   │   ├── notifications_page.dart
-    │   │   │   ├── settings_page.dart
-    │   │   │   └── theme_page.dart
-    │   │   └── widgets/
-    │   └── viewmodel/
-    │       └── settings_viewmodel.dart
-    └── shared/
-        ├── constants/
-        │   └── widget_constants.dart
-        ├── controllers/
-        ├── exceptions/
-        ├── mixins/
-        └── utils/
-```
-
-</details>
-
----
-
 ## State Management
 
 MaxiPocket uses **Riverpod** (`flutter_riverpod` + `riverpod`) for reactive state management.
 
 ### Key patterns
 
-| Pattern | Usage |
-|---|---|
-| `ProviderScope` | Root of the widget tree; scopes all providers |
-| `Notifier` / `AsyncNotifier` | ViewModels that encapsulate state and business-logic calls |
-| `AsyncValue<T>` | Uniform loading / error / data representation for async operations |
-| `ref.watch` | Inside `build()` for reactive UI rebuilds |
-| `ref.read` | Inside callbacks and event handlers only |
-| `autoDispose` | Applied to providers that must not outlive their consumer |
+| Pattern                      | Usage                                                              |
+| ---------------------------- | ------------------------------------------------------------------ |
+| `ProviderScope`              | Root of the widget tree; scopes all providers                      |
+| `Notifier` / `AsyncNotifier` | ViewModels that encapsulate state and business-logic calls         |
+| `AsyncValue<T>`              | Uniform loading / error / data representation for async operations |
+| `ref.watch`                  | Inside `build()` for reactive UI rebuilds                          |
+| `ref.read`                   | Inside callbacks and event handlers only                           |
+| `autoDispose`                | Applied to providers that must not outlive their consumer          |
 
 In debug mode a `ProviderLogger` observer is registered to log all provider state changes.
 
@@ -531,43 +246,43 @@ Cross-cutting key-value storage uses domain services: `SharedPrefAsyncService` f
 
 ## Dependencies
 
-| Package | Purpose | Version |
-|---|---|---|
-| `flutter_riverpod` | UI-layer Riverpod integration | ^3.3.1 |
-| `riverpod` | Core Riverpod state management | ^3.2.1 |
-| `get_it` | Service-locator dependency injection | ^9.2.1 |
-| `google_fonts` | Google Fonts integration | ^8.0.2 |
-| `flutter_svg` | SVG rendering (splash branding, icons) | ^2.2.4 |
-| `flutter_launcher_icons` | Launcher icon generation (configured in `pubspec.yaml`) | ^0.14.4 |
-| `freezed` | Code generation for immutable data classes | ^3.2.5 |
-| `freezed_annotation` | Annotations for Freezed | ^3.1.0 |
-| `json_annotation` | Annotations for JSON serialization | ^4.11.0 |
-| `package_info_plus` | Package info (version, build number) | ^9.0.1 |
-| `collection` | Dart collection utilities (`lastWhereOrNull`, etc.) | ^1.19.1 |
-| `easy_debounce` | Debounce utility for user-input handlers | ^2.0.3 |
-| `intl` | Internationalisation and date/number formatting | ^0.20.2 |
-| `logger` | Structured, leveled logging with pretty-print | ^2.7.0 |
-| `shared_preferences` | Local key-value persistence (`SharedPreferencesAsync`, optional `SharedPreferencesWithCache`) | ^2.5.5 |
+| Package                  | Purpose                                                                                       | Version |
+| ------------------------ | --------------------------------------------------------------------------------------------- | ------- |
+| `flutter_riverpod`       | UI-layer Riverpod integration                                                                 | ^3.3.1  |
+| `riverpod`               | Core Riverpod state management                                                                | ^3.2.1  |
+| `get_it`                 | Service-locator dependency injection                                                          | ^9.2.1  |
+| `google_fonts`           | Google Fonts integration                                                                      | ^8.0.2  |
+| `flutter_svg`            | SVG rendering (splash branding, icons)                                                        | ^2.2.4  |
+| `flutter_launcher_icons` | Launcher icon generation (configured in `pubspec.yaml`)                                       | ^0.14.4 |
+| `freezed`                | Code generation for immutable data classes                                                    | ^3.2.5  |
+| `freezed_annotation`     | Annotations for Freezed                                                                       | ^3.1.0  |
+| `json_annotation`        | Annotations for JSON serialization                                                            | ^4.11.0 |
+| `package_info_plus`      | Package info (version, build number)                                                          | ^9.0.1  |
+| `collection`             | Dart collection utilities (`lastWhereOrNull`, etc.)                                           | ^1.19.1 |
+| `easy_debounce`          | Debounce utility for user-input handlers                                                      | ^2.0.3  |
+| `intl`                   | Internationalisation and date/number formatting                                               | ^0.20.2 |
+| `logger`                 | Structured, leveled logging with pretty-print                                                 | ^2.7.0  |
+| `shared_preferences`     | Local key-value persistence (`SharedPreferencesAsync`, optional `SharedPreferencesWithCache`) | ^2.5.5  |
 
 ---
 
 ## Scripts & Commands
 
-| Task | Command |
-|---|---|
-| Install dependencies | `fvm flutter pub get` |
-| Run (debug) | `fvm flutter run` |
-| Run on specific device | `fvm flutter run -d <device-id>` |
-| Build Android APK (release) | `fvm flutter build apk --release` |
-| Build Android App Bundle | `fvm flutter build appbundle --release` |
-| Build iOS (release) | `fvm flutter build ios --release` |
-| Regenerate launcher icons | `fvm dart run flutter_launcher_icons` |
-| Analyse code | `fvm dart analyze` |
-| Format code | `fvm dart format lib/` |
+| Task                            | Command                                                        |
+| ------------------------------- | -------------------------------------------------------------- |
+| Install dependencies            | `fvm flutter pub get`                                          |
+| Run (debug)                     | `fvm flutter run`                                              |
+| Run on specific device          | `fvm flutter run -d <device-id>`                               |
+| Build Android APK (release)     | `fvm flutter build apk --release`                              |
+| Build Android App Bundle        | `fvm flutter build appbundle --release`                        |
+| Build iOS (release)             | `fvm flutter build ios --release`                              |
+| Regenerate launcher icons       | `fvm dart run flutter_launcher_icons`                          |
+| Analyse code                    | `fvm dart analyze`                                             |
+| Format code                     | `fvm dart format lib/`                                         |
 | Code generation (Freezed, etc.) | `fvm dart run build_runner build --delete-conflicting-outputs` |
-| Run tests | `fvm flutter test` |
-| Clean build artefacts | `fvm flutter clean` |
-| List available devices | `fvm flutter devices` |
+| Run tests                       | `fvm flutter test`                                             |
+| Clean build artefacts           | `fvm flutter clean`                                            |
+| List available devices          | `fvm flutter devices`                                          |
 
 ---
 
@@ -575,11 +290,11 @@ Cross-cutting key-value storage uses domain services: `SharedPrefAsyncService` f
 
 ### Strategy
 
-| Type | Scope | Location |
-|---|---|---|
-| Unit | Domain services, ViewModels, utilities | `test/<feature>/domain/` |
-| Widget | Individual UI components | `test/<feature>/presentation/` |
-| Integration | Full user flows end-to-end | `test/integration/` |
+| Type        | Scope                                  | Location                       |
+| ----------- | -------------------------------------- | ------------------------------ |
+| Unit        | Domain services, ViewModels, utilities | `test/<feature>/domain/`       |
+| Widget      | Individual UI components               | `test/<feature>/presentation/` |
+| Integration | Full user flows end-to-end             | `test/integration/`            |
 
 ### Running Tests
 

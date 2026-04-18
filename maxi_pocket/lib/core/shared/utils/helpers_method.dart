@@ -23,10 +23,33 @@ String? amountValidator(String? amount) {
   return null;
 }
 
+/// Returns an error message if [financingInstallments] is null, blank, non-numeric, or ≤ 0.
+String? financingInstallmentsValidator(String? financingInstallments) {
+  if (financingInstallments == null || financingInstallments.trim().isEmpty) {
+    return WidgetConstants.addExpensesFinancingInstallmentsRequired;
+  }
+  final int? parsed = int.tryParse(financingInstallments);
+  if (parsed == null) {
+    return WidgetConstants.addExpensesFinancingInstallmentsRequired;
+  }
+  if (parsed <= 0) {
+    return WidgetConstants.addExpensesFinancingInstallmentsInvalid;
+  }
+  return null;
+}
+
 /// Returns an error message if [name] is null or blank, otherwise null.
 String? nameValidator(String? name) {
   if (name == null || name.trim().isEmpty) {
     return WidgetConstants.addExpensesNameRequired;
+  }
+  return null;
+}
+
+/// Returns an error message if [appointmentLocation] is null or blank, otherwise null.
+String? appointmentLocationValidator(String? appointmentLocation) {
+  if (appointmentLocation == null || appointmentLocation.trim().isEmpty) {
+    return WidgetConstants.addExpensesAppointmentLocationRequired;
   }
   return null;
 }

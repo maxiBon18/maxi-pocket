@@ -41,7 +41,6 @@ class MaxiPocketPage extends ConsumerWidget {
     this.title,
     this.showAppBar = true,
     this.showBottomBar = true,
-    this.useSliverAppBar = false,
     this.topSafeArea = true,
     this.bottomSafeArea = true,
     this.backgroundColor,
@@ -59,7 +58,7 @@ class MaxiPocketPage extends ConsumerWidget {
   /// Route name used by [LifecyclePage] for logging and analytics.
   final String routeName;
 
-  final bool? showAppBar;
+  final bool showAppBar;
 
   /// Forwarded to [Scaffold.resizeToAvoidBottomInset].
   final bool resizeToAvoidBottomInset;
@@ -76,10 +75,10 @@ class MaxiPocketPage extends ConsumerWidget {
   final bool automaticallyImplyLeading;
 
   /// Controls [SafeArea] top padding. Defaults to `true`.
-  final bool? topSafeArea;
+  final bool topSafeArea;
 
   /// Controls [SafeArea] bottom padding. Defaults to `true`.
-  final bool? bottomSafeArea;
+  final bool bottomSafeArea;
 
   /// Overrides the system back gesture with a custom handler.
   ///
@@ -104,8 +103,6 @@ class MaxiPocketPage extends ConsumerWidget {
 
   final bool showBottomBar;
 
-  final bool useSliverAppBar;
-
   final Widget? title;
 
   final bool leadingIsBackButton;
@@ -124,50 +121,87 @@ class MaxiPocketPage extends ConsumerWidget {
       routeName: routeName,
       child: PopScope(
         canPop: allowBack && customOnBack == null,
-        onPopInvokedWithResult: (bool didPop, dynamic result) {
-          if (didPop) {
-            return;
-          }
-          if (customOnBack != null) customOnBack!.call();
+        onPopInvokedWithResult: (bool didPop, Object? result) {
+          if (didPop) return;
+          customOnBack?.call();
         },
         child: Scaffold(
           backgroundColor: backgroundColor,
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
           extendBodyBehindAppBar: extendBodyBehindAppBar,
-          appBar: showAppBar == true
-              ? useSliverAppBar == false
-                    ? AppBar(
-                        toolbarHeight: screenHeight.responsiveHeight(DesignConstants.bottomBarDesignHeight),
-                        automaticallyImplyLeading: automaticallyImplyLeading,
-                        shadowColor: getShadowsColor(
-                          themeMode,
-                        ).withValues(alpha: DesignConstants.bottomBarShadowOpacity),
-                        leading: showLeading == false
-                            ? null
-                            : leadingIsBackButton == true
-                            ? _getBackButtonAppBar(context: context, themeMode: themeMode, customOnBack: customOnBack)
-                            : leading,
-                        actions: actions,
-                        title: title,
-                      )
-                    : null
-              : null,
+          appBar: showAppBar ? _MaxiPocketAppBarWidget(
+            screenHeight: screenHeight,
+            themeMode: themeMode,
+            showLeading: showLeading,
+            leadingIsBackButton: leadingIsBackButton,
+            customOnBack: customOnBack,
+            leading: leading,
+            actions: actions,
+            title: title,
+            automaticallyImplyLeading: automaticallyImplyLeading,
+          ) : null,
           floatingActionButton: showFloatingActionButton ? const MaxiPocketFloatingActionButtonWidget() : null,
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           bottomNavigationBar: showBottomBar ? const MaxiPocketBottomBarWidget() : null,
-          body: SafeArea(top: topSafeArea ?? true, bottom: bottomSafeArea ?? true, child: child ?? const SizedBox()),
+          body: SafeArea(top: topSafeArea, bottom: bottomSafeArea, child: child ?? const SizedBox()),
         ),
       ),
     );
   }
+}
 
-  Widget _getBackButtonAppBar({
-    required BuildContext context,
-    required MaxiPocketThemeMode themeMode,
-    VoidCallback? customOnBack,
-  }) {
+class _MaxiPocketAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
+  const _MaxiPocketAppBarWidget({
+    required this.screenHeight,
+    required this.themeMode,
+    required this.showLeading,
+    required this.leadingIsBackButton,
+    required this.automaticallyImplyLeading,
+    this.customOnBack,
+    this.leading,
+    this.actions,
+    this.title,
+  });
+
+  final double screenHeight;
+  final MaxiPocketThemeMode themeMode;
+  final bool showLeading;
+  final bool leadingIsBackButton;
+  final bool automaticallyImplyLeading;
+  final VoidCallback? customOnBack;
+  final Widget? leading;
+  final List<Widget>? actions;
+  final Widget? title;
+
+  @override
+  Size get preferredSize => Size.fromHeight(screenHeight.responsiveHeight(DesignConstants.bottomBarDesignHeight));
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      toolbarHeight: screenHeight.responsiveHeight(DesignConstants.bottomBarDesignHeight),
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      shadowColor: getShadowsColor(themeMode).withValues(alpha: DesignConstants.bottomBarShadowOpacity),
+      leading: showLeading
+          ? leadingIsBackButton
+              ? _MaxiPocketBackButtonWidget(customOnBack: customOnBack)
+              : leading
+          : null,
+      actions: actions,
+      title: title,
+    );
+  }
+}
+
+class _MaxiPocketBackButtonWidget extends StatelessWidget {
+  const _MaxiPocketBackButtonWidget({this.customOnBack});
+
+  final VoidCallback? customOnBack;
+
+  @override
+  Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => customOnBack != null ? customOnBack.call() : Navigator.pop(context),
+      onPressed: () => customOnBack != null ? customOnBack!.call() : Navigator.pop(context),
       enableFeedback: true,
       icon: const Icon(Icons.arrow_back_ios_new),
     );

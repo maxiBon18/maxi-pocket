@@ -36,27 +36,34 @@ class WidgetConstants {
     3: Routes.settingsRoute,
   };
 
-  /// Add Expenses
-  static const String addExpensesTitle = 'Aggiungi Spesa';
+  /// Add Expenses & add appointment
+  static const String addNewTitle = 'Aggiungi nuovo';
   static const String addExpensesName = 'Nome';
   static const String addExpensesAmount = 'Importo';
+  static const String addExpensesFinancingInstallments = 'Numero di rate';
+  static const String addExpensesAppointmentLocation = 'Luogo';
   static const String addExpensesCategory = 'Categoria';
   static const String addExpensesFrequency = 'Tipologia';
-  static const String addExpensesDate = 'Prossima Data di Pagamento';
+  static const String addExpensesDate = 'Data inizio pagamento';
+  static const String appointmentDate = 'Data';
   static const String addExpensesButton = 'Aggiungi';
   static const String addExpensesNameRequired = 'Nome è obbligatorio';
   static const String addExpensesAmountRequired = 'Importo è obbligatorio';
   static const String addExpensesAmountInvalid = 'Importo non valido';
   static const String addExpensesDateRequired = 'Data è obbligatoria';
+  static const String addExpensesFinancingInstallmentsRequired = 'Numero di rate è obbligatorio';
+  static const String addExpensesFinancingInstallmentsInvalid = 'Numero di rate non valido';
+  static const String addExpensesAppointmentLocationRequired = 'Il luogo dell\'appuntamento è obbligatorio';
 
   /// Add Expenses — Type selector
   static const String addExpensesTypeLabel = 'Tipo';
   static const String addExpensesTypeSubscription = 'Abbonamento';
   static const String addExpensesTypeFinancing = 'Finanziamento';
+  static const String addExpensesTypeAppointments = 'Appuntamento';
 
   /// Add Expenses — Frequency selector
   static const String addExpensesFrequencyLabel = 'Frequenza';
-  static const String addExpensesFrequencyWeekly = 'Settimanale';
+  static const String addExpensesFrequencyWeekly = 'Annuale';
   static const String addExpensesFrequencyMonthly = 'Mensile';
 
   static const String activeNumberExpenses = '\${activeNumberExpenses} attive';
