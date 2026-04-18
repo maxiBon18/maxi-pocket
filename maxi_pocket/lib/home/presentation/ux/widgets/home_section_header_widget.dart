@@ -11,7 +11,7 @@ class MaxiPocketHomeSectionHeaderWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         Text(HomeWidgetConstants.weeklyRecapTitle, style: context.textTheme.titleLarge),
         Expanded(
           child: Text(

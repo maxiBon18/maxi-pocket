@@ -48,7 +48,7 @@ class MaxiPocketSelectorWidget<T> extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: DesignConstants.spacing8,
-      children: [
+      children: <Widget>[
         Text(label, style: context.textTheme.titleSmall),
         _MaxiPocketSelectorChipsRow<T>(
           options: options,

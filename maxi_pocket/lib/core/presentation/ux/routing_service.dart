@@ -36,8 +36,8 @@ class RoutingService {
   /// Returns a platform-specific [Route] wrapping [builder].
   Route<dynamic> _buildPlatformRoute(RouteSettings settings, WidgetBuilder builder) {
     return switch (defaultTargetPlatform) {
-      TargetPlatform.iOS => CupertinoPageRoute(settings: settings, builder: builder),
-      _ => MaterialPageRoute(settings: settings, builder: builder),
+      TargetPlatform.iOS => CupertinoPageRoute<dynamic>(settings: settings, builder: builder),
+      _ => MaterialPageRoute<dynamic>(settings: settings, builder: builder),
     };
   }
 

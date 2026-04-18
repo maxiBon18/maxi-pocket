@@ -17,7 +17,7 @@ import 'package:maxi_pocket/core/shared/utils/helpers_method.dart';
 /// keyboard appears, keeping all form fields visible. Requires the bottom
 /// sheet to be opened with [isScrollControlled] set to true.
 class MaxiPocketAddExpensesWidget extends StatelessWidget {
-  const MaxiPocketAddExpensesWidget({super.key, required this.themeMode});
+  const MaxiPocketAddExpensesWidget({required this.themeMode, super.key});
 
   final MaxiPocketThemeMode themeMode;
 
@@ -29,7 +29,7 @@ class MaxiPocketAddExpensesWidget extends StatelessWidget {
       : ThemeDarkColors.surfaceColor;
 
   BoxDecoration get _sheetDecoration => BoxDecoration(
-    borderRadius: BorderRadius.horizontal(
+    borderRadius: const BorderRadius.horizontal(
       left: Radius.circular(DesignConstants.radius24),
       right: Radius.circular(DesignConstants.radius24),
     ),
@@ -61,7 +61,7 @@ class MaxiPocketAddExpensesWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: .start,
         crossAxisAlignment: .start,
-        children: [
+        children: <Widget>[
           _MaxiPocketAddExpensesHeaderWidget(themeMode: themeMode, borderColor: _borderColor),
           Expanded(child: _MaxiPocketAddExpensesBodyWidget(themeMode: themeMode)),
         ],
@@ -189,7 +189,7 @@ class _MaxiPocketAddExpensesFormContent extends StatelessWidget {
         spacing: DesignConstants.spacing16,
         mainAxisAlignment: .start,
         crossAxisAlignment: .start,
-        children: [
+        children: <Widget>[
           _MaxiPocketAddExpensesSelectors(
             themeMode: themeMode,
             selectedType: selectedType,
@@ -232,17 +232,17 @@ class _MaxiPocketAddExpensesSelectors extends StatelessWidget {
   final ValueChanged<MaxiPocketExpensesType> onTypeChanged;
   final ValueChanged<MaxiPocketExpensesFrequency> onFrequencyChanged;
 
-  static const List<(String, MaxiPocketExpensesType)> _typeOptions = [
+  static const List<(String, MaxiPocketExpensesType)> _typeOptions = <(String, MaxiPocketExpensesType)>[
     (WidgetConstants.addExpensesTypeSubscription, MaxiPocketExpensesType.subscription),
     (WidgetConstants.addExpensesTypeFinancing, MaxiPocketExpensesType.financing),
     (WidgetConstants.addExpensesTypeAppointments, MaxiPocketExpensesType.appointments),
   ];
 
-  static const List<(String, MaxiPocketExpensesFrequency)> _frequencyOptions = [
+  static const List<(String, MaxiPocketExpensesFrequency)> _frequencyOptions = <(String, MaxiPocketExpensesFrequency)>[
     (WidgetConstants.addExpensesFrequencyWeekly, MaxiPocketExpensesFrequency.annual),
     (WidgetConstants.addExpensesFrequencyMonthly, MaxiPocketExpensesFrequency.monthly),
   ];
-  static const List<(String, MaxiPocketExpensesFrequency)> _frequencyOptionsFinancing = [
+  static const List<(String, MaxiPocketExpensesFrequency)> _frequencyOptionsFinancing = <(String, MaxiPocketExpensesFrequency)>[
     (WidgetConstants.addExpensesFrequencyMonthly, MaxiPocketExpensesFrequency.monthly),
   ];
 
@@ -251,7 +251,7 @@ class _MaxiPocketAddExpensesSelectors extends StatelessWidget {
     return Column(
       spacing: DesignConstants.spacing16,
       crossAxisAlignment: .start,
-      children: [
+      children: <Widget>[
         MaxiPocketSelectorWidget<MaxiPocketExpensesType>(
           label: WidgetConstants.addExpensesTypeLabel,
           options: _typeOptions,
@@ -300,7 +300,7 @@ class _MaxiPocketAddExpensesInputFields extends StatelessWidget {
     return Column(
       spacing: DesignConstants.spacing16,
       crossAxisAlignment: .start,
-      children: [
+      children: <Widget>[
         _MaxiPocketAddExpensesCommonFields(
           themeMode: themeMode,
           nameController: nameController,
@@ -338,7 +338,7 @@ class _MaxiPocketAddExpensesCommonFields extends StatelessWidget {
     return Column(
       spacing: DesignConstants.spacing16,
       crossAxisAlignment: .start,
-      children: [
+      children: <Widget>[
         MaxiPocketTextFormFieldWidget(
           themeMode: themeMode,
           controller: nameController,
@@ -415,7 +415,7 @@ class _MaxiPocketSubscriptionFields extends StatelessWidget {
       autocorrect: false,
       enableSuggestions: false,
       textInputAction: TextInputAction.next,
-      keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
       label: WidgetConstants.addExpensesAmount,
       enabled: true,
       validator: amountValidator,
@@ -440,14 +440,14 @@ class _MaxiPocketFinancingFields extends StatelessWidget {
     return Column(
       spacing: DesignConstants.spacing16,
       crossAxisAlignment: .start,
-      children: [
+      children: <Widget>[
         MaxiPocketTextFormFieldWidget(
           themeMode: themeMode,
           controller: amountController,
           autocorrect: false,
           enableSuggestions: false,
           textInputAction: TextInputAction.next,
-          keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
+          keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
           label: WidgetConstants.addExpensesAmount,
           enabled: true,
           validator: amountValidator,
@@ -458,7 +458,7 @@ class _MaxiPocketFinancingFields extends StatelessWidget {
           autocorrect: false,
           enableSuggestions: false,
           textInputAction: TextInputAction.next,
-          keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
+          keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
           label: WidgetConstants.addExpensesFinancingInstallments,
           enabled: true,
           validator: financingInstallmentsValidator,
@@ -533,7 +533,7 @@ class _MaxiPocketAddExpensesHeaderWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: .start,
           crossAxisAlignment: .start,
-          children: [
+          children: <Widget>[
             Expanded(
               child: Text(
                 WidgetConstants.addNewTitle,

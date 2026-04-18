@@ -28,7 +28,7 @@ class MaxiPocketNotificationsPage extends ConsumerWidget {
       showAppBar: true,
       extendBodyBehindAppBar: false,
       allowBack: true,
-      title: Text(SettingsWidgetConstants.notificationsPageTitle),
+      title: const Text(SettingsWidgetConstants.notificationsPageTitle),
       showBottomBar: true,
       showLeading: true,
       child: Padding(
@@ -36,7 +36,7 @@ class MaxiPocketNotificationsPage extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: .start,
           crossAxisAlignment: .center,
-          children: [
+          children: <Widget>[
             _NotificationsHeaderWidget(themeMode: themeMode, responsiveIconSize: responsiveIconSize),
             const SizedBox(height: DesignConstants.spacing16),
             _NotificationsToggleTileWidget(themeMode: themeMode),
@@ -67,7 +67,7 @@ class _NotificationsHeaderWidget extends StatelessWidget {
       width: responsiveIconSize,
       useBorderRadius: false,
       shape: BoxShape.circle,
-      child: Icon(
+      child: const Icon(
         Icons.notifications_outlined,
         color: ThemeDarkColors.primaryColor,
         size: DesignConstants.icon40,
@@ -90,7 +90,7 @@ class _NotificationsToggleTileWidget extends StatelessWidget {
 
     return MaxiPocketListTileWidget(
       height: DesignConstants.containerSize85,
-      title: Text(
+      title: const Text(
         SettingsWidgetConstants.enableNotificationsTitle,
         textAlign: .start,
         overflow: TextOverflow.ellipsis,
@@ -104,7 +104,7 @@ class _NotificationsToggleTileWidget extends StatelessWidget {
         style: textStyleSubtitle,
       ),
       // TODO: Wire to notification provider when implemented
-      trailing: MaxiPocketSwitchWidget(value: false, onChanged: null),
+      trailing: const MaxiPocketSwitchWidget(value: false, onChanged: null),
       themeMode: themeMode,
     );
   }
@@ -115,7 +115,7 @@ class _NotificationsInfoContainerWidget extends StatelessWidget {
 
   final MaxiPocketThemeMode themeMode;
 
-  List<BoxShadow> _getBoxShadows() => [
+  List<BoxShadow> _getBoxShadows() => <BoxShadow>[
     BoxShadow(
       offset: DesignConstants.listTileOffset,
       blurRadius: DesignConstants.listTileBlurRadiusFirst,
@@ -148,7 +148,7 @@ class _NotificationsInfoContainerWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: .start,
         crossAxisAlignment: .start,
-        children: [
+        children: <Widget>[
           Text(
             SettingsWidgetConstants.notificationsTypeSectionTitle,
             style: context.textTheme.titleMedium!.copyWith(fontSize: DesignConstants.textSize16, color: titleTextColor),
@@ -157,15 +157,15 @@ class _NotificationsInfoContainerWidget extends StatelessWidget {
           Row(
             spacing: DesignConstants.spacing8,
             crossAxisAlignment: .center,
-            children: [
-              MaxiPocketBulletPointWidget(color: ThemeLightColors.primaryColor),
+            children: <Widget>[
+              const MaxiPocketBulletPointWidget(color: ThemeLightColors.primaryColor),
               Text(SettingsWidgetConstants.notificationsTypeTitle, style: context.textTheme.titleSmall),
             ],
           ),
           Row(
             spacing: DesignConstants.spacing8,
-            children: [
-              SizedBox(width: DesignConstants.spacing8),
+            children: <Widget>[
+              const SizedBox(width: DesignConstants.spacing8),
               Flexible(
                 child: Text(SettingsWidgetConstants.notificationsTypeSubtitle, style: context.textTheme.bodySmall),
               ),

@@ -42,7 +42,7 @@ class MaxiPocketSettingsPage extends ConsumerWidget {
               mainAxisAlignment: .start,
               crossAxisAlignment: .center,
               mainAxisSize: .max,
-              children: [
+              children: <Widget>[
                 _SettingsListTilesWidget(themeMode: themeMode),
                 const SizedBox(height: DesignConstants.spacing64),
                 _SettingsFooterWidget(appInfo: appInfo),
@@ -78,10 +78,10 @@ class _SettingsListTilesWidget extends StatelessWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         MaxiPocketListTileWidget(
           height: DesignConstants.containerSize85,
-          title: Text(
+          title: const Text(
             SettingsWidgetConstants.notificationsTitle,
             textAlign: .start,
             overflow: TextOverflow.ellipsis,
@@ -96,7 +96,7 @@ class _SettingsListTilesWidget extends StatelessWidget {
           ),
           leading: MaxiPocketIconContainerWidget(
             colorBackground: colorBackground,
-            child: Icon(
+            child: const Icon(
               Icons.notifications_outlined,
               color: ThemeLightColors.primaryColor,
               size: DesignConstants.icon24,
@@ -110,7 +110,7 @@ class _SettingsListTilesWidget extends StatelessWidget {
         const SizedBox(height: DesignConstants.spacing12),
         MaxiPocketListTileWidget(
           height: DesignConstants.containerSize85,
-          title: Text(
+          title: const Text(
             SettingsWidgetConstants.themeTitle,
             textAlign: .start,
             overflow: TextOverflow.ellipsis,
@@ -125,7 +125,7 @@ class _SettingsListTilesWidget extends StatelessWidget {
           ),
           leading: MaxiPocketIconContainerWidget(
             colorBackground: colorBackgroundChangeTheme,
-            child: Icon(
+            child: const Icon(
               Icons.dark_mode_outlined,
               color: ThemeDarkColors.changeThemeIconColor,
               size: DesignConstants.icon24,
@@ -150,7 +150,7 @@ class _SettingsFooterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         Text(AppConstants.appName, style: context.textTheme.bodyMedium, overflow: TextOverflow.ellipsis, maxLines: 1),
         Text(
           '${AppConstants.versionTitle}: ${appInfo.version}+${appInfo.buildNumber}',

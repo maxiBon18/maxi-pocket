@@ -7,14 +7,14 @@ import 'package:maxi_pocket/home/shared/constants/widget_constants.dart' show Ho
 
 @immutable
 class MaxiPocketHomeSummaryCardsWidget extends StatelessWidget {
-  const MaxiPocketHomeSummaryCardsWidget({super.key, required this.themeMode});
+  const MaxiPocketHomeSummaryCardsWidget({required this.themeMode, super.key});
 
   final MaxiPocketThemeMode themeMode;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [
+      children: <Widget>[
         Expanded(
           child: MaxiPocketSummaryCardWidget(
             themeMode: themeMode,
@@ -32,7 +32,7 @@ class MaxiPocketHomeSummaryCardsWidget extends StatelessWidget {
             amount: HomeWidgetConstants.monthlyCardAmountPlaceholder,
             subtitle: HomeWidgetConstants.monthlyCardSubtitle,
             iconData: Icons.calendar_month_outlined,
-            colorsGradient: const [ThemeLightColors.tertiaryColor, ThemeLightColors.cardGradientColor1],
+            colorsGradient: const <Color>[ThemeLightColors.tertiaryColor, ThemeLightColors.cardGradientColor1],
           ),
         ),
       ],

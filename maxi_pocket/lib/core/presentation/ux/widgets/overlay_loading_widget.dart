@@ -18,7 +18,7 @@ class MaxiPocketOverlayLoadingWidget extends ConsumerWidget {
         color: themeMode == MaxiPocketThemeMode.light
             ? ThemeLightColors.onSurfaceColor.withValues(alpha: 0.7)
             : ThemeDarkColors.onSurfaceColor.withValues(alpha: 0.7),
-        child: Center(child: MaxiPocketLoadingWidget()),
+        child: const Center(child: MaxiPocketLoadingWidget()),
       ),
     );
   }

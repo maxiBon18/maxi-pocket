@@ -19,7 +19,7 @@ class MaxiPocketNotFoundPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: .center,
         crossAxisAlignment: .center,
-        children: [
+        children: <Widget>[
           const MaxiPocketEmptyDataImageWidget(),
           const SizedBox(height: DesignConstants.spacing16),
           Text(

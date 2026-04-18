@@ -37,7 +37,7 @@ class MaxiPocketHomePage extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             MaxiPocketHomeSummaryCardsWidget(themeMode: themeMode),
             const SizedBox(height: DesignConstants.spacing24),
             const MaxiPocketHomeSectionHeaderWidget(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MaxiPocketSwitchWidget extends StatelessWidget {
-  const MaxiPocketSwitchWidget({super.key, required this.value, this.onChanged});
+  const MaxiPocketSwitchWidget({required this.value, super.key, this.onChanged});
 
   final ValueChanged<bool>? onChanged;
   final bool value;

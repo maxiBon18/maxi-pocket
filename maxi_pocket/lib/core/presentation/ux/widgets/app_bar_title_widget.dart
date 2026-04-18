@@ -5,7 +5,7 @@ import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMo
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 
 class MaxiPocketAppBarTitle extends StatelessWidget {
-  const MaxiPocketAppBarTitle({super.key, required this.title, this.subtitle, required this.themeMode});
+  const MaxiPocketAppBarTitle({required this.title, required this.themeMode, super.key, this.subtitle});
 
   final String title;
   final String? subtitle;
@@ -18,7 +18,7 @@ class MaxiPocketAppBarTitle extends StatelessWidget {
       crossAxisAlignment: .center,
       mainAxisAlignment: .center,
       spacing: DesignConstants.spacing4,
-      children: [
+      children: <Widget>[
         Text(
           title,
           textAlign: .center,

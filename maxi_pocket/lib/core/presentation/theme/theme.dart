@@ -465,12 +465,12 @@ final ThemeData lightAppTheme = ThemeData(
     elevation: DesignConstants.appBarElevation,
     centerTitle: true,
     titleTextStyle: ThemeTextStyles.appLightTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: ThemeLightColors.onSurfaceVariantColor,
       size: DesignConstants.icon24,
       applyTextScaling: false,
     ),
-    actionsIconTheme: IconThemeData(
+    actionsIconTheme: const IconThemeData(
       color: ThemeLightColors.onSurfaceVariantColor,
       size: DesignConstants.icon24,
       applyTextScaling: false,
@@ -483,13 +483,13 @@ final ThemeData lightAppTheme = ThemeData(
     labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
     iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> state) {
       if (state.contains(WidgetState.selected)) {
-        return IconThemeData(
+        return const IconThemeData(
           size: DesignConstants.icon24,
           color: ThemeLightColors.primaryColor,
           applyTextScaling: false,
         );
       }
-      return IconThemeData(
+      return const IconThemeData(
         size: DesignConstants.icon24,
         color: ThemeLightColors.textDisabledColor,
         applyTextScaling: false,
@@ -563,7 +563,7 @@ final ThemeData lightAppTheme = ThemeData(
     style: ListTileStyle.list,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadiusGeometry.circular(DesignConstants.radius16),
-      side: BorderSide(
+      side: const BorderSide(
         color: ThemeLightColors.bottomNavigationBarTopBorderColor,
         width: DesignConstants.bottomBarBorderWidth,
       ),
@@ -593,12 +593,12 @@ final ThemeData darkAppTheme = ThemeData(
     elevation: DesignConstants.appBarElevation,
     centerTitle: true,
     titleTextStyle: ThemeTextStyles.appDarkTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: ThemeDarkColors.onSurfaceVariantColor,
       size: DesignConstants.icon24,
       applyTextScaling: false,
     ),
-    actionsIconTheme: IconThemeData(
+    actionsIconTheme: const IconThemeData(
       color: ThemeDarkColors.onSurfaceVariantColor,
       size: DesignConstants.icon24,
       applyTextScaling: false,
@@ -611,13 +611,13 @@ final ThemeData darkAppTheme = ThemeData(
     labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
     iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> state) {
       if (state.contains(WidgetState.selected)) {
-        return IconThemeData(
+        return const IconThemeData(
           size: DesignConstants.icon24,
           color: ThemeDarkColors.primaryColor,
           applyTextScaling: false,
         );
       }
-      return IconThemeData(
+      return const IconThemeData(
         size: DesignConstants.icon24,
         color: ThemeDarkColors.textSecondaryColor,
         applyTextScaling: false,
@@ -695,7 +695,7 @@ final ThemeData darkAppTheme = ThemeData(
     style: ListTileStyle.list,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadiusGeometry.circular(DesignConstants.radius16),
-      side: BorderSide(color: ThemeDarkColors.listTileBorderColor, width: DesignConstants.bottomBarBorderWidth),
+      side: const BorderSide(color: ThemeDarkColors.listTileBorderColor, width: DesignConstants.bottomBarBorderWidth),
     ),
     titleAlignment: .center,
     titleTextStyle: ThemeTextStyles.appDarkTextTheme.titleMedium,

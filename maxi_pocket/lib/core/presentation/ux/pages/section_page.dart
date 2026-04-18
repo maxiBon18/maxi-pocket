@@ -9,7 +9,7 @@ import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMo
 /// [isAppointment] switches labels and color tokens to appointment-specific
 /// values and adds extra horizontal padding suited to the appointments page.
 class MaxiPocketSectionPage extends StatelessWidget {
-  const MaxiPocketSectionPage({super.key, required this.themeMode, this.isAppointment = false});
+  const MaxiPocketSectionPage({required this.themeMode, super.key, this.isAppointment = false});
 
   final MaxiPocketThemeMode themeMode;
   final bool isAppointment;
@@ -37,7 +37,7 @@ class _MaxiPocketSectionContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: <Widget>[
         MaxiPocketRecapWidget(value: 100, themeMode: themeMode, isAppointment: isAppointment),
         const SizedBox(height: DesignConstants.spacing16),
         MaxiPocketWrapperTileWidget(themeMode: themeMode, isAppointment: isAppointment),
