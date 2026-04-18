@@ -9,11 +9,11 @@ class MaxiPocketEmptyDataImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
-      shaderCallback: (rect) => const RadialGradient(
+      shaderCallback: (Rect rect) => const RadialGradient(
         center: Alignment.center,
         radius: 0.5,
-        colors: [Colors.black, Colors.transparent],
-        stops: [0.9, 1.0],
+        colors: <Color>[Colors.black, Colors.transparent],
+        stops: <double>[0.9, 1.0],
       ).createShader(rect),
       blendMode: BlendMode.dstIn,
       child: Image.asset(

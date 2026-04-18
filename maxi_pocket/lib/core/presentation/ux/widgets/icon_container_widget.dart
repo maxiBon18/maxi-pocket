@@ -3,9 +3,7 @@ import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show De
 
 class MaxiPocketIconContainerWidget extends StatelessWidget {
   const MaxiPocketIconContainerWidget({
-    super.key,
-    required this.child,
-    required this.colorBackground,
+    required this.child, required this.colorBackground, super.key,
     this.width = DesignConstants.containerSize48,
     this.height = DesignConstants.containerSize48,
     this.shape = BoxShape.rectangle,
@@ -22,7 +20,7 @@ class MaxiPocketIconContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(DesignConstants.spacing12),
+      padding: const EdgeInsets.all(DesignConstants.spacing12),
       alignment: .center,
       width: width,
       height: height,

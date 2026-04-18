@@ -12,11 +12,9 @@ import 'package:maxi_pocket/core/shared/utils/extensions.dart' show BuildContext
 @immutable
 class MaxiPocketBadgeWidget extends StatelessWidget {
   const MaxiPocketBadgeWidget({
-    super.key,
-    required this.label,
+    required this.label, required this.themeMode, super.key,
     this.expensesType,
     this.expensesFrequency,
-    required this.themeMode,
   });
 
   final String label;
@@ -25,7 +23,7 @@ class MaxiPocketBadgeWidget extends StatelessWidget {
   final MaxiPocketThemeMode themeMode;
 
   Color _getBackgroundColor() {
-    final expType = expensesType;
+    final MaxiPocketExpensesType? expType = expensesType;
     if (expType != null) {
       return switch (expType) {
         MaxiPocketExpensesType.subscription || MaxiPocketExpensesType.all => themeMode == MaxiPocketThemeMode.light
@@ -39,7 +37,7 @@ class MaxiPocketBadgeWidget extends StatelessWidget {
             : ThemeDarkColors.appointmentsBadgeBackgroundColor,
       };
     }
-    final expFreq = expensesFrequency;
+    final MaxiPocketExpensesFrequency? expFreq = expensesFrequency;
     if (expFreq != null) {
       return switch (expFreq) {
         MaxiPocketExpensesFrequency.monthly => themeMode == MaxiPocketThemeMode.light
@@ -54,7 +52,7 @@ class MaxiPocketBadgeWidget extends StatelessWidget {
   }
 
   Color _getTextColor() {
-    final expType = expensesType;
+    final MaxiPocketExpensesType? expType = expensesType;
     if (expType != null) {
       return switch (expType) {
         MaxiPocketExpensesType.subscription || MaxiPocketExpensesType.all => ThemeLightColors.errorColor,
@@ -64,7 +62,7 @@ class MaxiPocketBadgeWidget extends StatelessWidget {
             : ThemeDarkColors.textPrimaryColor,
       };
     }
-    final expFreq = expensesFrequency;
+    final MaxiPocketExpensesFrequency? expFreq = expensesFrequency;
     if (expFreq != null) {
       return switch (expFreq) {
         MaxiPocketExpensesFrequency.monthly => ThemeLightColors.textMonthlyColor,
@@ -82,7 +80,7 @@ class MaxiPocketBadgeWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: _getBackgroundColor(),
         shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.all(Radius.circular(DesignConstants.radius40)),
+        borderRadius: const BorderRadius.all(Radius.circular(DesignConstants.radius40)),
       ),
       height: screenHeight.responsiveHeight(DesignConstants.containerSize24),
       child: Text(

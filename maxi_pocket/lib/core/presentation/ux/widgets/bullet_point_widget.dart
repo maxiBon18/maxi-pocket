@@ -4,8 +4,7 @@ import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show De
 /// Small filled circle used as a bullet in pointed lists.
 class MaxiPocketBulletPointWidget extends StatelessWidget {
   const MaxiPocketBulletPointWidget({
-    super.key,
-    required this.color,
+    required this.color, super.key,
     this.size = DesignConstants.spacing8,
   });
 

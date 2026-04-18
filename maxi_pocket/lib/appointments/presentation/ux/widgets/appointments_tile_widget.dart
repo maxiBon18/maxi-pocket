@@ -5,7 +5,7 @@ import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMo
 /// A list tile representing a single appointment entry.
 @immutable
 class MaxiPocketAppointmentsTileWidget extends StatelessWidget {
-  const MaxiPocketAppointmentsTileWidget({super.key, required this.themeMode});
+  const MaxiPocketAppointmentsTileWidget({required this.themeMode, super.key});
 
   final MaxiPocketThemeMode themeMode;
 

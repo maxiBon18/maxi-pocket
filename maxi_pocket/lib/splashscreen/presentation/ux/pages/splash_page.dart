@@ -43,14 +43,14 @@ class _MaxiPocketSplashPageState extends State<MaxiPocketSplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaxiPocketPage(
+    return const MaxiPocketPage(
       routeName: Routes.initialRoute,
       allowBack: false,
       showAppBar: false,
       extendBodyBehindAppBar: true,
       backgroundColor: ThemeLightColors.primaryColor,
       showBottomBar: false,
-      child: Center(child: const _SplashContent()),
+      child: Center(child: _SplashContent()),
     );
   }
 }
@@ -66,8 +66,8 @@ class _SplashContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        MaxiPocketImage(
+      children: <Widget>[
+        const MaxiPocketImage(
           image: MaxiPocketSplashAssets.logo,
           height: MaxiPocketSplashDesignConstants.logoHeight,
           width: MaxiPocketSplashDesignConstants.logoWidth,

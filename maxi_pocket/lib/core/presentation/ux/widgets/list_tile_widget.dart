@@ -8,13 +8,11 @@ import 'package:maxi_pocket/core/shared/utils/methods.dart' show getShadowsColor
 
 class MaxiPocketListTileWidget extends StatelessWidget {
   const MaxiPocketListTileWidget({
-    super.key,
-    required this.title,
+    required this.title, required this.themeMode, super.key,
     this.subtitle,
     this.leading,
     this.trailing,
     this.onTap,
-    required this.themeMode,
     this.height,
     this.isThreeLine = false,
   });
@@ -28,7 +26,7 @@ class MaxiPocketListTileWidget extends StatelessWidget {
   final double? height;
   final bool isThreeLine;
 
-  List<BoxShadow> _getBoxShadows(MaxiPocketThemeMode themeMode) => [
+  List<BoxShadow> _getBoxShadows(MaxiPocketThemeMode themeMode) => <BoxShadow>[
     BoxShadow(
       offset: DesignConstants.listTileOffset,
       blurRadius: DesignConstants.listTileBlurRadiusFirst,
@@ -57,7 +55,7 @@ class MaxiPocketListTileWidget extends StatelessWidget {
         width: double.infinity,
         height: height != null ? screenSize.responsiveHeight(height!) : null,
         child: ListTile(
-          contentPadding: EdgeInsets.only(
+          contentPadding: const EdgeInsets.only(
             right: DesignConstants.spacing16,
             left: DesignConstants.spacing16,
             bottom: DesignConstants.spacing12,
@@ -66,7 +64,7 @@ class MaxiPocketListTileWidget extends StatelessWidget {
           minVerticalPadding: 0,
           titleAlignment: ListTileTitleAlignment.center,
           title: Padding(
-            padding: EdgeInsets.only(bottom: DesignConstants.spacing4),
+            padding: const EdgeInsets.only(bottom: DesignConstants.spacing4),
             child: title,
           ),
           subtitle: subtitle,

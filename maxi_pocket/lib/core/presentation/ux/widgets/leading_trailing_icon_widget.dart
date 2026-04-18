@@ -8,7 +8,7 @@ import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMo
 /// Intended for use as a leading or trailing element inside list tiles.
 /// Pass [colorIcon] to override the default theme-derived tint.
 class MaxiPocketLeadingTrailingIconWidget extends StatelessWidget {
-  const MaxiPocketLeadingTrailingIconWidget({super.key, required this.themeMode, required this.icon, this.colorIcon});
+  const MaxiPocketLeadingTrailingIconWidget({required this.themeMode, required this.icon, super.key, this.colorIcon});
 
   final MaxiPocketThemeMode themeMode;
   final IconData icon;

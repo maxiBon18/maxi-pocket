@@ -18,7 +18,7 @@ class MaxiPocketBottomBarWidget extends ConsumerWidget {
   const MaxiPocketBottomBarWidget({super.key});
 
   List<NavigationDestination> _getDestinations() {
-    const List<NavigationDestination> destinations = [
+    const List<NavigationDestination> destinations = <NavigationDestination>[
       NavigationDestination(
         icon: Icon(Icons.home_outlined),
         label: WidgetConstants.bottomBarHomeLabel,
@@ -44,7 +44,7 @@ class MaxiPocketBottomBarWidget extends ConsumerWidget {
     return destinations;
   }
 
-  List<BoxShadow> _getBoxShadows(MaxiPocketThemeMode themeMode) => [
+  List<BoxShadow> _getBoxShadows(MaxiPocketThemeMode themeMode) => <BoxShadow>[
     BoxShadow(
       offset: DesignConstants.bottomBarOffsetFirst,
       blurStyle: BlurStyle.outer,

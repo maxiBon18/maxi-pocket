@@ -13,12 +13,7 @@ import 'package:maxi_pocket/core/shared/utils/methods.dart' show getShadowsColor
 @immutable
 class MaxiPocketSummaryCardWidget extends StatelessWidget {
   const MaxiPocketSummaryCardWidget({
-    super.key,
-    required this.themeMode,
-    required this.label,
-    required this.amount,
-    required this.subtitle,
-    required this.iconData,
+    required this.themeMode, required this.label, required this.amount, required this.subtitle, required this.iconData, super.key,
     this.colorsGradient = _defaultGradient,
   });
 
@@ -88,7 +83,7 @@ class _SummaryCardContent extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           _SummaryCardHeader(iconData: iconData, label: label),
           const SizedBox(height: DesignConstants.spacing8),
           Text(amount, style: ThemeTextStyles.monetaryAmountLight.copyWith(color: ThemeDarkColors.backgroundColor)),
@@ -111,7 +106,7 @@ class _SummaryCardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         Icon(iconData, color: ThemeDarkColors.backgroundColor, size: DesignConstants.icon16, applyTextScaling: false),
         const SizedBox(width: DesignConstants.spacing8),
         Text(label, style: context.textTheme.labelMedium?.copyWith(color: ThemeDarkColors.backgroundColor)),

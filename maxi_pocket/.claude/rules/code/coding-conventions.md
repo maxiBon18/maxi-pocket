@@ -23,7 +23,7 @@ paths:
 
 - Pages: `<feature>_page.dart`
 - Widgets: `<name>_widget.dart`
-- DTOs: `<name>_dto.dart`
+- DTOs: `<name>_dto.dart` or `<name>_table.dart`
 - Entities: `<name>_entity.dart`
 - ViewModels: `<name>_viewmodel.dart`
 - Services: `<name>_service.dart`

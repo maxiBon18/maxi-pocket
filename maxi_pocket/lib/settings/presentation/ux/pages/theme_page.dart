@@ -26,7 +26,7 @@ class MaxiPocketThemePage extends ConsumerWidget {
       showAppBar: true,
       extendBodyBehindAppBar: false,
       allowBack: true,
-      title: Text(SettingsWidgetConstants.themePageTitle),
+      title: const Text(SettingsWidgetConstants.themePageTitle),
       showBottomBar: true,
       showLeading: true,
       child: Padding(
@@ -34,7 +34,7 @@ class MaxiPocketThemePage extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: .start,
           crossAxisAlignment: .center,
-          children: [
+          children: <Widget>[
             _ThemeHeaderWidget(themeMode: themeMode, responsiveIconSize: responsiveIconSize),
             const SizedBox(height: DesignConstants.spacing16),
             _ThemeSwitchTileWidget(themeMode: themeMode, ref: ref),
@@ -63,7 +63,7 @@ class _ThemeHeaderWidget extends StatelessWidget {
       width: responsiveIconSize,
       useBorderRadius: false,
       shape: BoxShape.circle,
-      child: Icon(
+      child: const Icon(
         Icons.dark_mode_outlined,
         color: ThemeDarkColors.changeThemeIconColor,
         size: DesignConstants.icon40,
@@ -88,7 +88,7 @@ class _ThemeSwitchTileWidget extends StatelessWidget {
 
     return MaxiPocketListTileWidget(
       height: DesignConstants.containerSize85,
-      title: Text(
+      title: const Text(
         SettingsWidgetConstants.darkModeTitle,
         textAlign: .start,
         overflow: TextOverflow.ellipsis,

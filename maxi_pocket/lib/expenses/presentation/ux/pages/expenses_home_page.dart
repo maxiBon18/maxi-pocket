@@ -52,7 +52,7 @@ class MaxiPocketExpensesHomePage extends ConsumerWidget {
     final List<Widget> sections = <Widget>[
       MaxiPocketListTileWidget(
         height: DesignConstants.containerSize85,
-        title: Text(
+        title: const Text(
           ExpensesWidgetConstants.subscriptionsTitle,
           textAlign: .start,
           overflow: TextOverflow.ellipsis,
@@ -79,7 +79,7 @@ class MaxiPocketExpensesHomePage extends ConsumerWidget {
       ),
       MaxiPocketListTileWidget(
         height: DesignConstants.containerSize85,
-        title: Text(
+        title: const Text(
           ExpensesWidgetConstants.financingsTitle,
           textAlign: .start,
           overflow: TextOverflow.ellipsis,
@@ -106,7 +106,7 @@ class MaxiPocketExpensesHomePage extends ConsumerWidget {
       ),
       MaxiPocketListTileWidget(
         height: DesignConstants.containerSize85,
-        title: Text(
+        title: const Text(
           ExpensesWidgetConstants.allExpensesTitle,
           textAlign: .start,
           overflow: TextOverflow.ellipsis,
@@ -152,7 +152,7 @@ class MaxiPocketExpensesHomePage extends ConsumerWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: DesignConstants.spacing16, vertical: DesignConstants.spacing24),
-        child: Column(spacing: DesignConstants.spacing12, children: [..._getExpensesSections(themeMode, context)]),
+        child: Column(spacing: DesignConstants.spacing12, children: <Widget>[..._getExpensesSections(themeMode, context)]),
       ),
     );
   }

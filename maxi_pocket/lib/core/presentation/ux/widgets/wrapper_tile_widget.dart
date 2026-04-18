@@ -15,7 +15,7 @@ import 'package:maxi_pocket/core/shared/utils/extensions.dart' show BuildContext
 /// a ViewModel is connected.
 @immutable
 class MaxiPocketWrapperTileWidget extends StatelessWidget {
-  const MaxiPocketWrapperTileWidget({super.key, required this.themeMode, this.isAppointment = false});
+  const MaxiPocketWrapperTileWidget({required this.themeMode, super.key, this.isAppointment = false});
 
   final MaxiPocketThemeMode themeMode;
   final bool isAppointment;
@@ -31,7 +31,7 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaxiPocketListTileWidget(
-      title: Text(WidgetConstants.expenseTitlePlaceholder),
+      title: const Text(WidgetConstants.expenseTitlePlaceholder),
       subtitle: _ExpenseTileSubtitle(iconColor: _iconColor, isAppointment: isAppointment, themeMode: themeMode),
       trailing: _MaxiPocketTileTrailing(
         isAppointment: isAppointment,
@@ -64,7 +64,7 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
+      children: <Widget>[
         if (!isAppointment)
           Text(
             WidgetConstants.expenseAmountPlaceholder.toStringAsFixed(2),
@@ -73,7 +73,7 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
         if (!isAppointment) const SizedBox(height: DesignConstants.spacing8),
         Row(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             GestureDetector(
               onTap: () {},
               child: Icon(Icons.edit_outlined, color: iconColor, size: DesignConstants.icon24, applyTextScaling: false),
@@ -103,9 +103,9 @@ class _ExpenseTileSubtitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       spacing: DesignConstants.spacing12,
-      children: [
+      children: <Widget>[
         Row(
-          children: [
+          children: <Widget>[
             MaxiPocketBadgeWidget(
               label: isAppointment ? WidgetConstants.appointmentType : WidgetConstants.expenseTypePlaceholder,
               expensesType: isAppointment ? MaxiPocketExpensesType.appointments : MaxiPocketExpensesType.subscription,
@@ -139,7 +139,7 @@ class _ExpenseTileDateRow extends StatelessWidget {
     return Row(
       spacing: DesignConstants.spacing4,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         Icon(
           Icons.calendar_today_outlined,
           color: iconColor,

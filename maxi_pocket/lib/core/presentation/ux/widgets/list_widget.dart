@@ -9,7 +9,7 @@ import 'package:maxi_pocket/core/presentation/ux/widgets/wrapper_tile_widget.dar
 /// Replace with data from a ViewModel once the domain layer is wired.
 @immutable
 class MaxiPocketListWidget extends StatelessWidget {
-  const MaxiPocketListWidget({super.key, required this.themeMode, this.isAppointment = false});
+  const MaxiPocketListWidget({required this.themeMode, super.key, this.isAppointment = false});
 
   final MaxiPocketThemeMode themeMode;
   final bool isAppointment;
@@ -21,7 +21,7 @@ class MaxiPocketListWidget extends StatelessWidget {
     return Material(
       child: ListView.separated(
         itemBuilder: (BuildContext context, int index) =>
-            MaxiPocketWrapperTileWidget(key: ValueKey(index), themeMode: themeMode, isAppointment: isAppointment),
+            MaxiPocketWrapperTileWidget(key: ValueKey<int>(index), themeMode: themeMode, isAppointment: isAppointment),
         separatorBuilder: (BuildContext context, int index) => const SizedBox(height: DesignConstants.spacing12),
         itemCount: _placeholderItemCount,
       ),

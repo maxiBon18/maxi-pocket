@@ -29,7 +29,7 @@ class WidgetConstants {
   static const String floatingActionButtonTooltip = 'Aggiungi spesa';
 
   // Bottom Bar
-  static const Map<int, String> tabRoutes = {
+  static const Map<int, String> tabRoutes = <int, String>{
     0: Routes.homeRoute,
     1: Routes.expensesRoute,
     2: Routes.appointmentsRoute,

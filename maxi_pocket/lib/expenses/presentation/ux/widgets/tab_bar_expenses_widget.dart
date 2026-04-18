@@ -12,7 +12,7 @@ import 'package:maxi_pocket/expenses/shared/constants/widget_constants.dart';
 /// Uses a [TabController] to host two [MaxiPocketSectionPage] instances.
 /// [themeMode] is forwarded to all child widgets for consistent color adaptation.
 class MaxiPocketTabBarExpensesWidget extends StatefulWidget {
-  const MaxiPocketTabBarExpensesWidget({super.key, required this.themeMode});
+  const MaxiPocketTabBarExpensesWidget({required this.themeMode, super.key});
 
   final MaxiPocketThemeMode themeMode;
 
@@ -36,7 +36,7 @@ class _MaxiPocketTabBarExpensesWidgetState extends State<MaxiPocketTabBarExpense
   }
 
   /// Builds tab labels with [numberOfExpenses] appended in parentheses.
-  List<Tab> _getTabs(String numberOfExpenses) => [
+  List<Tab> _getTabs(String numberOfExpenses) => <Tab>[
     Tab(text: '${ExpensesWidgetConstants.monthlyExpenses} ($numberOfExpenses)'),
     Tab(text: '${ExpensesWidgetConstants.yearlyExpenses} ($numberOfExpenses)'),
   ];
@@ -45,7 +45,7 @@ class _MaxiPocketTabBarExpensesWidgetState extends State<MaxiPocketTabBarExpense
     return Padding(
       padding: const EdgeInsets.all(DesignConstants.spacing16),
       child: Column(
-        children: [
+        children: <Widget>[
           TabBar(
             tabs: _getTabs(WidgetConstants.activeNumberExpenses),
             controller: _tabController,
@@ -79,7 +79,7 @@ class _MaxiPocketTabBarExpensesWidgetState extends State<MaxiPocketTabBarExpense
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: [
+              children: <Widget>[
                 MaxiPocketSectionPage(themeMode: widget.themeMode, isAppointment: false),
                 MaxiPocketSectionPage(themeMode: widget.themeMode, isAppointment: false),
               ],

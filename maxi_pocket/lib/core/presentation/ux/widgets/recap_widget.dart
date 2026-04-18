@@ -11,7 +11,7 @@ import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMo
 /// [value] is formatted to two decimal places for expenses or rendered as a
 /// plain integer for appointments.
 class MaxiPocketRecapWidget extends StatelessWidget {
-  const MaxiPocketRecapWidget({super.key, required this.value, required this.themeMode, this.isAppointment = false});
+  const MaxiPocketRecapWidget({required this.value, required this.themeMode, super.key, this.isAppointment = false});
 
   final double value;
   final bool isAppointment;
@@ -36,11 +36,11 @@ class MaxiPocketRecapWidget extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: .spaceBetween,
-        children: [
+        children: <Widget>[
           Expanded(
             child: Row(
               spacing: DesignConstants.spacing8,
-              children: [
+              children: <Widget>[
                 MaxiPocketBulletPointWidget(
                   color: isAppointment ? ThemeDarkColors.appointmentsBulletPointColor : ThemeLightColors.primaryColor,
                 ),
