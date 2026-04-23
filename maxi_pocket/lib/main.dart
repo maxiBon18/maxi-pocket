@@ -5,7 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart' show initializeDateFormatting;
 import 'package:logger/logger.dart';
 import 'package:maxi_pocket/core/presentation/ux/app.dart';
-import 'package:maxi_pocket/core/shared/constants/app_constants.dart' show AppConstants;
+import 'package:maxi_pocket/core/shared/constants/app_constants.dart'
+    show AppConstants;
 import 'package:maxi_pocket/core/shared/controllers/di.dart';
 import 'package:maxi_pocket/core/shared/utils/loggers.dart';
 
@@ -15,7 +16,12 @@ void main() async {
   await initializeDateFormatting(AppConstants.languageCode);
   await _lockOrientationToPortrait();
   if (kDebugMode) {
-    runApp(ProviderScope(observers: <ProviderObserver>[getDI<ProviderLogger>()], child: const MaxiPocketApp()));
+    runApp(
+      ProviderScope(
+        observers: <ProviderObserver>[getDI<ProviderLogger>()],
+        child: const MaxiPocketApp(),
+      ),
+    );
   } else {
     runApp(const ProviderScope(child: MaxiPocketApp()));
   }
@@ -30,6 +36,10 @@ Future<void> _lockOrientationToPortrait() async {
     ]);
     getDI<Logger>().i('Screen orientation locked to portrait.');
   } on Exception catch (e, st) {
-    getDI<Logger>().f('Failed to lock screen orientation.', error: e, stackTrace: st);
+    getDI<Logger>().f(
+      'Failed to lock screen orientation.',
+      error: e,
+      stackTrace: st,
+    );
   }
 }

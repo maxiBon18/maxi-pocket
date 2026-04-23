@@ -40,8 +40,7 @@ class SharedPrefAsyncSourceImpl implements SharedPrefAsyncSource {
   Future<void> setIntAsync(String key, int value) async => await _sharedPreferencesAsync.setInt(key, value);
 
   @override
-  Future<void> setDoubleAsync(String key, double value) async =>
-      await _sharedPreferencesAsync.setDouble(key, value);
+  Future<void> setDoubleAsync(String key, double value) async => await _sharedPreferencesAsync.setDouble(key, value);
 
   @override
   Future<void> setBoolAsync(String key, bool value) async => await _sharedPreferencesAsync.setBool(key, value);
@@ -97,8 +96,7 @@ class SharedPrefWithCacheSourceImpl implements SharedPrefWithCacheSource {
       await _sharedPreferencesWithCache.setDouble(key, value);
 
   @override
-  Future<void> setBoolWithCache(String key, bool value) async =>
-      await _sharedPreferencesWithCache.setBool(key, value);
+  Future<void> setBoolWithCache(String key, bool value) async => await _sharedPreferencesWithCache.setBool(key, value);
 
   @override
   Future<void> setStringListWithCache(String key, List<String> value) async =>

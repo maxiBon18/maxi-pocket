@@ -71,6 +71,11 @@ class ThemeLightColors {
   /// Appointments Colors
   static const Color appointmentsBulletPointColor = Color(0xFFFFD6A5);
   static const Color appointmentsBadgeBackgroundColor = Color(0xFFD7A567);
+
+  /// Dialog Colors
+  static const Color dialogErrorBackgroundColor = Color(0xFFD64550);
+  static const Color dialogSuccessBackgroundColor = Color(0xFF7BB894);
+  static const Color dialogInfoBackgroundColor = Color(0xFFC9B1D0);
 }
 
 /// Color tokens for the dark theme.
@@ -127,6 +132,11 @@ class ThemeDarkColors {
   /// Appointments Colors
   static const Color appointmentsBulletPointColor = Color(0xFFFFD6A5);
   static const Color appointmentsBadgeBackgroundColor = Color(0xFFD7A567);
+
+  /// Dialog Colors
+  static const Color dialogErrorBackgroundColor = Color(0xFF3D3438);
+  static const Color dialogSuccessBackgroundColor = Color(0xFF2A3832);
+  static const Color dialogInfoBackgroundColor = Color(0xFF352E38);
 }
 
 /// Pre-built [TextTheme]s and custom monetary [TextStyle]s for light and dark modes.

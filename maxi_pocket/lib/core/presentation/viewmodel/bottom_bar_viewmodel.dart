@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Tracks the currently selected bottom-navigation index.
-final NotifierProvider<BottomBarViewModel, int> bottomBarProvider = NotifierProvider<BottomBarViewModel, int>(BottomBarViewModel.new);
+final NotifierProvider<BottomBarViewModel, int> bottomBarProvider = NotifierProvider<BottomBarViewModel, int>(
+  BottomBarViewModel.new,
+);
 
 /// Holds and updates the bottom-navigation selected index.
 ///

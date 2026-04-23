@@ -23,16 +23,13 @@ class SharedPrefAsyncService {
   Future<int?> getIntAsync(String key) async => await _sharedPrefAsyncRepo.getIntAsync(key);
   Future<double?> getDoubleAsync(String key) async => await _sharedPrefAsyncRepo.getDoubleAsync(key);
   Future<bool?> getBoolAsync(String key) async => await _sharedPrefAsyncRepo.getBoolAsync(key);
-  Future<List<String>?> getStringListAsync(String key) async =>
-      await _sharedPrefAsyncRepo.getStringListAsync(key);
+  Future<List<String>?> getStringListAsync(String key) async => await _sharedPrefAsyncRepo.getStringListAsync(key);
   Future<Map<String, Object?>> getAllAsync() async => await _sharedPrefAsyncRepo.getAllAsync();
   Future<Set<String>> getKeysAsync() async => await _sharedPrefAsyncRepo.getKeysAsync();
 
-  Future<void> setStringAsync(String key, String value) async =>
-      await _sharedPrefAsyncRepo.setStringAsync(key, value);
+  Future<void> setStringAsync(String key, String value) async => await _sharedPrefAsyncRepo.setStringAsync(key, value);
   Future<void> setIntAsync(String key, int value) async => await _sharedPrefAsyncRepo.setIntAsync(key, value);
-  Future<void> setDoubleAsync(String key, double value) async =>
-      await _sharedPrefAsyncRepo.setDoubleAsync(key, value);
+  Future<void> setDoubleAsync(String key, double value) async => await _sharedPrefAsyncRepo.setDoubleAsync(key, value);
   Future<void> setBoolAsync(String key, bool value) async => await _sharedPrefAsyncRepo.setBoolAsync(key, value);
   Future<void> setStringListAsync(String key, List<String> value) async =>
       await _sharedPrefAsyncRepo.setStringListAsync(key, value);

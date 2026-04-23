@@ -81,7 +81,7 @@ class _MaxiPocketSelectorChipsRow<T> extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         final int count = options.length;
         final double chipWidth = count > 1
-            ? (constraints.maxWidth - DesignConstants.spacing8 * (count - 1)) / count
+            ? (constraints.maxWidth - DesignConstants.spacing8) / DesignConstants.selectorChipForRowCount
             : double.infinity;
         return Wrap(
           alignment: .center,

@@ -280,6 +280,7 @@ Cross-cutting key-value storage uses domain services: `SharedPrefAsyncService` f
 | Analyse code                    | `fvm dart analyze`                                             |
 | Format code                     | `fvm dart format lib/`                                         |
 | Code generation (Freezed, etc.) | `fvm dart run build_runner build --delete-conflicting-outputs` |
+| Code generation (alternative)   | `fvm flutter pub run build_runner build --delete-conflicting-outputs` |
 | Run tests                       | `fvm flutter test`                                             |
 | Clean build artefacts           | `fvm flutter clean`                                            |
 | List available devices          | `fvm flutter devices`                                          |

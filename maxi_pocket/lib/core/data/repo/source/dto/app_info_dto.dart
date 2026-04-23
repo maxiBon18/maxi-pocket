@@ -13,6 +13,5 @@ abstract class AppInfoDto with _$AppInfoDto {
 
   factory AppInfoDto.fromJson(Map<String, Object?> json) => _$AppInfoDtoFromJson(json);
 
-  AppInfo toEntity() =>
-      AppInfo(buildNumber: buildNumber, version: version, appName: appName, packageName: packageName);
+  AppInfo toEntity() => AppInfo(buildNumber: buildNumber, version: version, appName: appName, packageName: packageName);
 }
