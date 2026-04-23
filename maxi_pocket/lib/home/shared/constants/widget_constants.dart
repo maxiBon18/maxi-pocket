@@ -1,4 +1,9 @@
+import 'package:flutter/foundation.dart';
+
+@immutable
 class HomeWidgetConstants {
+  const HomeWidgetConstants._();
+
   static const String homePageTitle = 'Home';
   static const String homePageSubtitle = 'Recap settimanale';
   static const String weeklyCardTitle = 'Settimanale';

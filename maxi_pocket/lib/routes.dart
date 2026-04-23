@@ -31,12 +31,17 @@ class Routes {
     notFoundRoute: (BuildContext context) => const MaxiPocketNotFoundPage(),
     settingsRoute: (BuildContext context) => const MaxiPocketSettingsPage(),
     themeRoute: (BuildContext context) => const MaxiPocketThemePage(),
-    notificationsSettingsRoute: (BuildContext context) => const MaxiPocketNotificationsPage(),
+    notificationsSettingsRoute: (BuildContext context) =>
+        const MaxiPocketNotificationsPage(),
     expensesRoute: (BuildContext context) => const MaxiPocketExpensesHomePage(),
-    expensesSubscriptionsRoute: (BuildContext context) => const MaxiPocketSubscriptionsPage(),
-    expensesFinancingRoute: (BuildContext context) => const MaxiPocketFinancingPage(),
-    expensesAllRoute: (BuildContext context) => const MaxiPocketAllExpensesPage(),
-    appointmentsRoute: (BuildContext context) => const MaxiPocketAppointmentsPage(),
+    expensesSubscriptionsRoute: (BuildContext context) =>
+        const MaxiPocketSubscriptionsPage(),
+    expensesFinancingRoute: (BuildContext context) =>
+        const MaxiPocketFinancingPage(),
+    expensesAllRoute: (BuildContext context) =>
+        const MaxiPocketAllExpensesPage(),
+    appointmentsRoute: (BuildContext context) =>
+        const MaxiPocketAppointmentsPage(),
   };
 
   static const String initialRoute = '/';

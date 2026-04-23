@@ -1,7 +1,8 @@
 import 'dart:async' show Timer;
 
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeLightColors;
 import 'package:maxi_pocket/core/presentation/ux/pages/wrapper_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/image_widget.dart';
 import 'package:maxi_pocket/core/shared/constants/app_constants.dart';
@@ -9,7 +10,8 @@ import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 import 'package:maxi_pocket/routes.dart' show Routes;
 import 'package:maxi_pocket/splashscreen/shared/constants/assets_constants.dart';
 import 'package:maxi_pocket/splashscreen/shared/constants/design_constants.dart';
-import 'package:maxi_pocket/splashscreen/shared/utils/time_utils.dart' show createSplashTimer;
+import 'package:maxi_pocket/splashscreen/shared/utils/time_utils.dart'
+    show createSplashTimer;
 
 /// Initial branded screen shown while the app prepares itself.
 ///
@@ -77,12 +79,16 @@ class _SplashContent extends StatelessWidget {
         ),
         Text(
           AppConstants.appName,
-          style: context.textTheme.displaySmall!.copyWith(color: ThemeLightColors.textInverseColor),
+          style: context.textTheme.displaySmall!.copyWith(
+            color: ThemeLightColors.textInverseColor,
+          ),
           semanticsLabel: AppConstants.appName,
         ),
         Text(
           AppConstants.appDescription,
-          style: context.textTheme.bodyLarge!.copyWith(color: ThemeLightColors.textInverseColor),
+          style: context.textTheme.bodyLarge!.copyWith(
+            color: ThemeLightColors.textInverseColor,
+          ),
           semanticsLabel: AppConstants.appDescription,
         ),
       ],

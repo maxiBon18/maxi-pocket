@@ -124,4 +124,7 @@ class DesignConstants {
   /// Button
   static const double minButtonHeight = 48.0;
   static const double buttonHeight = 56.0;
+
+  /// Selector
+  static const double selectorChipForRowCount = 2;
 }

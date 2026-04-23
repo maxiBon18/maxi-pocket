@@ -11,13 +11,15 @@ import 'package:maxi_pocket/core/shared/utils/extensions.dart' show DoubleExtens
 /// Pass [textStyle] to override the default label typography.
 class MaxiPocketButtonWidget extends StatelessWidget {
   const MaxiPocketButtonWidget({
-    required this.themeMode, super.key,
+    required this.themeMode,
+    super.key,
     this.onPressed,
     this.label,
     this.height,
     this.width,
     this.textStyle,
     this.enabled = true,
+    this.backgroundColor,
   });
 
   final VoidCallback? onPressed;
@@ -27,6 +29,7 @@ class MaxiPocketButtonWidget extends StatelessWidget {
   final TextStyle? textStyle;
   final bool enabled;
   final MaxiPocketThemeMode themeMode;
+  final Color? backgroundColor;
 
   Color get _textColor => themeMode == MaxiPocketThemeMode.light
       ? enabled
@@ -44,7 +47,7 @@ class MaxiPocketButtonWidget extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(DesignConstants.radius16),
-        color: ThemeDarkColors.primaryDarkColor,
+        color: backgroundColor ?? ThemeDarkColors.primaryDarkColor,
       ),
       width: width,
       height: buttonHeight,

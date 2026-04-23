@@ -14,7 +14,8 @@ import 'package:maxi_pocket/core/shared/utils/methods.dart' show isDarkMode;
 ///
 /// Watch this in the widget tree (for example [MaxiPocketApp]) so the UI rebuilds when
 /// the theme changes.
-final NotifierProvider<ThemeViewModel, MaxiPocketThemeMode> themeProvider = NotifierProvider<ThemeViewModel, MaxiPocketThemeMode>(ThemeViewModel.new);
+final NotifierProvider<ThemeViewModel, MaxiPocketThemeMode> themeProvider =
+    NotifierProvider<ThemeViewModel, MaxiPocketThemeMode>(ThemeViewModel.new);
 
 /// Loads and saves the user’s light/dark preference, with a platform default when unset.
 ///

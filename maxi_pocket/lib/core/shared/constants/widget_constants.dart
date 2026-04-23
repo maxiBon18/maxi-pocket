@@ -28,6 +28,16 @@ class WidgetConstants {
   /// Floating Action Button
   static const String floatingActionButtonTooltip = 'Aggiungi spesa';
 
+  // Button Strings
+  static const String buttonOk = 'OK';
+  static const String buttonCancel = 'Annulla';
+  static const String buttonDelete = 'Elimina';
+  static const String buttonEdit = 'Modifica';
+  static const String buttonSave = 'Salva';
+  static const String buttonAdd = 'Aggiungi';
+  static const String buttonRemove = 'Rimuovi';
+  static const String buttonClose = 'Chiudi';
+
   // Bottom Bar
   static const Map<int, String> tabRoutes = <int, String>{
     0: Routes.homeRoute,
@@ -41,6 +51,7 @@ class WidgetConstants {
   static const String addExpensesName = 'Nome';
   static const String addExpensesAmount = 'Importo';
   static const String addExpensesFinancingInstallments = 'Numero di rate';
+  static const String addExpensesFinancingPaidInstallments = 'Numero di rate pagate';
   static const String addExpensesAppointmentLocation = 'Luogo';
   static const String addExpensesCategory = 'Categoria';
   static const String addExpensesFrequency = 'Tipologia';
@@ -53,7 +64,11 @@ class WidgetConstants {
   static const String addExpensesDateRequired = 'Data è obbligatoria';
   static const String addExpensesFinancingInstallmentsRequired = 'Numero di rate è obbligatorio';
   static const String addExpensesFinancingInstallmentsInvalid = 'Numero di rate non valido';
+  static const String addExpensesFinancingPaidInstallmentsRequired = 'Numero di rate pagate è obbligatorio';
+  static const String addExpensesFinancingPaidInstallmentsInvalid = 'Numero di rate pagate non valido';
   static const String addExpensesAppointmentLocationRequired = 'Il luogo dell\'appuntamento è obbligatorio';
+  static const String addExpensesErrorTitle = 'Ops!';
+  static const String addExpensesErrorSubTitle = 'Qualcosa è andato storto. Riprova più tardi.';
 
   /// Add Expenses — Type selector
   static const String addExpensesTypeLabel = 'Tipo';

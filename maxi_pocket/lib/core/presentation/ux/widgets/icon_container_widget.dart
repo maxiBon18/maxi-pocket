@@ -3,7 +3,9 @@ import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show De
 
 class MaxiPocketIconContainerWidget extends StatelessWidget {
   const MaxiPocketIconContainerWidget({
-    required this.child, required this.colorBackground, super.key,
+    required this.child,
+    required this.colorBackground,
+    super.key,
     this.width = DesignConstants.containerSize48,
     this.height = DesignConstants.containerSize48,
     this.shape = BoxShape.rectangle,

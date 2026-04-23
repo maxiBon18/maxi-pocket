@@ -23,8 +23,7 @@ class SharedPrefAsyncRepoImpl implements SharedPrefAsyncRepo {
   Future<bool?> getBoolAsync(String key) async => await _sharedPrefAsyncSource.getBoolAsync(key);
 
   @override
-  Future<List<String>?> getStringListAsync(String key) async =>
-      await _sharedPrefAsyncSource.getStringListAsync(key);
+  Future<List<String>?> getStringListAsync(String key) async => await _sharedPrefAsyncSource.getStringListAsync(key);
 
   @override
   Future<Map<String, Object?>> getAllAsync() async => await _sharedPrefAsyncSource.getAllAsync();
@@ -44,8 +43,7 @@ class SharedPrefAsyncRepoImpl implements SharedPrefAsyncRepo {
       await _sharedPrefAsyncSource.setDoubleAsync(key, value);
 
   @override
-  Future<void> setBoolAsync(String key, bool value) async =>
-      await _sharedPrefAsyncSource.setBoolAsync(key, value);
+  Future<void> setBoolAsync(String key, bool value) async => await _sharedPrefAsyncSource.setBoolAsync(key, value);
 
   @override
   Future<void> setStringListAsync(String key, List<String> value) async =>

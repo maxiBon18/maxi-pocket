@@ -13,4 +13,5 @@ class AppConstants {
   static const String countryCode = 'IT';
   static const Locale appLocale = Locale(languageCode, countryCode);
   static const String versionTitle = 'Versione';
+  static const String databaseName = 'maxi_pocket_db';
 }

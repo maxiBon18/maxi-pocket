@@ -8,7 +8,9 @@ import 'package:maxi_pocket/core/shared/utils/methods.dart' show getShadowsColor
 
 class MaxiPocketListTileWidget extends StatelessWidget {
   const MaxiPocketListTileWidget({
-    required this.title, required this.themeMode, super.key,
+    required this.title,
+    required this.themeMode,
+    super.key,
     this.subtitle,
     this.leading,
     this.trailing,

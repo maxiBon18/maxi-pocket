@@ -7,16 +7,7 @@ MaxiPocket — mobile Flutter app to track and manage personal fixed expenses (s
 
 ## Technology Stack
 
-| Technology  | Version              |
-| ----------- | -------------------- |
-| Flutter     | See `.fvmrc`         |
-| Dart SDK    | Bundled with Flutter |
-| Android SDK | Latest stable        |
-| Xcode       | Latest stable        |
-| FVM         | Latest               |
-| Firebase    | See `pubspec.yaml`   |
-
-Use `pubspec.yaml` for information about Flutter packages and run `fvm flutter doctor` for information about Android SDK and Xcode version.
+Use `pubspec.yaml` for information about Flutter packages and run `fvm flutter doctor` for information about Flutter, Dart, Android SDK and Xcode version.
 Use `fvm --version` for version information about FVM.
 
 ## Agent Behavioral Rules
@@ -32,7 +23,6 @@ Use `fvm --version` for version information about FVM.
 - Follow all conventions defined in the rules files. Do NOT invent alternative patterns.
 - Place new files in the correct directory according to the feature directory structure below.
 - Run `fvm dart analyze` after making changes to verify there are no analysis errors.
-- Run `fvm dart format lib/` after making changes.
 - When generating code, run `fvm dart run build_runner build --delete-conflicting-outputs` after modifying annotated classes.
 
 ### Prohibited Actions
@@ -48,7 +38,6 @@ Use `fvm --version` for version information about FVM.
 ALWAYS stop and ask for confirmation before:
 
 - Creating a new feature module or top-level directory.
-- Adding, removing, or upgrading a dependency in `pubspec.yaml`.
 - Choosing between multiple architectural approaches (e.g., Notifier vs AsyncNotifier, single vs multiple providers).
 - Modifying shared code in `core/` that affects multiple features.
 - Changing navigation structure or adding new routes.
@@ -57,8 +46,6 @@ ALWAYS stop and ask for confirmation before:
 - Modifying Drift database schema (migrations have side effects).
 - Writing platform-specific code (`Platform` checks, conditional imports).
 - Any task where the requirement is ambiguous or has more than one valid interpretation.
-
-<!-- Add new "ask first" rules here as you discover autonomous decisions that should have been confirmed. -->
 
 ## Architecture
 
@@ -76,6 +63,7 @@ Clean Architecture with **MVVM** pattern and **feature-first** approach.
 ├── data/
 │   ├── source/
 │   │   ├── dto/          # Concrete DTO implementations
+│   │   │   └── table/    # Drift Table definitions
 │   │   └── *.dart        # Concrete data source implementations
 │   └── repo/
 │       └── *.dart        # Concrete repository implementations
@@ -104,12 +92,13 @@ Clean Architecture with **MVVM** pattern and **feature-first** approach.
 
 1. Apply SOLID principles throughout the codebase.
 2. **Dependency direction is strictly inward:** presentation → domain ← data. Domain MUST NOT import presentation or data. Data MUST NOT import presentation.
-3. Only elements in `shared/` or `core/` may be imported across layers or features.
-4. Repository **interfaces** live in `domain/repo/`. Repository **implementations** live in `data/repo/`.
-5. Data source **interfaces** live in `data/repo/source/`. Data source **implementations** live in `data/source/`.
-6. ViewModels communicate exclusively with the domain layer (use cases / services).
-7. Local storage currently uses **SharedPreferences** only. Drift is planned but not yet added to `pubspec.yaml`.
-8. All cross-layer shared code MUST reside in the feature's `shared/` folder.
+3. Data layer can use domain entity and repo implementation can import Data DTO
+4. Only elements in `shared/` or `core/` may be imported across layers or features.
+5. Repository **interfaces** live in `domain/repo/`. Repository **implementations** live in `data/repo/`.
+6. Data source **interfaces** live in `data/repo/source/`. Data source **implementations** live in `data/source/`.
+7. ViewModels communicate exclusively with the domain layer (use cases / services).
+8. Local storage currently uses **SharedPreferences** only. Drift is planned but not yet added to `pubspec.yaml`.
+9. All cross-layer shared code MUST reside in the feature's `shared/` folder.
 
 ## Rules Files
 
@@ -126,68 +115,39 @@ NEVER load all the rules — only those whose scope matches the current task.
 | `code/domain-layer-rules.md`       | Domain layer, repository interfaces, entities, services              |
 | `code/di-rules.md`                 | Dependency injection with GetIt                                      |
 | `code/routing-rules.md`            | Navigation and route registration                                    |
-| `documentation/documentation.md`   | Code documentation and commenting style                              |
-| `review/code-review.md`            | Code review checklist                                                |
+
+**Additional sub-folders for logical grouping within a layer are permitted and do NOT constitute an architectural violation.**
 
 ## Common Commands
 
-IMPORTANT: Every `dart` and `flutter` CLI command MUST use `fvm`.
+IMPORTANT: Every `dart` and `flutter` CLI command MUST use the `fvm` prefix.
+Most used commands are:
+- `fvm dart analyze`
+- `fvm dart format lib/`
 
-```bash
-# Run
-fvm flutter run
+**READ THIS RULE FILE ONLY IF THE COMMAND IS DIFFERENT FROM 2 BELOW:** the full command reference, see `.claude/rules/code/cli-commands.md`.
 
-# Build
-fvm flutter build apk
-fvm flutter build ios
+## Subagents
 
-# Analyze
-fvm dart analyze
+Delegate these tasks to the corresponding subagent automatically:
 
-# Format
-fvm dart format lib/
+- **Code review, PR review, code quality audit** → delegate to `code-reviewer` subagent.
+- **Document code, add doc comments, generate documentation** → delegate to `doc-generator` subagent.
+- **Debug, fix a bug, investigate a crash, analyze a stack trace** → delegate to `debugger` subagent.
 
-# Test
-fvm flutter test
+## Skills
 
-# Test (single file)
-fvm flutter test test/<path_to_test>.dart
+Available skills for explicit invocation:
 
-# Dependencies
-fvm flutter pub get
-fvm flutter pub add <package_name>
-fvm flutter pub add dev:<package_name>
-fvm dart pub remove <package_name>
+| Skill              | Command               | Invocation    | Use When                                         |
+| ------------------ | --------------------- | ------------- | ------------------------------------------------ |
+| Dart Documentation | `/dart-documentation` | Explicit only | Writing or improving doc comments in Dart files. |
+| Code Review        | `/code-review`        | Explicit only | Running a full 10-area code quality audit.       |
+| Debug              | `/debug`              | Explicit only | Diagnosing and fixing a reported bug.            |
+| new-feature        | `/new-feature`        | Explicit only | Create directories for new feature.              |
+| Git Flow           | `/git-flow`           | Explicit only | Commit and push changes                          |
 
-# Code generation (Freezed, etc.)
-fvm dart run build_runner build --delete-conflicting-outputs
-```
+Skills marked **Explicit only** require the slash command — Claude will not auto-invoke them.
+Skills marked **Auto** may be loaded by Claude when it detects relevant context.
 
-## CLAUDE.md Maintenance Process
-
-### After Every Session
-
-1. Run `git diff` to review all changes Claude Code made.
-2. For each change, ask yourself:
-   - Did it follow the existing patterns in the codebase?
-   - Did it place files in the correct directory?
-   - Did it modify anything I didn't ask for?
-   - Would I have made a different decision?
-
-3. Classify each unwanted autonomous decision:
-
-   | Classification        | Action                                                        |
-   | --------------------- | ------------------------------------------------------------- |
-   | **Should have asked** | Add to `### When to Ask the Developer` in CLAUDE.md           |
-   | **Should never do**   | Add to `### Prohibited Actions` in CLAUDE.md                  |
-   | **Did it wrong**      | Add or clarify the rule in the relevant `.claude/rules/` file |
-   | **Did it right**      | No action needed — the current rules are sufficient           |
-
-4. Commit the CLAUDE.md update in the same session so the next session benefits immediately.
-
-### Monthly Review
-
-1. Re-read the full CLAUDE.md. Remove rules that are no longer relevant.
-2. Check that the Rules Files table still matches the actual filenames in `.claude/rules/`.
-3. Check that the Feature Directory Structure still matches the actual project structure.
-4. If the "When to Ask" list has grown beyond 15 items, look for patterns you can consolidate into a single broader rule.
+For detailed skill procedures, see `.claude/skills/<skill-name>/SKILL.md`.

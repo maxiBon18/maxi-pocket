@@ -12,7 +12,9 @@ import 'package:maxi_pocket/core/shared/utils/extensions.dart' show BuildContext
 @immutable
 class MaxiPocketBadgeWidget extends StatelessWidget {
   const MaxiPocketBadgeWidget({
-    required this.label, required this.themeMode, super.key,
+    required this.label,
+    required this.themeMode,
+    super.key,
     this.expensesType,
     this.expensesFrequency,
   });
@@ -26,26 +28,31 @@ class MaxiPocketBadgeWidget extends StatelessWidget {
     final MaxiPocketExpensesType? expType = expensesType;
     if (expType != null) {
       return switch (expType) {
-        MaxiPocketExpensesType.subscription || MaxiPocketExpensesType.all => themeMode == MaxiPocketThemeMode.light
-            ? ThemeLightColors.primaryLightColor
-            : ThemeDarkColors.primarySurfaceColor,
-        MaxiPocketExpensesType.financing => themeMode == MaxiPocketThemeMode.light
-            ? ThemeLightColors.badgeFinancingBackgroundColor
-            : ThemeDarkColors.expensesFinancingIconBackgroundColor,
-        MaxiPocketExpensesType.appointments => themeMode == MaxiPocketThemeMode.light
-            ? ThemeLightColors.appointmentsBadgeBackgroundColor
-            : ThemeDarkColors.appointmentsBadgeBackgroundColor,
+        MaxiPocketExpensesType.subscription || MaxiPocketExpensesType.all =>
+          themeMode == MaxiPocketThemeMode.light
+              ? ThemeLightColors.primaryLightColor
+              : ThemeDarkColors.primarySurfaceColor,
+        MaxiPocketExpensesType.financing =>
+          themeMode == MaxiPocketThemeMode.light
+              ? ThemeLightColors.badgeFinancingBackgroundColor
+              : ThemeDarkColors.expensesFinancingIconBackgroundColor,
+        MaxiPocketExpensesType.appointments =>
+          themeMode == MaxiPocketThemeMode.light
+              ? ThemeLightColors.appointmentsBadgeBackgroundColor
+              : ThemeDarkColors.appointmentsBadgeBackgroundColor,
       };
     }
     final MaxiPocketExpensesFrequency? expFreq = expensesFrequency;
     if (expFreq != null) {
       return switch (expFreq) {
-        MaxiPocketExpensesFrequency.monthly => themeMode == MaxiPocketThemeMode.light
-            ? ThemeLightColors.expensesMonthlyColor
-            : ThemeDarkColors.expensesMonthlyColor,
-        MaxiPocketExpensesFrequency.annual => themeMode == MaxiPocketThemeMode.light
-            ? ThemeLightColors.expensesAnnualColor
-            : ThemeDarkColors.expensesAnnualColor,
+        MaxiPocketExpensesFrequency.monthly =>
+          themeMode == MaxiPocketThemeMode.light
+              ? ThemeLightColors.expensesMonthlyColor
+              : ThemeDarkColors.expensesMonthlyColor,
+        MaxiPocketExpensesFrequency.annual =>
+          themeMode == MaxiPocketThemeMode.light
+              ? ThemeLightColors.expensesAnnualColor
+              : ThemeDarkColors.expensesAnnualColor,
       };
     }
     return ThemeLightColors.primaryLightColor;
@@ -57,9 +64,8 @@ class MaxiPocketBadgeWidget extends StatelessWidget {
       return switch (expType) {
         MaxiPocketExpensesType.subscription || MaxiPocketExpensesType.all => ThemeLightColors.errorColor,
         MaxiPocketExpensesType.financing => ThemeLightColors.secondaryDarkColor,
-        MaxiPocketExpensesType.appointments => themeMode == MaxiPocketThemeMode.light
-            ? ThemeLightColors.textPrimaryColor
-            : ThemeDarkColors.textPrimaryColor,
+        MaxiPocketExpensesType.appointments =>
+          themeMode == MaxiPocketThemeMode.light ? ThemeLightColors.textPrimaryColor : ThemeDarkColors.textPrimaryColor,
       };
     }
     final MaxiPocketExpensesFrequency? expFreq = expensesFrequency;

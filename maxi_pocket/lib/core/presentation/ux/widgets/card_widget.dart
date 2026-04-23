@@ -13,7 +13,12 @@ import 'package:maxi_pocket/core/shared/utils/methods.dart' show getShadowsColor
 @immutable
 class MaxiPocketSummaryCardWidget extends StatelessWidget {
   const MaxiPocketSummaryCardWidget({
-    required this.themeMode, required this.label, required this.amount, required this.subtitle, required this.iconData, super.key,
+    required this.themeMode,
+    required this.label,
+    required this.amount,
+    required this.subtitle,
+    required this.iconData,
+    super.key,
     this.colorsGradient = _defaultGradient,
   });
 

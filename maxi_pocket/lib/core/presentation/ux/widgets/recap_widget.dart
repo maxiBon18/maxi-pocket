@@ -56,10 +56,11 @@ class MaxiPocketRecapWidget extends StatelessWidget {
           Expanded(
             child: Text(
               isAppointment ? value.toString() : '${value.toStringAsFixed(2)} ${WidgetConstants.currencySymbol}',
-              style: (themeMode == MaxiPocketThemeMode.light
-                      ? ThemeTextStyles.monetaryAmountSmallLight
-                      : ThemeTextStyles.monetaryAmountSmallDark)
-                  .copyWith(color: _getTextColor(themeMode)),
+              style:
+                  (themeMode == MaxiPocketThemeMode.light
+                          ? ThemeTextStyles.monetaryAmountSmallLight
+                          : ThemeTextStyles.monetaryAmountSmallDark)
+                      .copyWith(color: _getTextColor(themeMode)),
               textAlign: .end,
             ),
           ),

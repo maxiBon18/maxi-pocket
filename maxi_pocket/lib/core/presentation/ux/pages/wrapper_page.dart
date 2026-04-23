@@ -129,17 +129,19 @@ class MaxiPocketPage extends ConsumerWidget {
           backgroundColor: backgroundColor,
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
           extendBodyBehindAppBar: extendBodyBehindAppBar,
-          appBar: showAppBar ? _MaxiPocketAppBarWidget(
-            screenHeight: screenHeight,
-            themeMode: themeMode,
-            showLeading: showLeading,
-            leadingIsBackButton: leadingIsBackButton,
-            customOnBack: customOnBack,
-            leading: leading,
-            actions: actions,
-            title: title,
-            automaticallyImplyLeading: automaticallyImplyLeading,
-          ) : null,
+          appBar: showAppBar
+              ? _MaxiPocketAppBarWidget(
+                  screenHeight: screenHeight,
+                  themeMode: themeMode,
+                  showLeading: showLeading,
+                  leadingIsBackButton: leadingIsBackButton,
+                  customOnBack: customOnBack,
+                  leading: leading,
+                  actions: actions,
+                  title: title,
+                  automaticallyImplyLeading: automaticallyImplyLeading,
+                )
+              : null,
           floatingActionButton: showFloatingActionButton ? const MaxiPocketFloatingActionButtonWidget() : null,
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           bottomNavigationBar: showBottomBar ? const MaxiPocketBottomBarWidget() : null,
@@ -184,8 +186,8 @@ class _MaxiPocketAppBarWidget extends StatelessWidget implements PreferredSizeWi
       shadowColor: getShadowsColor(themeMode).withValues(alpha: DesignConstants.bottomBarShadowOpacity),
       leading: showLeading
           ? leadingIsBackButton
-              ? _MaxiPocketBackButtonWidget(customOnBack: customOnBack)
-              : leading
+                ? _MaxiPocketBackButtonWidget(customOnBack: customOnBack)
+                : leading
           : null,
       actions: actions,
       title: title,

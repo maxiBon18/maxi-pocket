@@ -38,6 +38,21 @@ String? financingInstallmentsValidator(String? financingInstallments) {
   return null;
 }
 
+/// Returns an error message if [financingPaidInstallments] is null, blank, non-numeric, or ≤ 0.
+String? financingPaidInstallmentsValidator(String? financingPaidInstallments) {
+  if (financingPaidInstallments == null || financingPaidInstallments.trim().isEmpty) {
+    return WidgetConstants.addExpensesFinancingPaidInstallmentsRequired;
+  }
+  final int? parsed = int.tryParse(financingPaidInstallments);
+  if (parsed == null) {
+    return WidgetConstants.addExpensesFinancingPaidInstallmentsRequired;
+  }
+  if (parsed < 0) {
+    return WidgetConstants.addExpensesFinancingPaidInstallmentsInvalid;
+  }
+  return null;
+}
+
 /// Returns an error message if [name] is null or blank, otherwise null.
 String? nameValidator(String? name) {
   if (name == null || name.trim().isEmpty) {

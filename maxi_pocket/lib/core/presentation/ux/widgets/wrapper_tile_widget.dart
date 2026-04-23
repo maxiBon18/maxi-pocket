@@ -24,20 +24,15 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
       ? ThemeLightColors.textSecondaryColor
       : ThemeDarkColors.onSurfaceVariantColor;
 
-  Color get _amountColor => themeMode == MaxiPocketThemeMode.light
-      ? ThemeLightColors.onSurfaceColor
-      : ThemeDarkColors.onSurfaceColor;
+  Color get _amountColor =>
+      themeMode == MaxiPocketThemeMode.light ? ThemeLightColors.onSurfaceColor : ThemeDarkColors.onSurfaceColor;
 
   @override
   Widget build(BuildContext context) {
     return MaxiPocketListTileWidget(
       title: const Text(WidgetConstants.expenseTitlePlaceholder),
       subtitle: _ExpenseTileSubtitle(iconColor: _iconColor, isAppointment: isAppointment, themeMode: themeMode),
-      trailing: _MaxiPocketTileTrailing(
-        isAppointment: isAppointment,
-        iconColor: _iconColor,
-        amountColor: _amountColor,
-      ),
+      trailing: _MaxiPocketTileTrailing(isAppointment: isAppointment, iconColor: _iconColor, amountColor: _amountColor),
       isThreeLine: true,
       themeMode: themeMode,
     );
@@ -49,11 +44,7 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
 /// The amount row is hidden when [isAppointment] is true.
 @immutable
 class _MaxiPocketTileTrailing extends StatelessWidget {
-  const _MaxiPocketTileTrailing({
-    required this.isAppointment,
-    required this.iconColor,
-    required this.amountColor,
-  });
+  const _MaxiPocketTileTrailing({required this.isAppointment, required this.iconColor, required this.amountColor});
 
   final bool isAppointment;
   final Color iconColor;
@@ -81,7 +72,12 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
             const SizedBox(width: DesignConstants.spacing12),
             GestureDetector(
               onTap: () {},
-              child: Icon(Icons.delete_outlined, color: iconColor, size: DesignConstants.icon24, applyTextScaling: false),
+              child: Icon(
+                Icons.delete_outlined,
+                color: iconColor,
+                size: DesignConstants.icon24,
+                applyTextScaling: false,
+              ),
             ),
           ],
         ),
@@ -140,12 +136,7 @@ class _ExpenseTileDateRow extends StatelessWidget {
       spacing: DesignConstants.spacing4,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Icon(
-          Icons.calendar_today_outlined,
-          color: iconColor,
-          size: DesignConstants.icon16,
-          applyTextScaling: false,
-        ),
+        Icon(Icons.calendar_today_outlined, color: iconColor, size: DesignConstants.icon16, applyTextScaling: false),
         Flexible(
           child: Text(
             isAppointment ? WidgetConstants.nextAppointment : WidgetConstants.nextExpenses,
