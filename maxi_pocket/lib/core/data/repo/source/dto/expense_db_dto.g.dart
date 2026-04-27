@@ -6,17 +6,22 @@ part of 'expense_db_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_ExpenseDbDto _$ExpenseDbDtoFromJson(Map<String, dynamic> json) => _ExpenseDbDto(
-  name: json['name'] as String,
-  eventType: $enumDecode(_$MaxiPocketExpensesTypeEnumMap, json['eventType']),
-  eventDate: DateTime.parse(json['eventDate'] as String),
-);
+_ExpenseDbDto _$ExpenseDbDtoFromJson(Map<String, dynamic> json) =>
+    _ExpenseDbDto(
+      name: json['name'] as String,
+      eventType: $enumDecode(
+        _$MaxiPocketExpensesTypeEnumMap,
+        json['eventType'],
+      ),
+      eventDate: DateTime.parse(json['eventDate'] as String),
+    );
 
-Map<String, dynamic> _$ExpenseDbDtoToJson(_ExpenseDbDto instance) => <String, dynamic>{
-  'name': instance.name,
-  'eventType': _$MaxiPocketExpensesTypeEnumMap[instance.eventType]!,
-  'eventDate': instance.eventDate.toIso8601String(),
-};
+Map<String, dynamic> _$ExpenseDbDtoToJson(_ExpenseDbDto instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'eventType': _$MaxiPocketExpensesTypeEnumMap[instance.eventType]!,
+      'eventDate': instance.eventDate.toIso8601String(),
+    };
 
 const _$MaxiPocketExpensesTypeEnumMap = {
   MaxiPocketExpensesType.subscription: 'subscription',

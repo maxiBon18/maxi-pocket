@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SubscriptionDto {
 
- ExpenseDbDto get expense; double get amount; MaxiPocketExpensesFrequency get frequency;
+ ExpenseDbDto get expense; double get amount; MaxiPocketExpensesFrequency get frequency; DateTime? get nextPaymentDate;
 /// Create a copy of SubscriptionDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SubscriptionDtoCopyWith<SubscriptionDto> get copyWith => _$SubscriptionDtoCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SubscriptionDto&&(identical(other.expense, expense) || other.expense == expense)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.frequency, frequency) || other.frequency == frequency));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SubscriptionDto&&(identical(other.expense, expense) || other.expense == expense)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.nextPaymentDate, nextPaymentDate) || other.nextPaymentDate == nextPaymentDate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,expense,amount,frequency);
+int get hashCode => Object.hash(runtimeType,expense,amount,frequency,nextPaymentDate);
 
 @override
 String toString() {
-  return 'SubscriptionDto(expense: $expense, amount: $amount, frequency: $frequency)';
+  return 'SubscriptionDto(expense: $expense, amount: $amount, frequency: $frequency, nextPaymentDate: $nextPaymentDate)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SubscriptionDtoCopyWith<$Res>  {
   factory $SubscriptionDtoCopyWith(SubscriptionDto value, $Res Function(SubscriptionDto) _then) = _$SubscriptionDtoCopyWithImpl;
 @useResult
 $Res call({
- ExpenseDbDto expense, double amount, MaxiPocketExpensesFrequency frequency
+ ExpenseDbDto expense, double amount, MaxiPocketExpensesFrequency frequency, DateTime? nextPaymentDate
 });
 
 
@@ -65,12 +65,13 @@ class _$SubscriptionDtoCopyWithImpl<$Res>
 
 /// Create a copy of SubscriptionDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? expense = null,Object? amount = null,Object? frequency = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? expense = null,Object? amount = null,Object? frequency = null,Object? nextPaymentDate = freezed,}) {
   return _then(_self.copyWith(
 expense: null == expense ? _self.expense : expense // ignore: cast_nullable_to_non_nullable
 as ExpenseDbDto,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as double,frequency: null == frequency ? _self.frequency : frequency // ignore: cast_nullable_to_non_nullable
-as MaxiPocketExpensesFrequency,
+as MaxiPocketExpensesFrequency,nextPaymentDate: freezed == nextPaymentDate ? _self.nextPaymentDate : nextPaymentDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 /// Create a copy of SubscriptionDto
@@ -164,10 +165,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ExpenseDbDto expense,  double amount,  MaxiPocketExpensesFrequency frequency)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ExpenseDbDto expense,  double amount,  MaxiPocketExpensesFrequency frequency,  DateTime? nextPaymentDate)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SubscriptionDto() when $default != null:
-return $default(_that.expense,_that.amount,_that.frequency);case _:
+return $default(_that.expense,_that.amount,_that.frequency,_that.nextPaymentDate);case _:
   return orElse();
 
 }
@@ -185,10 +186,10 @@ return $default(_that.expense,_that.amount,_that.frequency);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ExpenseDbDto expense,  double amount,  MaxiPocketExpensesFrequency frequency)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ExpenseDbDto expense,  double amount,  MaxiPocketExpensesFrequency frequency,  DateTime? nextPaymentDate)  $default,) {final _that = this;
 switch (_that) {
 case _SubscriptionDto():
-return $default(_that.expense,_that.amount,_that.frequency);case _:
+return $default(_that.expense,_that.amount,_that.frequency,_that.nextPaymentDate);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,10 +206,10 @@ return $default(_that.expense,_that.amount,_that.frequency);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ExpenseDbDto expense,  double amount,  MaxiPocketExpensesFrequency frequency)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ExpenseDbDto expense,  double amount,  MaxiPocketExpensesFrequency frequency,  DateTime? nextPaymentDate)?  $default,) {final _that = this;
 switch (_that) {
 case _SubscriptionDto() when $default != null:
-return $default(_that.expense,_that.amount,_that.frequency);case _:
+return $default(_that.expense,_that.amount,_that.frequency,_that.nextPaymentDate);case _:
   return null;
 
 }
@@ -220,12 +221,13 @@ return $default(_that.expense,_that.amount,_that.frequency);case _:
 @JsonSerializable()
 
 class _SubscriptionDto extends SubscriptionDto {
-  const _SubscriptionDto({required this.expense, required this.amount, required this.frequency}): super._();
+  const _SubscriptionDto({required this.expense, required this.amount, required this.frequency, required this.nextPaymentDate}): super._();
   factory _SubscriptionDto.fromJson(Map<String, dynamic> json) => _$SubscriptionDtoFromJson(json);
 
 @override final  ExpenseDbDto expense;
 @override final  double amount;
 @override final  MaxiPocketExpensesFrequency frequency;
+@override final  DateTime? nextPaymentDate;
 
 /// Create a copy of SubscriptionDto
 /// with the given fields replaced by the non-null parameter values.
@@ -240,16 +242,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SubscriptionDto&&(identical(other.expense, expense) || other.expense == expense)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.frequency, frequency) || other.frequency == frequency));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SubscriptionDto&&(identical(other.expense, expense) || other.expense == expense)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.nextPaymentDate, nextPaymentDate) || other.nextPaymentDate == nextPaymentDate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,expense,amount,frequency);
+int get hashCode => Object.hash(runtimeType,expense,amount,frequency,nextPaymentDate);
 
 @override
 String toString() {
-  return 'SubscriptionDto(expense: $expense, amount: $amount, frequency: $frequency)';
+  return 'SubscriptionDto(expense: $expense, amount: $amount, frequency: $frequency, nextPaymentDate: $nextPaymentDate)';
 }
 
 
@@ -260,7 +262,7 @@ abstract mixin class _$SubscriptionDtoCopyWith<$Res> implements $SubscriptionDto
   factory _$SubscriptionDtoCopyWith(_SubscriptionDto value, $Res Function(_SubscriptionDto) _then) = __$SubscriptionDtoCopyWithImpl;
 @override @useResult
 $Res call({
- ExpenseDbDto expense, double amount, MaxiPocketExpensesFrequency frequency
+ ExpenseDbDto expense, double amount, MaxiPocketExpensesFrequency frequency, DateTime? nextPaymentDate
 });
 
 
@@ -277,12 +279,13 @@ class __$SubscriptionDtoCopyWithImpl<$Res>
 
 /// Create a copy of SubscriptionDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? expense = null,Object? amount = null,Object? frequency = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? expense = null,Object? amount = null,Object? frequency = null,Object? nextPaymentDate = freezed,}) {
   return _then(_SubscriptionDto(
 expense: null == expense ? _self.expense : expense // ignore: cast_nullable_to_non_nullable
 as ExpenseDbDto,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as double,frequency: null == frequency ? _self.frequency : frequency // ignore: cast_nullable_to_non_nullable
-as MaxiPocketExpensesFrequency,
+as MaxiPocketExpensesFrequency,nextPaymentDate: freezed == nextPaymentDate ? _self.nextPaymentDate : nextPaymentDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

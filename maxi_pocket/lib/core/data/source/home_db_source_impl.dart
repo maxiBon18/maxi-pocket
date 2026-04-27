@@ -4,10 +4,13 @@ import 'package:maxi_pocket/core/data/repo/source/dto/financing_dto.dart';
 import 'package:maxi_pocket/core/data/repo/source/dto/subscription_dto.dart';
 import 'package:maxi_pocket/core/data/repo/source/dto/table/data_table.dart';
 import 'package:maxi_pocket/core/data/source/database_source_impl.dart';
-import 'package:maxi_pocket/home/data/repo/source/home_db_source.dart';
+import 'package:maxi_pocket/core/data/repo/source/dto/home_db_source.dart';
 
 part 'home_db_source_impl.g.dart';
 
+/// Drift data source implementation that executes joined queries against the home-screen tables.
+///
+/// Both queries filter by the current calendar month so only upcoming expenses are returned.
 @DriftAccessor(tables: <Type>[CommonDataTable, SubscriptionsTable, FinancingTable])
 class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
     with _$HomeDbSourceImplMixin
@@ -22,7 +25,7 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
       ],
     );
 
-    querySubscription.where(commonDataTable.eventDate.month.equals(DateTime.now().month));
+    querySubscription.where(subscriptionsTable.nextPaymentDate.month.equals(DateTime.now().month));
 
     final List<TypedResult> subscriptionRows = await querySubscription.get();
 
@@ -38,6 +41,7 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
         expense: expenseDbDto,
         amount: subscriptionData.amount,
         frequency: subscriptionData.expensesFrequency,
+        nextPaymentDate: subscriptionData.nextPaymentDate,
       );
     }).toList();
 
@@ -52,7 +56,7 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
       ],
     );
 
-    queryFinancing.where(commonDataTable.eventDate.month.equals(DateTime.now().month));
+    queryFinancing.where(financingTable.nextPaymentDate.month.equals(DateTime.now().month));
 
     final List<TypedResult> financingRows = await queryFinancing.get();
 
@@ -69,6 +73,7 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
         amount: financingData.amount,
         numberOfInstallments: financingData.numberOfInstallments,
         numberOfPaidInstallments: financingData.numberOfPaidInstallments,
+        nextPaymentDate: financingData.nextPaymentDate,
       );
     }).toList();
 

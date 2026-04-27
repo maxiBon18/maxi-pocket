@@ -151,3 +151,22 @@ Skills marked **Explicit only** require the slash command — Claude will not au
 Skills marked **Auto** may be loaded by Claude when it detects relevant context.
 
 For detailed skill procedures, see `.claude/skills/<skill-name>/SKILL.md`.
+
+## Known Gotchas
+
+### AsyncNotifierProvider — default retry on error causes multiple navigations
+
+**Symptom:** Splash screen triggers navigation to home multiple times when `build()` throws. Even after fixing double state assignment, navigation fires repeatedly.
+
+**Root cause:** Riverpod's `AsyncNotifierProvider` retries `build()` automatically on error by default. Each retry transitions the state (loading → error → loading → error …), firing `ref.listen` on every cycle.
+
+**Fix:** Disable retry explicitly on every `AsyncNotifierProvider` declaration:
+
+```dart
+AsyncNotifierProvider<MyNotifier, MyState>(
+  MyNotifier.new,
+  retry: (int retryCount, Object error) => null,
+)
+```
+
+**Also fixed:** Do NOT manually set `state = AsyncValue.error(...)` inside the `catch` block of `build()`. Riverpod sets the error state automatically when `build()` throws. Manual assignment causes a double state transition and a second listener fire.

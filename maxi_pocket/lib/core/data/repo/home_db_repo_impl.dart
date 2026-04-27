@@ -5,11 +5,12 @@ import 'package:maxi_pocket/core/data/repo/source/dto/table/data_table.dart';
 import 'package:maxi_pocket/core/data/source/database_source_impl.dart';
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart';
-import 'package:maxi_pocket/home/data/repo/source/home_db_source.dart';
-import 'package:maxi_pocket/home/domain/services/repo/home_db_repo.dart';
+import 'package:maxi_pocket/core/data/repo/source/dto/home_db_source.dart';
+import 'package:maxi_pocket/core/domain/services/repo/home_db_repo.dart';
 
 part 'home_db_repo_impl.g.dart';
 
+/// Drift-backed implementation of [HomeDbRepo] that delegates raw queries to [HomeDbSource].
 @DriftAccessor(tables: <Type>[CommonDataTable, SubscriptionsTable, FinancingTable])
 class HomeDbRepoImpl extends DatabaseAccessor<MaxiPocketDatabase> with _$HomeDbRepoImplMixin implements HomeDbRepo {
   final HomeDbSource _homeDbSource;

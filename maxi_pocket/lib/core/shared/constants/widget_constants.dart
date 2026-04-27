@@ -38,7 +38,7 @@ class WidgetConstants {
   static const String buttonRemove = 'Rimuovi';
   static const String buttonClose = 'Chiudi';
 
-  // Bottom Bar
+  /// Maps bottom-bar tab indices to their named routes for programmatic navigation.
   static const Map<int, String> tabRoutes = <int, String>{
     0: Routes.homeRoute,
     1: Routes.expensesRoute,
@@ -91,6 +91,6 @@ class WidgetConstants {
 
   /// Appointments
   static const String activeNumberAppointments = 'Appuntamenti futuri';
-  static const String nextAppointment = 'Prossimo Appuntamento: \${nextAppointmentDate}';
+  static const String nextAppointment = 'Prossimo Appuntamento: ';
   static const String appointmentType = 'Appuntamento';
 }
