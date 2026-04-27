@@ -6,17 +6,26 @@ part of 'subscription_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_SubscriptionDto _$SubscriptionDtoFromJson(Map<String, dynamic> json) => _SubscriptionDto(
-  expense: ExpenseDbDto.fromJson(json['expense'] as Map<String, dynamic>),
-  amount: (json['amount'] as num).toDouble(),
-  frequency: $enumDecode(_$MaxiPocketExpensesFrequencyEnumMap, json['frequency']),
-);
+_SubscriptionDto _$SubscriptionDtoFromJson(Map<String, dynamic> json) =>
+    _SubscriptionDto(
+      expense: ExpenseDbDto.fromJson(json['expense'] as Map<String, dynamic>),
+      amount: (json['amount'] as num).toDouble(),
+      frequency: $enumDecode(
+        _$MaxiPocketExpensesFrequencyEnumMap,
+        json['frequency'],
+      ),
+      nextPaymentDate: json['nextPaymentDate'] == null
+          ? null
+          : DateTime.parse(json['nextPaymentDate'] as String),
+    );
 
-Map<String, dynamic> _$SubscriptionDtoToJson(_SubscriptionDto instance) => <String, dynamic>{
-  'expense': instance.expense,
-  'amount': instance.amount,
-  'frequency': _$MaxiPocketExpensesFrequencyEnumMap[instance.frequency]!,
-};
+Map<String, dynamic> _$SubscriptionDtoToJson(_SubscriptionDto instance) =>
+    <String, dynamic>{
+      'expense': instance.expense,
+      'amount': instance.amount,
+      'frequency': _$MaxiPocketExpensesFrequencyEnumMap[instance.frequency]!,
+      'nextPaymentDate': instance.nextPaymentDate?.toIso8601String(),
+    };
 
 const _$MaxiPocketExpensesFrequencyEnumMap = {
   MaxiPocketExpensesFrequency.annual: 'annual',

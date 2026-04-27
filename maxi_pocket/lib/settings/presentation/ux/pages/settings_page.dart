@@ -4,9 +4,9 @@ import 'package:maxi_pocket/core/domain/entities/app_info.dart';
 import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors, ThemeTextStyles;
 import 'package:maxi_pocket/core/presentation/ux/pages/wrapper_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/app_bar_title_widget.dart';
+import 'package:maxi_pocket/core/presentation/ux/widgets/circular_loading.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/icon_container_widget.dart' show MaxiPocketIconContainerWidget;
 import 'package:maxi_pocket/core/presentation/ux/widgets/list_tile_widget.dart';
-import 'package:maxi_pocket/core/presentation/ux/widgets/overlay_loading_widget.dart' show MaxiPocketLoadingWidget;
 import 'package:maxi_pocket/core/presentation/ux/widgets/leading_trailing_icon_widget.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart' show themeProvider;
 import 'package:maxi_pocket/core/shared/constants/app_constants.dart';
@@ -17,6 +17,7 @@ import 'package:maxi_pocket/routes.dart';
 import 'package:maxi_pocket/settings/presentation/viewmodel/settings_viewmodel.dart';
 import 'package:maxi_pocket/settings/shared/constants/widget_constants.dart' show SettingsWidgetConstants;
 
+/// The settings page exposing notification preferences, theme selection, and app info.
 class MaxiPocketSettingsPage extends ConsumerWidget {
   const MaxiPocketSettingsPage({super.key});
 
@@ -58,6 +59,7 @@ class MaxiPocketSettingsPage extends ConsumerWidget {
   }
 }
 
+/// The list of navigable settings tiles (notifications, theme).
 class _SettingsListTilesWidget extends StatelessWidget {
   const _SettingsListTilesWidget({required this.themeMode});
 
@@ -141,6 +143,7 @@ class _SettingsListTilesWidget extends StatelessWidget {
   }
 }
 
+/// Footer showing the app name and build version.
 class _SettingsFooterWidget extends StatelessWidget {
   const _SettingsFooterWidget({required this.appInfo});
 

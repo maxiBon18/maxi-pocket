@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart' show DateFormat;
 import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart';
@@ -12,6 +13,7 @@ import 'package:maxi_pocket/core/presentation/ux/widgets/selector_widget.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/textfield_widget.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/fab_viewmodel.dart' show fabViewmodelProvider;
 import 'package:maxi_pocket/core/presentation/viewmodel/loading_viewmodel.dart';
+import 'package:maxi_pocket/core/shared/constants/app_constants.dart' show AppConstants;
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart';
 import 'package:maxi_pocket/core/shared/constants/widget_constants.dart' show WidgetConstants;
 import 'package:maxi_pocket/core/shared/controllers/di.dart' show getDI;
@@ -199,11 +201,19 @@ class _MaxiPocketAddExpensesFormContent extends StatelessWidget {
   MaxiPocketExpensesFrequency get _effectiveFrequency =>
       selectedType == MaxiPocketExpensesType.financing ? MaxiPocketExpensesFrequency.monthly : selectedFrequency;
 
+  DateTime _parseDate(String text) {
+    try {
+      return DateFormat.yMd(AppConstants.languageCode).parse(text);
+    } catch (_) {
+      return DateTime.now();
+    }
+  }
+
   CommitmentsEntity get _commitmentsEntity => switch (selectedType) {
     MaxiPocketExpensesType.appointments => AppointmentEntity(
       commitmentEntity: ExpenseCommitmentEntity(
         name: nameController.text,
-        eventDate: DateTime.tryParse(dateController.text) ?? DateTime.now(),
+        eventDate: _parseDate(dateController.text),
         eventType: selectedType,
       ),
       location: appointmentLocationController.text,
@@ -211,7 +221,7 @@ class _MaxiPocketAddExpensesFormContent extends StatelessWidget {
     MaxiPocketExpensesType.financing => FinancingEntity(
       commitmentEntity: ExpenseCommitmentEntity(
         name: nameController.text,
-        eventDate: DateTime.tryParse(dateController.text) ?? DateTime.now(),
+        eventDate: _parseDate(dateController.text),
         eventType: selectedType,
       ),
       numberOfInstallments: int.tryParse(financingInstallmentsController.text) ?? 0,
@@ -221,7 +231,7 @@ class _MaxiPocketAddExpensesFormContent extends StatelessWidget {
     MaxiPocketExpensesType.subscription => SubscriptionEntity(
       commitmentEntity: ExpenseCommitmentEntity(
         name: nameController.text,
-        eventDate: DateTime.tryParse(dateController.text) ?? DateTime.now(),
+        eventDate: _parseDate(dateController.text),
         eventType: selectedType,
       ),
       frequency: selectedFrequency,

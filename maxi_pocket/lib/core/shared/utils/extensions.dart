@@ -94,7 +94,12 @@ extension AppointmentEntityExtension on AppointmentEntity {
 /// Converts [SubscriptionEntity] to its Drift-compatible DTO.
 extension SubscriptionEntityExtension on SubscriptionEntity {
   /// Maps this entity to a [SubscriptionDto] for database persistence.
-  SubscriptionDto toDto() => SubscriptionDto(expense: commitmentEntity.toDto(), amount: amount, frequency: frequency);
+  SubscriptionDto toDto() => SubscriptionDto(
+    expense: commitmentEntity.toDto(),
+    amount: amount,
+    frequency: frequency,
+    nextPaymentDate: nextPaymentDate,
+  );
 }
 
 /// Converts [FinancingEntity] to its Drift-compatible DTO.
@@ -105,5 +110,6 @@ extension FinancingEntityExtension on FinancingEntity {
     amount: amount,
     numberOfInstallments: numberOfInstallments,
     numberOfPaidInstallments: numberOfPaidInstallments,
+    nextPaymentDate: nextPaymentDate,
   );
 }

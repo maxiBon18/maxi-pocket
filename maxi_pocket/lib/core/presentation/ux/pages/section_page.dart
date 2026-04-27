@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/recap_widget.dart';
-import 'package:maxi_pocket/core/presentation/ux/widgets/wrapper_tile_widget.dart';
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
 import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
 
@@ -39,8 +38,6 @@ class _MaxiPocketSectionContent extends StatelessWidget {
     return Column(
       children: <Widget>[
         MaxiPocketRecapWidget(value: 100, themeMode: themeMode, isAppointment: isAppointment),
-        const SizedBox(height: DesignConstants.spacing16),
-        MaxiPocketWrapperTileWidget(themeMode: themeMode, isAppointment: isAppointment),
       ],
     );
   }
