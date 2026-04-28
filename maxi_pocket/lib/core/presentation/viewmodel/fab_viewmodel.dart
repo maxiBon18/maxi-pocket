@@ -6,6 +6,7 @@ import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
 
 final AsyncNotifierProvider<FabViewmodel, void> fabViewmodelProvider = AsyncNotifierProvider<FabViewmodel, void>(
   FabViewmodel.new,
+  retry: (int retryCount, Object error) => null,
 );
 
 class FabViewmodel extends AsyncNotifier<void> {

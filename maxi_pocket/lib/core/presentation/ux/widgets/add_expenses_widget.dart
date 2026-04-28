@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart' show DateFormat;
 import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart';
@@ -12,14 +11,15 @@ import 'package:maxi_pocket/core/presentation/ux/widgets/dialog_widget.dart' sho
 import 'package:maxi_pocket/core/presentation/ux/widgets/selector_widget.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/textfield_widget.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/fab_viewmodel.dart' show fabViewmodelProvider;
+import 'package:maxi_pocket/core/presentation/viewmodel/home_viewmodel.dart' show homeNotifierProvider;
 import 'package:maxi_pocket/core/presentation/viewmodel/loading_viewmodel.dart';
-import 'package:maxi_pocket/core/shared/constants/app_constants.dart' show AppConstants;
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart';
 import 'package:maxi_pocket/core/shared/constants/widget_constants.dart' show WidgetConstants;
 import 'package:maxi_pocket/core/shared/controllers/di.dart' show getDI;
 import 'package:maxi_pocket/core/shared/utils/enums.dart'
     show MaxiPocketThemeMode, MaxiPocketExpensesType, MaxiPocketExpensesFrequency, MaxiPocketDialogType;
-import 'package:maxi_pocket/core/shared/utils/extensions.dart' show BuildContextExtension, DoubleExtension;
+import 'package:maxi_pocket/core/shared/utils/extensions.dart'
+    show BuildContextExtension, DateFromStringExtensions, DoubleExtension;
 import 'package:maxi_pocket/core/shared/utils/helpers_method.dart';
 
 /// The bottom-sheet container for adding a new expense.
@@ -201,19 +201,11 @@ class _MaxiPocketAddExpensesFormContent extends StatelessWidget {
   MaxiPocketExpensesFrequency get _effectiveFrequency =>
       selectedType == MaxiPocketExpensesType.financing ? MaxiPocketExpensesFrequency.monthly : selectedFrequency;
 
-  DateTime _parseDate(String text) {
-    try {
-      return DateFormat.yMd(AppConstants.languageCode).parse(text);
-    } catch (_) {
-      return DateTime.now();
-    }
-  }
-
   CommitmentsEntity get _commitmentsEntity => switch (selectedType) {
     MaxiPocketExpensesType.appointments => AppointmentEntity(
       commitmentEntity: ExpenseCommitmentEntity(
         name: nameController.text,
-        eventDate: _parseDate(dateController.text),
+        eventDate: dateController.text.parseFromStringDate(),
         eventType: selectedType,
       ),
       location: appointmentLocationController.text,
@@ -221,7 +213,7 @@ class _MaxiPocketAddExpensesFormContent extends StatelessWidget {
     MaxiPocketExpensesType.financing => FinancingEntity(
       commitmentEntity: ExpenseCommitmentEntity(
         name: nameController.text,
-        eventDate: _parseDate(dateController.text),
+        eventDate: dateController.text.parseFromStringDate(),
         eventType: selectedType,
       ),
       numberOfInstallments: int.tryParse(financingInstallmentsController.text) ?? 0,
@@ -231,7 +223,7 @@ class _MaxiPocketAddExpensesFormContent extends StatelessWidget {
     MaxiPocketExpensesType.subscription => SubscriptionEntity(
       commitmentEntity: ExpenseCommitmentEntity(
         name: nameController.text,
-        eventDate: _parseDate(dateController.text),
+        eventDate: dateController.text.parseFromStringDate(),
         eventType: selectedType,
       ),
       frequency: selectedFrequency,
@@ -484,9 +476,18 @@ class _MaxiPocketSubscriptionFields extends StatelessWidget {
       enableSuggestions: false,
       textInputAction: TextInputAction.next,
       keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
-      label: WidgetConstants.addExpensesAmount,
+      label: WidgetConstants.addSubscriptionsAmount,
       enabled: true,
       validator: amountValidator,
+      suffixIcon: Icon(
+        Icons.euro_outlined,
+        color: themeMode == MaxiPocketThemeMode.light
+            ? ThemeLightColors.onSurfaceVariantColor
+            : ThemeDarkColors.onSurfaceVariantColor,
+        fontWeight: FontWeight.bold,
+        size: 24.0,
+        applyTextScaling: false,
+      ),
     );
   }
 }
@@ -518,9 +519,18 @@ class _MaxiPocketFinancingFields extends StatelessWidget {
           enableSuggestions: false,
           textInputAction: TextInputAction.next,
           keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
-          label: WidgetConstants.addExpensesAmount,
+          label: WidgetConstants.addFinancingAmount,
           enabled: true,
           validator: amountValidator,
+          suffixIcon: Icon(
+            Icons.euro_outlined,
+            color: themeMode == MaxiPocketThemeMode.light
+                ? ThemeLightColors.onSurfaceVariantColor
+                : ThemeDarkColors.onSurfaceVariantColor,
+            fontWeight: FontWeight.bold,
+            size: 24.0,
+            applyTextScaling: false,
+          ),
         ),
         MaxiPocketTextFormFieldWidget(
           themeMode: themeMode,
@@ -622,6 +632,9 @@ class _MaxiPocketAddExpensesSubmitButton extends ConsumerWidget {
         if (validateFields != null && validateFields.isEmpty) {
           await ref.read(fabViewmodelProvider.notifier).insertCommitments(getCommitmentsEntity());
           if (context.mounted) {
+            if (ref.read(fabViewmodelProvider).hasValue) {
+              ref.invalidate(homeNotifierProvider);
+            }
             Navigator.pop(context);
           }
         }
@@ -678,11 +691,11 @@ class _MaxiPocketAddExpensesCloseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Navigator.pop(context),
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Icon(Icons.close_outlined, size: DesignConstants.icon24, color: iconColor),
+    return Align(
+      alignment: Alignment.centerRight,
+      child: IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: Icon(Icons.close_outlined, size: DesignConstants.icon24, color: iconColor),
       ),
     );
   }

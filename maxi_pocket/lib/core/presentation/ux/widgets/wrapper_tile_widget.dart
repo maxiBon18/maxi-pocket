@@ -10,7 +10,7 @@ import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show De
 import 'package:maxi_pocket/core/shared/constants/widget_constants.dart' show WidgetConstants;
 import 'package:maxi_pocket/core/shared/utils/enums.dart'
     show MaxiPocketExpensesType, MaxiPocketThemeMode, MaxiPocketExpensesFrequency;
-import 'package:maxi_pocket/core/shared/utils/extensions.dart' show BuildContextExtension;
+import 'package:maxi_pocket/core/shared/utils/extensions.dart' show BuildContextExtension, DateFromDateTimeExtensions;
 
 /// A list tile displaying an expense or appointment item with edit and delete actions.
 ///
@@ -39,15 +39,12 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
   Color get _amountColor =>
       themeMode == MaxiPocketThemeMode.light ? ThemeLightColors.onSurfaceColor : ThemeDarkColors.onSurfaceColor;
 
-  String _getTitle() {
-    if (entityToShow is SubscriptionEntity) {
-      return (entityToShow as SubscriptionEntity).commitmentEntity.name;
-    } else if (entityToShow is FinancingEntity) {
-      return (entityToShow as FinancingEntity).commitmentEntity.name;
-    } else {
-      return (entityToShow as AppointmentEntity).commitmentEntity.name;
-    }
-  }
+  String _getTitle() => switch (entityToShow) {
+    final SubscriptionEntity s => s.commitmentEntity.name,
+    final FinancingEntity f => f.commitmentEntity.name,
+    final AppointmentEntity a => a.commitmentEntity.name,
+    _ => throw UnimplementedError('Unhandled entity type: ${entityToShow.runtimeType}'),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -92,15 +89,11 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
   final MaxiPocketExpensesType type;
   final CommitmentsEntity entityToShow;
 
-  double _getAmount() {
-    if (entityToShow is SubscriptionEntity) {
-      return (entityToShow as SubscriptionEntity).amount;
-    } else if (entityToShow is FinancingEntity) {
-      return (entityToShow as FinancingEntity).amount;
-    } else {
-      return 0.0;
-    }
-  }
+  double _getAmount() => switch (entityToShow) {
+    final SubscriptionEntity s => s.amount,
+    final FinancingEntity f => f.amount,
+    _ => 0.0,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -155,23 +148,17 @@ class _ExpenseTileSubtitle extends StatelessWidget {
   final MaxiPocketExpensesType type;
   final CommitmentsEntity entityToShow;
 
-  String _getType() {
-    if (entityToShow is SubscriptionEntity) {
-      return (entityToShow as SubscriptionEntity).commitmentEntity.eventType.name;
-    } else if (entityToShow is FinancingEntity) {
-      return (entityToShow as FinancingEntity).commitmentEntity.eventType.name;
-    } else {
-      return (entityToShow as AppointmentEntity).commitmentEntity.eventType.name;
-    }
-  }
+  String _getType() => switch (entityToShow) {
+    final SubscriptionEntity s => s.commitmentEntity.eventType.name,
+    final FinancingEntity f => f.commitmentEntity.eventType.name,
+    final AppointmentEntity a => a.commitmentEntity.eventType.name,
+    _ => throw UnimplementedError('Unhandled entity type: ${entityToShow.runtimeType}'),
+  };
 
-  MaxiPocketExpensesFrequency _getFrequency() {
-    if (entityToShow is SubscriptionEntity) {
-      return (entityToShow as SubscriptionEntity).frequency;
-    } else {
-      return MaxiPocketExpensesFrequency.monthly;
-    }
-  }
+  MaxiPocketExpensesFrequency _getFrequency() => switch (entityToShow) {
+    final SubscriptionEntity s => s.frequency,
+    _ => MaxiPocketExpensesFrequency.monthly,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -211,15 +198,12 @@ class _ExpenseTileDateRow extends StatelessWidget {
   final CommitmentsEntity entityToShow;
   final MaxiPocketExpensesType type;
 
-  String _getDate() {
-    if (entityToShow is SubscriptionEntity) {
-      return (entityToShow as SubscriptionEntity).nextPaymentDate.toString();
-    } else if (entityToShow is FinancingEntity) {
-      return (entityToShow as FinancingEntity).nextPaymentDate.toString();
-    } else {
-      return (entityToShow as AppointmentEntity).commitmentEntity.eventDate.toString();
-    }
-  }
+  String _getDate() => switch (entityToShow) {
+    final SubscriptionEntity s => s.nextPaymentDate.formattedDate(),
+    final FinancingEntity f => f.nextPaymentDate.formattedDate(),
+    final AppointmentEntity a => a.commitmentEntity.eventDate.formattedDate(),
+    _ => throw UnimplementedError('Unhandled entity type: ${entityToShow.runtimeType}'),
+  };
 
   @override
   Widget build(BuildContext context) {

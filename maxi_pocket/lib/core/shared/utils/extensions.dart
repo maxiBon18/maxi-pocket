@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/data/repo/source/dto/appointment_dto.dart';
-import 'package:maxi_pocket/core/data/repo/source/dto/expense_db_dto.dart';
-import 'package:maxi_pocket/core/data/repo/source/dto/financing_dto.dart';
-import 'package:maxi_pocket/core/data/repo/source/dto/subscription_dto.dart';
+import 'package:intl/intl.dart';
+import 'package:maxi_pocket/core/shared/constants/app_constants.dart' show AppConstants;
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
 import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode, MaxiPocketExpensesFrequency;
-import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
-import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
-import 'package:maxi_pocket/core/domain/entities/financing_entity.dart';
-import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart';
+import 'package:maxi_pocket/core/shared/utils/loggers.dart' show customDebugPrint;
 
 /// Convenience accessors on [BuildContext].
 extension BuildContextExtension on BuildContext {
@@ -61,55 +56,58 @@ extension DateTimeExtension on DateTime {
   /// Returns the next billing date based on [frequency].
   ///
   /// For monthly frequency, advances by one calendar month and clamps the day
-  /// to the last valid day of that month (e.g. 31 Jan → 28/29 Feb).
+  /// to the last valid day of that month (e.g. 31 Jan -> 28/29 Feb).
   /// For annual frequency, advances by one year keeping the same month and day.
   DateTime nextPaymentDate(MaxiPocketExpensesFrequency frequency) {
-    final int nextY = month == 12 ? year + 1 : year;
-    final int nextM = month == 12 ? 1 : month + 1;
-    final int lastDayNextMonth = DateTime(nextY, nextM + 1, 0).day;
-    final int clampedDay = day > lastDayNextMonth ? lastDayNextMonth : day;
-
     switch (frequency) {
       case MaxiPocketExpensesFrequency.monthly:
+        final int nextY = month == 12 ? year + 1 : year;
+        final int nextM = month == 12 ? 1 : month + 1;
+        final int lastDayNextMonth = DateTime(nextY, nextM + 1, 0).day;
+        final int clampedDay = day > lastDayNextMonth ? lastDayNextMonth : day;
         return DateTime(nextY, nextM, clampedDay);
 
       case MaxiPocketExpensesFrequency.annual:
-        return DateTime(nextY, month, day);
+        final int nextY = year + 1;
+
+        // For february case
+        final int lastDayNextMonth = DateTime(nextY, month, 0).day;
+        final int clampedDay = day > lastDayNextMonth ? lastDayNextMonth : day;
+        return DateTime(nextY, month, clampedDay);
     }
   }
 }
 
-/// Converts [ExpenseCommitmentEntity] to its Drift-compatible DTO.
-extension ExpenseCommitmentEntityExtension on ExpenseCommitmentEntity {
-  /// Maps this entity to an [ExpenseDbDto] for database persistence.
-  ExpenseDbDto toDto() => ExpenseDbDto(name: name, eventDate: eventDate, eventType: eventType);
+/// Formats a nullable [DateTime] for display.
+extension DateFromDateTimeExtensions on DateTime? {
+  /// Returns this date formatted as `dd/MM/yyyy`, falling back to today when null or unparseable.
+  String formattedDate() {
+    const String format = 'dd/MM/yyyy';
+    try {
+      return DateFormat(format).format(this ?? DateTime.now());
+    } catch (e, st) {
+      customDebugPrint('[DateFromDateTimeExtensions] formattedDate failed: $e\n$st');
+      return DateFormat(format).format(DateTime.now());
+    }
+  }
 }
 
-/// Converts [AppointmentEntity] to its Drift-compatible DTO.
-extension AppointmentEntityExtension on AppointmentEntity {
-  /// Maps this entity to an [AppointmentDto] for database persistence.
-  AppointmentDto toDto() => AppointmentDto(expense: commitmentEntity.toDto(), location: location);
-}
-
-/// Converts [SubscriptionEntity] to its Drift-compatible DTO.
-extension SubscriptionEntityExtension on SubscriptionEntity {
-  /// Maps this entity to a [SubscriptionDto] for database persistence.
-  SubscriptionDto toDto() => SubscriptionDto(
-    expense: commitmentEntity.toDto(),
-    amount: amount,
-    frequency: frequency,
-    nextPaymentDate: nextPaymentDate,
-  );
-}
-
-/// Converts [FinancingEntity] to its Drift-compatible DTO.
-extension FinancingEntityExtension on FinancingEntity {
-  /// Maps this entity to a [FinancingDto] for database persistence.
-  FinancingDto toDto() => FinancingDto(
-    expense: commitmentEntity.toDto(),
-    amount: amount,
-    numberOfInstallments: numberOfInstallments,
-    numberOfPaidInstallments: numberOfPaidInstallments,
-    nextPaymentDate: nextPaymentDate,
-  );
+/// Parses a display-formatted date string back into [DateTime].
+extension DateFromStringExtensions on String {
+  /// Attempts to parse this string as ISO-8601, then as a locale date.
+  ///
+  /// Falls back to [DateTime.now] when both attempts fail, so the form never
+  /// produces an invalid date even if the stored value is corrupt.
+  DateTime parseFromStringDate() {
+    try {
+      return DateTime.parse(this);
+    } catch (_) {
+      try {
+        return DateFormat.yMd(AppConstants.languageCode).parse(this);
+      } catch (e, st) {
+        customDebugPrint('[DateFromStringExtensions] parseFromStringDate failed: $e\n$st');
+        return DateTime.now();
+      }
+    }
+  }
 }

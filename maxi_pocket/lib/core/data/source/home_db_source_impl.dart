@@ -17,6 +17,7 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
     implements HomeDbSource {
   HomeDbSourceImpl(super.database);
 
+  /// Fetches all subscriptions joined with their common expense data.
   @override
   Future<List<SubscriptionDto>> getSubscriptionsData() async {
     final JoinedSelectStatement<HasResultSet, dynamic> querySubscription = select(commonDataTable).join(
@@ -24,8 +25,6 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
         innerJoin(subscriptionsTable, commonDataTable.primaryId.equalsExp(subscriptionsTable.foreignId)),
       ],
     );
-
-    querySubscription.where(subscriptionsTable.nextPaymentDate.month.equals(DateTime.now().month));
 
     final List<TypedResult> subscriptionRows = await querySubscription.get();
 
@@ -48,6 +47,7 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
     return subscriptionDto;
   }
 
+  /// Fetches all financing records joined with their common expense data.
   @override
   Future<List<FinancingDto>> getFinancingsData() async {
     final JoinedSelectStatement<HasResultSet, dynamic> queryFinancing = select(commonDataTable).join(
@@ -55,8 +55,6 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
         innerJoin(financingTable, commonDataTable.primaryId.equalsExp(financingTable.foreignId)),
       ],
     );
-
-    queryFinancing.where(financingTable.nextPaymentDate.month.equals(DateTime.now().month));
 
     final List<TypedResult> financingRows = await queryFinancing.get();
 

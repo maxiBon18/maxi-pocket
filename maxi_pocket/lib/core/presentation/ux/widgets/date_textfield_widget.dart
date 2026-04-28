@@ -168,10 +168,11 @@ class _MaxiPocketDateTextFieldState extends State<MaxiPocketDateTextField> {
             icon: Icon(
               Icons.calendar_month,
               color: widget.themeMode == MaxiPocketThemeMode.light
-                  ? ThemeLightColors.textPrimaryColor
-                  : ThemeDarkColors.textPrimaryColor,
+                  ? ThemeLightColors.onSurfaceVariantColor
+                  : ThemeDarkColors.onSurfaceVariantColor,
               fontWeight: FontWeight.bold,
               size: 24.0,
+              applyTextScaling: false,
             ),
             onPressed: _openPicker,
           ),

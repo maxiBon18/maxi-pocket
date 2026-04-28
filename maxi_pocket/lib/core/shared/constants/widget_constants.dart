@@ -49,7 +49,8 @@ class WidgetConstants {
   /// Add Expenses & add appointment
   static const String addNewTitle = 'Aggiungi nuovo';
   static const String addExpensesName = 'Nome';
-  static const String addExpensesAmount = 'Importo';
+  static const String addSubscriptionsAmount = 'Importo';
+  static const String addFinancingAmount = 'Importo rata';
   static const String addExpensesFinancingInstallments = 'Numero di rate';
   static const String addExpensesFinancingPaidInstallments = 'Numero di rate pagate';
   static const String addExpensesAppointmentLocation = 'Luogo';
@@ -86,7 +87,7 @@ class WidgetConstants {
   /// Expense tile placeholders — replaced by ViewModel data once wired.
   static const String expenseTitlePlaceholder = 'Netflix';
   static const String expenseTypePlaceholder = 'Subscription';
-  static const String nextExpenses = 'Prossimo Pagamento: \${nextPaymentDate}';
+  static const String nextExpenses = 'Prossimo Pagamento: ';
   static const double expenseAmountPlaceholder = 100.0;
 
   /// Appointments
