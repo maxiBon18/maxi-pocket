@@ -32,7 +32,7 @@ class HomeNotifier extends AsyncNotifier<List<HomeEntity>> {
 
   double _monthlyAmount = 0;
   double _weeklyAmount = 0;
-  late final HomeEntity _homeWeeklyEntity;
+  late HomeEntity _homeWeeklyEntity;
 
   /// Total monthly expense amount across subscriptions and financings.
   double get monthlyAmount => _monthlyAmount;
@@ -49,46 +49,9 @@ class HomeNotifier extends AsyncNotifier<List<HomeEntity>> {
       final List<SubscriptionEntity> subscriptionEntities = await _homeServices.getSubscriptionsData();
       final List<FinancingEntity> financingEntities = await _homeServices.getFinancingsData();
 
-      final double monthlySubscriptionAmount = subscriptionEntities.fold(
-        0,
-        (double sum, SubscriptionEntity subscriptionEntity) => sum + subscriptionEntity.amount,
-      );
-      final double monthlyFinancingAmount = financingEntities.fold(
-        0,
-        (double sum, FinancingEntity financingEntity) => sum + financingEntity.amount,
-      );
-
-      _monthlyAmount = monthlySubscriptionAmount + monthlyFinancingAmount;
-
-      final List<SubscriptionEntity> weeklySubscriptionEntities = subscriptionEntities.where((
-        SubscriptionEntity entity,
-      ) {
-        if (entity.nextPaymentDate == null) return false;
-        final int daysUntilNextPayment = entity.nextPaymentDate!.difference(DateTime.now()).inDays;
-        return daysUntilNextPayment <= 7;
-      }).toList();
-
-      final List<FinancingEntity> weeklyFinancingEntities = financingEntities.where((FinancingEntity entity) {
-        if (entity.nextPaymentDate == null) return false;
-        final int daysUntilNextPayment = entity.nextPaymentDate!.difference(DateTime.now()).inDays;
-        return daysUntilNextPayment <= 7;
-      }).toList();
-
-      final double weeklySubscriptionAmount = weeklySubscriptionEntities.fold(
-        0,
-        (double sum, SubscriptionEntity subscriptionEntity) => sum + subscriptionEntity.amount,
-      );
-      final double weeklyFinancingAmount = weeklyFinancingEntities.fold(
-        0,
-        (double sum, FinancingEntity financingEntity) => sum + financingEntity.amount,
-      );
-
-      _weeklyAmount = weeklySubscriptionAmount + weeklyFinancingAmount;
-
-      _homeWeeklyEntity = HomeEntity(
-        subscriptionEntity: weeklySubscriptionEntities,
-        financingEntity: weeklyFinancingEntities,
-      );
+      _calculateMonthlyAmount(subscriptionEntities, financingEntities);
+      _getWeeklyAmount(subscriptionEntities, financingEntities);
+      _calculateWeeklyAmount();
 
       return <HomeEntity>[_homeWeeklyEntity];
     } catch (e, st) {
@@ -118,5 +81,93 @@ class HomeNotifier extends AsyncNotifier<List<HomeEntity>> {
       ),
     );
     return wrapperCommitments;
+  }
+
+  /// Sums amounts for expenses whose [nextPaymentDate] falls in the current calendar month.
+  void _calculateMonthlyAmount(List<SubscriptionEntity> subscriptionEntities, List<FinancingEntity> financingEntities) {
+    final int currentMonth = DateTime.now().month;
+
+    final List<SubscriptionEntity> filteredSubscriptionEntities = subscriptionEntities.where((
+      SubscriptionEntity entity,
+    ) {
+      final DateTime? date = entity.nextPaymentDate;
+      if (date == null) return false;
+      return date.month == currentMonth;
+    }).toList();
+
+    final List<FinancingEntity> filteredFinancingEntities = financingEntities.where((FinancingEntity entity) {
+      final DateTime? date = entity.nextPaymentDate;
+      if (date == null) return false;
+      return date.month == currentMonth;
+    }).toList();
+
+    final double monthlySubscriptionAmount = filteredSubscriptionEntities.fold(
+      0,
+      (double sum, SubscriptionEntity subscriptionEntity) => sum + subscriptionEntity.amount,
+    );
+    final double monthlyFinancingAmount = filteredFinancingEntities.fold(
+      0,
+      (double sum, FinancingEntity financingEntity) => sum + financingEntity.amount,
+    );
+
+    _monthlyAmount = monthlySubscriptionAmount + monthlyFinancingAmount;
+  }
+
+  /// Populates [_homeWeeklyEntity] with commitments due within the next seven days.
+  ///
+  /// Expenses due today are excluded because the filter uses a strict
+  /// `isAfter(today)` comparison.
+  void _getWeeklyAmount(List<SubscriptionEntity> subscriptionEntities, List<FinancingEntity> financingEntities) {
+    final DateTime now = DateTime.now();
+    final DateTime today = DateTime(now.year, now.month, now.day);
+
+    final List<SubscriptionEntity> filteredSubscriptionEntities = subscriptionEntities.where((
+      SubscriptionEntity entity,
+    ) {
+      final DateTime? date = entity.nextPaymentDate;
+      if (date == null) return false;
+      final DateTime nextPaymentDate = DateTime(date.year, date.month, date.day);
+      return nextPaymentDate.isAfter(today);
+    }).toList();
+
+    final List<FinancingEntity> filteredFinancingEntities = financingEntities.where((FinancingEntity entity) {
+      final DateTime? date = entity.nextPaymentDate;
+      if (date == null) return false;
+      final DateTime nextPaymentDate = DateTime(date.year, date.month, date.day);
+      return nextPaymentDate.isAfter(today);
+    }).toList();
+
+    final List<SubscriptionEntity> weeklySubscriptionEntities = filteredSubscriptionEntities.where((
+      SubscriptionEntity entity,
+    ) {
+      final DateTime date = entity.nextPaymentDate!;
+      final int daysUntilNextPayment = date.difference(now).inDays;
+      return daysUntilNextPayment <= 7;
+    }).toList();
+
+    final List<FinancingEntity> weeklyFinancingEntities = filteredFinancingEntities.where((FinancingEntity entity) {
+      final DateTime date = entity.nextPaymentDate!;
+      final int daysUntilNextPayment = date.difference(now).inDays;
+      return daysUntilNextPayment <= 7;
+    }).toList();
+
+    _homeWeeklyEntity = HomeEntity(
+      subscriptionEntity: weeklySubscriptionEntities,
+      financingEntity: weeklyFinancingEntities,
+    );
+  }
+
+  /// Sums amounts for all commitments in [_homeWeeklyEntity] and stores the result in [_weeklyAmount].
+  void _calculateWeeklyAmount() {
+    final double weeklySubscriptionAmount = _homeWeeklyEntity.subscriptionEntity.fold(
+      0,
+      (double sum, SubscriptionEntity subscriptionEntity) => sum + subscriptionEntity.amount,
+    );
+    final double weeklyFinancingAmount = _homeWeeklyEntity.financingEntity.fold(
+      0,
+      (double sum, FinancingEntity financingEntity) => sum + financingEntity.amount,
+    );
+
+    _weeklyAmount = weeklySubscriptionAmount + weeklyFinancingAmount;
   }
 }

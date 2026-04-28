@@ -24,7 +24,7 @@ class HomeWidgetConstants {
   static const String monthlyCardTitle = 'Mensile';
 
   /// Subtitle shown below the monthly card amount.
-  static const String monthlyCardSubtitle = 'Totale mensile';
+  static const String monthlyCardSubtitle = 'Totale mese corrente';
 
   /// Section header for the upcoming-expenses list.
   static const String weeklyRecapTitle = 'In questa settimana';
@@ -47,8 +47,8 @@ class HomeWidgetConstants {
   static const String errorPlaceholderTitle = 'Oops!';
 
   /// Description shown below the error title on the home page.
-  static const String errorPlaceholderDescription =
-      'Qualcosa è andato storto, riprova più tardi.';
+  static const String errorPlaceholderDescription = 'Qualcosa è andato storto, riprova più tardi.';
 
+  /// Message shown in the empty-state view when there are no expenses to display.
   static const String emptyDataTitle = 'Non ci sono spese da mostrare';
 }

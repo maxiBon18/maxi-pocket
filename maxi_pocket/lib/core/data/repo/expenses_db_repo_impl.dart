@@ -1,6 +1,6 @@
 import 'package:maxi_pocket/core/data/repo/source/expenses_db_source.dart';
 import 'package:maxi_pocket/core/domain/services/repo/expenses_db_repo.dart';
-import 'package:maxi_pocket/core/shared/utils/extensions.dart'
+import 'package:maxi_pocket/core/data/repo/source/dto/entity_dto_extensions.dart'
     show AppointmentEntityExtension, FinancingEntityExtension, SubscriptionEntityExtension;
 import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart' show CommitmentsEntity;
