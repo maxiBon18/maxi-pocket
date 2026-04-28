@@ -3,14 +3,23 @@ import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeDarkColors, ThemeLightColors, ThemeTextStyles;
-import 'package:maxi_pocket/core/presentation/ux/widgets/badge_widget.dart' show MaxiPocketBadgeWidget;
-import 'package:maxi_pocket/core/presentation/ux/widgets/list_tile_widget.dart' show MaxiPocketListTileWidget;
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
-import 'package:maxi_pocket/core/shared/constants/widget_constants.dart' show WidgetConstants;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeDarkColors, ThemeLightColors, ThemeTextStyles;
+import 'package:maxi_pocket/core/presentation/ux/widgets/badge_widget.dart'
+    show MaxiPocketBadgeWidget;
+import 'package:maxi_pocket/core/presentation/ux/widgets/list_tile_widget.dart'
+    show MaxiPocketListTileWidget;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
+import 'package:maxi_pocket/core/shared/constants/widget_constants.dart'
+    show WidgetConstants;
 import 'package:maxi_pocket/core/shared/utils/enums.dart'
-    show MaxiPocketExpensesType, MaxiPocketThemeMode, MaxiPocketExpensesFrequency;
-import 'package:maxi_pocket/core/shared/utils/extensions.dart' show BuildContextExtension;
+    show
+        MaxiPocketExpensesType,
+        MaxiPocketThemeMode,
+        MaxiPocketExpensesFrequency;
+import 'package:maxi_pocket/core/shared/utils/extensions.dart'
+    show BuildContextExtension, DateFromDateTimeExtensions;
 
 /// A list tile displaying an expense or appointment item with edit and delete actions.
 ///
@@ -36,8 +45,9 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
       ? ThemeLightColors.textSecondaryColor
       : ThemeDarkColors.onSurfaceVariantColor;
 
-  Color get _amountColor =>
-      themeMode == MaxiPocketThemeMode.light ? ThemeLightColors.onSurfaceColor : ThemeDarkColors.onSurfaceColor;
+  Color get _amountColor => themeMode == MaxiPocketThemeMode.light
+      ? ThemeLightColors.onSurfaceColor
+      : ThemeDarkColors.onSurfaceColor;
 
   String _getTitle() {
     if (entityToShow is SubscriptionEntity) {
@@ -52,7 +62,12 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaxiPocketListTileWidget(
-      title: Text(_getTitle(), style: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+      title: Text(
+        _getTitle(),
+        style: context.textTheme.titleMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
       subtitle: _ExpenseTileSubtitle(
         iconColor: _iconColor,
         isAppointment: isAppointment,
@@ -111,7 +126,9 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
         if (!isAppointment)
           Text(
             _getAmount().toStringAsFixed(2),
-            style: ThemeTextStyles.monetaryAmountSmallLight.copyWith(color: amountColor),
+            style: ThemeTextStyles.monetaryAmountSmallLight.copyWith(
+              color: amountColor,
+            ),
           ),
         if (!isAppointment) const SizedBox(height: DesignConstants.spacing8),
         Row(
@@ -119,7 +136,12 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
           children: <Widget>[
             GestureDetector(
               onTap: () {},
-              child: Icon(Icons.edit_outlined, color: iconColor, size: DesignConstants.icon24, applyTextScaling: false),
+              child: Icon(
+                Icons.edit_outlined,
+                color: iconColor,
+                size: DesignConstants.icon24,
+                applyTextScaling: false,
+              ),
             ),
             const SizedBox(width: DesignConstants.spacing12),
             GestureDetector(
@@ -157,11 +179,17 @@ class _ExpenseTileSubtitle extends StatelessWidget {
 
   String _getType() {
     if (entityToShow is SubscriptionEntity) {
-      return (entityToShow as SubscriptionEntity).commitmentEntity.eventType.name;
+      return (entityToShow as SubscriptionEntity)
+          .commitmentEntity
+          .eventType
+          .name;
     } else if (entityToShow is FinancingEntity) {
       return (entityToShow as FinancingEntity).commitmentEntity.eventType.name;
     } else {
-      return (entityToShow as AppointmentEntity).commitmentEntity.eventType.name;
+      return (entityToShow as AppointmentEntity)
+          .commitmentEntity
+          .eventType
+          .name;
     }
   }
 
@@ -180,7 +208,11 @@ class _ExpenseTileSubtitle extends StatelessWidget {
       children: <Widget>[
         Row(
           children: <Widget>[
-            MaxiPocketBadgeWidget(label: _getType(), expensesType: type, themeMode: themeMode),
+            MaxiPocketBadgeWidget(
+              label: _getType(),
+              expensesType: type,
+              themeMode: themeMode,
+            ),
             if (!isAppointment) const SizedBox(width: DesignConstants.spacing4),
             if (!isAppointment)
               MaxiPocketBadgeWidget(
@@ -191,7 +223,12 @@ class _ExpenseTileSubtitle extends StatelessWidget {
             const Spacer(),
           ],
         ),
-        _ExpenseTileDateRow(iconColor: iconColor, isAppointment: isAppointment, entityToShow: entityToShow, type: type),
+        _ExpenseTileDateRow(
+          iconColor: iconColor,
+          isAppointment: isAppointment,
+          entityToShow: entityToShow,
+          type: type,
+        ),
       ],
     );
   }
@@ -213,11 +250,14 @@ class _ExpenseTileDateRow extends StatelessWidget {
 
   String _getDate() {
     if (entityToShow is SubscriptionEntity) {
-      return (entityToShow as SubscriptionEntity).nextPaymentDate.toString();
+      return (entityToShow as SubscriptionEntity).nextPaymentDate
+          .parseDateFromDate();
     } else if (entityToShow is FinancingEntity) {
-      return (entityToShow as FinancingEntity).nextPaymentDate.toString();
+      return (entityToShow as FinancingEntity).nextPaymentDate
+          .parseDateFromDate();
     } else {
-      return (entityToShow as AppointmentEntity).commitmentEntity.eventDate.toString();
+      return (entityToShow as AppointmentEntity).commitmentEntity.eventDate
+          .parseDateFromDate();
     }
   }
 
@@ -227,13 +267,20 @@ class _ExpenseTileDateRow extends StatelessWidget {
       spacing: DesignConstants.spacing4,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Icon(Icons.calendar_today_outlined, color: iconColor, size: DesignConstants.icon16, applyTextScaling: false),
+        Icon(
+          Icons.calendar_today_outlined,
+          color: iconColor,
+          size: DesignConstants.icon16,
+          applyTextScaling: false,
+        ),
         Flexible(
           child: Text(
             isAppointment
                 ? '${WidgetConstants.nextAppointment} ${_getDate()}'
                 : '${WidgetConstants.nextExpenses} ${_getDate()}',
-            style: context.textTheme.bodyMedium?.copyWith(fontSize: DesignConstants.textSize12),
+            style: context.textTheme.bodyMedium?.copyWith(
+              fontSize: DesignConstants.textSize12,
+            ),
           ),
         ),
       ],

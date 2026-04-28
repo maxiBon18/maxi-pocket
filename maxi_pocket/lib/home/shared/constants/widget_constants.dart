@@ -47,5 +47,8 @@ class HomeWidgetConstants {
   static const String errorPlaceholderTitle = 'Oops!';
 
   /// Description shown below the error title on the home page.
-  static const String errorPlaceholderDescription = 'Qualcosa è andato storto, riprova più tardi.';
+  static const String errorPlaceholderDescription =
+      'Qualcosa è andato storto, riprova più tardi.';
+
+  static const String emptyDataTitle = 'Non ci sono spese da mostrare';
 }

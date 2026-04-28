@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:maxi_pocket/core/data/repo/source/dto/appointment_dto.dart';
 import 'package:maxi_pocket/core/data/repo/source/dto/expense_db_dto.dart';
 import 'package:maxi_pocket/core/data/repo/source/dto/financing_dto.dart';
 import 'package:maxi_pocket/core/data/repo/source/dto/subscription_dto.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode, MaxiPocketExpensesFrequency;
+import 'package:maxi_pocket/core/shared/constants/app_constants.dart'
+    show AppConstants;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketThemeMode, MaxiPocketExpensesFrequency;
 import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart';
@@ -50,10 +55,12 @@ extension MaterialThemeModeExtension on MaxiPocketThemeMode {
 /// Responsive sizing helpers for screen-dimension doubles.
 extension DoubleExtension on double {
   /// Scales [componentHeight] relative to the design canvas height.
-  double responsiveHeight(double componentHeight) => this * componentHeight / DesignConstants.appHeightByDesign;
+  double responsiveHeight(double componentHeight) =>
+      this * componentHeight / DesignConstants.appHeightByDesign;
 
   /// Scales [componentWidth] relative to the design canvas width.
-  double responsiveWidth(double componentWidth) => this * componentWidth / DesignConstants.appWidthByDesign;
+  double responsiveWidth(double componentWidth) =>
+      this * componentWidth / DesignConstants.appWidthByDesign;
 }
 
 /// Payment scheduling helpers for [DateTime].
@@ -82,13 +89,15 @@ extension DateTimeExtension on DateTime {
 /// Converts [ExpenseCommitmentEntity] to its Drift-compatible DTO.
 extension ExpenseCommitmentEntityExtension on ExpenseCommitmentEntity {
   /// Maps this entity to an [ExpenseDbDto] for database persistence.
-  ExpenseDbDto toDto() => ExpenseDbDto(name: name, eventDate: eventDate, eventType: eventType);
+  ExpenseDbDto toDto() =>
+      ExpenseDbDto(name: name, eventDate: eventDate, eventType: eventType);
 }
 
 /// Converts [AppointmentEntity] to its Drift-compatible DTO.
 extension AppointmentEntityExtension on AppointmentEntity {
   /// Maps this entity to an [AppointmentDto] for database persistence.
-  AppointmentDto toDto() => AppointmentDto(expense: commitmentEntity.toDto(), location: location);
+  AppointmentDto toDto() =>
+      AppointmentDto(expense: commitmentEntity.toDto(), location: location);
 }
 
 /// Converts [SubscriptionEntity] to its Drift-compatible DTO.
@@ -112,4 +121,29 @@ extension FinancingEntityExtension on FinancingEntity {
     numberOfPaidInstallments: numberOfPaidInstallments,
     nextPaymentDate: nextPaymentDate,
   );
+}
+
+extension DateFromDateTimeExtensions on DateTime? {
+  String parseDateFromDate() {
+    try {
+      if (this == null) {
+        return DateFormat.yMd(AppConstants.languageCode).format(DateTime.now());
+      }
+      return DateFormat.yMd(AppConstants.languageCode).format(this!);
+    } catch (_) {
+      return DateFormat.yMd(AppConstants.languageCode).format(DateTime.now());
+    }
+  }
+}
+
+extension DateFromStringExtensions on String {
+  String parseFromStringDate() {
+    try {
+      return DateFormat.yMd(
+        AppConstants.languageCode,
+      ).format(DateTime.parse(this));
+    } catch (_) {
+      return DateFormat.yMd(AppConstants.languageCode).format(DateTime.now());
+    }
+  }
 }

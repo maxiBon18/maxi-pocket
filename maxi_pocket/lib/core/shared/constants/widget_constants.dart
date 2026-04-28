@@ -51,7 +51,8 @@ class WidgetConstants {
   static const String addExpensesName = 'Nome';
   static const String addExpensesAmount = 'Importo';
   static const String addExpensesFinancingInstallments = 'Numero di rate';
-  static const String addExpensesFinancingPaidInstallments = 'Numero di rate pagate';
+  static const String addExpensesFinancingPaidInstallments =
+      'Numero di rate pagate';
   static const String addExpensesAppointmentLocation = 'Luogo';
   static const String addExpensesCategory = 'Categoria';
   static const String addExpensesFrequency = 'Tipologia';
@@ -62,13 +63,19 @@ class WidgetConstants {
   static const String addExpensesAmountRequired = 'Importo è obbligatorio';
   static const String addExpensesAmountInvalid = 'Importo non valido';
   static const String addExpensesDateRequired = 'Data è obbligatoria';
-  static const String addExpensesFinancingInstallmentsRequired = 'Numero di rate è obbligatorio';
-  static const String addExpensesFinancingInstallmentsInvalid = 'Numero di rate non valido';
-  static const String addExpensesFinancingPaidInstallmentsRequired = 'Numero di rate pagate è obbligatorio';
-  static const String addExpensesFinancingPaidInstallmentsInvalid = 'Numero di rate pagate non valido';
-  static const String addExpensesAppointmentLocationRequired = 'Il luogo dell\'appuntamento è obbligatorio';
+  static const String addExpensesFinancingInstallmentsRequired =
+      'Numero di rate è obbligatorio';
+  static const String addExpensesFinancingInstallmentsInvalid =
+      'Numero di rate non valido';
+  static const String addExpensesFinancingPaidInstallmentsRequired =
+      'Numero di rate pagate è obbligatorio';
+  static const String addExpensesFinancingPaidInstallmentsInvalid =
+      'Numero di rate pagate non valido';
+  static const String addExpensesAppointmentLocationRequired =
+      'Il luogo dell\'appuntamento è obbligatorio';
   static const String addExpensesErrorTitle = 'Ops!';
-  static const String addExpensesErrorSubTitle = 'Qualcosa è andato storto. Riprova più tardi.';
+  static const String addExpensesErrorSubTitle =
+      'Qualcosa è andato storto. Riprova più tardi.';
 
   /// Add Expenses — Type selector
   static const String addExpensesTypeLabel = 'Tipo';
@@ -86,7 +93,7 @@ class WidgetConstants {
   /// Expense tile placeholders — replaced by ViewModel data once wired.
   static const String expenseTitlePlaceholder = 'Netflix';
   static const String expenseTypePlaceholder = 'Subscription';
-  static const String nextExpenses = 'Prossimo Pagamento: \${nextPaymentDate}';
+  static const String nextExpenses = 'Prossimo Pagamento: ';
   static const double expenseAmountPlaceholder = 100.0;
 
   /// Appointments
