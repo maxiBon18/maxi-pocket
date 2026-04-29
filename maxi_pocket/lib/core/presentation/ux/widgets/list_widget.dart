@@ -16,13 +16,14 @@ class MaxiPocketListWidget extends StatelessWidget {
     required this.numberOfExpenses,
     super.key,
     this.isAppointment = false,
+    this.isFromHome = false,
   });
 
   final MaxiPocketThemeMode themeMode;
   final bool isAppointment;
   final List<WrapperCommitmentsEntity> entityToShow;
   final int numberOfExpenses;
-
+  final bool isFromHome;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -33,6 +34,7 @@ class MaxiPocketListWidget extends StatelessWidget {
           isAppointment: isAppointment,
           entityToShow: entityToShow[index].commitments,
           type: entityToShow[index].type,
+          isFromHome: isFromHome,
         ),
         separatorBuilder: (BuildContext context, int index) => const SizedBox(height: DesignConstants.spacing12),
         itemCount: numberOfExpenses,

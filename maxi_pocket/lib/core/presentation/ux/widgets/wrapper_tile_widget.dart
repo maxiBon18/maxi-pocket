@@ -25,12 +25,14 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
     required this.type,
     super.key,
     this.isAppointment = false,
+    this.isFromHome = false,
   });
 
   final MaxiPocketThemeMode themeMode;
   final bool isAppointment;
   final CommitmentsEntity entityToShow;
   final MaxiPocketExpensesType type;
+  final bool isFromHome;
 
   Color get _iconColor => themeMode == MaxiPocketThemeMode.light
       ? ThemeLightColors.textSecondaryColor
@@ -63,6 +65,7 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
         amountColor: _amountColor,
         type: type,
         entityToShow: entityToShow,
+        isFromHome: isFromHome,
       ),
       isThreeLine: true,
       themeMode: themeMode,
@@ -81,6 +84,7 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
     required this.amountColor,
     required this.type,
     required this.entityToShow,
+    required this.isFromHome,
   });
 
   final bool isAppointment;
@@ -88,6 +92,7 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
   final Color amountColor;
   final MaxiPocketExpensesType type;
   final CommitmentsEntity entityToShow;
+  final bool isFromHome;
 
   double _getAmount() => switch (entityToShow) {
     final SubscriptionEntity s => s.amount,
@@ -103,29 +108,35 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
       children: <Widget>[
         if (!isAppointment)
           Text(
-            _getAmount().toStringAsFixed(2),
+            '${_getAmount().toStringAsFixed(2)} ${WidgetConstants.currencySymbol}',
             style: ThemeTextStyles.monetaryAmountSmallLight.copyWith(color: amountColor),
           ),
         if (!isAppointment) const SizedBox(height: DesignConstants.spacing8),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            GestureDetector(
-              onTap: () {},
-              child: Icon(Icons.edit_outlined, color: iconColor, size: DesignConstants.icon24, applyTextScaling: false),
-            ),
-            const SizedBox(width: DesignConstants.spacing12),
-            GestureDetector(
-              onTap: () {},
-              child: Icon(
-                Icons.delete_outlined,
-                color: iconColor,
-                size: DesignConstants.icon24,
-                applyTextScaling: false,
+        if (!isFromHome)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.edit_outlined,
+                  color: iconColor,
+                  size: DesignConstants.icon24,
+                  applyTextScaling: false,
+                ),
               ),
-            ),
-          ],
-        ),
+              const SizedBox(width: DesignConstants.spacing12),
+              GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.delete_outlined,
+                  color: iconColor,
+                  size: DesignConstants.icon24,
+                  applyTextScaling: false,
+                ),
+              ),
+            ],
+          ),
       ],
     );
   }
