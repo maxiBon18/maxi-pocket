@@ -9,8 +9,6 @@ import 'package:maxi_pocket/core/data/repo/source/dto/home_db_source.dart';
 part 'home_db_source_impl.g.dart';
 
 /// Drift data source implementation that executes joined queries against the home-screen tables.
-///
-/// Both queries filter by the current calendar month so only upcoming expenses are returned.
 @DriftAccessor(tables: <Type>[CommonDataTable, SubscriptionsTable, FinancingTable])
 class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
     with _$HomeDbSourceImplMixin
@@ -24,7 +22,7 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
       <Join<HasResultSet, dynamic>>[
         innerJoin(subscriptionsTable, commonDataTable.primaryId.equalsExp(subscriptionsTable.foreignId)),
       ],
-    );
+    )..orderBy(<OrderingTerm>[OrderingTerm.asc(subscriptionsTable.nextPaymentDate)]);
 
     final List<TypedResult> subscriptionRows = await querySubscription.get();
 
@@ -54,7 +52,7 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
       <Join<HasResultSet, dynamic>>[
         innerJoin(financingTable, commonDataTable.primaryId.equalsExp(financingTable.foreignId)),
       ],
-    );
+    )..orderBy(<OrderingTerm>[OrderingTerm.asc(financingTable.nextPaymentDate)]);
 
     final List<TypedResult> financingRows = await queryFinancing.get();
 

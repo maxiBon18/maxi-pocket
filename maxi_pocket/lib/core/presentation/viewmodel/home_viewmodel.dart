@@ -70,16 +70,27 @@ class HomeNotifier extends AsyncNotifier<List<HomeEntity>> {
     final List<WrapperCommitmentsEntity> wrapperCommitments = <WrapperCommitmentsEntity>[];
     wrapperCommitments.addAll(
       homeWeeklyEntity.subscriptionEntity.map(
-        (SubscriptionEntity entity) =>
-            WrapperCommitmentsEntity(type: MaxiPocketExpensesType.subscription, commitments: entity),
+        (SubscriptionEntity entity) => WrapperCommitmentsEntity(
+          type: MaxiPocketExpensesType.subscription,
+          commitments: entity,
+          nextPaymentDate: entity.nextPaymentDate!,
+        ),
       ),
     );
     wrapperCommitments.addAll(
       homeWeeklyEntity.financingEntity.map(
-        (FinancingEntity entity) =>
-            WrapperCommitmentsEntity(type: MaxiPocketExpensesType.financing, commitments: entity),
+        (FinancingEntity entity) => WrapperCommitmentsEntity(
+          type: MaxiPocketExpensesType.financing,
+          commitments: entity,
+          nextPaymentDate: entity.nextPaymentDate!,
+        ),
       ),
     );
+
+    wrapperCommitments.sort(
+      (WrapperCommitmentsEntity a, WrapperCommitmentsEntity b) => a.nextPaymentDate.compareTo(b.nextPaymentDate),
+    );
+
     return wrapperCommitments;
   }
 

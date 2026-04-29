@@ -29,5 +29,7 @@ class WrapperCommitmentsEntity {
   /// The concrete commitment payload.
   final CommitmentsEntity commitments;
 
-  const WrapperCommitmentsEntity({required this.type, required this.commitments});
+  final DateTime nextPaymentDate;
+
+  const WrapperCommitmentsEntity({required this.type, required this.commitments, required this.nextPaymentDate});
 }
