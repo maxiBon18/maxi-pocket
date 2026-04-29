@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:maxi_pocket/core/domain/entities/home_entity.dart';
+import 'package:maxi_pocket/core/domain/entities/home_entity.dart' show HomeEntity;
 import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors;
 import 'package:maxi_pocket/core/presentation/ux/pages/wrapper_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/circular_loading.dart';
@@ -24,7 +24,7 @@ class MaxiPocketSplashPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(homeNotifierProvider, (AsyncValue<List<HomeEntity>>? previous, AsyncValue<List<HomeEntity>> next) {
+    ref.listen(homeNotifierProvider, (AsyncValue<HomeEntity?>? previous, AsyncValue<HomeEntity?> next) {
       next.when(
         data: (_) {
           Navigator.of(context).pushReplacementNamed(Routes.homeRoute);

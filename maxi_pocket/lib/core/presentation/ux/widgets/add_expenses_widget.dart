@@ -628,6 +628,7 @@ class _MaxiPocketAddExpensesSubmitButton extends ConsumerWidget {
       width: double.infinity,
       onPressed: () async {
         getDI<LoadingViewmodel>().showLoading(context: context);
+        ref.read(fabViewmodelProvider.notifier).clearAllRowsTableQuery();
         final Set<FormFieldState<Object?>>? validateFields = formKey.currentState?.validateGranularly();
         if (validateFields != null && validateFields.isEmpty) {
           await ref.read(fabViewmodelProvider.notifier).insertCommitments(getCommitmentsEntity());

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/core/presentation/ux/pages/wrapper_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/app_bar_title_widget.dart';
-import 'package:maxi_pocket/core/presentation/ux/widgets/empty_data_image_widget.dart';
+import 'package:maxi_pocket/core/presentation/ux/widgets/empty_content.dart';
+import 'package:maxi_pocket/core/presentation/ux/widgets/error_content.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart';
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
 import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
 import 'package:maxi_pocket/core/presentation/ux/widgets/list_widget.dart' show MaxiPocketListWidget;
 import 'package:maxi_pocket/core/domain/entities/home_entity.dart';
-import 'package:maxi_pocket/core/shared/utils/extensions.dart' show BuildContextExtension;
 import 'package:maxi_pocket/home/presentation/ux/widgets/home_section_header_widget.dart'
     show MaxiPocketHomeSectionHeaderWidget;
 import 'package:maxi_pocket/home/presentation/ux/widgets/home_summary_cards_widget.dart'
@@ -26,7 +26,7 @@ class MaxiPocketHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MaxiPocketThemeMode themeMode = ref.watch(themeProvider);
-    final AsyncValue<List<HomeEntity>> homeEntities = ref.watch(homeNotifierProvider);
+    final AsyncValue<HomeEntity?> homeEntities = ref.watch(homeNotifierProvider);
 
     return MaxiPocketPage(
       routeName: Routes.homeRoute,
@@ -41,11 +41,11 @@ class MaxiPocketHomePage extends ConsumerWidget {
       ),
       showFloatingActionButton: true,
       child: homeEntities.when(
-        data: (List<HomeEntity> data) {
-          return _HomeContent(themeMode: themeMode, isInError: false);
+        data: (HomeEntity? data) {
+          return _HomeContent(themeMode: themeMode, isInError: false, data: data);
         },
         loading: () => const Center(child: MaxiPocketLoadingWidget()),
-        error: (Object error, StackTrace stackTrace) => _HomeContent(themeMode: themeMode, isInError: true),
+        error: (Object error, StackTrace stackTrace) => _HomeContent(themeMode: themeMode, isInError: true, data: null),
       ),
     );
   }
@@ -55,10 +55,10 @@ class MaxiPocketHomePage extends ConsumerWidget {
 ///
 /// When [isInError] is true, replaces the expense list with [_HomeErrorContent].
 class _HomeContent extends ConsumerWidget {
-  const _HomeContent({required this.themeMode, required this.isInError});
+  const _HomeContent({required this.themeMode, required this.isInError, required this.data});
   final MaxiPocketThemeMode themeMode;
   final bool isInError;
-
+  final HomeEntity? data;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final HomeNotifier notifier = ref.watch(homeNotifierProvider.notifier);
@@ -78,66 +78,18 @@ class _HomeContent extends ConsumerWidget {
           MaxiPocketHomeSectionHeaderWidget(isInError: isInError, numberOfExpenses: notifier.getNumberOfExpenses()),
           const SizedBox(height: DesignConstants.spacing12),
           isInError
-              ? const Expanded(child: _HomeErrorContent())
+              ? const Expanded(child: MaxiPocketErrorContentWidget())
               : Expanded(
-                  child: notifier.getNumberOfExpenses() == 0
-                      ? const _HomeEmotyContent()
+                  child: data == null || notifier.getNumberOfExpenses() == 0
+                      ? const MaxiPocketEmptyContentWidget()
                       : MaxiPocketListWidget(
                           themeMode: themeMode,
                           isFromHome: true,
-                          entityToShow: notifier.getHomeWeeklyWrapperCommitments(),
+                          entityToShow: notifier.getHomeWrapperCommitments(),
                           isAppointment: false,
                           numberOfExpenses: notifier.getNumberOfExpenses(),
                         ),
                 ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Centred placeholder shown when [homeNotifierProvider] returns an error.
-class _HomeErrorContent extends StatelessWidget {
-  const _HomeErrorContent();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: .min,
-        children: <Widget>[
-          const MaxiPocketEmptyDataImageWidget(),
-          const SizedBox(height: DesignConstants.spacing24),
-          Text(
-            HomeWidgetConstants.errorPlaceholderTitle,
-            style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: DesignConstants.spacing8),
-          Text(
-            HomeWidgetConstants.errorPlaceholderDescription,
-            style: context.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w400),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _HomeEmotyContent extends StatelessWidget {
-  const _HomeEmotyContent();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: .min,
-        children: <Widget>[
-          const MaxiPocketEmptyDataImageWidget(),
-          const SizedBox(height: DesignConstants.spacing24),
-          Text(
-            HomeWidgetConstants.emptyDataTitle,
-            style: context.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w400),
-          ),
         ],
       ),
     );

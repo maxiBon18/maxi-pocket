@@ -12,8 +12,8 @@ import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpense
 ///
 /// Retries up to once after a one-second delay on failure, then stops to
 /// avoid indefinite loading loops.
-final AsyncNotifierProvider<HomeNotifier, List<HomeEntity>> homeNotifierProvider =
-    AsyncNotifierProvider<HomeNotifier, List<HomeEntity>>(
+final AsyncNotifierProvider<HomeNotifier, HomeEntity?> homeNotifierProvider =
+    AsyncNotifierProvider<HomeNotifier, HomeEntity?>(
       HomeNotifier.new,
       retry: (int retryCount, Object error) {
         if (retryCount > 1) return null;
@@ -26,13 +26,13 @@ final AsyncNotifierProvider<HomeNotifier, List<HomeEntity>> homeNotifierProvider
 /// On [build], fetches all subscriptions and financings for the current month,
 /// computes monthly and weekly totals, and filters the weekly snapshot to
 /// commitments due within the next seven days.
-class HomeNotifier extends AsyncNotifier<List<HomeEntity>> {
+class HomeNotifier extends AsyncNotifier<HomeEntity?> {
   final Logger _logger = getDI<Logger>();
   final HomeService _homeServices = getDI<HomeService>();
 
   double _monthlyAmount = 0;
   double _weeklyAmount = 0;
-  late HomeEntity _homeWeeklyEntity;
+  HomeEntity? _homeWeeklyEntity;
 
   /// Total monthly expense amount across subscriptions and financings.
   double get monthlyAmount => _monthlyAmount;
@@ -41,10 +41,10 @@ class HomeNotifier extends AsyncNotifier<List<HomeEntity>> {
   double get weeklyAmount => _weeklyAmount;
 
   /// Weekly snapshot entity populated after a successful [build].
-  HomeEntity get homeWeeklyEntity => _homeWeeklyEntity;
+  HomeEntity? get homeWeeklyEntity => _homeWeeklyEntity;
 
   @override
-  Future<List<HomeEntity>> build() async {
+  Future<HomeEntity?> build() async {
     try {
       final List<SubscriptionEntity> subscriptionEntities = await _homeServices.getSubscriptionsData();
       final List<FinancingEntity> financingEntities = await _homeServices.getFinancingsData();
@@ -53,7 +53,7 @@ class HomeNotifier extends AsyncNotifier<List<HomeEntity>> {
       _getWeeklyAmount(subscriptionEntities, financingEntities);
       _calculateWeeklyAmount();
 
-      return <HomeEntity>[_homeWeeklyEntity];
+      return _homeWeeklyEntity;
     } catch (e, st) {
       _logger.e('Error retrieving Home data', error: e, stackTrace: st);
       rethrow;
@@ -62,14 +62,17 @@ class HomeNotifier extends AsyncNotifier<List<HomeEntity>> {
 
   /// Returns the total count of weekly expenses (subscriptions + financings).
   int getNumberOfExpenses() {
-    return homeWeeklyEntity.subscriptionEntity.length + homeWeeklyEntity.financingEntity.length;
+    if (homeWeeklyEntity == null) return 0;
+    return homeWeeklyEntity!.subscriptionEntity.length + homeWeeklyEntity!.financingEntity.length;
   }
 
   /// Builds a flat list of [WrapperCommitmentsEntity] from the weekly snapshot for display in the list widget.
-  List<WrapperCommitmentsEntity> getHomeWeeklyWrapperCommitments() {
+  List<WrapperCommitmentsEntity> getHomeWrapperCommitments() {
     final List<WrapperCommitmentsEntity> wrapperCommitments = <WrapperCommitmentsEntity>[];
+    if (homeWeeklyEntity == null) return wrapperCommitments;
+
     wrapperCommitments.addAll(
-      homeWeeklyEntity.subscriptionEntity.map(
+      homeWeeklyEntity!.subscriptionEntity.map(
         (SubscriptionEntity entity) => WrapperCommitmentsEntity(
           type: MaxiPocketExpensesType.subscription,
           commitments: entity,
@@ -78,7 +81,7 @@ class HomeNotifier extends AsyncNotifier<List<HomeEntity>> {
       ),
     );
     wrapperCommitments.addAll(
-      homeWeeklyEntity.financingEntity.map(
+      homeWeeklyEntity!.financingEntity.map(
         (FinancingEntity entity) => WrapperCommitmentsEntity(
           type: MaxiPocketExpensesType.financing,
           commitments: entity,
@@ -170,15 +173,19 @@ class HomeNotifier extends AsyncNotifier<List<HomeEntity>> {
 
   /// Sums amounts for all commitments in [_homeWeeklyEntity] and stores the result in [_weeklyAmount].
   void _calculateWeeklyAmount() {
-    final double weeklySubscriptionAmount = _homeWeeklyEntity.subscriptionEntity.fold(
-      0,
-      (double sum, SubscriptionEntity subscriptionEntity) => sum + subscriptionEntity.amount,
-    );
-    final double weeklyFinancingAmount = _homeWeeklyEntity.financingEntity.fold(
-      0,
-      (double sum, FinancingEntity financingEntity) => sum + financingEntity.amount,
-    );
+    if (homeWeeklyEntity == null) {
+      _weeklyAmount = 0;
+    } else {
+      final double weeklySubscriptionAmount = homeWeeklyEntity!.subscriptionEntity.fold(
+        0,
+        (double sum, SubscriptionEntity subscriptionEntity) => sum + subscriptionEntity.amount,
+      );
+      final double weeklyFinancingAmount = homeWeeklyEntity!.financingEntity.fold(
+        0,
+        (double sum, FinancingEntity financingEntity) => sum + financingEntity.amount,
+      );
 
-    _weeklyAmount = weeklySubscriptionAmount + weeklyFinancingAmount;
+      _weeklyAmount = weeklySubscriptionAmount + weeklyFinancingAmount;
+    }
   }
 }
