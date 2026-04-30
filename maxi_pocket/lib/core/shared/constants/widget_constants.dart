@@ -28,7 +28,7 @@ class WidgetConstants {
   /// Floating Action Button
   static const String floatingActionButtonTooltip = 'Aggiungi spesa';
 
-  // Button Strings
+  /// Button labels
   static const String buttonOk = 'OK';
   static const String buttonCancel = 'Annulla';
   static const String buttonDelete = 'Elimina';
@@ -59,6 +59,13 @@ class WidgetConstants {
   static const String addExpensesDate = 'Data inizio pagamento';
   static const String appointmentDate = 'Data';
   static const String addExpensesButton = 'Aggiungi';
+  static const String editExpensesButton = 'Aggiorna';
+  static const String editNewTitle = 'Modifica spesa';
+  static const String deleteDialogTitle = 'Cancellare la spesa?';
+  static const String deleteDialogSubTitle =
+      'Sei sicuro di volerla cancellare? \n Questa azione non potrà essere annullata.';
+  static const String deleteDialogConfirm = 'OK';
+  static const String deleteDialogCancel = 'Cancella';
   static const String addExpensesNameRequired = 'Nome è obbligatorio';
   static const String addExpensesAmountRequired = 'Importo è obbligatorio';
   static const String addExpensesAmountInvalid = 'Importo non valido';
@@ -82,7 +89,7 @@ class WidgetConstants {
   static const String addExpensesFrequencyWeekly = 'Annuale';
   static const String addExpensesFrequencyMonthly = 'Mensile';
 
-  static const String activeNumberExpenses = '\${activeNumberExpenses} attive';
+  static const String activeNumberExpenses = 'Spese attive: ';
 
   /// Expense tile placeholders — replaced by ViewModel data once wired.
   static const String expenseTitlePlaceholder = 'Netflix';
@@ -91,7 +98,7 @@ class WidgetConstants {
   static const double expenseAmountPlaceholder = 100.0;
 
   /// Appointments
-  static const String activeNumberAppointments = 'Appuntamenti futuri';
+  static const String activeNumberAppointments = 'Appuntamenti futuri: ';
   static const String nextAppointment = 'Prossimo Appuntamento: ';
   static const String appointmentType = 'Appuntamento';
 }

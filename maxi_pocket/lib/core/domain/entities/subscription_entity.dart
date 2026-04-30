@@ -17,10 +17,14 @@ class SubscriptionEntity implements CommitmentsEntity {
   /// Billing cycle — monthly or annual.
   final MaxiPocketExpensesFrequency frequency;
 
+  /// Database primary key from [CommonDataTable], populated when reading from DB.
+  final BigInt? id;
+
   const SubscriptionEntity({
     required this.commitmentEntity,
     required this.amount,
     required this.frequency,
     this.nextPaymentDate,
+    this.id,
   });
 }

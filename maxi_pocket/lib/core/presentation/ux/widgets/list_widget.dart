@@ -6,8 +6,9 @@ import 'package:maxi_pocket/core/presentation/ux/widgets/wrapper_tile_widget.dar
 
 /// A scrollable separated list of [MaxiPocketWrapperTileWidget] tiles.
 ///
-/// Currently renders [_placeholderItemCount] placeholder items.
-/// Replace with data from a ViewModel once the domain layer is wired.
+/// Renders [numberOfExpenses] items from [entityToShow], separated by a fixed
+/// vertical gap. Pass [isFromHome] to suppress edit and delete actions when the
+/// list is embedded in the home screen's weekly-summary section.
 @immutable
 class MaxiPocketListWidget extends StatelessWidget {
   const MaxiPocketListWidget({
@@ -17,6 +18,8 @@ class MaxiPocketListWidget extends StatelessWidget {
     super.key,
     this.isAppointment = false,
     this.isFromHome = false,
+    this.onEdit,
+    this.onDelete,
   });
 
   final MaxiPocketThemeMode themeMode;
@@ -24,6 +27,9 @@ class MaxiPocketListWidget extends StatelessWidget {
   final List<WrapperCommitmentsEntity> entityToShow;
   final int numberOfExpenses;
   final bool isFromHome;
+  final void Function(CommitmentsEntity entity)? onEdit;
+  final void Function(CommitmentsEntity entity)? onDelete;
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -35,6 +41,8 @@ class MaxiPocketListWidget extends StatelessWidget {
           entityToShow: entityToShow[index].commitments,
           type: entityToShow[index].type,
           isFromHome: isFromHome,
+          onEdit: onEdit != null ? () => onEdit!(entityToShow[index].commitments) : null,
+          onDelete: onDelete != null ? () => onDelete!(entityToShow[index].commitments) : null,
         ),
         separatorBuilder: (BuildContext context, int index) => const SizedBox(height: DesignConstants.spacing12),
         itemCount: numberOfExpenses,

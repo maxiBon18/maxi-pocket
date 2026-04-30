@@ -2,7 +2,7 @@ import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart' show C
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart' show FinancingEntity;
 import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart' show SubscriptionEntity;
 import 'package:maxi_pocket/core/domain/services/repo/expenses_db_repo.dart';
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesFrequency;
+import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesFrequency, MaxiPocketExpensesType;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart' show DateTimeExtension;
 
 /// Domain service for persisting new expense records.
@@ -39,6 +39,36 @@ class ExpensesDbService {
     await _expensesRepo.insertQuery(object: resolved);
   }
 
-  /// Deletes all expense rows from every table in the database.
+  /// Removes all expense rows from persistent storage.
   Future<void> clearAllRowsTableQuery() => _expensesRepo.clearAllRowsTableQuery();
+
+  /// Deletes the expense identified by [commonId] and [type].
+  Future<void> deleteQuery({required BigInt commonId, required MaxiPocketExpensesType type}) =>
+      _expensesRepo.deleteQuery(commonId: commonId, type: type);
+
+  /// Persists updated fields for [commonId], deriving [nextPaymentDate] when absent.
+  ///
+  /// Applies the same derivation logic as [insertQuery]: subscriptions use the
+  /// entity's own frequency, financings always use monthly.
+  Future<void> updateQuery({required BigInt commonId, required CommitmentsEntity object}) {
+    final CommitmentsEntity resolved = switch (object) {
+      final SubscriptionEntity s when s.nextPaymentDate == null => SubscriptionEntity(
+        commitmentEntity: s.commitmentEntity,
+        amount: s.amount,
+        frequency: s.frequency,
+        nextPaymentDate: s.commitmentEntity.eventDate.nextPaymentDate(s.frequency),
+        id: s.id,
+      ),
+      final FinancingEntity f when f.nextPaymentDate == null => FinancingEntity(
+        commitmentEntity: f.commitmentEntity,
+        numberOfInstallments: f.numberOfInstallments,
+        numberOfPaidInstallments: f.numberOfPaidInstallments,
+        amount: f.amount,
+        nextPaymentDate: f.commitmentEntity.eventDate.nextPaymentDate(MaxiPocketExpensesFrequency.monthly),
+        id: f.id,
+      ),
+      _ => object,
+    };
+    return _expensesRepo.updateQuery(commonId: commonId, object: resolved);
+  }
 }

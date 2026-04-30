@@ -6,9 +6,10 @@ import 'package:maxi_pocket/core/presentation/ux/widgets/empty_content.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/error_content.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart';
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode, MaxiPocketExpensesType;
 import 'package:maxi_pocket/core/presentation/ux/widgets/list_widget.dart' show MaxiPocketListWidget;
 import 'package:maxi_pocket/core/domain/entities/home_entity.dart';
+import 'package:maxi_pocket/core/shared/utils/helpers_method.dart' show getHomeWrapperCommitments;
 import 'package:maxi_pocket/home/presentation/ux/widgets/home_section_header_widget.dart'
     show MaxiPocketHomeSectionHeaderWidget;
 import 'package:maxi_pocket/home/presentation/ux/widgets/home_summary_cards_widget.dart'
@@ -85,7 +86,7 @@ class _HomeContent extends ConsumerWidget {
                       : MaxiPocketListWidget(
                           themeMode: themeMode,
                           isFromHome: true,
-                          entityToShow: notifier.getHomeWrapperCommitments(),
+                          entityToShow: getHomeWrapperCommitments(data, MaxiPocketExpensesType.all),
                           isAppointment: false,
                           numberOfExpenses: notifier.getNumberOfExpenses(),
                         ),

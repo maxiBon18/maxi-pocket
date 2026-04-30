@@ -17,6 +17,9 @@ _SubscriptionDto _$SubscriptionDtoFromJson(Map<String, dynamic> json) =>
       nextPaymentDate: json['nextPaymentDate'] == null
           ? null
           : DateTime.parse(json['nextPaymentDate'] as String),
+      commonId: json['commonId'] == null
+          ? null
+          : BigInt.parse(json['commonId'] as String),
     );
 
 Map<String, dynamic> _$SubscriptionDtoToJson(_SubscriptionDto instance) =>
@@ -25,6 +28,7 @@ Map<String, dynamic> _$SubscriptionDtoToJson(_SubscriptionDto instance) =>
       'amount': instance.amount,
       'frequency': _$MaxiPocketExpensesFrequencyEnumMap[instance.frequency]!,
       'nextPaymentDate': instance.nextPaymentDate?.toIso8601String(),
+      'commonId': instance.commonId?.toString(),
     };
 
 const _$MaxiPocketExpensesFrequencyEnumMap = {

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SubscriptionDto {
 
- ExpenseDbDto get expense; double get amount; MaxiPocketExpensesFrequency get frequency; DateTime? get nextPaymentDate;
+ ExpenseDbDto get expense; double get amount; MaxiPocketExpensesFrequency get frequency; DateTime? get nextPaymentDate; BigInt? get commonId;
 /// Create a copy of SubscriptionDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SubscriptionDtoCopyWith<SubscriptionDto> get copyWith => _$SubscriptionDtoCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SubscriptionDto&&(identical(other.expense, expense) || other.expense == expense)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.nextPaymentDate, nextPaymentDate) || other.nextPaymentDate == nextPaymentDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SubscriptionDto&&(identical(other.expense, expense) || other.expense == expense)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.nextPaymentDate, nextPaymentDate) || other.nextPaymentDate == nextPaymentDate)&&(identical(other.commonId, commonId) || other.commonId == commonId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,expense,amount,frequency,nextPaymentDate);
+int get hashCode => Object.hash(runtimeType,expense,amount,frequency,nextPaymentDate,commonId);
 
 @override
 String toString() {
-  return 'SubscriptionDto(expense: $expense, amount: $amount, frequency: $frequency, nextPaymentDate: $nextPaymentDate)';
+  return 'SubscriptionDto(expense: $expense, amount: $amount, frequency: $frequency, nextPaymentDate: $nextPaymentDate, commonId: $commonId)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SubscriptionDtoCopyWith<$Res>  {
   factory $SubscriptionDtoCopyWith(SubscriptionDto value, $Res Function(SubscriptionDto) _then) = _$SubscriptionDtoCopyWithImpl;
 @useResult
 $Res call({
- ExpenseDbDto expense, double amount, MaxiPocketExpensesFrequency frequency, DateTime? nextPaymentDate
+ ExpenseDbDto expense, double amount, MaxiPocketExpensesFrequency frequency, DateTime? nextPaymentDate, BigInt? commonId
 });
 
 
@@ -65,13 +65,14 @@ class _$SubscriptionDtoCopyWithImpl<$Res>
 
 /// Create a copy of SubscriptionDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? expense = null,Object? amount = null,Object? frequency = null,Object? nextPaymentDate = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? expense = null,Object? amount = null,Object? frequency = null,Object? nextPaymentDate = freezed,Object? commonId = freezed,}) {
   return _then(_self.copyWith(
 expense: null == expense ? _self.expense : expense // ignore: cast_nullable_to_non_nullable
 as ExpenseDbDto,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as double,frequency: null == frequency ? _self.frequency : frequency // ignore: cast_nullable_to_non_nullable
 as MaxiPocketExpensesFrequency,nextPaymentDate: freezed == nextPaymentDate ? _self.nextPaymentDate : nextPaymentDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,commonId: freezed == commonId ? _self.commonId : commonId // ignore: cast_nullable_to_non_nullable
+as BigInt?,
   ));
 }
 /// Create a copy of SubscriptionDto
@@ -165,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ExpenseDbDto expense,  double amount,  MaxiPocketExpensesFrequency frequency,  DateTime? nextPaymentDate)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ExpenseDbDto expense,  double amount,  MaxiPocketExpensesFrequency frequency,  DateTime? nextPaymentDate,  BigInt? commonId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SubscriptionDto() when $default != null:
-return $default(_that.expense,_that.amount,_that.frequency,_that.nextPaymentDate);case _:
+return $default(_that.expense,_that.amount,_that.frequency,_that.nextPaymentDate,_that.commonId);case _:
   return orElse();
 
 }
@@ -186,10 +187,10 @@ return $default(_that.expense,_that.amount,_that.frequency,_that.nextPaymentDate
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ExpenseDbDto expense,  double amount,  MaxiPocketExpensesFrequency frequency,  DateTime? nextPaymentDate)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ExpenseDbDto expense,  double amount,  MaxiPocketExpensesFrequency frequency,  DateTime? nextPaymentDate,  BigInt? commonId)  $default,) {final _that = this;
 switch (_that) {
 case _SubscriptionDto():
-return $default(_that.expense,_that.amount,_that.frequency,_that.nextPaymentDate);case _:
+return $default(_that.expense,_that.amount,_that.frequency,_that.nextPaymentDate,_that.commonId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,10 +207,10 @@ return $default(_that.expense,_that.amount,_that.frequency,_that.nextPaymentDate
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ExpenseDbDto expense,  double amount,  MaxiPocketExpensesFrequency frequency,  DateTime? nextPaymentDate)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ExpenseDbDto expense,  double amount,  MaxiPocketExpensesFrequency frequency,  DateTime? nextPaymentDate,  BigInt? commonId)?  $default,) {final _that = this;
 switch (_that) {
 case _SubscriptionDto() when $default != null:
-return $default(_that.expense,_that.amount,_that.frequency,_that.nextPaymentDate);case _:
+return $default(_that.expense,_that.amount,_that.frequency,_that.nextPaymentDate,_that.commonId);case _:
   return null;
 
 }
@@ -221,13 +222,14 @@ return $default(_that.expense,_that.amount,_that.frequency,_that.nextPaymentDate
 @JsonSerializable()
 
 class _SubscriptionDto extends SubscriptionDto {
-  const _SubscriptionDto({required this.expense, required this.amount, required this.frequency, required this.nextPaymentDate}): super._();
+  const _SubscriptionDto({required this.expense, required this.amount, required this.frequency, required this.nextPaymentDate, this.commonId}): super._();
   factory _SubscriptionDto.fromJson(Map<String, dynamic> json) => _$SubscriptionDtoFromJson(json);
 
 @override final  ExpenseDbDto expense;
 @override final  double amount;
 @override final  MaxiPocketExpensesFrequency frequency;
 @override final  DateTime? nextPaymentDate;
+@override final  BigInt? commonId;
 
 /// Create a copy of SubscriptionDto
 /// with the given fields replaced by the non-null parameter values.
@@ -242,16 +244,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SubscriptionDto&&(identical(other.expense, expense) || other.expense == expense)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.nextPaymentDate, nextPaymentDate) || other.nextPaymentDate == nextPaymentDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SubscriptionDto&&(identical(other.expense, expense) || other.expense == expense)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&(identical(other.nextPaymentDate, nextPaymentDate) || other.nextPaymentDate == nextPaymentDate)&&(identical(other.commonId, commonId) || other.commonId == commonId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,expense,amount,frequency,nextPaymentDate);
+int get hashCode => Object.hash(runtimeType,expense,amount,frequency,nextPaymentDate,commonId);
 
 @override
 String toString() {
-  return 'SubscriptionDto(expense: $expense, amount: $amount, frequency: $frequency, nextPaymentDate: $nextPaymentDate)';
+  return 'SubscriptionDto(expense: $expense, amount: $amount, frequency: $frequency, nextPaymentDate: $nextPaymentDate, commonId: $commonId)';
 }
 
 
@@ -262,7 +264,7 @@ abstract mixin class _$SubscriptionDtoCopyWith<$Res> implements $SubscriptionDto
   factory _$SubscriptionDtoCopyWith(_SubscriptionDto value, $Res Function(_SubscriptionDto) _then) = __$SubscriptionDtoCopyWithImpl;
 @override @useResult
 $Res call({
- ExpenseDbDto expense, double amount, MaxiPocketExpensesFrequency frequency, DateTime? nextPaymentDate
+ ExpenseDbDto expense, double amount, MaxiPocketExpensesFrequency frequency, DateTime? nextPaymentDate, BigInt? commonId
 });
 
 
@@ -279,13 +281,14 @@ class __$SubscriptionDtoCopyWithImpl<$Res>
 
 /// Create a copy of SubscriptionDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? expense = null,Object? amount = null,Object? frequency = null,Object? nextPaymentDate = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? expense = null,Object? amount = null,Object? frequency = null,Object? nextPaymentDate = freezed,Object? commonId = freezed,}) {
   return _then(_SubscriptionDto(
 expense: null == expense ? _self.expense : expense // ignore: cast_nullable_to_non_nullable
 as ExpenseDbDto,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as double,frequency: null == frequency ? _self.frequency : frequency // ignore: cast_nullable_to_non_nullable
 as MaxiPocketExpensesFrequency,nextPaymentDate: freezed == nextPaymentDate ? _self.nextPaymentDate : nextPaymentDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,commonId: freezed == commonId ? _self.commonId : commonId // ignore: cast_nullable_to_non_nullable
+as BigInt?,
   ));
 }
 

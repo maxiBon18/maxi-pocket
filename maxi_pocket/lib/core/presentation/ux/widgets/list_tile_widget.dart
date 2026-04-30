@@ -6,6 +6,11 @@ import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMo
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 import 'package:maxi_pocket/core/shared/utils/methods.dart' show getShadowsColor, getListTileBorderColor;
 
+/// A styled list-tile card with rounded corners, a border, and a two-layer drop shadow.
+///
+/// Wraps Flutter's [ListTile] inside [MaxiPocketBoxDecorationWidget] so every tile
+/// in the app shares consistent elevation and border appearance. The shadow color
+/// adapts to [themeMode] so it remains visible against both light and dark scaffolds.
 class MaxiPocketListTileWidget extends StatelessWidget {
   const MaxiPocketListTileWidget({
     required this.title,
@@ -53,29 +58,21 @@ class MaxiPocketListTileWidget extends StatelessWidget {
       boxShadows: _getBoxShadows(themeMode),
       borderRadius: BorderRadiusGeometry.circular(DesignConstants.radius16),
       border: Border.all(color: getListTileBorderColor(themeMode), width: DesignConstants.bottomBarBorderWidth),
-      child: SizedBox(
-        width: double.infinity,
-        height: height != null ? screenSize.responsiveHeight(height!) : null,
-        child: ListTile(
-          contentPadding: const EdgeInsets.only(
-            right: DesignConstants.spacing16,
-            left: DesignConstants.spacing16,
-            bottom: DesignConstants.spacing12,
-            top: DesignConstants.spacing4,
-          ),
-          minVerticalPadding: 0,
-          titleAlignment: ListTileTitleAlignment.center,
-          title: Padding(
-            padding: const EdgeInsets.only(bottom: DesignConstants.spacing4),
-            child: title,
-          ),
-          subtitle: subtitle,
-          leading: leading,
-          trailing: trailing,
-          onTap: onTap,
-          isThreeLine: isThreeLine,
-          splashColor: ThemeDarkColors.primaryColor.withValues(alpha: DesignConstants.alpha20),
+      child: ListTile(
+        minTileHeight: height != null ? screenSize.responsiveHeight(height!) : null,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: DesignConstants.spacing16,
+          vertical: DesignConstants.spacing8,
         ),
+        minVerticalPadding: DesignConstants.spacing8,
+        titleAlignment: ListTileTitleAlignment.center,
+        title: title,
+        subtitle: subtitle,
+        leading: leading,
+        trailing: trailing,
+        onTap: onTap,
+        isThreeLine: isThreeLine,
+        splashColor: ThemeDarkColors.primaryColor.withValues(alpha: DesignConstants.alpha20),
       ),
     );
   }

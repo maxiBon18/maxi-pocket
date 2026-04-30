@@ -5,6 +5,12 @@ import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show De
 import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode, MaxiPocketDialogType;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 
+/// Presents a themed adaptive alert dialog and returns the value the caller chooses.
+///
+/// Delegates to [showAdaptiveDialog] so the dialog follows platform conventions
+/// (Material on Android, Cupertino on iOS). [dialogType] drives the icon and
+/// button background colors; pass callbacks for [onConfirm] and [onCancel] to
+/// make the respective buttons appear.
 Future<T?> showAlertDialog<T>({
   required BuildContext context,
   required MaxiPocketThemeMode themeMode,
@@ -19,7 +25,7 @@ Future<T?> showAlertDialog<T>({
   bool useSafeArea = true,
   bool useRootNavigator = true,
   MaxiPocketDialogType dialogType = MaxiPocketDialogType.info,
-}) => showDialog(
+}) => showAdaptiveDialog(
   context: context,
   barrierDismissible: barrierDismissible,
   barrierColor: barrierColor,
@@ -37,6 +43,10 @@ Future<T?> showAlertDialog<T>({
   ),
 );
 
+/// Themed alert dialog used across all features for confirmations and error feedback.
+///
+/// Renders an icon, title, body text, and up to two action buttons whose colors
+/// adapt to [dialogType] and [themeMode]. Use [showAlertDialog] to display it.
 class MaxiPocketAlertDialog extends StatelessWidget {
   const MaxiPocketAlertDialog({
     required this.themeMode,
@@ -59,26 +69,94 @@ class MaxiPocketAlertDialog extends StatelessWidget {
   final MaxiPocketThemeMode themeMode;
   final MaxiPocketDialogType dialogType;
 
+  List<Color> _getActionBackgroundColor() {
+    final bool hasCancel = cancelButtonText != null && cancelButtonText!.isNotEmpty && onCancel != null;
+    final bool hasConfirm = confirmButtonText != null && confirmButtonText!.isNotEmpty && onConfirm != null;
+    final List<Color> actionBackgroundColors = <Color>[];
+
+    switch (dialogType) {
+      case MaxiPocketDialogType.error:
+        if (hasCancel && hasConfirm) {
+          if (themeMode == MaxiPocketThemeMode.light) {
+            actionBackgroundColors.add(ThemeLightColors.dialogCancelBackgroundColor);
+            actionBackgroundColors.add(ThemeLightColors.dialogErrorBackgroundColor);
+          } else {
+            actionBackgroundColors.add(ThemeDarkColors.dialogErrorBackgroundColor);
+            actionBackgroundColors.add(ThemeLightColors.dialogErrorBackgroundColor);
+          }
+          return actionBackgroundColors;
+        }
+        if (!hasCancel && hasConfirm) {
+          actionBackgroundColors.add(ThemeLightColors.dialogErrorBackgroundColor);
+          return actionBackgroundColors;
+        }
+        if (hasCancel && !hasConfirm) {
+          if (themeMode == MaxiPocketThemeMode.light) {
+            actionBackgroundColors.add(ThemeLightColors.dialogCancelBackgroundColor);
+          } else {
+            actionBackgroundColors.add(ThemeDarkColors.dialogErrorBackgroundColor);
+          }
+
+          return actionBackgroundColors;
+        }
+        return actionBackgroundColors;
+      case MaxiPocketDialogType.success:
+        if (hasCancel && hasConfirm) {
+          if (themeMode == MaxiPocketThemeMode.light) {
+            actionBackgroundColors.add(ThemeLightColors.dialogCancelBackgroundColor);
+            actionBackgroundColors.add(ThemeLightColors.secondaryColor);
+          } else {
+            actionBackgroundColors.add(ThemeDarkColors.dialogErrorBackgroundColor);
+            actionBackgroundColors.add(ThemeDarkColors.secondaryColor);
+          }
+          return actionBackgroundColors;
+        }
+        if (!hasCancel && hasConfirm) {
+          actionBackgroundColors.add(ThemeLightColors.secondaryColor);
+          return actionBackgroundColors;
+        }
+        if (hasCancel && !hasConfirm) {
+          if (themeMode == MaxiPocketThemeMode.light) {
+            actionBackgroundColors.add(ThemeLightColors.dialogCancelBackgroundColor);
+          } else {
+            actionBackgroundColors.add(ThemeDarkColors.dialogErrorBackgroundColor);
+          }
+          return actionBackgroundColors;
+        }
+        return actionBackgroundColors;
+      case MaxiPocketDialogType.info:
+        return actionBackgroundColors;
+    }
+  }
+
   List<Widget> _buildActions() {
     final List<Widget> actions = <Widget>[];
     final bool hasCancel = cancelButtonText != null && cancelButtonText!.isNotEmpty && onCancel != null;
     final bool hasConfirm = confirmButtonText != null && confirmButtonText!.isNotEmpty && onConfirm != null;
+    final List<Color> actionBackgroundColors = _getActionBackgroundColor();
 
     if (hasConfirm && hasCancel) {
       actions.add(
-        MaxiPocketButtonWidget(
-          label: cancelButtonText!,
-          onPressed: onCancel,
-          themeMode: themeMode,
-          backgroundColor: ThemeLightColors.errorColor,
-        ),
-      );
-      actions.add(
-        MaxiPocketButtonWidget(
-          label: confirmButtonText!,
-          onPressed: onConfirm,
-          themeMode: themeMode,
-          backgroundColor: ThemeLightColors.secondaryColor,
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: MaxiPocketButtonWidget(
+                label: cancelButtonText!,
+                onPressed: onCancel,
+                themeMode: themeMode,
+                backgroundColor: actionBackgroundColors[0],
+              ),
+            ),
+            const SizedBox(width: DesignConstants.spacing8),
+            Expanded(
+              child: MaxiPocketButtonWidget(
+                label: confirmButtonText!,
+                onPressed: onConfirm,
+                themeMode: themeMode,
+                backgroundColor: actionBackgroundColors[1],
+              ),
+            ),
+          ],
         ),
       );
     } else {
@@ -89,7 +167,7 @@ class MaxiPocketAlertDialog extends StatelessWidget {
             onPressed: onConfirm,
             width: double.infinity,
             themeMode: themeMode,
-            backgroundColor: ThemeLightColors.secondaryColor,
+            backgroundColor: actionBackgroundColors[0],
           ),
         );
       }
@@ -100,7 +178,7 @@ class MaxiPocketAlertDialog extends StatelessWidget {
             onPressed: onCancel,
             width: double.infinity,
             themeMode: themeMode,
-            backgroundColor: ThemeLightColors.errorColor,
+            backgroundColor: actionBackgroundColors[0],
           ),
         );
       }
@@ -111,27 +189,19 @@ class MaxiPocketAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      actionsPadding: subtitle == null || title == null ? const EdgeInsets.all(DesignConstants.spacing24) : null,
-      actionsAlignment: MainAxisAlignment.spaceAround,
-      titlePadding: const EdgeInsets.only(top: DesignConstants.spacing16, bottom: DesignConstants.spacing8),
-      contentPadding: const EdgeInsets.fromLTRB(
-        DesignConstants.spacing24,
-        DesignConstants.spacing8,
-        DesignConstants.spacing24,
-        DesignConstants.spacing24,
-      ),
+      backgroundColor: themeMode == MaxiPocketThemeMode.light
+          ? ThemeLightColors.bottomNavigationBarBackgroundColor
+          : ThemeDarkColors.bottomNavigationBarBackgroundColor,
       icon: _DialogIcon(dialogType: dialogType, themeMode: themeMode),
-      title: title != null
-          ? Text(
-              title!,
-              textAlign: TextAlign.center,
-              style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
-            )
-          : null,
-      content: subtitle != null
-          ? Text(subtitle!, textAlign: TextAlign.center, style: context.textTheme.bodyLarge)
-          : null,
+      titleTextStyle: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+      title: title != null ? Text(title!, textAlign: TextAlign.center) : null,
+      content: subtitle != null ? Text(subtitle!, textAlign: .center) : null,
+      contentTextStyle: context.textTheme.bodyLarge,
       actions: _buildActions(),
+      actionsAlignment: .center,
+      actionsOverflowAlignment: OverflowBarAlignment.end,
+      actionsOverflowDirection: VerticalDirection.down,
+      actionsOverflowButtonSpacing: DesignConstants.spacing8,
     );
   }
 }
@@ -145,29 +215,29 @@ class _DialogIcon extends StatelessWidget {
   Widget get _getIcon => switch (dialogType) {
     MaxiPocketDialogType.error => const Icon(
       Icons.error_outline,
-      color: ThemeLightColors.errorColor,
-      size: DesignConstants.icon24,
+      color: ThemeLightColors.primaryColor,
+      size: DesignConstants.icon32,
     ),
     MaxiPocketDialogType.success => const Icon(
       Icons.check_circle_outline,
       color: ThemeLightColors.secondaryDarkColor,
-      size: DesignConstants.icon24,
+      size: DesignConstants.icon32,
     ),
     MaxiPocketDialogType.info => const Icon(
       Icons.info,
       color: ThemeLightColors.tertiaryColor,
-      size: DesignConstants.icon24,
+      size: DesignConstants.icon32,
     ),
   };
 
   Color get _getBackgroundColor => switch (dialogType) {
     MaxiPocketDialogType.error =>
       themeMode == MaxiPocketThemeMode.light
-          ? ThemeLightColors.dialogErrorBackgroundColor
+          ? ThemeLightColors.primarySurfaceColor
           : ThemeDarkColors.dialogErrorBackgroundColor,
     MaxiPocketDialogType.success =>
       themeMode == MaxiPocketThemeMode.light
-          ? ThemeLightColors.dialogSuccessBackgroundColor
+          ? ThemeLightColors.badgeFinancingBackgroundColor
           : ThemeDarkColors.dialogSuccessBackgroundColor,
     MaxiPocketDialogType.info =>
       themeMode == MaxiPocketThemeMode.light
@@ -178,6 +248,8 @@ class _DialogIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: DesignConstants.containerSize56,
+      width: DesignConstants.containerSize56,
       decoration: BoxDecoration(color: _getBackgroundColor, shape: BoxShape.circle),
       child: _getIcon,
     );

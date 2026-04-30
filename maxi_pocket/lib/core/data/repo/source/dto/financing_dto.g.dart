@@ -16,6 +16,9 @@ _FinancingDto _$FinancingDtoFromJson(Map<String, dynamic> json) =>
       nextPaymentDate: json['nextPaymentDate'] == null
           ? null
           : DateTime.parse(json['nextPaymentDate'] as String),
+      commonId: json['commonId'] == null
+          ? null
+          : BigInt.parse(json['commonId'] as String),
     );
 
 Map<String, dynamic> _$FinancingDtoToJson(_FinancingDto instance) =>
@@ -25,4 +28,5 @@ Map<String, dynamic> _$FinancingDtoToJson(_FinancingDto instance) =>
       'numberOfPaidInstallments': instance.numberOfPaidInstallments,
       'amount': instance.amount,
       'nextPaymentDate': instance.nextPaymentDate?.toIso8601String(),
+      'commonId': instance.commonId?.toString(),
     };

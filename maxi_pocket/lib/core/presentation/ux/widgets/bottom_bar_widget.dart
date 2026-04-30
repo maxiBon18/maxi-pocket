@@ -78,6 +78,7 @@ class MaxiPocketBottomBarWidget extends ConsumerWidget {
         selectedIndex: currentPageIndex,
         height: screenHeight.responsiveHeight(DesignConstants.bottomBarDesignHeight),
         onDestinationSelected: (int index) {
+          if (index == currentPageIndex) return;
           ref.read(bottomBarProvider.notifier).setCurrentIndex(index);
           final String? route = WidgetConstants.tabRoutes[index];
           if (route != null) Navigator.of(context).pushReplacementNamed(route);

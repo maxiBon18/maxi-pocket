@@ -19,11 +19,15 @@ class FinancingEntity implements CommitmentsEntity {
   /// Date of the next scheduled instalment, or `null` if fully paid.
   final DateTime? nextPaymentDate;
 
+  /// Database primary key from [CommonDataTable], populated when reading from DB.
+  final BigInt? id;
+
   const FinancingEntity({
     required this.commitmentEntity,
     required this.numberOfInstallments,
     required this.numberOfPaidInstallments,
     required this.amount,
     this.nextPaymentDate,
+    this.id,
   });
 }

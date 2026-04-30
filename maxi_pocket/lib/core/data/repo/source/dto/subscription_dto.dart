@@ -22,6 +22,7 @@ abstract class SubscriptionDto with _$SubscriptionDto implements ExpenseDbInsert
     required double amount,
     required MaxiPocketExpensesFrequency frequency,
     required DateTime? nextPaymentDate,
+    BigInt? commonId,
   }) = _SubscriptionDto;
 
   factory SubscriptionDto.fromJson(Map<String, Object?> json) => _$SubscriptionDtoFromJson(json);
@@ -32,5 +33,6 @@ abstract class SubscriptionDto with _$SubscriptionDto implements ExpenseDbInsert
     amount: amount,
     frequency: frequency,
     nextPaymentDate: nextPaymentDate,
+    id: commonId,
   );
 }

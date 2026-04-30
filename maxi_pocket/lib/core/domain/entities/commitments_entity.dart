@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesType;
+import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesFrequency, MaxiPocketExpensesType;
 
 /// Marker interface for all expense and appointment commitment domain objects.
 @immutable
@@ -26,10 +26,19 @@ class WrapperCommitmentsEntity {
   /// The expense or appointment category used to select the correct tile layout.
   final MaxiPocketExpensesType type;
 
+  /// Billing cycle carried alongside the commitment so lists can filter by frequency without downcasting.
+  final MaxiPocketExpensesFrequency frequency;
+
   /// The concrete commitment payload.
   final CommitmentsEntity commitments;
 
+  /// The next due date, used for chronological sorting of mixed commitment lists.
   final DateTime nextPaymentDate;
 
-  const WrapperCommitmentsEntity({required this.type, required this.commitments, required this.nextPaymentDate});
+  const WrapperCommitmentsEntity({
+    required this.type,
+    required this.commitments,
+    required this.nextPaymentDate,
+    required this.frequency,
+  });
 }

@@ -6,9 +6,14 @@ import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show De
 class ThemeConstants {
   const ThemeConstants._();
 
-  static const String interFontFamily = 'Inter'; // (body/data)
-  static const String outfitFontFamily = 'Outfit'; // (headings/display)
-  static const String jetBrainsMonoFontFamily = 'JetBrainsMono'; //(amounts/numbers)
+  /// Body text and data labels use Inter.
+  static const String interFontFamily = 'Inter';
+
+  /// Headings and display text use Outfit.
+  static const String outfitFontFamily = 'Outfit';
+
+  /// Monetary amounts and numbers use JetBrains Mono for tabular alignment.
+  static const String jetBrainsMonoFontFamily = 'JetBrainsMono';
 }
 
 /// Color tokens for the light theme.
@@ -18,19 +23,44 @@ class ThemeConstants {
 class ThemeLightColors {
   const ThemeLightColors._();
 
-  static const Color primaryColor = Color(0xFFFFB3C1); // Main CTA buttons, FAB, active nav icons
-  static const Color primaryLightColor = Color(0xFFFFD6E0); // Selected chips, subtle highlights
-  static const Color primarySurfaceColor = Color(0xFFFFF0F3); // Card backgrounds, input fills (light mode)
-  static const Color secondaryColor = Color(0xFFA8D5BA); // Income indicators, positive trends, success
-  static const Color secondaryDarkColor = Color(0xFF7BB894); // Positive amount text
-  static const Color tertiaryColor = Color(0xFFC9B1D0); // Categories, chart segments, tags
-  static const Color accentColor = Color(0xFFF4A261); // Warnings, budget alerts, over-limit badges
-  static const Color errorColor = Color(0xFFD64550); // Expense amounts, negative trends, validation
-  static const Color onSurfaceColor = Color(0xFF2B2024); // Primary text (light mode)
-  static const Color onSurfaceVariantColor = Color(0xFF5C4F53); // Secondary text (light mode)
-  static const Color surfaceVariantColor = Color(0xFFF0E6E8); // Dividers, disabled fields (light mode)
-  static const Color backgroundColor = Color(0xFFFFFBFC); // App scaffold (light mode)
-  static const Color bottomNavigationBarBackgroundColor = Color(0xFFFFFFFF); // Bottom navigation bar background color
+  /// Main CTA buttons, FAB, and active nav icons.
+  static const Color primaryColor = Color(0xFFFFB3C1);
+
+  /// Selected chips and subtle highlights.
+  static const Color primaryLightColor = Color(0xFFFFD6E0);
+
+  /// Card backgrounds and input fills in light mode.
+  static const Color primarySurfaceColor = Color(0xFFFFF0F3);
+
+  /// Income indicators, positive trends, and success states.
+  static const Color secondaryColor = Color(0xFFA8D5BA);
+
+  /// Positive amount text.
+  static const Color secondaryDarkColor = Color(0xFF7BB894);
+
+  /// Categories, chart segments, and tags.
+  static const Color tertiaryColor = Color(0xFFC9B1D0);
+
+  /// Warnings, budget alerts, and over-limit badges.
+  static const Color accentColor = Color(0xFFF4A261);
+
+  /// Expense amounts, negative trends, and validation errors.
+  static const Color errorColor = Color(0xFFD64550);
+
+  /// Primary text in light mode.
+  static const Color onSurfaceColor = Color(0xFF2B2024);
+
+  /// Secondary text in light mode.
+  static const Color onSurfaceVariantColor = Color(0xFF5C4F53);
+
+  /// Dividers and disabled fields in light mode.
+  static const Color surfaceVariantColor = Color(0xFFF0E6E8);
+
+  /// App scaffold background in light mode.
+  static const Color backgroundColor = Color(0xFFFFFBFC);
+
+  /// Bottom navigation bar background color.
+  static const Color bottomNavigationBarBackgroundColor = Color(0xFFFFFFFF);
 
   /// Text Colors
   static const Color textPrimaryColor = Color(0xFF2B2024);
@@ -46,10 +76,10 @@ class ThemeLightColors {
   static const Color bottomNavigationBarTopBorderColor = Color(0xFFF0E6EB);
   static const Color bottomNavigationBarShadowsColor = Color(0xFF000000);
 
-  // Theme Settings Colors
+  /// Theme Settings Colors
   static const Color changeThemeIconColor = Color(0xFFEDE4F0);
 
-  // Switch Colors
+  /// Switch track color in the unchecked state.
   static const Color switchTrackColor = Color(0xFFE5E5E5);
 
   /// Card Colors
@@ -75,7 +105,9 @@ class ThemeLightColors {
   /// Dialog Colors
   static const Color dialogErrorBackgroundColor = Color(0xFFD64550);
   static const Color dialogSuccessBackgroundColor = Color(0xFF7BB894);
-  static const Color dialogInfoBackgroundColor = Color(0xFFC9B1D0);
+  static const Color dialogInfoBackgroundColor = Color(0xFFF3E8FF);
+  static const Color dialogCancelBackgroundColor = Color(0xFFF3F3F5);
+  static const Color dialogBarrierColor = Color(0xFF000000);
 }
 
 /// Color tokens for the dark theme.
@@ -85,20 +117,47 @@ class ThemeLightColors {
 class ThemeDarkColors {
   const ThemeDarkColors._();
 
-  static const Color primaryColor = Color(0xFFFFB3C1); // Main CTA buttons, FAB, active nav icons
-  static const Color primaryDarkColor = Color(0xFFE0899B); // Pressed states, active indicators
-  static const Color primarySurfaceColor = Color(0xFF3D2030); // Selected chip/card backgrounds (dark mode)
-  static const Color secondaryColor = Color(0xFFA8D5BA); // Income indicators, positive trends, success
-  static const Color secondaryDarkColor = Color(0xFF7BB894); // Positive amount text
-  static const Color tertiaryColor = Color(0xFFC9B1D0); // Categories, chart segments, tags
-  static const Color accentColor = Color(0xFFF4A261); // Warnings, budget alerts, over-limit badges
-  static const Color errorColor = Color(0xFFD64550); // Expense amounts, negative trends, validation
-  static const Color backgroundColor = Color(0xFFFFFBFC); // Used for switch thumb in dark mode
-  static const Color scaffoldBackgroundColor = Color(0xFF1A1215); // Scaffold (dark mode)
-  static const Color surfaceColor = Color(0xFF2B2024); // Cards (dark mode)
-  static const Color onSurfaceColor = Color(0xFFF0E6E8); // Primary text (dark mode)
-  static const Color onSurfaceVariantColor = Color(0xFFA89598); // Secondary text (dark mode)
-  static const Color surfaceVariantColor = Color(0xFF3D2F33); // Dividers, disabled fields (dark mode)
+  /// Main CTA buttons, FAB, and active nav icons.
+  static const Color primaryColor = Color(0xFFFFB3C1);
+
+  /// Pressed states and active indicators.
+  static const Color primaryDarkColor = Color(0xFFE0899B);
+
+  /// Selected chip and card backgrounds in dark mode.
+  static const Color primarySurfaceColor = Color(0xFF3D2030);
+
+  /// Income indicators, positive trends, and success states.
+  static const Color secondaryColor = Color(0xFFA8D5BA);
+
+  /// Positive amount text.
+  static const Color secondaryDarkColor = Color(0xFF7BB894);
+
+  /// Categories, chart segments, and tags.
+  static const Color tertiaryColor = Color(0xFFC9B1D0);
+
+  /// Warnings, budget alerts, and over-limit badges.
+  static const Color accentColor = Color(0xFFF4A261);
+
+  /// Expense amounts, negative trends, and validation errors.
+  static const Color errorColor = Color(0xFFD64550);
+
+  /// Used for the switch thumb in dark mode.
+  static const Color backgroundColor = Color(0xFFFFFBFC);
+
+  /// App scaffold background in dark mode.
+  static const Color scaffoldBackgroundColor = Color(0xFF1A1215);
+
+  /// Card surface in dark mode.
+  static const Color surfaceColor = Color(0xFF2B2024);
+
+  /// Primary text in dark mode.
+  static const Color onSurfaceColor = Color(0xFFF0E6E8);
+
+  /// Secondary text in dark mode.
+  static const Color onSurfaceVariantColor = Color(0xFFA89598);
+
+  /// Dividers and disabled fields in dark mode.
+  static const Color surfaceVariantColor = Color(0xFF3D2F33);
 
   /// Text Colors
   static const Color textPrimaryColor = Color(0xFFF5F0EB);
@@ -137,6 +196,7 @@ class ThemeDarkColors {
   static const Color dialogErrorBackgroundColor = Color(0xFF3D3438);
   static const Color dialogSuccessBackgroundColor = Color(0xFF2A3832);
   static const Color dialogInfoBackgroundColor = Color(0xFF352E38);
+  static const Color dialogBarrierColor = Color(0xFFFFFFFF);
 }
 
 /// Pre-built [TextTheme]s and custom monetary [TextStyle]s for light and dark modes.
@@ -147,7 +207,7 @@ class ThemeTextStyles {
     /// displayLarge — hero banners, onboarding screens.
     displayLarge: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
-      fontSize: 60, // M3 default for displayLarge
+      fontSize: 60,
       height: 64 / 60,
       letterSpacing: -0.25,
       color: ThemeLightColors.textPrimaryColor,
@@ -156,7 +216,7 @@ class ThemeTextStyles {
     /// displayMedium — section heroes, large totals.
     displayMedium: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
-      fontSize: 45, // M3 default for displayMedium
+      fontSize: 45,
       height: 52 / 45,
       letterSpacing: 0,
       color: ThemeLightColors.textPrimaryColor,
@@ -249,7 +309,7 @@ class ThemeTextStyles {
       fontSize: 12,
       height: 16 / 12,
       letterSpacing: 0.4,
-      color: ThemeLightColors.textSecondaryColor, // secondary text color for less-prominent content
+      color: ThemeLightColors.textSecondaryColor,
     ),
 
     /// labelLarge — button text, prominent chips.
@@ -284,7 +344,7 @@ class ThemeTextStyles {
     /// displayLarge — hero banners, onboarding screens.
     displayLarge: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
-      fontSize: 60, // M3 default for displayLarge
+      fontSize: 60,
       height: 64 / 60,
       letterSpacing: -0.25,
       color: ThemeDarkColors.textPrimaryColor,
@@ -293,7 +353,7 @@ class ThemeTextStyles {
     /// displayMedium — section heroes, large totals.
     displayMedium: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
-      fontSize: 45, // M3 default for displayMedium
+      fontSize: 45,
       height: 52 / 45,
       letterSpacing: 0,
       color: ThemeDarkColors.textPrimaryColor,
@@ -386,7 +446,7 @@ class ThemeTextStyles {
       fontSize: 12,
       height: 16 / 12,
       letterSpacing: 0.4,
-      color: ThemeDarkColors.textSecondaryColor, // secondary text color for less-prominent content
+      color: ThemeDarkColors.textSecondaryColor,
     ),
 
     /// labelLarge — button text, prominent chips.
@@ -425,7 +485,7 @@ class ThemeTextStyles {
     letterSpacing: 0,
     color: ThemeLightColors.textSecondaryColor,
     fontFeatures: const <FontFeature>[
-      FontFeature.tabularFigures(), // `tnum` — equal-width digits
+      FontFeature.tabularFigures(),
     ],
   );
 
@@ -447,7 +507,7 @@ class ThemeTextStyles {
     letterSpacing: 0,
     color: ThemeDarkColors.textSecondaryColor,
     fontFeatures: const <FontFeature>[
-      FontFeature.tabularFigures(), // `tnum` — equal-width digits
+      FontFeature.tabularFigures(),
     ],
   );
 

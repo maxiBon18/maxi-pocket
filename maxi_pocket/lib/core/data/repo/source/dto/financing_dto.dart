@@ -23,6 +23,7 @@ abstract class FinancingDto with _$FinancingDto implements ExpenseDbInsertDto {
     required int numberOfPaidInstallments,
     required double amount,
     required DateTime? nextPaymentDate,
+    BigInt? commonId,
   }) = _FinancingDto;
 
   factory FinancingDto.fromJson(Map<String, Object?> json) => _$FinancingDtoFromJson(json);
@@ -34,5 +35,6 @@ abstract class FinancingDto with _$FinancingDto implements ExpenseDbInsertDto {
     numberOfPaidInstallments: numberOfPaidInstallments,
     amount: amount,
     nextPaymentDate: nextPaymentDate,
+    id: commonId,
   );
 }

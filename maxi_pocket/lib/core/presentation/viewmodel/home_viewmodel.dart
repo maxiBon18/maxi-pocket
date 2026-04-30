@@ -1,12 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart' show WrapperCommitmentsEntity;
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart';
 import 'package:maxi_pocket/core/shared/controllers/di.dart';
 import 'package:maxi_pocket/core/domain/entities/home_entity.dart';
 import 'package:maxi_pocket/core/domain/services/home_services.dart';
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesType;
 
 /// Riverpod provider for the home screen state.
 ///
@@ -64,37 +62,6 @@ class HomeNotifier extends AsyncNotifier<HomeEntity?> {
   int getNumberOfExpenses() {
     if (homeWeeklyEntity == null) return 0;
     return homeWeeklyEntity!.subscriptionEntity.length + homeWeeklyEntity!.financingEntity.length;
-  }
-
-  /// Builds a flat list of [WrapperCommitmentsEntity] from the weekly snapshot for display in the list widget.
-  List<WrapperCommitmentsEntity> getHomeWrapperCommitments() {
-    final List<WrapperCommitmentsEntity> wrapperCommitments = <WrapperCommitmentsEntity>[];
-    if (homeWeeklyEntity == null) return wrapperCommitments;
-
-    wrapperCommitments.addAll(
-      homeWeeklyEntity!.subscriptionEntity.map(
-        (SubscriptionEntity entity) => WrapperCommitmentsEntity(
-          type: MaxiPocketExpensesType.subscription,
-          commitments: entity,
-          nextPaymentDate: entity.nextPaymentDate!,
-        ),
-      ),
-    );
-    wrapperCommitments.addAll(
-      homeWeeklyEntity!.financingEntity.map(
-        (FinancingEntity entity) => WrapperCommitmentsEntity(
-          type: MaxiPocketExpensesType.financing,
-          commitments: entity,
-          nextPaymentDate: entity.nextPaymentDate!,
-        ),
-      ),
-    );
-
-    wrapperCommitments.sort(
-      (WrapperCommitmentsEntity a, WrapperCommitmentsEntity b) => a.nextPaymentDate.compareTo(b.nextPaymentDate),
-    );
-
-    return wrapperCommitments;
   }
 
   /// Sums amounts for expenses whose [nextPaymentDate] falls in the current calendar month.

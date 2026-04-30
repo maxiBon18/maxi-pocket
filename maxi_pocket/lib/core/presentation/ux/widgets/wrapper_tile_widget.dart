@@ -15,8 +15,7 @@ import 'package:maxi_pocket/core/shared/utils/extensions.dart' show BuildContext
 /// A list tile displaying an expense or appointment item with edit and delete actions.
 ///
 /// [isAppointment] hides the monetary amount and switches badge and date
-/// labels to their appointment equivalents. Placeholder data is used until
-/// a ViewModel is connected.
+/// labels to their appointment equivalents.
 @immutable
 class MaxiPocketWrapperTileWidget extends StatelessWidget {
   const MaxiPocketWrapperTileWidget({
@@ -26,6 +25,8 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
     super.key,
     this.isAppointment = false,
     this.isFromHome = false,
+    this.onEdit,
+    this.onDelete,
   });
 
   final MaxiPocketThemeMode themeMode;
@@ -33,6 +34,8 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
   final CommitmentsEntity entityToShow;
   final MaxiPocketExpensesType type;
   final bool isFromHome;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   Color get _iconColor => themeMode == MaxiPocketThemeMode.light
       ? ThemeLightColors.textSecondaryColor
@@ -66,6 +69,8 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
         type: type,
         entityToShow: entityToShow,
         isFromHome: isFromHome,
+        onEdit: onEdit,
+        onDelete: onDelete,
       ),
       isThreeLine: true,
       themeMode: themeMode,
@@ -85,6 +90,8 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
     required this.type,
     required this.entityToShow,
     required this.isFromHome,
+    this.onEdit,
+    this.onDelete,
   });
 
   final bool isAppointment;
@@ -93,6 +100,8 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
   final MaxiPocketExpensesType type;
   final CommitmentsEntity entityToShow;
   final bool isFromHome;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   double _getAmount() => switch (entityToShow) {
     final SubscriptionEntity s => s.amount,
@@ -117,7 +126,7 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               GestureDetector(
-                onTap: () {},
+                onTap: onEdit,
                 child: Icon(
                   Icons.edit_outlined,
                   color: iconColor,
@@ -127,7 +136,7 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
               ),
               const SizedBox(width: DesignConstants.spacing12),
               GestureDetector(
-                onTap: () {},
+                onTap: onDelete,
                 child: Icon(
                   Icons.delete_outlined,
                   color: iconColor,
@@ -174,12 +183,12 @@ class _ExpenseTileSubtitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: DesignConstants.spacing12,
       children: <Widget>[
+        const SizedBox(height: DesignConstants.spacing8),
         Row(
           children: <Widget>[
             MaxiPocketBadgeWidget(label: _getType(), expensesType: type, themeMode: themeMode),
-            if (!isAppointment) const SizedBox(width: DesignConstants.spacing4),
+
             if (!isAppointment)
               MaxiPocketBadgeWidget(
                 label: _getFrequency().name,
@@ -189,6 +198,7 @@ class _ExpenseTileSubtitle extends StatelessWidget {
             const Spacer(),
           ],
         ),
+        const SizedBox(height: DesignConstants.spacing4),
         _ExpenseTileDateRow(iconColor: iconColor, isAppointment: isAppointment, entityToShow: entityToShow, type: type),
       ],
     );

@@ -11,9 +11,16 @@ import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMo
 /// [value] is formatted to two decimal places for expenses or rendered as a
 /// plain integer for appointments.
 class MaxiPocketRecapWidget extends StatelessWidget {
-  const MaxiPocketRecapWidget({required this.value, required this.themeMode, super.key, this.isAppointment = false});
+  const MaxiPocketRecapWidget({
+    required this.numberOfCommitments,
+    required this.amount,
+    required this.themeMode,
+    super.key,
+    this.isAppointment = false,
+  });
 
-  final double value;
+  final int numberOfCommitments;
+  final double amount;
   final bool isAppointment;
   final MaxiPocketThemeMode themeMode;
 
@@ -27,7 +34,7 @@ class MaxiPocketRecapWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: DesignConstants.spacing16, vertical: DesignConstants.spacing12),
       decoration: BoxDecoration(
         border: Border.all(
-          color: themeMode == MaxiPocketThemeMode.light
+          color: themeMode == MaxiPocketThemeMode.dark
               ? ThemeLightColors.bottomNavigationBarTopBorderColor
               : ThemeDarkColors.listTileBorderColor,
           width: DesignConstants.bottomBarBorderWidth,
@@ -46,7 +53,9 @@ class MaxiPocketRecapWidget extends StatelessWidget {
                 ),
                 Flexible(
                   child: Text(
-                    isAppointment ? WidgetConstants.activeNumberAppointments : WidgetConstants.activeNumberExpenses,
+                    isAppointment
+                        ? '${WidgetConstants.activeNumberAppointments} ${numberOfCommitments.toString()}'
+                        : '${WidgetConstants.activeNumberExpenses} ${numberOfCommitments.toString()}',
                     style: ThemeTextStyles.appLightTextTheme.titleSmall?.copyWith(color: _getTextColor(themeMode)),
                   ),
                 ),
@@ -55,7 +64,7 @@ class MaxiPocketRecapWidget extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              isAppointment ? value.toString() : '${value.toStringAsFixed(2)} ${WidgetConstants.currencySymbol}',
+              isAppointment ? '' : '${amount.toStringAsFixed(2)} ${WidgetConstants.currencySymbol}',
               style:
                   (themeMode == MaxiPocketThemeMode.light
                           ? ThemeTextStyles.monetaryAmountSmallLight
