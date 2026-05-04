@@ -34,7 +34,16 @@ class MaxiPocketSubscriptionsPage extends ConsumerWidget {
 
   Future<void> _onEdit(BuildContext context, WidgetRef ref, CommitmentsEntity entity) async {
     if (entity is! SubscriptionEntity || entity.id == null) return;
-    await showEditExpensesBottomSheet(context, ref.read(themeProvider), entity, entity.id!);
+    await showEditExpensesBottomSheet(
+      context,
+      ref.read(themeProvider),
+      entity,
+      entity.id!,
+      onSuccess: () {
+        ref.invalidate(homeNotifierProvider);
+        ref.invalidate(expensesrProvider);
+      },
+    );
   }
 
   Future<void> _onDelete(BuildContext context, WidgetRef ref, CommitmentsEntity entity) async {

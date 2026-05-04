@@ -169,10 +169,18 @@ class _ExpenseTileSubtitle extends StatelessWidget {
   final CommitmentsEntity entityToShow;
 
   String _getType() => switch (entityToShow) {
-    final SubscriptionEntity s => s.commitmentEntity.eventType.name,
-    final FinancingEntity f => f.commitmentEntity.eventType.name,
-    final AppointmentEntity a => a.commitmentEntity.eventType.name,
+    final SubscriptionEntity _ => WidgetConstants.addExpensesTypeSubscription,
+    final FinancingEntity _ => WidgetConstants.addExpensesTypeFinancing,
+    final AppointmentEntity _ => WidgetConstants.addExpensesTypeAppointments,
     _ => throw UnimplementedError('Unhandled entity type: ${entityToShow.runtimeType}'),
+  };
+
+  String _getFrequencyLabel() => switch (entityToShow) {
+    final SubscriptionEntity s =>
+      s.frequency == MaxiPocketExpensesFrequency.monthly
+          ? WidgetConstants.addExpensesFrequencyMonthly
+          : WidgetConstants.addExpensesFrequencyAnnual,
+    _ => WidgetConstants.addExpensesFrequencyMonthly,
   };
 
   MaxiPocketExpensesFrequency _getFrequency() => switch (entityToShow) {
@@ -191,7 +199,7 @@ class _ExpenseTileSubtitle extends StatelessWidget {
 
             if (!isAppointment)
               MaxiPocketBadgeWidget(
-                label: _getFrequency().name,
+                label: _getFrequencyLabel(),
                 expensesFrequency: _getFrequency(),
                 themeMode: themeMode,
               ),

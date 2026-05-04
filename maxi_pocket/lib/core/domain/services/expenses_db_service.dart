@@ -1,3 +1,4 @@
+import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart' show CommitmentsEntity;
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart' show FinancingEntity;
 import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart' show SubscriptionEntity;
@@ -34,6 +35,7 @@ class ExpensesDbService {
         amount: f.amount,
         nextPaymentDate: f.commitmentEntity.eventDate.nextPaymentDate(MaxiPocketExpensesFrequency.monthly),
       ),
+      final AppointmentEntity a => AppointmentEntity(commitmentEntity: a.commitmentEntity, location: a.location),
       _ => object,
     };
     await _expensesRepo.insertQuery(object: resolved);
@@ -66,6 +68,11 @@ class ExpensesDbService {
         amount: f.amount,
         nextPaymentDate: f.commitmentEntity.eventDate.nextPaymentDate(MaxiPocketExpensesFrequency.monthly),
         id: f.id,
+      ),
+      final AppointmentEntity a => AppointmentEntity(
+        commitmentEntity: a.commitmentEntity,
+        location: a.location,
+        id: a.id,
       ),
       _ => object,
     };

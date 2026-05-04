@@ -295,7 +295,7 @@ class _MaxiPocketAddExpensesSelectors extends StatelessWidget {
   ];
 
   static const List<(String, MaxiPocketExpensesFrequency)> _frequencyOptions = <(String, MaxiPocketExpensesFrequency)>[
-    (WidgetConstants.addExpensesFrequencyWeekly, MaxiPocketExpensesFrequency.annual),
+    (WidgetConstants.addExpensesFrequencyAnnual, MaxiPocketExpensesFrequency.annual),
     (WidgetConstants.addExpensesFrequencyMonthly, MaxiPocketExpensesFrequency.monthly),
   ];
   static const List<(String, MaxiPocketExpensesFrequency)> _frequencyOptionsFinancing =
