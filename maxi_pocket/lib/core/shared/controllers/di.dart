@@ -1,6 +1,11 @@
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:maxi_pocket/appointments/data/repo/appointment_db_repo_impl.dart';
+import 'package:maxi_pocket/appointments/data/repo/source/appointment_db_source.dart';
+import 'package:maxi_pocket/appointments/data/source/appointment_db_source_impl.dart';
+import 'package:maxi_pocket/appointments/domain/services/appointment_service.dart';
+import 'package:maxi_pocket/appointments/domain/services/repo/appointment_db_repo.dart';
 import 'package:maxi_pocket/core/data/repo/app_info_repo_impl.dart';
 import 'package:maxi_pocket/core/data/repo/expenses_db_repo_impl.dart';
 import 'package:maxi_pocket/core/data/repo/home_db_repo_impl.dart';
@@ -73,6 +78,7 @@ Future<void> setupDependencies(GetIt getIt) async {
   getIt.registerSingletonIfAbsent<MaxiPocketDatabase>(() => MaxiPocketDatabase());
   getIt.registerSingletonIfAbsent<ExpensesDbSource>(() => ExpensesDbSourceImpl(getDI<MaxiPocketDatabase>()));
   getIt.registerCachedFactory<HomeDbSource>(() => HomeDbSourceImpl(getDI<MaxiPocketDatabase>()));
+  getIt.registerCachedFactory<AppointmentDbSource>(() => AppointmentDbSourceImpl(getDI<MaxiPocketDatabase>()));
 
   /// Repository Layer
   getIt.registerLazySingleton<SharedPrefAsyncRepo>(() => SharedPrefAsyncRepoImpl(getDI<SharedPrefAsyncSource>()));
@@ -82,6 +88,9 @@ Future<void> setupDependencies(GetIt getIt) async {
   getIt.registerSingletonIfAbsent<AppInfoRepo>(() => AppInfoRepoImpl(getDI<AppInfoSource>()));
   getIt.registerSingletonIfAbsent<ExpensesDbRepo>(() => ExpensesDbRepoImpl(getDI<ExpensesDbSource>()));
   getIt.registerCachedFactory<HomeDbRepo>(() => HomeDbRepoImpl(getDI<MaxiPocketDatabase>(), getDI<HomeDbSource>()));
+  getIt.registerCachedFactory<AppointmentDbRepo>(
+    () => AppointmentDbRepoImpl(getDI<MaxiPocketDatabase>(), getDI<AppointmentDbSource>()),
+  );
 
   /// Service Layer
   getIt.registerLazySingleton<SharedPrefAsyncService>(() => SharedPrefAsyncService(getDI<SharedPrefAsyncRepo>()));
@@ -91,6 +100,7 @@ Future<void> setupDependencies(GetIt getIt) async {
   getIt.registerSingletonIfAbsent<AppInfoService>(() => AppInfoService(getDI<AppInfoRepo>()));
   getIt.registerSingletonIfAbsent<ExpensesDbService>(() => ExpensesDbService(getDI<ExpensesDbRepo>()));
   getIt.registerCachedFactory<HomeService>(() => HomeService(getDI<HomeDbRepo>()));
+  getIt.registerCachedFactory<AppointmentService>(() => AppointmentService(getDI<AppointmentDbRepo>()));
 
   // VIEWMODELS
   getIt.registerSingletonIfAbsent<LoadingViewmodel>(() => LoadingViewmodel());

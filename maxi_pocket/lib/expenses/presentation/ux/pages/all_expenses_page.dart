@@ -40,7 +40,16 @@ class MaxiPocketAllExpensesPage extends ConsumerWidget {
       _ => null,
     };
     if (id == null) return;
-    await showEditExpensesBottomSheet(context, ref.read(themeProvider), entity, id);
+    await showEditExpensesBottomSheet(
+      context,
+      ref.read(themeProvider),
+      entity,
+      id,
+      onSuccess: () {
+        ref.invalidate(homeNotifierProvider);
+        ref.invalidate(expensesrProvider);
+      },
+    );
   }
 
   Future<void> _onDelete(BuildContext context, WidgetRef ref, CommitmentsEntity entity) async {

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppointmentDto {
 
- ExpenseDbDto get expense; String get location;
+ ExpenseDbDto get expense; String get location; BigInt? get commonId;
 /// Create a copy of AppointmentDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AppointmentDtoCopyWith<AppointmentDto> get copyWith => _$AppointmentDtoCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppointmentDto&&(identical(other.expense, expense) || other.expense == expense)&&(identical(other.location, location) || other.location == location));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppointmentDto&&(identical(other.expense, expense) || other.expense == expense)&&(identical(other.location, location) || other.location == location)&&(identical(other.commonId, commonId) || other.commonId == commonId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,expense,location);
+int get hashCode => Object.hash(runtimeType,expense,location,commonId);
 
 @override
 String toString() {
-  return 'AppointmentDto(expense: $expense, location: $location)';
+  return 'AppointmentDto(expense: $expense, location: $location, commonId: $commonId)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AppointmentDtoCopyWith<$Res>  {
   factory $AppointmentDtoCopyWith(AppointmentDto value, $Res Function(AppointmentDto) _then) = _$AppointmentDtoCopyWithImpl;
 @useResult
 $Res call({
- ExpenseDbDto expense, String location
+ ExpenseDbDto expense, String location, BigInt? commonId
 });
 
 
@@ -65,11 +65,12 @@ class _$AppointmentDtoCopyWithImpl<$Res>
 
 /// Create a copy of AppointmentDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? expense = null,Object? location = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? expense = null,Object? location = null,Object? commonId = freezed,}) {
   return _then(_self.copyWith(
 expense: null == expense ? _self.expense : expense // ignore: cast_nullable_to_non_nullable
 as ExpenseDbDto,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
-as String,
+as String,commonId: freezed == commonId ? _self.commonId : commonId // ignore: cast_nullable_to_non_nullable
+as BigInt?,
   ));
 }
 /// Create a copy of AppointmentDto
@@ -163,10 +164,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ExpenseDbDto expense,  String location)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ExpenseDbDto expense,  String location,  BigInt? commonId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppointmentDto() when $default != null:
-return $default(_that.expense,_that.location);case _:
+return $default(_that.expense,_that.location,_that.commonId);case _:
   return orElse();
 
 }
@@ -184,10 +185,10 @@ return $default(_that.expense,_that.location);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ExpenseDbDto expense,  String location)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ExpenseDbDto expense,  String location,  BigInt? commonId)  $default,) {final _that = this;
 switch (_that) {
 case _AppointmentDto():
-return $default(_that.expense,_that.location);case _:
+return $default(_that.expense,_that.location,_that.commonId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +205,10 @@ return $default(_that.expense,_that.location);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ExpenseDbDto expense,  String location)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ExpenseDbDto expense,  String location,  BigInt? commonId)?  $default,) {final _that = this;
 switch (_that) {
 case _AppointmentDto() when $default != null:
-return $default(_that.expense,_that.location);case _:
+return $default(_that.expense,_that.location,_that.commonId);case _:
   return null;
 
 }
@@ -219,11 +220,12 @@ return $default(_that.expense,_that.location);case _:
 @JsonSerializable()
 
 class _AppointmentDto extends AppointmentDto {
-  const _AppointmentDto({required this.expense, required this.location}): super._();
+  const _AppointmentDto({required this.expense, required this.location, this.commonId}): super._();
   factory _AppointmentDto.fromJson(Map<String, dynamic> json) => _$AppointmentDtoFromJson(json);
 
 @override final  ExpenseDbDto expense;
 @override final  String location;
+@override final  BigInt? commonId;
 
 /// Create a copy of AppointmentDto
 /// with the given fields replaced by the non-null parameter values.
@@ -238,16 +240,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppointmentDto&&(identical(other.expense, expense) || other.expense == expense)&&(identical(other.location, location) || other.location == location));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppointmentDto&&(identical(other.expense, expense) || other.expense == expense)&&(identical(other.location, location) || other.location == location)&&(identical(other.commonId, commonId) || other.commonId == commonId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,expense,location);
+int get hashCode => Object.hash(runtimeType,expense,location,commonId);
 
 @override
 String toString() {
-  return 'AppointmentDto(expense: $expense, location: $location)';
+  return 'AppointmentDto(expense: $expense, location: $location, commonId: $commonId)';
 }
 
 
@@ -258,7 +260,7 @@ abstract mixin class _$AppointmentDtoCopyWith<$Res> implements $AppointmentDtoCo
   factory _$AppointmentDtoCopyWith(_AppointmentDto value, $Res Function(_AppointmentDto) _then) = __$AppointmentDtoCopyWithImpl;
 @override @useResult
 $Res call({
- ExpenseDbDto expense, String location
+ ExpenseDbDto expense, String location, BigInt? commonId
 });
 
 
@@ -275,11 +277,12 @@ class __$AppointmentDtoCopyWithImpl<$Res>
 
 /// Create a copy of AppointmentDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? expense = null,Object? location = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? expense = null,Object? location = null,Object? commonId = freezed,}) {
   return _then(_AppointmentDto(
 expense: null == expense ? _self.expense : expense // ignore: cast_nullable_to_non_nullable
 as ExpenseDbDto,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
-as String,
+as String,commonId: freezed == commonId ? _self.commonId : commonId // ignore: cast_nullable_to_non_nullable
+as BigInt?,
   ));
 }
 

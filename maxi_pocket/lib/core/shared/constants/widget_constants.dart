@@ -86,7 +86,7 @@ class WidgetConstants {
 
   /// Add Expenses — Frequency selector
   static const String addExpensesFrequencyLabel = 'Frequenza';
-  static const String addExpensesFrequencyWeekly = 'Annuale';
+  static const String addExpensesFrequencyAnnual = 'Annuale';
   static const String addExpensesFrequencyMonthly = 'Mensile';
 
   static const String activeNumberExpenses = 'Spese attive: ';
@@ -101,4 +101,7 @@ class WidgetConstants {
   static const String activeNumberAppointments = 'Appuntamenti futuri: ';
   static const String nextAppointment = 'Prossimo Appuntamento: ';
   static const String appointmentType = 'Appuntamento';
+  static const String deleteAppointmentDialogTitle = 'Cancellare l\'appuntamento?';
+  static const String deleteAppointmentDialogSubTitle =
+      'Sei sicuro di volerlo cancellare? \n Questa azione non potrà essere annullata.';
 }

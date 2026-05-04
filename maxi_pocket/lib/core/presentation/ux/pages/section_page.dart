@@ -5,7 +5,6 @@ import 'package:maxi_pocket/core/presentation/ux/widgets/recap_widget.dart';
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
 import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
 
-
 /// A section layout combining a recap card with a scrollable tile list.
 ///
 /// [isAppointment] switches labels and color tokens to appointment-specific
@@ -13,10 +12,10 @@ import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMo
 class MaxiPocketSectionPage extends StatelessWidget {
   const MaxiPocketSectionPage({
     required this.themeMode,
-    required this.totalAmountOfExpense,
     required this.numberOfExpenses,
     required this.entityToShow,
     super.key,
+    this.totalAmountOfExpense,
     this.isAppointment = false,
     this.onEdit,
     this.onDelete,
@@ -24,7 +23,7 @@ class MaxiPocketSectionPage extends StatelessWidget {
 
   final MaxiPocketThemeMode themeMode;
   final bool isAppointment;
-  final double totalAmountOfExpense;
+  final double? totalAmountOfExpense;
   final int numberOfExpenses;
   final List<WrapperCommitmentsEntity> entityToShow;
   final void Function(CommitmentsEntity entity)? onEdit;
@@ -54,16 +53,16 @@ class _MaxiPocketSectionContent extends StatelessWidget {
   const _MaxiPocketSectionContent({
     required this.themeMode,
     required this.isAppointment,
-    required this.totalAmountOfExpense,
     required this.numberOfCommitments,
     required this.entityToShow,
+    this.totalAmountOfExpense,
     this.onEdit,
     this.onDelete,
   });
 
   final MaxiPocketThemeMode themeMode;
   final bool isAppointment;
-  final double totalAmountOfExpense;
+  final double? totalAmountOfExpense;
   final int numberOfCommitments;
   final List<WrapperCommitmentsEntity> entityToShow;
   final void Function(CommitmentsEntity entity)? onEdit;
@@ -88,6 +87,7 @@ class _MaxiPocketSectionContent extends StatelessWidget {
             entityToShow: entityToShow,
             onEdit: onEdit,
             onDelete: onDelete,
+            isAppointment: isAppointment,
           ),
         ),
       ],

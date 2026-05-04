@@ -1,3 +1,4 @@
+import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart' show WrapperCommitmentsEntity;
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/home_entity.dart';
@@ -72,6 +73,25 @@ String? appointmentLocationValidator(String? appointmentLocation) {
     return WidgetConstants.addExpensesAppointmentLocationRequired;
   }
   return null;
+}
+
+/// Builds a flat list of [WrapperCommitmentsEntity] from the appointments snapshot for display in the list widget.
+List<WrapperCommitmentsEntity> getAppointmentsWrapperCommitments(List<AppointmentEntity> appointments) {
+  final List<WrapperCommitmentsEntity> wrapperCommitments = <WrapperCommitmentsEntity>[];
+  if (appointments.isEmpty) return wrapperCommitments;
+
+  wrapperCommitments.addAll(
+    appointments.map(
+      (AppointmentEntity entity) => WrapperCommitmentsEntity(
+        type: MaxiPocketExpensesType.appointments,
+        commitments: entity,
+        nextPaymentDate: entity.commitmentEntity.eventDate,
+        frequency: MaxiPocketExpensesFrequency.monthly,
+      ),
+    ),
+  );
+
+  return wrapperCommitments;
 }
 
 /// Builds a flat list of [WrapperCommitmentsEntity] from the weekly snapshot for display in the list widget.

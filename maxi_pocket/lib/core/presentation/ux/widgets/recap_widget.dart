@@ -8,25 +8,20 @@ import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMo
 /// A summary row showing an active-item count label alongside a total amount.
 ///
 /// [isAppointment] switches to appointment-specific labels and bullet color.
-/// [value] is formatted to two decimal places for expenses or rendered as a
-/// plain integer for appointments.
+/// [amount] is formatted to two decimal places for expenses; appointments show no amount.
 class MaxiPocketRecapWidget extends StatelessWidget {
   const MaxiPocketRecapWidget({
     required this.numberOfCommitments,
-    required this.amount,
     required this.themeMode,
     super.key,
+    this.amount,
     this.isAppointment = false,
   });
 
   final int numberOfCommitments;
-  final double amount;
+  final double? amount;
   final bool isAppointment;
   final MaxiPocketThemeMode themeMode;
-
-  Color _getTextColor(MaxiPocketThemeMode themeMode) {
-    return themeMode == MaxiPocketThemeMode.light ? ThemeLightColors.textPrimaryColor : ThemeDarkColors.backgroundColor;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,36 +40,83 @@ class MaxiPocketRecapWidget extends StatelessWidget {
         mainAxisAlignment: .spaceBetween,
         children: <Widget>[
           Expanded(
-            child: Row(
-              spacing: DesignConstants.spacing8,
-              children: <Widget>[
-                MaxiPocketBulletPointWidget(
-                  color: isAppointment ? ThemeDarkColors.appointmentsBulletPointColor : ThemeLightColors.primaryColor,
-                ),
-                Flexible(
-                  child: Text(
-                    isAppointment
-                        ? '${WidgetConstants.activeNumberAppointments} ${numberOfCommitments.toString()}'
-                        : '${WidgetConstants.activeNumberExpenses} ${numberOfCommitments.toString()}',
-                    style: ThemeTextStyles.appLightTextTheme.titleSmall?.copyWith(color: _getTextColor(themeMode)),
-                  ),
-                ),
-              ],
+            child: _RecapCountRow(
+              isAppointment: isAppointment,
+              numberOfCommitments: numberOfCommitments,
+              themeMode: themeMode,
             ),
           ),
           Expanded(
-            child: Text(
-              isAppointment ? '' : '${amount.toStringAsFixed(2)} ${WidgetConstants.currencySymbol}',
-              style:
-                  (themeMode == MaxiPocketThemeMode.light
-                          ? ThemeTextStyles.monetaryAmountSmallLight
-                          : ThemeTextStyles.monetaryAmountSmallDark)
-                      .copyWith(color: _getTextColor(themeMode)),
-              textAlign: .end,
+            child: _RecapAmountText(
+              isAppointment: isAppointment,
+              amount: amount,
+              themeMode: themeMode,
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _RecapCountRow extends StatelessWidget {
+  const _RecapCountRow({
+    required this.isAppointment,
+    required this.numberOfCommitments,
+    required this.themeMode,
+  });
+
+  final bool isAppointment;
+  final int numberOfCommitments;
+  final MaxiPocketThemeMode themeMode;
+
+  Color get _textColor =>
+      themeMode == MaxiPocketThemeMode.light ? ThemeLightColors.textPrimaryColor : ThemeDarkColors.backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      spacing: DesignConstants.spacing8,
+      children: <Widget>[
+        MaxiPocketBulletPointWidget(
+          color: isAppointment ? ThemeDarkColors.appointmentsBulletPointColor : ThemeLightColors.primaryColor,
+        ),
+        Flexible(
+          child: Text(
+            isAppointment
+                ? '${WidgetConstants.activeNumberAppointments} ${numberOfCommitments.toString()}'
+                : '${WidgetConstants.activeNumberExpenses} ${numberOfCommitments.toString()}',
+            style: ThemeTextStyles.appLightTextTheme.titleSmall?.copyWith(color: _textColor),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _RecapAmountText extends StatelessWidget {
+  const _RecapAmountText({
+    required this.isAppointment,
+    required this.amount,
+    required this.themeMode,
+  });
+
+  final bool isAppointment;
+  final double? amount;
+  final MaxiPocketThemeMode themeMode;
+
+  Color get _textColor =>
+      themeMode == MaxiPocketThemeMode.light ? ThemeLightColors.textPrimaryColor : ThemeDarkColors.backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      isAppointment ? '' : '${amount?.toStringAsFixed(2) ?? '0.00'} ${WidgetConstants.currencySymbol}',
+      style: (themeMode == MaxiPocketThemeMode.light
+              ? ThemeTextStyles.monetaryAmountSmallLight
+              : ThemeTextStyles.monetaryAmountSmallDark)
+          .copyWith(color: _textColor),
+      textAlign: .end,
     );
   }
 }
