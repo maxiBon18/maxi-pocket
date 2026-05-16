@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/core/domain/entities/app_info.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors, ThemeTextStyles;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeLightColors, ThemeDarkColors, ThemeTextStyles;
 import 'package:maxi_pocket/core/presentation/ux/pages/wrapper_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/app_bar_title_widget.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/circular_loading.dart';
-import 'package:maxi_pocket/core/presentation/ux/widgets/icon_container_widget.dart' show MaxiPocketIconContainerWidget;
+import 'package:maxi_pocket/core/presentation/ux/widgets/icon_container_widget.dart'
+    show MaxiPocketIconContainerWidget;
 import 'package:maxi_pocket/core/presentation/ux/widgets/list_tile_widget.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/leading_trailing_icon_widget.dart';
-import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart' show themeProvider;
+import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart'
+    show themeProvider;
 import 'package:maxi_pocket/core/shared/constants/app_constants.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketThemeMode;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 import 'package:maxi_pocket/routes.dart';
 import 'package:maxi_pocket/settings/presentation/viewmodel/settings_viewmodel.dart';
-import 'package:maxi_pocket/settings/shared/constants/widget_constants.dart' show SettingsWidgetConstants;
+import 'package:maxi_pocket/settings/shared/constants/widget_constants.dart'
+    show SettingsWidgetConstants;
 
 /// The settings page exposing notification preferences, theme selection, and app info.
 class MaxiPocketSettingsPage extends ConsumerWidget {
@@ -31,7 +37,10 @@ class MaxiPocketSettingsPage extends ConsumerWidget {
       showLeading: false,
       showBottomBar: true,
       showAppBar: true,
-      title: MaxiPocketAppBarTitle(title: SettingsWidgetConstants.appBarTitle, themeMode: themeMode),
+      title: MaxiPocketAppBarTitle(
+        title: SettingsWidgetConstants.appBarTitle,
+        themeMode: themeMode,
+      ),
       child: appInfo.when(
         data: (AppInfo appInfo) => Center(
           child: Padding(
@@ -68,15 +77,24 @@ class _SettingsListTilesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color colorBackground = themeMode == MaxiPocketThemeMode.light
-        ? ThemeLightColors.primaryColor.withValues(alpha: DesignConstants.alpha10)
+        ? ThemeLightColors.primaryColor.withValues(
+            alpha: DesignConstants.alpha10,
+          )
         : ThemeDarkColors.listTileBorderColor;
-    final Color colorBackgroundChangeTheme = themeMode == MaxiPocketThemeMode.light
-        ? ThemeDarkColors.changeThemeIconColor.withValues(alpha: DesignConstants.alpha10)
+    final Color colorBackgroundChangeTheme =
+        themeMode == MaxiPocketThemeMode.light
+        ? ThemeDarkColors.changeThemeIconColor.withValues(
+            alpha: DesignConstants.alpha10,
+          )
         : ThemeDarkColors.listTileBorderColor;
 
     final TextStyle textStyleSubtitle = themeMode == MaxiPocketThemeMode.light
-        ? ThemeTextStyles.appLightTextTheme.titleSmall!.copyWith(color: ThemeLightColors.textSecondaryColor)
-        : ThemeTextStyles.appDarkTextTheme.titleSmall!.copyWith(color: ThemeDarkColors.textSecondaryColor);
+        ? ThemeTextStyles.appLightTextTheme.titleSmall!.copyWith(
+            color: ThemeLightColors.textSecondaryColor,
+          )
+        : ThemeTextStyles.appDarkTextTheme.titleSmall!.copyWith(
+            color: ThemeDarkColors.textSecondaryColor,
+          );
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -105,8 +123,12 @@ class _SettingsListTilesWidget extends StatelessWidget {
               applyTextScaling: false,
             ),
           ),
-          trailing: MaxiPocketLeadingTrailingIconWidget(themeMode: themeMode, icon: Icons.arrow_forward_ios_outlined),
-          onTap: () => Navigator.pushNamed(context, Routes.notificationsSettingsRoute),
+          trailing: MaxiPocketLeadingTrailingIconWidget(
+            themeMode: themeMode,
+            icon: Icons.arrow_forward_ios_outlined,
+          ),
+          onTap: () =>
+              Navigator.pushNamed(context, Routes.notificationsSettingsRoute),
           themeMode: themeMode,
         ),
         const SizedBox(height: DesignConstants.spacing12),
@@ -134,7 +156,10 @@ class _SettingsListTilesWidget extends StatelessWidget {
               applyTextScaling: false,
             ),
           ),
-          trailing: MaxiPocketLeadingTrailingIconWidget(themeMode: themeMode, icon: Icons.arrow_forward_ios_outlined),
+          trailing: MaxiPocketLeadingTrailingIconWidget(
+            themeMode: themeMode,
+            icon: Icons.arrow_forward_ios_outlined,
+          ),
           onTap: () => Navigator.pushNamed(context, Routes.themeRoute),
           themeMode: themeMode,
         ),
@@ -154,7 +179,12 @@ class _SettingsFooterWidget extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Text(AppConstants.appName, style: context.textTheme.bodyMedium, overflow: TextOverflow.ellipsis, maxLines: 1),
+        Text(
+          AppConstants.appName,
+          style: context.textTheme.bodyMedium,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
         Text(
           '${AppConstants.versionTitle}: ${appInfo.version}+${appInfo.buildNumber}',
           style: context.textTheme.bodySmall,

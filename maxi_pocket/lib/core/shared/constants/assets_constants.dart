@@ -5,6 +5,6 @@ import 'package:flutter/foundation.dart' show immutable;
 class AssetsConstants {
   const AssetsConstants._();
 
-  /// Not Found Page
+  /// Animated GIF displayed when a list has no items to show.
   static const String emptyDataImage = 'assets/images/empty_data.gif';
 }

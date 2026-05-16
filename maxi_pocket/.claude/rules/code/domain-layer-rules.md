@@ -11,3 +11,4 @@ paths:
 - Every repository interface MUST be defined in `domain/services/repo/`.
 - Every service MUST be defined and implemented in `domain/services/`.
 - Business logic MUST reside in services or ViewModels — never in the data or presentation layer.
+- In services you MUST use only repositories class.

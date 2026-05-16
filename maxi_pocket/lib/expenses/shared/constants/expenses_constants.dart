@@ -5,5 +5,6 @@ import 'package:flutter/foundation.dart' show immutable;
 class ExpensesConstants {
   const ExpensesConstants._();
 
+  /// Number of tabs shown on the expenses home page (subscriptions and financing).
   static const int numberOfTabs = 2;
 }

@@ -27,10 +27,18 @@ class MaxiPocketSplashPage extends ConsumerWidget {
     ref.listen(homeNotifierProvider, (AsyncValue<HomeEntity?>? previous, AsyncValue<HomeEntity?> next) {
       next.when(
         data: (_) {
-          Navigator.of(context).pushReplacementNamed(Routes.homeRoute);
+          if (ref.read(homeNotifierProvider.notifier).onboardingCompleted) {
+            Navigator.of(context).pushReplacementNamed(Routes.homeRoute);
+          } else {
+            Navigator.of(context).pushReplacementNamed(Routes.onboardingRoute);
+          }
         },
         error: (Object error, StackTrace stackTrace) {
-          Navigator.of(context).pushReplacementNamed(Routes.homeRoute);
+          if (ref.read(homeNotifierProvider.notifier).onboardingCompleted) {
+            Navigator.of(context).pushReplacementNamed(Routes.homeRoute);
+          } else {
+            Navigator.of(context).pushReplacementNamed(Routes.onboardingRoute);
+          }
         },
         loading: () {},
       );
@@ -68,13 +76,17 @@ class _SplashContent extends StatelessWidget {
         ),
         Text(
           AppConstants.appName,
-          style: context.textTheme.displaySmall!.copyWith(color: ThemeLightColors.textInverseColor),
+          style: (context.textTheme.displaySmall ?? const TextStyle()).copyWith(
+            color: ThemeLightColors.textInverseColor,
+          ),
           semanticsLabel: AppConstants.appName,
+          textAlign: .center,
         ),
         Text(
           AppConstants.appDescription,
-          style: context.textTheme.bodyLarge!.copyWith(color: ThemeLightColors.textInverseColor),
+          style: (context.textTheme.bodyLarge ?? const TextStyle()).copyWith(color: ThemeLightColors.textInverseColor),
           semanticsLabel: AppConstants.appDescription,
+          textAlign: .center,
         ),
         const SizedBox(height: DesignConstants.spacing16),
         const MaxiPocketSplashLoadingWidget(),

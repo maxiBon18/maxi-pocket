@@ -11,8 +11,10 @@ class HomeService {
   const HomeService(this._homeDbRepo);
 
   /// Returns all subscription records relevant to the current display period.
-  Future<List<SubscriptionEntity>> getSubscriptionsData() => _homeDbRepo.getSubscriptionsData();
+  Future<List<SubscriptionEntity>> getSubscriptionsData() =>
+      _homeDbRepo.getSubscriptionsData();
 
   /// Returns all financing records relevant to the current display period.
-  Future<List<FinancingEntity>> getFinancingsData() => _homeDbRepo.getFinancingsData();
+  Future<List<FinancingEntity>> getFinancingsData() =>
+      _homeDbRepo.getFinancingsData();
 }

@@ -13,5 +13,9 @@ class AppointmentEntity implements CommitmentsEntity {
   /// Database primary key; `null` before the record is persisted.
   final BigInt? id;
 
-  const AppointmentEntity({required this.commitmentEntity, required this.location, this.id});
+  const AppointmentEntity({
+    required this.commitmentEntity,
+    required this.location,
+    this.id,
+  });
 }

@@ -12,5 +12,8 @@ class HomeEntity implements CommitmentsEntity {
   /// Fixed-term financing commitments included in this snapshot.
   final List<FinancingEntity> financingEntity;
 
-  const HomeEntity({required this.subscriptionEntity, required this.financingEntity});
+  const HomeEntity({
+    required this.subscriptionEntity,
+    required this.financingEntity,
+  });
 }

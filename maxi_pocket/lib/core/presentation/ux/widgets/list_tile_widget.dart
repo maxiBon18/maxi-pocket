@@ -59,7 +59,9 @@ class MaxiPocketListTileWidget extends StatelessWidget {
       borderRadius: BorderRadiusGeometry.circular(DesignConstants.radius16),
       border: Border.all(color: getListTileBorderColor(themeMode), width: DesignConstants.bottomBarBorderWidth),
       child: ListTile(
-        minTileHeight: height != null ? screenSize.responsiveHeight(height!) : null,
+        minTileHeight: height != null
+            ? screenSize.responsiveHeight(height!).normalizedSizeWithTextScaler(context)
+            : null,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: DesignConstants.spacing16,
           vertical: DesignConstants.spacing8,

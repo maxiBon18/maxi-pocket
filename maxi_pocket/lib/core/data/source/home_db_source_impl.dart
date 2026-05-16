@@ -4,14 +4,18 @@ import 'package:maxi_pocket/core/data/repo/source/dto/financing_dto.dart';
 import 'package:maxi_pocket/core/data/repo/source/dto/subscription_dto.dart';
 import 'package:maxi_pocket/core/data/repo/source/dto/table/data_table.dart';
 import 'package:maxi_pocket/core/data/source/database_source_impl.dart';
-import 'package:maxi_pocket/core/data/repo/source/dto/home_db_source.dart';
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesFrequency;
-import 'package:maxi_pocket/core/shared/utils/extensions.dart' show DateTimeExtension;
+import 'package:maxi_pocket/core/data/repo/source/home_db_source.dart';
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketExpensesFrequency;
+import 'package:maxi_pocket/core/shared/utils/extensions.dart'
+    show DateTimeExtension;
 
 part 'home_db_source_impl.g.dart';
 
 /// Drift data source implementation that executes joined queries against the home-screen tables.
-@DriftAccessor(tables: <Type>[CommonDataTable, SubscriptionsTable, FinancingTable])
+@DriftAccessor(
+  tables: <Type>[CommonDataTable, SubscriptionsTable, FinancingTable],
+)
 class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
     with _$HomeDbSourceImplMixin
     implements HomeDbSource {
@@ -22,21 +26,28 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
   Future<List<SubscriptionDto>> getSubscriptionsData() async {
     _updateNextPaymentDateSubscription();
 
-    final JoinedSelectStatement<HasResultSet, dynamic> querySubscription = select(commonDataTable).join(
-      <Join<HasResultSet, dynamic>>[
-        innerJoin(subscriptionsTable, commonDataTable.primaryId.equalsExp(subscriptionsTable.foreignId)),
-      ],
-    )..orderBy(<OrderingTerm>[OrderingTerm.asc(subscriptionsTable.nextPaymentDate)]);
+    final JoinedSelectStatement<HasResultSet, dynamic> querySubscription =
+        select(commonDataTable).join(<Join<HasResultSet, dynamic>>[
+          innerJoin(
+            subscriptionsTable,
+            commonDataTable.primaryId.equalsExp(subscriptionsTable.foreignId),
+          ),
+        ])..orderBy(<OrderingTerm>[
+          OrderingTerm.asc(subscriptionsTable.nextPaymentDate),
+        ]);
 
     final List<TypedResult> subscriptionRows = await querySubscription.get();
 
-    final List<SubscriptionDto> subscriptionDto = subscriptionRows.map((TypedResult row) {
+    final List<SubscriptionDto> subscriptionDto = subscriptionRows.map((
+      TypedResult row,
+    ) {
       final CommonData commonData = row.readTable(commonDataTable);
       final Subscriptions subscriptionData = row.readTable(subscriptionsTable);
       final ExpenseDbDto expenseDbDto = ExpenseDbDto(
         name: commonData.name,
         eventType: commonData.eventType,
         eventDate: commonData.eventDate,
+        id: commonData.primaryId,
       );
       return SubscriptionDto(
         expense: expenseDbDto,
@@ -55,18 +66,25 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
   Future<List<FinancingDto>> getFinancingsData() async {
     _updateNextPaymentDateFinancing();
 
-    final JoinedSelectStatement<HasResultSet, dynamic> queryFinancing = select(commonDataTable).join(
-      <Join<HasResultSet, dynamic>>[
-        innerJoin(financingTable, commonDataTable.primaryId.equalsExp(financingTable.foreignId)),
-      ],
-    )..orderBy(<OrderingTerm>[OrderingTerm.asc(financingTable.nextPaymentDate)]);
+    final JoinedSelectStatement<HasResultSet, dynamic> queryFinancing =
+        select(commonDataTable).join(<Join<HasResultSet, dynamic>>[
+          innerJoin(
+            financingTable,
+            commonDataTable.primaryId.equalsExp(financingTable.foreignId),
+          ),
+        ])..orderBy(<OrderingTerm>[
+          OrderingTerm.asc(financingTable.nextPaymentDate),
+        ]);
 
     final List<TypedResult> financingRows = await queryFinancing.get();
 
-    final List<FinancingDto> financingDto = financingRows.map((TypedResult row) {
+    final List<FinancingDto> financingDto = financingRows.map((
+      TypedResult row,
+    ) {
       final CommonData commonData = row.readTable(commonDataTable);
       final Financing financingData = row.readTable(financingTable);
       final ExpenseDbDto expenseDbDto = ExpenseDbDto(
+        id: commonData.primaryId,
         name: commonData.name,
         eventType: commonData.eventType,
         eventDate: commonData.eventDate,
@@ -110,30 +128,47 @@ class HomeDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
   /// Rolls forward overdue subscription next-payment dates inside a transaction.
   Future<void> _updateNextPaymentDateSubscription() => transaction(
     () => _updateExpiredPaymentDates<Subscriptions>(
-      fetchOverdue: () => (select(
-        subscriptionsTable,
-      )..where(($SubscriptionsTableTable t) => t.nextPaymentDate.isSmallerOrEqualValue(DateTime.now()))).get(),
+      fetchOverdue: () =>
+          (select(subscriptionsTable)..where(
+                ($SubscriptionsTableTable t) =>
+                    t.nextPaymentDate.isSmallerOrEqualValue(DateTime.now()),
+              ))
+              .get(),
       getDate: (Subscriptions row) => row.nextPaymentDate,
       getFrequency: (Subscriptions row) => row.expensesFrequency,
       performUpdate: (Subscriptions row, DateTime newDate) =>
-          (update(subscriptionsTable)..where(($SubscriptionsTableTable t) => t.foreignId.equals(row.foreignId))).write(
-            SubscriptionsTableCompanion(nextPaymentDate: Value<DateTime>(newDate)),
-          ),
+          (update(subscriptionsTable)..where(
+                ($SubscriptionsTableTable t) =>
+                    t.foreignId.equals(row.foreignId),
+              ))
+              .write(
+                SubscriptionsTableCompanion(
+                  nextPaymentDate: Value<DateTime>(newDate),
+                ),
+              ),
     ),
   );
 
   /// Rolls forward overdue financing next-payment dates inside a transaction.
   Future<void> _updateNextPaymentDateFinancing() => transaction(
     () => _updateExpiredPaymentDates<Financing>(
-      fetchOverdue: () => (select(
-        financingTable,
-      )..where(($FinancingTableTable t) => t.nextPaymentDate.isSmallerOrEqualValue(DateTime.now()))).get(),
+      fetchOverdue: () =>
+          (select(financingTable)..where(
+                ($FinancingTableTable t) =>
+                    t.nextPaymentDate.isSmallerOrEqualValue(DateTime.now()),
+              ))
+              .get(),
       getDate: (Financing row) => row.nextPaymentDate,
       getFrequency: (Financing _) => MaxiPocketExpensesFrequency.monthly,
       performUpdate: (Financing row, DateTime newDate) =>
-          (update(financingTable)..where(($FinancingTableTable t) => t.foreignId.equals(row.foreignId))).write(
-            FinancingTableCompanion(nextPaymentDate: Value<DateTime>(newDate)),
-          ),
+          (update(financingTable)..where(
+                ($FinancingTableTable t) => t.foreignId.equals(row.foreignId),
+              ))
+              .write(
+                FinancingTableCompanion(
+                  nextPaymentDate: Value<DateTime>(newDate),
+                ),
+              ),
     ),
   );
 }

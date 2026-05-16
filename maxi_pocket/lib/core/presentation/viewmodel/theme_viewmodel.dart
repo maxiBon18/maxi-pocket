@@ -4,7 +4,8 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:maxi_pocket/core/domain/services/shared_pref_service.dart';
-import 'package:maxi_pocket/core/shared/constants/cache_constants.dart' show CacheKeys;
+import 'package:maxi_pocket/core/shared/constants/cache_constants.dart'
+    show CacheKeys;
 import 'package:maxi_pocket/core/shared/controllers/di.dart' show getDI;
 import 'package:maxi_pocket/core/shared/utils/enums.dart';
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
@@ -23,12 +24,15 @@ final NotifierProvider<ThemeViewModel, MaxiPocketThemeMode> themeProvider =
 /// light or dark based on [isDarkMode]. [setThemeMode] writes the enum name and updates
 /// [state]; failures are logged and do not throw to callers.
 class ThemeViewModel extends Notifier<MaxiPocketThemeMode> {
-  final SharedPrefWithCacheService _sharedPrefWithCacheService = getDI<SharedPrefWithCacheService>();
+  final SharedPrefWithCacheService _sharedPrefWithCacheService =
+      getDI<SharedPrefWithCacheService>();
   final Logger _logger = getDI<Logger>();
 
   @override
   MaxiPocketThemeMode build() {
-    final String? themeMode = _sharedPrefWithCacheService.getStringWithCache(CacheKeys.themeMode);
+    final String? themeMode = _sharedPrefWithCacheService.getStringWithCache(
+      CacheKeys.themeMode,
+    );
 
     if (themeMode == null) {
       return isDarkMode ? MaxiPocketThemeMode.dark : MaxiPocketThemeMode.light;
@@ -42,7 +46,10 @@ class ThemeViewModel extends Notifier<MaxiPocketThemeMode> {
   /// On storage errors, logs via [Logger] and leaves [state] unchanged.
   Future<void> setThemeMode(MaxiPocketThemeMode themeMode) async {
     try {
-      await _sharedPrefWithCacheService.setStringWithCache(CacheKeys.themeMode, themeMode.name);
+      await _sharedPrefWithCacheService.setStringWithCache(
+        CacheKeys.themeMode,
+        themeMode.name,
+      );
       state = themeMode;
     } catch (e, stacktrace) {
       _logger.e('Error setting theme mode: $e', stackTrace: stacktrace);

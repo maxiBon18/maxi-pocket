@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeLightColors, ThemeDarkColors;
 import 'package:maxi_pocket/core/presentation/ux/widgets/circular_loading.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart';
 import 'package:maxi_pocket/core/shared/utils/enums.dart';

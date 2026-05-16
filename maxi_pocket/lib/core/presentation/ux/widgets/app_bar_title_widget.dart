@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeDarkColors, ThemeLightColors;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeDarkColors, ThemeLightColors;
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart';
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketThemeMode;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 
+/// App bar title widget that renders a centred headline with an optional subtitle below it.
 class MaxiPocketAppBarTitle extends StatelessWidget {
-  const MaxiPocketAppBarTitle({required this.title, required this.themeMode, super.key, this.subtitle});
+  const MaxiPocketAppBarTitle({
+    required this.title,
+    required this.themeMode,
+    super.key,
+    this.subtitle,
+  });
 
   final String title;
   final String? subtitle;
@@ -22,7 +30,9 @@ class MaxiPocketAppBarTitle extends StatelessWidget {
         Text(
           title,
           textAlign: .center,
-          style: context.textTheme.headlineLarge!.copyWith(fontSize: DesignConstants.textSize24),
+          style: context.textTheme.headlineLarge!.copyWith(
+            fontSize: DesignConstants.textSize24,
+          ),
         ),
         if (subtitle != null)
           Text(

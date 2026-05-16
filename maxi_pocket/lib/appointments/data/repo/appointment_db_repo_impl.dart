@@ -20,9 +20,10 @@ class AppointmentDbRepoImpl extends DatabaseAccessor<MaxiPocketDatabase>
   /// Fetches all appointments and maps each [AppointmentDto] to an [AppointmentEntity].
   @override
   Future<List<AppointmentEntity>> getAppointmentsData() async {
-    final List<AppointmentDto> subscriptions = await _appointmentDbSource.getAppointmentsData();
+    final List<AppointmentDto> appointmentDtos = await _appointmentDbSource
+        .getAppointmentsData();
 
-    final List<AppointmentEntity> appointmentEntities = subscriptions
+    final List<AppointmentEntity> appointmentEntities = appointmentDtos
         .map((AppointmentDto dto) => dto.toEntity())
         .toList();
 

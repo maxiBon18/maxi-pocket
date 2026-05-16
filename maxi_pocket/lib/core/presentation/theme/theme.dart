@@ -108,6 +108,9 @@ class ThemeLightColors {
   static const Color dialogInfoBackgroundColor = Color(0xFFF3E8FF);
   static const Color dialogCancelBackgroundColor = Color(0xFFF3F3F5);
   static const Color dialogBarrierColor = Color(0xFF000000);
+
+  /// Onboarding Colors
+  static const Color onboardingNotificationContainerBackgroundColor = Color(0xFFF0E6E8);
 }
 
 /// Color tokens for the dark theme.
@@ -197,12 +200,17 @@ class ThemeDarkColors {
   static const Color dialogSuccessBackgroundColor = Color(0xFF2A3832);
   static const Color dialogInfoBackgroundColor = Color(0xFF352E38);
   static const Color dialogBarrierColor = Color(0xFFFFFFFF);
+
+  // Onboarding Colors
+  static const Color onboardingScaffoldBackgroundColor = Color(0xFF1A1518);
+  static const Color onboardingNotificationContainerBackgroundColor = Color(0xFF3D3438);
 }
 
 /// Pre-built [TextTheme]s and custom monetary [TextStyle]s for light and dark modes.
 class ThemeTextStyles {
   ThemeTextStyles._();
 
+  /// Complete [TextTheme] for the light mode, with each role mapped to Inter or Outfit at design-system sizes.
   static final TextTheme appLightTextTheme = TextTheme(
     /// displayLarge — hero banners, onboarding screens.
     displayLarge: GoogleFonts.outfit(
@@ -340,6 +348,7 @@ class ThemeTextStyles {
     ),
   );
 
+  /// Complete [TextTheme] for the dark mode, mirroring [appLightTextTheme] with dark-mode color tokens.
   static final TextTheme appDarkTextTheme = TextTheme(
     /// displayLarge — hero banners, onboarding screens.
     displayLarge: GoogleFonts.outfit(
@@ -484,9 +493,7 @@ class ThemeTextStyles {
     height: 28 / 24,
     letterSpacing: 0,
     color: ThemeLightColors.textSecondaryColor,
-    fontFeatures: const <FontFeature>[
-      FontFeature.tabularFigures(),
-    ],
+    fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
   );
 
   /// Smaller monetary amount variant for inline / list-item use (14sp).
@@ -506,9 +513,7 @@ class ThemeTextStyles {
     height: 28 / 20,
     letterSpacing: 0,
     color: ThemeDarkColors.textSecondaryColor,
-    fontFeatures: const <FontFeature>[
-      FontFeature.tabularFigures(),
-    ],
+    fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
   );
 
   /// Smaller monetary amount variant for inline / list-item use (14sp).
@@ -567,9 +572,15 @@ final ThemeData lightAppTheme = ThemeData(
     }),
     labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((Set<WidgetState> state) {
       if (state.contains(WidgetState.selected)) {
-        return ThemeTextStyles.appLightTextTheme.labelMedium!.copyWith(color: ThemeLightColors.primaryColor);
+        return ThemeTextStyles.appLightTextTheme.labelMedium!.copyWith(
+          color: ThemeLightColors.primaryColor,
+          overflow: TextOverflow.ellipsis,
+        );
       }
-      return ThemeTextStyles.appLightTextTheme.labelMedium!.copyWith(color: ThemeLightColors.textDisabledColor);
+      return ThemeTextStyles.appLightTextTheme.labelMedium!.copyWith(
+        color: ThemeLightColors.textDisabledColor,
+        overflow: TextOverflow.ellipsis,
+      );
     }),
   ),
   switchTheme: SwitchThemeData(
@@ -695,9 +706,15 @@ final ThemeData darkAppTheme = ThemeData(
     }),
     labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((Set<WidgetState> state) {
       if (state.contains(WidgetState.selected)) {
-        return ThemeTextStyles.appDarkTextTheme.labelMedium!.copyWith(color: ThemeDarkColors.primaryColor);
+        return ThemeTextStyles.appDarkTextTheme.labelMedium!.copyWith(
+          color: ThemeDarkColors.primaryColor,
+          overflow: TextOverflow.ellipsis,
+        );
       }
-      return ThemeTextStyles.appDarkTextTheme.labelMedium!.copyWith(color: ThemeDarkColors.textSecondaryColor);
+      return ThemeTextStyles.appDarkTextTheme.labelMedium!.copyWith(
+        color: ThemeDarkColors.textSecondaryColor,
+        overflow: TextOverflow.ellipsis,
+      );
     }),
   ),
   switchTheme: SwitchThemeData(

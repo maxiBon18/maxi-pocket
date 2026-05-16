@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:maxi_pocket/notifications/shared/controllers/di.dart'
+    show setupNotificationsDependencies;
 import 'package:maxi_pocket/appointments/data/repo/appointment_db_repo_impl.dart';
 import 'package:maxi_pocket/appointments/data/repo/source/appointment_db_source.dart';
 import 'package:maxi_pocket/appointments/data/source/appointment_db_source_impl.dart';
@@ -29,7 +32,7 @@ import 'package:maxi_pocket/core/presentation/viewmodel/loading_viewmodel.dart';
 import 'package:maxi_pocket/core/shared/constants/cache_constants.dart';
 import 'package:maxi_pocket/core/shared/controllers/custom_navigator_observer.dart';
 import 'package:maxi_pocket/core/shared/utils/loggers.dart';
-import 'package:maxi_pocket/core/data/repo/source/dto/home_db_source.dart';
+import 'package:maxi_pocket/core/data/repo/source/home_db_source.dart';
 import 'package:maxi_pocket/core/domain/services/home_services.dart';
 import 'package:maxi_pocket/core/domain/services/repo/home_db_repo.dart';
 import 'package:maxi_pocket/routes.dart' show Routes;
@@ -49,10 +52,30 @@ Future<void> setupAllDependencies() async {
 ///
 /// Registration order: infrastructure → observers → services.
 Future<void> setupDependencies(GetIt getIt) async {
+  getIt.registerSingletonAsync<FlutterLocalNotificationsPlugin>(() async {
+    final FlutterLocalNotificationsPlugin plugin =
+        FlutterLocalNotificationsPlugin();
+    const AndroidInitializationSettings androidSettings =
+        AndroidInitializationSettings('ic_launcher_foreground');
+    const DarwinInitializationSettings darwinSettings =
+        DarwinInitializationSettings(
+          requestAlertPermission: false,
+          requestBadgePermission: false,
+          requestSoundPermission: false,
+        );
+    const InitializationSettings initSettings = InitializationSettings(
+      android: androidSettings,
+      iOS: darwinSettings,
+    );
+    await plugin.initialize(settings: initSettings);
+    return plugin;
+  });
   getIt.registerSingletonAsync<SharedPrefWithCacheSource>(
     () async => SharedPrefWithCacheSourceImpl(
       await SharedPreferencesWithCache.create(
-        cacheOptions: const SharedPreferencesWithCacheOptions(allowList: CacheKeys.allKeys),
+        cacheOptions: const SharedPreferencesWithCacheOptions(
+          allowList: CacheKeys.allKeys,
+        ),
       ),
     ),
   );
@@ -63,8 +86,12 @@ Future<void> setupDependencies(GetIt getIt) async {
     ),
     dispose: (Logger logger) => logger.close(),
   );
-  getIt.registerSingletonIfAbsent<SharedPrefAsyncSource>(() => SharedPrefAsyncSourceImpl(SharedPreferencesAsync()));
-  getIt.registerSingletonIfAbsent<MaxiPocketNavigatorObserver>(() => MaxiPocketNavigatorObserver());
+  getIt.registerSingletonIfAbsent<SharedPrefAsyncSource>(
+    () => SharedPrefAsyncSourceImpl(SharedPreferencesAsync()),
+  );
+  getIt.registerSingletonIfAbsent<MaxiPocketNavigatorObserver>(
+    () => MaxiPocketNavigatorObserver(),
+  );
   getIt.registerSingletonIfAbsent<RoutingService>(
     () => RoutingService(getDI<MaxiPocketNavigatorObserver>(), Routes.routes),
   );
@@ -75,32 +102,63 @@ Future<void> setupDependencies(GetIt getIt) async {
 
   /// Data Layer
   getIt.registerSingletonIfAbsent<AppInfoSource>(() => AppInfoSourceImpl());
-  getIt.registerSingletonIfAbsent<MaxiPocketDatabase>(() => MaxiPocketDatabase());
-  getIt.registerSingletonIfAbsent<ExpensesDbSource>(() => ExpensesDbSourceImpl(getDI<MaxiPocketDatabase>()));
-  getIt.registerCachedFactory<HomeDbSource>(() => HomeDbSourceImpl(getDI<MaxiPocketDatabase>()));
-  getIt.registerCachedFactory<AppointmentDbSource>(() => AppointmentDbSourceImpl(getDI<MaxiPocketDatabase>()));
+  getIt.registerSingletonIfAbsent<MaxiPocketDatabase>(
+    () => MaxiPocketDatabase(),
+  );
+  getIt.registerSingletonIfAbsent<ExpensesDbSource>(
+    () => ExpensesDbSourceImpl(getDI<MaxiPocketDatabase>()),
+  );
+  getIt.registerCachedFactory<HomeDbSource>(
+    () => HomeDbSourceImpl(getDI<MaxiPocketDatabase>()),
+  );
+  getIt.registerCachedFactory<AppointmentDbSource>(
+    () => AppointmentDbSourceImpl(getDI<MaxiPocketDatabase>()),
+  );
 
   /// Repository Layer
-  getIt.registerLazySingleton<SharedPrefAsyncRepo>(() => SharedPrefAsyncRepoImpl(getDI<SharedPrefAsyncSource>()));
+  getIt.registerLazySingleton<SharedPrefAsyncRepo>(
+    () => SharedPrefAsyncRepoImpl(getDI<SharedPrefAsyncSource>()),
+  );
   getIt.registerLazySingleton<SharedPrefWithCacheRepo>(
     () => SharedPrefWithCacheRepoImpl(getDI<SharedPrefWithCacheSource>()),
   );
-  getIt.registerSingletonIfAbsent<AppInfoRepo>(() => AppInfoRepoImpl(getDI<AppInfoSource>()));
-  getIt.registerSingletonIfAbsent<ExpensesDbRepo>(() => ExpensesDbRepoImpl(getDI<ExpensesDbSource>()));
-  getIt.registerCachedFactory<HomeDbRepo>(() => HomeDbRepoImpl(getDI<MaxiPocketDatabase>(), getDI<HomeDbSource>()));
+  getIt.registerSingletonIfAbsent<AppInfoRepo>(
+    () => AppInfoRepoImpl(getDI<AppInfoSource>()),
+  );
+  getIt.registerSingletonIfAbsent<ExpensesDbRepo>(
+    () => ExpensesDbRepoImpl(getDI<ExpensesDbSource>()),
+  );
+  getIt.registerCachedFactory<HomeDbRepo>(
+    () => HomeDbRepoImpl(getDI<MaxiPocketDatabase>(), getDI<HomeDbSource>()),
+  );
   getIt.registerCachedFactory<AppointmentDbRepo>(
-    () => AppointmentDbRepoImpl(getDI<MaxiPocketDatabase>(), getDI<AppointmentDbSource>()),
+    () => AppointmentDbRepoImpl(
+      getDI<MaxiPocketDatabase>(),
+      getDI<AppointmentDbSource>(),
+    ),
   );
 
   /// Service Layer
-  getIt.registerLazySingleton<SharedPrefAsyncService>(() => SharedPrefAsyncService(getDI<SharedPrefAsyncRepo>()));
+  getIt.registerLazySingleton<SharedPrefAsyncService>(
+    () => SharedPrefAsyncService(getDI<SharedPrefAsyncRepo>()),
+  );
   getIt.registerLazySingleton<SharedPrefWithCacheService>(
     () => SharedPrefWithCacheService(getDI<SharedPrefWithCacheRepo>()),
   );
-  getIt.registerSingletonIfAbsent<AppInfoService>(() => AppInfoService(getDI<AppInfoRepo>()));
-  getIt.registerSingletonIfAbsent<ExpensesDbService>(() => ExpensesDbService(getDI<ExpensesDbRepo>()));
-  getIt.registerCachedFactory<HomeService>(() => HomeService(getDI<HomeDbRepo>()));
-  getIt.registerCachedFactory<AppointmentService>(() => AppointmentService(getDI<AppointmentDbRepo>()));
+  getIt.registerSingletonIfAbsent<AppInfoService>(
+    () => AppInfoService(getDI<AppInfoRepo>()),
+  );
+  getIt.registerSingletonIfAbsent<ExpensesDbService>(
+    () => ExpensesDbService(getDI<ExpensesDbRepo>()),
+  );
+  getIt.registerCachedFactory<HomeService>(
+    () => HomeService(getDI<HomeDbRepo>()),
+  );
+  getIt.registerCachedFactory<AppointmentService>(
+    () => AppointmentService(getDI<AppointmentDbRepo>()),
+  );
+
+  setupNotificationsDependencies(getIt);
 
   // VIEWMODELS
   getIt.registerSingletonIfAbsent<LoadingViewmodel>(() => LoadingViewmodel());

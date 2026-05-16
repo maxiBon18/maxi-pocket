@@ -2,10 +2,14 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors;
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesType, MaxiPocketThemeMode;
-import 'package:maxi_pocket/core/shared/utils/extensions.dart' show BuildContextExtension, DoubleExtension;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeLightColors, ThemeDarkColors;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketExpensesType, MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/shared/utils/extensions.dart'
+    show BuildContextExtension, DoubleExtension;
 
 /// A labelled row of mutually exclusive selectable chips.
 ///
@@ -81,7 +85,8 @@ class _MaxiPocketSelectorChipsRow<T> extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         final int count = options.length;
         final double chipWidth = count > 1
-            ? (constraints.maxWidth - DesignConstants.spacing8) / DesignConstants.selectorChipForRowCount
+            ? (constraints.maxWidth - DesignConstants.spacing8) /
+                  DesignConstants.selectorChipForRowCount
             : double.infinity;
         return Wrap(
           alignment: .center,
@@ -136,8 +141,10 @@ class _MaxiPocketSelectorOptionWidget<T> extends StatelessWidget {
 
     if (selectedValue is MaxiPocketExpensesType) {
       return switch (selectedValue) {
-        MaxiPocketExpensesType.financing => ThemeLightColors.badgeFinancingBackgroundColor,
-        MaxiPocketExpensesType.appointments => ThemeLightColors.appointmentsBadgeBackgroundColor,
+        MaxiPocketExpensesType.financing =>
+          ThemeLightColors.badgeFinancingBackgroundColor,
+        MaxiPocketExpensesType.appointments =>
+          ThemeLightColors.appointmentsBadgeBackgroundColor,
         _ => commonBackgroundColor,
       };
     } else {
@@ -146,17 +153,21 @@ class _MaxiPocketSelectorOptionWidget<T> extends StatelessWidget {
   }
 
   Color get _borderColor {
-    final Color commonSelectedBorderColor = themeMode == MaxiPocketThemeMode.light
+    final Color commonSelectedBorderColor =
+        themeMode == MaxiPocketThemeMode.light
         ? ThemeLightColors.primaryColor
         : ThemeDarkColors.primaryColor;
-    final Color commonUnselectedBorderColor = themeMode == MaxiPocketThemeMode.light
+    final Color commonUnselectedBorderColor =
+        themeMode == MaxiPocketThemeMode.light
         ? ThemeLightColors.surfaceVariantColor
         : ThemeDarkColors.surfaceVariantColor;
     if (isSelected) {
       if (selectedValue is MaxiPocketExpensesType) {
         return switch (selectedValue) {
-          MaxiPocketExpensesType.financing => ThemeLightColors.secondaryDarkColor,
-          MaxiPocketExpensesType.appointments => ThemeLightColors.textPrimaryColor,
+          MaxiPocketExpensesType.financing =>
+            ThemeLightColors.secondaryDarkColor,
+          MaxiPocketExpensesType.appointments =>
+            ThemeLightColors.textPrimaryColor,
           _ => commonSelectedBorderColor,
         };
       } else {
@@ -170,8 +181,10 @@ class _MaxiPocketSelectorOptionWidget<T> extends StatelessWidget {
     if (isSelected) {
       if (selectedValue is MaxiPocketExpensesType) {
         return switch (selectedValue) {
-          MaxiPocketExpensesType.financing => ThemeLightColors.secondaryDarkColor,
-          MaxiPocketExpensesType.appointments => ThemeLightColors.textPrimaryColor,
+          MaxiPocketExpensesType.financing =>
+            ThemeLightColors.secondaryDarkColor,
+          MaxiPocketExpensesType.appointments =>
+            ThemeLightColors.textPrimaryColor,
           _ => ThemeLightColors.errorColor,
         };
       } else {
@@ -186,7 +199,9 @@ class _MaxiPocketSelectorOptionWidget<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    final double chipHeight = screenHeight.responsiveHeight(DesignConstants.containerSize48);
+    final double chipHeight = screenHeight.responsiveHeight(
+      DesignConstants.containerSize48,
+    );
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -194,7 +209,10 @@ class _MaxiPocketSelectorOptionWidget<T> extends StatelessWidget {
         decoration: BoxDecoration(
           color: _backgroundColor,
           borderRadius: BorderRadius.circular(DesignConstants.radius12),
-          border: Border.all(color: _borderColor, width: DesignConstants.bottomBarBorderWidth),
+          border: Border.all(
+            color: _borderColor,
+            width: DesignConstants.bottomBarBorderWidth,
+          ),
         ),
         alignment: Alignment.center,
         child: Text(

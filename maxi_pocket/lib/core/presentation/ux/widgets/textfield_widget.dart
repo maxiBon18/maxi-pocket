@@ -3,10 +3,13 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeLightColors, ThemeDarkColors;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketThemeMode;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
-import 'package:maxi_pocket/core/shared/utils/loggers.dart' show customDebugPrint;
+import 'package:maxi_pocket/core/shared/utils/loggers.dart'
+    show customDebugPrint;
 
 /// Styled [TextFormField] aligned with app theme tokens and optional password visibility.
 ///
@@ -47,6 +50,7 @@ class MaxiPocketTextFormFieldWidget extends StatefulWidget {
     this.smartDashesType = SmartDashesType.disabled,
     this.textInputAction = TextInputAction.none,
     this.controller,
+    this.inputFormatters,
   });
 
   final String? Function(String?)? validator;
@@ -71,12 +75,15 @@ class MaxiPocketTextFormFieldWidget extends StatefulWidget {
   final TextEditingController? controller;
   final void Function(String)? onChanged;
   final MaxiPocketThemeMode themeMode;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
-  State<MaxiPocketTextFormFieldWidget> createState() => _MaxiPocketTextFormFieldWidgetState();
+  State<MaxiPocketTextFormFieldWidget> createState() =>
+      _MaxiPocketTextFormFieldWidgetState();
 }
 
-class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldWidget> {
+class _MaxiPocketTextFormFieldWidgetState
+    extends State<MaxiPocketTextFormFieldWidget> {
   late final GlobalKey<FormFieldState<dynamic>> _fieldFormKey;
   FocusNode? _focusNode;
   late bool _showPassword;
@@ -85,13 +92,17 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
   void initState() {
     super.initState();
     _fieldFormKey = GlobalKey<FormFieldState<dynamic>>();
-    _focusNode = widget.enabled ? widget.externalFocusNode ?? FocusNode() : null;
+    _focusNode = widget.enabled
+        ? widget.externalFocusNode ?? FocusNode()
+        : null;
     _showPassword = false;
 
     try {
       _focusNode?.addListener(_validateFocusedNode);
     } catch (e, stacktrace) {
-      customDebugPrint('[MaxiPocketTextFormFieldWidget] FocusNode already disposed: $e\n $stacktrace');
+      customDebugPrint(
+        '[MaxiPocketTextFormFieldWidget] FocusNode already disposed: $e\n $stacktrace',
+      );
     }
   }
 
@@ -117,18 +128,23 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
       textAlignVertical: TextAlignVertical.center,
       readOnly: widget.readOnly,
       style: context.textTheme.bodyLarge,
-      keyboardAppearance: widget.themeMode == MaxiPocketThemeMode.light ? Brightness.light : Brightness.dark,
+      keyboardAppearance: widget.themeMode == MaxiPocketThemeMode.light
+          ? Brightness.light
+          : Brightness.dark,
       autocorrect: widget.autocorrect,
       enableSuggestions: widget.enableSuggestions,
       obscureText: widget.isPassword ? !_showPassword : widget.obscureText,
       enabled: widget.enabled,
       maxLength: widget.maxLength,
-      maxLengthEnforcement: widget.maxLength != null ? MaxLengthEnforcement.enforced : null,
+      maxLengthEnforcement: widget.maxLength != null
+          ? MaxLengthEnforcement.enforced
+          : null,
       smartQuotesType: widget.smartQuotesType,
       smartDashesType: widget.smartDashesType,
       focusNode: _focusNode,
       textInputAction: widget.textInputAction,
       controller: widget.controller,
+      inputFormatters: widget.inputFormatters,
       enableInteractiveSelection: true,
       validator: widget.validator,
       onChanged: widget.onChanged != null
@@ -139,7 +155,8 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
               }
             }
           : null,
-      onTapOutside: (PointerDownEvent event) => FocusManager.instance.primaryFocus?.unfocus(),
+      onTapOutside: (PointerDownEvent event) =>
+          FocusManager.instance.primaryFocus?.unfocus(),
       cursorErrorColor: ThemeLightColors.errorColor,
       showCursor: true,
       decoration: InputDecoration(
@@ -161,8 +178,13 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
                     ? ThemeLightColors.textDisabledColor
                     : ThemeDarkColors.textDisabledColor),
         ),
-        errorStyle: context.textTheme.bodyMedium!.copyWith(color: ThemeLightColors.errorColor),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14.0),
+        errorStyle: context.textTheme.bodyMedium!.copyWith(
+          color: ThemeLightColors.errorColor,
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14.0,
+        ),
         suffixIcon: _buildSuffixIcon(),
       ),
     );
@@ -187,8 +209,12 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
                           ? ThemeLightColors.onSurfaceVariantColor
                           : ThemeDarkColors.onSurfaceVariantColor)
                     : (widget.themeMode == MaxiPocketThemeMode.light
-                          ? ThemeLightColors.onSurfaceVariantColor.withValues(alpha: 0.5)
-                          : ThemeDarkColors.onSurfaceVariantColor.withValues(alpha: 0.5)),
+                          ? ThemeLightColors.onSurfaceVariantColor.withValues(
+                              alpha: 0.5,
+                            )
+                          : ThemeDarkColors.onSurfaceVariantColor.withValues(
+                              alpha: 0.5,
+                            )),
                 fontWeight: FontWeight.bold,
                 size: 24.0,
               )
@@ -199,8 +225,12 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
                           ? ThemeLightColors.onSurfaceVariantColor
                           : ThemeDarkColors.onSurfaceVariantColor)
                     : (widget.themeMode == MaxiPocketThemeMode.light
-                          ? ThemeLightColors.onSurfaceVariantColor.withValues(alpha: 0.5)
-                          : ThemeDarkColors.onSurfaceVariantColor.withValues(alpha: 0.5)),
+                          ? ThemeLightColors.onSurfaceVariantColor.withValues(
+                              alpha: 0.5,
+                            )
+                          : ThemeDarkColors.onSurfaceVariantColor.withValues(
+                              alpha: 0.5,
+                            )),
                 fontWeight: FontWeight.bold,
                 size: 24.0,
               ),
@@ -234,5 +264,21 @@ class _MaxiPocketTextFormFieldWidgetState extends State<MaxiPocketTextFormFieldW
       }
     }
     return;
+  }
+}
+
+/// Replaces every comma with a dot so decimal amounts entered with ',' are
+/// parsed correctly by [double.parse] / [double.tryParse].
+class CommaToDotInputFormatter extends TextInputFormatter {
+  const CommaToDotInputFormatter();
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final String replaced = newValue.text.replaceAll(',', '.');
+    if (replaced == newValue.text) return newValue;
+    return newValue.copyWith(text: replaced);
   }
 }

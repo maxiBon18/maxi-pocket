@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart' show immutable;
 
+/// Thrown when a Drift join query receives an unsupported or mismatched table type.
 @immutable
 class WrongTableJoinQueryExceptions implements Exception {
   const WrongTableJoinQueryExceptions();

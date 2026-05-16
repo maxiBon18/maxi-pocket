@@ -76,7 +76,9 @@ class MaxiPocketBottomBarWidget extends ConsumerWidget {
       child: NavigationBar(
         destinations: _getDestinations(),
         selectedIndex: currentPageIndex,
-        height: screenHeight.responsiveHeight(DesignConstants.bottomBarDesignHeight),
+        height: screenHeight
+            .responsiveHeight(DesignConstants.bottomBarDesignHeight)
+            .normalizedSizeWithTextScaler(context),
         onDestinationSelected: (int index) {
           if (index == currentPageIndex) return;
           ref.read(bottomBarProvider.notifier).setCurrentIndex(index);

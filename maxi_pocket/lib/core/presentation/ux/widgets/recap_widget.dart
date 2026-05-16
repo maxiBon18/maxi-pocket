@@ -46,13 +46,10 @@ class MaxiPocketRecapWidget extends StatelessWidget {
               themeMode: themeMode,
             ),
           ),
-          Expanded(
-            child: _RecapAmountText(
-              isAppointment: isAppointment,
-              amount: amount,
-              themeMode: themeMode,
+          if (!isAppointment)
+            Expanded(
+              child: _RecapAmountText(isAppointment: isAppointment, amount: amount, themeMode: themeMode),
             ),
-          ),
         ],
       ),
     );
@@ -60,11 +57,7 @@ class MaxiPocketRecapWidget extends StatelessWidget {
 }
 
 class _RecapCountRow extends StatelessWidget {
-  const _RecapCountRow({
-    required this.isAppointment,
-    required this.numberOfCommitments,
-    required this.themeMode,
-  });
+  const _RecapCountRow({required this.isAppointment, required this.numberOfCommitments, required this.themeMode});
 
   final bool isAppointment;
   final int numberOfCommitments;
@@ -95,11 +88,7 @@ class _RecapCountRow extends StatelessWidget {
 }
 
 class _RecapAmountText extends StatelessWidget {
-  const _RecapAmountText({
-    required this.isAppointment,
-    required this.amount,
-    required this.themeMode,
-  });
+  const _RecapAmountText({required this.isAppointment, required this.amount, required this.themeMode});
 
   final bool isAppointment;
   final double? amount;
@@ -112,10 +101,11 @@ class _RecapAmountText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       isAppointment ? '' : '${amount?.toStringAsFixed(2) ?? '0.00'} ${WidgetConstants.currencySymbol}',
-      style: (themeMode == MaxiPocketThemeMode.light
-              ? ThemeTextStyles.monetaryAmountSmallLight
-              : ThemeTextStyles.monetaryAmountSmallDark)
-          .copyWith(color: _textColor),
+      style:
+          (themeMode == MaxiPocketThemeMode.light
+                  ? ThemeTextStyles.monetaryAmountSmallLight
+                  : ThemeTextStyles.monetaryAmountSmallDark)
+              .copyWith(color: _textColor),
       textAlign: .end,
     );
   }

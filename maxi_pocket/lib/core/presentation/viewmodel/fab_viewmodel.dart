@@ -3,16 +3,18 @@ import 'package:logger/logger.dart';
 import 'package:maxi_pocket/core/domain/services/expenses_db_service.dart';
 import 'package:maxi_pocket/core/shared/controllers/di.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesType;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketExpensesType;
 
 /// Riverpod provider that exposes [FabViewmodel].
 ///
 /// Retry is disabled because write operations (insert, update, delete) must not
 /// be retried automatically — the result of a failed write is ambiguous.
-final AsyncNotifierProvider<FabViewmodel, void> fabViewmodelProvider = AsyncNotifierProvider<FabViewmodel, void>(
-  FabViewmodel.new,
-  retry: (int retryCount, Object error) => null,
-);
+final AsyncNotifierProvider<FabViewmodel, void> fabViewmodelProvider =
+    AsyncNotifierProvider<FabViewmodel, void>(
+      FabViewmodel.new,
+      retry: (int retryCount, Object error) => null,
+    );
 
 /// Handles all mutating expense operations triggered from the FAB and expense pages.
 ///
@@ -52,7 +54,10 @@ class FabViewmodel extends AsyncNotifier<void> {
   }
 
   /// Deletes the commitment identified by [commonId] and [type].
-  Future<void> deleteCommitment({required BigInt commonId, required MaxiPocketExpensesType type}) async {
+  Future<void> deleteCommitment({
+    required BigInt commonId,
+    required MaxiPocketExpensesType type,
+  }) async {
     state = const AsyncLoading<void>();
     try {
       await _expensesDbService.deleteQuery(commonId: commonId, type: type);
@@ -64,7 +69,10 @@ class FabViewmodel extends AsyncNotifier<void> {
   }
 
   /// Replaces the stored fields of [commonId] with the data in [object].
-  Future<void> updateCommitment({required BigInt commonId, required CommitmentsEntity object}) async {
+  Future<void> updateCommitment({
+    required BigInt commonId,
+    required CommitmentsEntity object,
+  }) async {
     state = const AsyncLoading<void>();
     try {
       await _expensesDbService.updateQuery(commonId: commonId, object: object);

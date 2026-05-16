@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesType;
-import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart' show ExpenseCommitmentEntity;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketExpensesType;
+import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart'
+    show ExpenseCommitmentEntity;
 
 part 'expense_db_dto.freezed.dart';
 part 'expense_db_dto.g.dart';
@@ -19,10 +21,17 @@ abstract class ExpenseDbDto with _$ExpenseDbDto {
     required String name,
     required MaxiPocketExpensesType eventType,
     required DateTime eventDate,
+    BigInt? id,
   }) = _ExpenseDbDto;
 
-  factory ExpenseDbDto.fromJson(Map<String, Object?> json) => _$ExpenseDbDtoFromJson(json);
+  factory ExpenseDbDto.fromJson(Map<String, Object?> json) =>
+      _$ExpenseDbDtoFromJson(json);
 
   /// Reconstructs an [ExpenseCommitmentEntity] from this DTO.
-  ExpenseCommitmentEntity toEntity() => ExpenseCommitmentEntity(name: name, eventDate: eventDate, eventType: eventType);
+  ExpenseCommitmentEntity toEntity() => ExpenseCommitmentEntity(
+    name: name,
+    eventDate: eventDate,
+    eventType: eventType,
+    id: id,
+  );
 }

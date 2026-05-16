@@ -49,6 +49,14 @@ extension DoubleExtension on double {
 
   /// Scales [componentWidth] relative to the design canvas width.
   double responsiveWidth(double componentWidth) => this * componentWidth / DesignConstants.appWidthByDesign;
+
+  double normalizedSizeWithTextScaler(BuildContext context) {
+    final double textScaler = MediaQuery.textScalerOf(context).scale(1.0);
+    final double normalizedTextScaler = textScaler > DesignConstants.appMaxTextScaler
+        ? DesignConstants.appMaxTextScaler
+        : textScaler;
+    return this * normalizedTextScaler;
+  }
 }
 
 /// Payment scheduling helpers for [DateTime].

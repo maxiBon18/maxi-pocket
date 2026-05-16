@@ -2,7 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/home_entity.dart';
-import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart' show SubscriptionEntity;
+import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart'
+    show SubscriptionEntity;
 import 'package:maxi_pocket/core/domain/services/home_services.dart';
 import 'package:maxi_pocket/core/shared/controllers/di.dart';
 import 'package:maxi_pocket/core/shared/utils/enums.dart';
@@ -52,8 +53,10 @@ class ExpensesNotifier extends AsyncNotifier<HomeEntity> {
   @override
   Future<HomeEntity> build() async {
     try {
-      final List<SubscriptionEntity> subscriptionEntities = await _homeServices.getSubscriptionsData();
-      final List<FinancingEntity> financingEntities = await _homeServices.getFinancingsData();
+      final List<SubscriptionEntity> subscriptionEntities = await _homeServices
+          .getSubscriptionsData();
+      final List<FinancingEntity> financingEntities = await _homeServices
+          .getFinancingsData();
 
       final HomeEntity homeEntities = HomeEntity(
         subscriptionEntity: subscriptionEntities,
@@ -82,25 +85,43 @@ class ExpensesNotifier extends AsyncNotifier<HomeEntity> {
   /// Sums the amounts of all monthly-billed subscriptions in [expensesEntity].
   double getTotalAmountOfMonthlySubscriptions(HomeEntity expensesEntity) {
     return expensesEntity.subscriptionEntity
-        .where((SubscriptionEntity subscription) => subscription.frequency == MaxiPocketExpensesFrequency.monthly)
-        .fold(0, (double sum, SubscriptionEntity subscription) => sum + subscription.amount);
+        .where(
+          (SubscriptionEntity subscription) =>
+              subscription.frequency == MaxiPocketExpensesFrequency.monthly,
+        )
+        .fold(
+          0,
+          (double sum, SubscriptionEntity subscription) =>
+              sum + subscription.amount,
+        );
   }
 
   /// Sums the amounts of all annually-billed subscriptions in [expensesEntity].
   double getTotalAmountOfYearlySubscriptions(HomeEntity expensesEntity) {
     return expensesEntity.subscriptionEntity
-        .where((SubscriptionEntity subscription) => subscription.frequency == MaxiPocketExpensesFrequency.annual)
-        .fold(0, (double sum, SubscriptionEntity subscription) => sum + subscription.amount);
+        .where(
+          (SubscriptionEntity subscription) =>
+              subscription.frequency == MaxiPocketExpensesFrequency.annual,
+        )
+        .fold(
+          0,
+          (double sum, SubscriptionEntity subscription) =>
+              sum + subscription.amount,
+        );
   }
 
   /// Sums the instalment amounts across all financings in [expensesEntity].
   double getTotalAmountOfFinancings(HomeEntity expensesEntity) {
-    return expensesEntity.financingEntity.fold(0, (double sum, FinancingEntity financing) => sum + financing.amount);
+    return expensesEntity.financingEntity.fold(
+      0,
+      (double sum, FinancingEntity financing) => sum + financing.amount,
+    );
   }
 
   /// Returns the combined total of monthly subscriptions and all financing instalments.
   double getTotalAmountOfMonthlyExpenses(HomeEntity expensesEntity) {
-    return getTotalAmountOfMonthlySubscriptions(expensesEntity) + getTotalAmountOfFinancings(expensesEntity);
+    return getTotalAmountOfMonthlySubscriptions(expensesEntity) +
+        getTotalAmountOfFinancings(expensesEntity);
   }
 
   /// Returns the total of annual subscriptions (financings are always monthly).
@@ -109,7 +130,8 @@ class ExpensesNotifier extends AsyncNotifier<HomeEntity> {
   }
 
   void _getTotalNumberOfMonthlyExpenses(HomeEntity expensesEntity) {
-    _numberOfMonthlyExpenses = _numberOfMonthlySubscriptions + _numberOfFinancings;
+    _numberOfMonthlyExpenses =
+        _numberOfMonthlySubscriptions + _numberOfFinancings;
   }
 
   void _getTotalNumberOfYearlyExpenses(HomeEntity expensesEntity) {
@@ -118,13 +140,19 @@ class ExpensesNotifier extends AsyncNotifier<HomeEntity> {
 
   void _getNumberOfMonthlySubscriptions(HomeEntity expensesEntity) {
     _numberOfMonthlySubscriptions = expensesEntity.subscriptionEntity
-        .where((SubscriptionEntity subscription) => subscription.frequency == MaxiPocketExpensesFrequency.monthly)
+        .where(
+          (SubscriptionEntity subscription) =>
+              subscription.frequency == MaxiPocketExpensesFrequency.monthly,
+        )
         .length;
   }
 
   void _getNumberOfYearlySubscriptions(HomeEntity expensesEntity) {
     _numberOfYearlySubscriptions = expensesEntity.subscriptionEntity
-        .where((SubscriptionEntity subscription) => subscription.frequency == MaxiPocketExpensesFrequency.annual)
+        .where(
+          (SubscriptionEntity subscription) =>
+              subscription.frequency == MaxiPocketExpensesFrequency.annual,
+        )
         .length;
   }
 }

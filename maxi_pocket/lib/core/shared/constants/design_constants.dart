@@ -30,6 +30,7 @@ class DesignConstants {
   static const double icon24 = 24.0;
   static const double icon32 = 32.0;
   static const double icon40 = 40.0;
+  static const double icon48 = 48.0;
 
   /// Container Size
   static const double containerSize24 = 24.0;
@@ -104,7 +105,7 @@ class DesignConstants {
   static const double bottomBarBlurRadiusSecond = 17.0;
   static const double bottomBarSpreadRadiusFirst = -1.0;
   static const double bottomBarSpreadRadiusSecond = -7.0;
-  static const double bottomBarShadowOpacity = 0.1;
+  static const double bottomBarShadowOpacity = 0.05;
 
   /// Card
   static const Offset cardOffsetFirst = Offset(0, 10);

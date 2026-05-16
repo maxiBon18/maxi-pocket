@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketThemeMode;
 
 /// A list tile representing a single appointment entry.
 @immutable

@@ -23,7 +23,8 @@ import 'package:maxi_pocket/core/shared/controllers/custom_navigator_observer.da
 class RoutingService {
   final MaxiPocketNavigatorObserver _navigatorObserver;
   final Map<String, WidgetBuilder> _routes;
-  final RouteObserver<ModalRoute<dynamic>> _routeObserver = RouteObserver<ModalRoute<dynamic>>();
+  final RouteObserver<ModalRoute<dynamic>> _routeObserver =
+      RouteObserver<ModalRoute<dynamic>>();
 
   RoutingService(this._navigatorObserver, this._routes);
 
@@ -34,9 +35,15 @@ class RoutingService {
   MaxiPocketNavigatorObserver get navigatorObserver => _navigatorObserver;
 
   /// Returns a platform-specific [Route] wrapping [builder].
-  Route<dynamic> _buildPlatformRoute(RouteSettings settings, WidgetBuilder builder) {
+  Route<dynamic> _buildPlatformRoute(
+    RouteSettings settings,
+    WidgetBuilder builder,
+  ) {
     return switch (defaultTargetPlatform) {
-      TargetPlatform.iOS => CupertinoPageRoute<dynamic>(settings: settings, builder: builder),
+      TargetPlatform.iOS => CupertinoPageRoute<dynamic>(
+        settings: settings,
+        builder: builder,
+      ),
       _ => MaterialPageRoute<dynamic>(settings: settings, builder: builder),
     };
   }
@@ -49,14 +56,20 @@ class RoutingService {
     if (pageBuilder != null) {
       return _buildPlatformRoute(routeSettings, pageBuilder);
     }
-    return _buildPlatformRoute(routeSettings, (BuildContext context) => const MaxiPocketNotFoundPage());
+    return _buildPlatformRoute(
+      routeSettings,
+      (BuildContext context) => const MaxiPocketNotFoundPage(),
+    );
   }
 
   /// Fallback used by [MaterialApp.onUnknownRoute].
   ///
   /// Always renders [MaxiPocketNotFoundPage].
   Route<dynamic> onUnknownRoute(RouteSettings routeSettings) {
-    return _buildPlatformRoute(routeSettings, (BuildContext context) => const MaxiPocketNotFoundPage());
+    return _buildPlatformRoute(
+      routeSettings,
+      (BuildContext context) => const MaxiPocketNotFoundPage(),
+    );
   }
 
   /// Returns the named-route arguments for [routeName] if present.
@@ -66,11 +79,13 @@ class RoutingService {
   /// `Map<String, dynamic>`. Returns `null` when the route is not active
   /// or carries no arguments.
   Map<String, dynamic>? getArgumentsForRoute(String routeName) {
-    final Route<dynamic>? matchingRoute = _navigatorObserver.routesStack.lastWhereOrNull(
-      (Route<dynamic> route) => route.settings.name == routeName,
-    );
+    final Route<dynamic>? matchingRoute = _navigatorObserver.routesStack
+        .lastWhereOrNull(
+          (Route<dynamic> route) => route.settings.name == routeName,
+        );
 
-    if (matchingRoute != null && matchingRoute.settings.arguments is Map<String, dynamic>) {
+    if (matchingRoute != null &&
+        matchingRoute.settings.arguments is Map<String, dynamic>) {
       return matchingRoute.settings.arguments as Map<String, dynamic>;
     }
 

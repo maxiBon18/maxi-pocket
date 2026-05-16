@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show TextInputFormatter;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
@@ -418,6 +419,7 @@ class _MaxiPocketAddExpensesCommonFields extends StatelessWidget {
               : WidgetConstants.addExpensesDate,
           validator: dateValidator,
           hint: WidgetConstants.addExpensesDate,
+          textInputAction: TextInputAction.next,
         ),
       ],
     );
@@ -474,8 +476,9 @@ class _MaxiPocketSubscriptionFields extends StatelessWidget {
       controller: amountController,
       autocorrect: false,
       enableSuggestions: false,
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
       keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
+      inputFormatters: const <TextInputFormatter>[CommaToDotInputFormatter()],
       label: WidgetConstants.addSubscriptionsAmount,
       enabled: true,
       validator: amountValidator,
@@ -519,6 +522,7 @@ class _MaxiPocketFinancingFields extends StatelessWidget {
           enableSuggestions: false,
           textInputAction: TextInputAction.next,
           keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
+          inputFormatters: const <TextInputFormatter>[CommaToDotInputFormatter()],
           label: WidgetConstants.addFinancingAmount,
           enabled: true,
           validator: amountValidator,
@@ -548,7 +552,7 @@ class _MaxiPocketFinancingFields extends StatelessWidget {
           controller: financingPaidInstallmentsController,
           autocorrect: false,
           enableSuggestions: false,
-          textInputAction: TextInputAction.next,
+          textInputAction: TextInputAction.done,
           keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
           label: WidgetConstants.addExpensesFinancingPaidInstallments,
           enabled: true,
@@ -573,7 +577,7 @@ class _MaxiPocketAppointmentFields extends StatelessWidget {
       controller: locationController,
       autocorrect: false,
       enableSuggestions: true,
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
       keyboardType: TextInputType.text,
       label: WidgetConstants.addExpensesAppointmentLocation,
       enabled: true,
@@ -676,7 +680,7 @@ class _MaxiPocketAddExpensesHeaderWidget extends StatelessWidget {
                 style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
               ),
             ),
-            Expanded(child: _MaxiPocketAddExpensesCloseButton(iconColor: _closeIconColor)),
+            _MaxiPocketAddExpensesCloseButton(iconColor: _closeIconColor),
           ],
         ),
       ),

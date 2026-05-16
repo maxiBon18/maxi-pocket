@@ -42,3 +42,18 @@ enum MaxiPocketDialogType {
   /// Dialog presents neutral informational content.
   info,
 }
+
+/// Runtime status of the OS-level notification permission for this app.
+enum MaxiPocketNotificationPermissionState {
+  /// The user has authorised notifications.
+  granted,
+
+  /// The user has explicitly refused the permission request.
+  denied,
+
+  /// Permission was denied and the OS will no longer show a request dialog; the user must navigate to Settings.
+  permanentlyDenied,
+
+  /// The permission has not been requested yet.
+  notDetermined,
+}

@@ -18,7 +18,11 @@ class AppInfoSourceImpl implements AppInfoSource {
         buildNumber: packageInfo.buildNumber,
       );
     } on PlatformException catch (e, st) {
-      getDI<Logger>().e('Failed to read package info from platform.', error: e, stackTrace: st);
+      getDI<Logger>().e(
+        'Failed to read package info from platform.',
+        error: e,
+        stackTrace: st,
+      );
       rethrow;
     }
   }

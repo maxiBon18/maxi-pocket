@@ -19,23 +19,32 @@ class SharedPrefAsyncService {
 
   const SharedPrefAsyncService(this._sharedPrefAsyncRepo);
 
-  Future<String?> getStringAsync(String key) async => await _sharedPrefAsyncRepo.getStringAsync(key);
-  Future<int?> getIntAsync(String key) async => await _sharedPrefAsyncRepo.getIntAsync(key);
-  Future<double?> getDoubleAsync(String key) async => await _sharedPrefAsyncRepo.getDoubleAsync(key);
-  Future<bool?> getBoolAsync(String key) async => await _sharedPrefAsyncRepo.getBoolAsync(key);
-  Future<List<String>?> getStringListAsync(String key) async => await _sharedPrefAsyncRepo.getStringListAsync(key);
-  Future<Map<String, Object?>> getAllAsync() async => await _sharedPrefAsyncRepo.getAllAsync();
-  Future<Set<String>> getKeysAsync() async => await _sharedPrefAsyncRepo.getKeysAsync();
+  Future<String?> getStringAsync(String key) =>
+      _sharedPrefAsyncRepo.getStringAsync(key);
+  Future<int?> getIntAsync(String key) => _sharedPrefAsyncRepo.getIntAsync(key);
+  Future<double?> getDoubleAsync(String key) =>
+      _sharedPrefAsyncRepo.getDoubleAsync(key);
+  Future<bool?> getBoolAsync(String key) =>
+      _sharedPrefAsyncRepo.getBoolAsync(key);
+  Future<List<String>?> getStringListAsync(String key) =>
+      _sharedPrefAsyncRepo.getStringListAsync(key);
+  Future<Map<String, Object?>> getAllAsync() =>
+      _sharedPrefAsyncRepo.getAllAsync();
+  Future<Set<String>> getKeysAsync() => _sharedPrefAsyncRepo.getKeysAsync();
 
-  Future<void> setStringAsync(String key, String value) async => await _sharedPrefAsyncRepo.setStringAsync(key, value);
-  Future<void> setIntAsync(String key, int value) async => await _sharedPrefAsyncRepo.setIntAsync(key, value);
-  Future<void> setDoubleAsync(String key, double value) async => await _sharedPrefAsyncRepo.setDoubleAsync(key, value);
-  Future<void> setBoolAsync(String key, bool value) async => await _sharedPrefAsyncRepo.setBoolAsync(key, value);
-  Future<void> setStringListAsync(String key, List<String> value) async =>
-      await _sharedPrefAsyncRepo.setStringListAsync(key, value);
+  Future<void> setStringAsync(String key, String value) =>
+      _sharedPrefAsyncRepo.setStringAsync(key, value);
+  Future<void> setIntAsync(String key, int value) =>
+      _sharedPrefAsyncRepo.setIntAsync(key, value);
+  Future<void> setDoubleAsync(String key, double value) =>
+      _sharedPrefAsyncRepo.setDoubleAsync(key, value);
+  Future<void> setBoolAsync(String key, bool value) =>
+      _sharedPrefAsyncRepo.setBoolAsync(key, value);
+  Future<void> setStringListAsync(String key, List<String> value) =>
+      _sharedPrefAsyncRepo.setStringListAsync(key, value);
 
-  Future<void> removeAsync(String key) async => await _sharedPrefAsyncRepo.removeAsync(key);
-  Future<void> clearAsync() async => await _sharedPrefAsyncRepo.clearAsync();
+  Future<void> removeAsync(String key) => _sharedPrefAsyncRepo.removeAsync(key);
+  Future<void> clearAsync() => _sharedPrefAsyncRepo.clearAsync();
 }
 
 /// Domain-facing API for cached preference reads, implementing [SharedPrefWithCacheRepo].
@@ -43,52 +52,46 @@ class SharedPrefAsyncService {
 /// Exposes the same operations as the repository so callers can treat the
 /// service as the abstraction. Prefer this in composition roots that already
 /// provide a [SharedPrefWithCacheRepo] implementation.
-class SharedPrefWithCacheService implements SharedPrefWithCacheRepo {
+class SharedPrefWithCacheService {
   final SharedPrefWithCacheRepo _sharedPrefWithCacheRepo;
 
   const SharedPrefWithCacheService(this._sharedPrefWithCacheRepo);
 
-  @override
-  String? getStringWithCache(String key) => _sharedPrefWithCacheRepo.getStringWithCache(key);
+  String? getStringWithCache(String key) =>
+      _sharedPrefWithCacheRepo.getStringWithCache(key);
 
-  @override
-  int? getIntWithCache(String key) => _sharedPrefWithCacheRepo.getIntWithCache(key);
+  int? getIntWithCache(String key) =>
+      _sharedPrefWithCacheRepo.getIntWithCache(key);
 
-  @override
-  double? getDoubleWithCache(String key) => _sharedPrefWithCacheRepo.getDoubleWithCache(key);
+  double? getDoubleWithCache(String key) =>
+      _sharedPrefWithCacheRepo.getDoubleWithCache(key);
 
-  @override
-  bool? getBoolWithCache(String key) => _sharedPrefWithCacheRepo.getBoolWithCache(key);
+  bool? getBoolWithCache(String key) =>
+      _sharedPrefWithCacheRepo.getBoolWithCache(key);
 
-  @override
-  List<String>? getStringListWithCache(String key) => _sharedPrefWithCacheRepo.getStringListWithCache(key);
+  List<String>? getStringListWithCache(String key) =>
+      _sharedPrefWithCacheRepo.getStringListWithCache(key);
 
-  @override
-  Object? getValueWithCache(String key) => _sharedPrefWithCacheRepo.getValueWithCache(key);
+  Object? getValueWithCache(String key) =>
+      _sharedPrefWithCacheRepo.getValueWithCache(key);
 
-  @override
-  Future<void> setStringWithCache(String key, String value) async =>
-      await _sharedPrefWithCacheRepo.setStringWithCache(key, value);
+  Future<void> setStringWithCache(String key, String value) =>
+      _sharedPrefWithCacheRepo.setStringWithCache(key, value);
 
-  @override
-  Future<void> setIntWithCache(String key, int value) async =>
-      await _sharedPrefWithCacheRepo.setIntWithCache(key, value);
+  Future<void> setIntWithCache(String key, int value) =>
+      _sharedPrefWithCacheRepo.setIntWithCache(key, value);
 
-  @override
-  Future<void> setDoubleWithCache(String key, double value) async =>
-      await _sharedPrefWithCacheRepo.setDoubleWithCache(key, value);
+  Future<void> setDoubleWithCache(String key, double value) =>
+      _sharedPrefWithCacheRepo.setDoubleWithCache(key, value);
 
-  @override
-  Future<void> setBoolWithCache(String key, bool value) async =>
-      await _sharedPrefWithCacheRepo.setBoolWithCache(key, value);
+  Future<void> setBoolWithCache(String key, bool value) =>
+      _sharedPrefWithCacheRepo.setBoolWithCache(key, value);
 
-  @override
-  Future<void> setStringListWithCache(String key, List<String> value) async =>
-      await _sharedPrefWithCacheRepo.setStringListWithCache(key, value);
+  Future<void> setStringListWithCache(String key, List<String> value) =>
+      _sharedPrefWithCacheRepo.setStringListWithCache(key, value);
 
-  @override
-  Future<void> removeWithCache(String key) async => await _sharedPrefWithCacheRepo.removeWithCache(key);
+  Future<void> removeWithCache(String key) =>
+      _sharedPrefWithCacheRepo.removeWithCache(key);
 
-  @override
-  Future<void> clearWithCache() async => await _sharedPrefWithCacheRepo.clearWithCache();
+  Future<void> clear() => _sharedPrefWithCacheRepo.clearWithCache();
 }
