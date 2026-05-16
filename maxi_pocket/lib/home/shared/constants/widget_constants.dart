@@ -38,17 +38,17 @@ class HomeWidgetConstants {
   /// Template for the next-payment label shown on expense tiles.
   static const String nextExpenses = 'Prossimo Pagamento: \${nextPaymentDate}';
 
-  // TODO: replace with ViewModel-provided data.
-  static const String expenseTitlePlaceholder = 'Netflix';
-  static const String expenseAmountPlaceholder = '\$100';
-  static const String expenseTypePlaceholder = 'Subscription';
-
   /// Title shown in the full-screen error state on the home page.
   static const String errorPlaceholderTitle = 'Oops!';
 
   /// Description shown below the error title on the home page.
-  static const String errorPlaceholderDescription = 'Qualcosa è andato storto, riprova più tardi.';
+  static const String errorPlaceholderDescription =
+      'Qualcosa è andato storto, riprova più tardi.';
 
   /// Message shown in the empty-state view when there are no expenses to display.
   static const String emptyDataTitle = 'Non ci sono spese da mostrare';
+
+  /// Message shown in the empty-state view when there are no appointments to display.
+  static const String emptyAppointmentsTitle =
+      'Non ci sono appuntamenti da mostrare';
 }

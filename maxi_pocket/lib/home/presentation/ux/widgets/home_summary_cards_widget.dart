@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors;
-import 'package:maxi_pocket/core/presentation/ux/widgets/card_widget.dart' show MaxiPocketSummaryCardWidget;
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
-import 'package:maxi_pocket/core/shared/constants/widget_constants.dart' show WidgetConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
-import 'package:maxi_pocket/home/shared/constants/widget_constants.dart' show HomeWidgetConstants;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeLightColors;
+import 'package:maxi_pocket/core/presentation/ux/widgets/card_widget.dart'
+    show MaxiPocketSummaryCardWidget;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
+import 'package:maxi_pocket/core/shared/constants/widget_constants.dart'
+    show WidgetConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketThemeMode;
+import 'package:maxi_pocket/home/shared/constants/widget_constants.dart'
+    show HomeWidgetConstants;
 
 /// A side-by-side pair of summary cards showing weekly and monthly expense totals.
 ///
@@ -32,8 +38,10 @@ class MaxiPocketHomeSummaryCardsWidget extends StatelessWidget {
   final double weeklyAmount;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
         Expanded(
           child: MaxiPocketSummaryCardWidget(
             themeMode: themeMode,
@@ -55,10 +63,14 @@ class MaxiPocketHomeSummaryCardsWidget extends StatelessWidget {
                 : '${monthlyAmount.toStringAsFixed(2)} ${WidgetConstants.currencySymbol}',
             subtitle: HomeWidgetConstants.monthlyCardSubtitle,
             iconData: Icons.calendar_month_outlined,
-            colorsGradient: const <Color>[ThemeLightColors.tertiaryColor, ThemeLightColors.cardGradientColor1],
+            colorsGradient: const <Color>[
+              ThemeLightColors.tertiaryColor,
+              ThemeLightColors.cardGradientColor1,
+            ],
           ),
         ),
       ],
+      ),
     );
   }
 }

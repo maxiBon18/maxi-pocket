@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show TextInputFormatter;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
@@ -340,8 +341,7 @@ class _MaxiPocketEditExpensesFormContent extends StatelessWidget {
               installmentsController: financingInstallmentsController,
               paidInstallmentsController: financingPaidInstallmentsController,
             ),
-          if (entity is AppointmentEntity)
-            _LocationField(themeMode: themeMode, controller: locationController),
+          if (entity is AppointmentEntity) _LocationField(themeMode: themeMode, controller: locationController),
           _MaxiPocketEditExpensesSubmitButton(
             themeMode: themeMode,
             entity: entity,
@@ -415,6 +415,7 @@ class _AmountField extends StatelessWidget {
       label: entity is FinancingEntity ? WidgetConstants.addFinancingAmount : WidgetConstants.addSubscriptionsAmount,
       enabled: true,
       validator: amountValidator,
+      inputFormatters: const <TextInputFormatter>[CommaToDotInputFormatter()],
       suffixIcon: Icon(
         Icons.euro_outlined,
         color: themeMode == MaxiPocketThemeMode.light
@@ -537,9 +538,7 @@ class _MaxiPocketEditExpensesSubmitButton extends ConsumerWidget {
     getDI<LoadingViewmodel>().showLoading(context: context);
     final Set<FormFieldState<Object?>>? validateFields = formKey.currentState?.validateGranularly();
     if (validateFields != null && validateFields.isEmpty) {
-      await ref
-          .read(fabViewmodelProvider.notifier)
-          .updateCommitment(commonId: commonId, object: getUpdatedEntity());
+      await ref.read(fabViewmodelProvider.notifier).updateCommitment(commonId: commonId, object: getUpdatedEntity());
       if (context.mounted) {
         if (ref.read(fabViewmodelProvider).hasValue) {
           onSuccess();
@@ -587,11 +586,7 @@ Future<void> showEditExpensesBottomSheet(
     backgroundColor: Colors.transparent,
     barrierColor: barrierColor.withValues(alpha: DesignConstants.alpha50),
     elevation: DesignConstants.elevation5,
-    builder: (BuildContext context) => MaxiPocketEditExpensesWidget(
-      themeMode: themeMode,
-      entity: entity,
-      commonId: commonId,
-      onSuccess: onSuccess,
-    ),
+    builder: (BuildContext context) =>
+        MaxiPocketEditExpensesWidget(themeMode: themeMode, entity: entity, commonId: commonId, onSuccess: onSuccess),
   );
 }

@@ -88,11 +88,12 @@ class MaxiPocketBadgeWidget extends StatelessWidget {
         shape: BoxShape.rectangle,
         borderRadius: const BorderRadius.all(Radius.circular(DesignConstants.radius40)),
       ),
-      height: screenHeight.responsiveHeight(DesignConstants.containerSize24),
+      height: screenHeight.responsiveHeight(DesignConstants.containerSize24).normalizedSizeWithTextScaler(context),
       child: Text(
         label,
         style: context.textTheme.labelMedium?.copyWith(color: _getTextColor()),
         textAlign: .center,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

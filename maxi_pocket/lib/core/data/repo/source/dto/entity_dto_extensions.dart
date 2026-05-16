@@ -10,13 +10,19 @@ import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart';
 /// Converts [ExpenseCommitmentEntity] to its Drift-compatible DTO.
 extension ExpenseCommitmentEntityExtension on ExpenseCommitmentEntity {
   /// Maps this entity to an [ExpenseDbDto] for database persistence.
-  ExpenseDbDto toDto() => ExpenseDbDto(name: name, eventDate: eventDate, eventType: eventType);
+  ExpenseDbDto toDto() => ExpenseDbDto(
+    name: name,
+    eventDate: eventDate,
+    eventType: eventType,
+    id: id,
+  );
 }
 
 /// Converts [AppointmentEntity] to its Drift-compatible DTO.
 extension AppointmentEntityExtension on AppointmentEntity {
   /// Maps this entity to an [AppointmentDto] for database persistence.
-  AppointmentDto toDto() => AppointmentDto(expense: commitmentEntity.toDto(), location: location);
+  AppointmentDto toDto() =>
+      AppointmentDto(expense: commitmentEntity.toDto(), location: location);
 }
 
 /// Converts [SubscriptionEntity] to its Drift-compatible DTO.

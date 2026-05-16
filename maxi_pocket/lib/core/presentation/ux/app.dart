@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/core/presentation/ux/routing_service.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show darkAppTheme, lightAppTheme;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show darkAppTheme, lightAppTheme;
 import 'package:maxi_pocket/core/presentation/ux/widgets/custom_text_scaling_widget.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart';
 import 'package:maxi_pocket/core/shared/constants/app_constants.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
 import 'package:maxi_pocket/core/shared/controllers/di.dart';
 import 'package:maxi_pocket/core/shared/utils/enums.dart';
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
@@ -50,16 +52,25 @@ class _MaxiPocketAppConsumerState extends ConsumerState<MaxiPocketApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const <Locale>[AppConstants.appLocale],
-      navigatorObservers: <NavigatorObserver>[_routingService.navigatorObserver, _routingService.routeObserver],
-      onGenerateRoute: (RouteSettings routeSettings) => _routingService.onGenerateRoute(routeSettings),
-      onUnknownRoute: (RouteSettings routeSettings) => _routingService.onUnknownRoute(routeSettings),
+      navigatorObservers: <NavigatorObserver>[
+        _routingService.navigatorObserver,
+        _routingService.routeObserver,
+      ],
+      onGenerateRoute: (RouteSettings routeSettings) =>
+          _routingService.onGenerateRoute(routeSettings),
+      onUnknownRoute: (RouteSettings routeSettings) =>
+          _routingService.onUnknownRoute(routeSettings),
       initialRoute: Routes.initialRoute,
       builder: (BuildContext context, Widget? child) {
         return MaxiPocketCustomTextScaling(
           maxTextScalerValue: DesignConstants.appMaxTextScaler,
           blockText: false,
           child: Overlay(
-            initialEntries: <OverlayEntry>[OverlayEntry(builder: (BuildContext context) => child ?? const SizedBox())],
+            initialEntries: <OverlayEntry>[
+              OverlayEntry(
+                builder: (BuildContext context) => child ?? const SizedBox(),
+              ),
+            ],
           ),
         );
       },

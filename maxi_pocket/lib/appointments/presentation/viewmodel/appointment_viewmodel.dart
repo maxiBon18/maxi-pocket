@@ -10,17 +10,18 @@ import 'package:maxi_pocket/core/shared/controllers/di.dart';
 ///
 /// Retry is disabled because a failed read must surface as an error state rather
 /// than silently loop. Auto-dispose frees the state when no expense page is active.
-final AsyncNotifierProvider<AppointmentsNotifier, List<AppointmentEntity>> appointmentProvider =
+final AsyncNotifierProvider<AppointmentsNotifier, List<AppointmentEntity>>
+appointmentProvider =
     AsyncNotifierProvider<AppointmentsNotifier, List<AppointmentEntity>>(
       AppointmentsNotifier.new,
       retry: (int retryCount, Object error) => null,
       isAutoDispose: true,
     );
 
-/// Loads all subscriptions and financings and exposes per-frequency aggregates.
+/// Loads all upcoming appointments and exposes them as an [AsyncValue] list.
 ///
-/// On [build], fetches the full dataset, counts monthly and yearly items, and
-/// throws [NullOrEmptyExpensesExceptions] when no data is available so the UI
+/// On [build], fetches the full appointment dataset and throws
+/// [NullOrEmptyAppointmentsExceptions] when the list is empty so the UI
 /// can show the appropriate empty-state widget.
 class AppointmentsNotifier extends AsyncNotifier<List<AppointmentEntity>> {
   final Logger _logger = getDI<Logger>();

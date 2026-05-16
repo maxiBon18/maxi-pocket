@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart' show CommitmentsEntity, WrapperCommitmentsEntity;
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeTextStyles, ThemeDarkColors;
+import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart'
+    show CommitmentsEntity, WrapperCommitmentsEntity;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeLightColors, ThemeTextStyles, ThemeDarkColors;
 import 'package:maxi_pocket/core/presentation/ux/pages/section_page.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode, MaxiPocketExpensesFrequency;
-import 'package:maxi_pocket/core/shared/utils/helpers_method.dart' show getSpecificFrequencyWrapperCommitments;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketThemeMode, MaxiPocketExpensesFrequency;
+import 'package:maxi_pocket/core/shared/utils/helpers_method.dart'
+    show getSpecificFrequencyWrapperCommitments;
 import 'package:maxi_pocket/expenses/shared/constants/expenses_constants.dart';
 import 'package:maxi_pocket/expenses/shared/constants/widget_constants.dart';
 
@@ -35,15 +40,20 @@ class MaxiPocketTabBarExpensesWidget extends StatefulWidget {
   final void Function(CommitmentsEntity entity)? onDelete;
 
   @override
-  State<MaxiPocketTabBarExpensesWidget> createState() => _MaxiPocketTabBarExpensesWidgetState();
+  State<MaxiPocketTabBarExpensesWidget> createState() =>
+      _MaxiPocketTabBarExpensesWidgetState();
 }
 
-class _MaxiPocketTabBarExpensesWidgetState extends State<MaxiPocketTabBarExpensesWidget>
+class _MaxiPocketTabBarExpensesWidgetState
+    extends State<MaxiPocketTabBarExpensesWidget>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   @override
   void initState() {
-    _tabController = TabController(length: ExpensesConstants.numberOfTabs, vsync: this);
+    _tabController = TabController(
+      length: ExpensesConstants.numberOfTabs,
+      vsync: this,
+    );
     super.initState();
   }
 
@@ -55,8 +65,14 @@ class _MaxiPocketTabBarExpensesWidgetState extends State<MaxiPocketTabBarExpense
 
   /// Builds tab labels with [numberOfExpenses] appended in parentheses.
   List<Tab> _getTabs() => <Tab>[
-    Tab(text: '${ExpensesWidgetConstants.monthlyExpenses} (${widget.numberOfMonthlyExpenses})'),
-    Tab(text: '${ExpensesWidgetConstants.yearlyExpenses} (${widget.numberOfYearlyExpenses})'),
+    Tab(
+      text:
+          '${ExpensesWidgetConstants.monthlyExpenses} (${widget.numberOfMonthlyExpenses})',
+    ),
+    Tab(
+      text:
+          '${ExpensesWidgetConstants.yearlyExpenses} (${widget.numberOfYearlyExpenses})',
+    ),
   ];
 
   @override

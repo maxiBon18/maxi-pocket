@@ -88,13 +88,16 @@ class MaxiPocketFinancingPage extends ConsumerWidget {
       showBottomBar: true,
       title: MaxiPocketAppBarTitle(title: ExpensesWidgetConstants.financingsTitle, themeMode: themeMode),
       child: expenses.when(
-        data: (HomeEntity data) => MaxiPocketSectionPage(
-          themeMode: themeMode,
-          totalAmountOfExpense: ref.read(expensesrProvider.notifier).getTotalAmountOfFinancings(data),
-          numberOfExpenses: ref.read(expensesrProvider.notifier).numberOfFinancings,
-          entityToShow: getHomeWrapperCommitments(data, MaxiPocketExpensesType.financing),
-          onEdit: (CommitmentsEntity entity) => _onEdit(context, ref, entity),
-          onDelete: (CommitmentsEntity entity) => _onDelete(context, ref, entity),
+        data: (HomeEntity data) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: DesignConstants.spacing16),
+          child: MaxiPocketSectionPage(
+            themeMode: themeMode,
+            totalAmountOfExpense: ref.read(expensesrProvider.notifier).getTotalAmountOfFinancings(data),
+            numberOfExpenses: ref.read(expensesrProvider.notifier).numberOfFinancings,
+            entityToShow: getHomeWrapperCommitments(data, MaxiPocketExpensesType.financing),
+            onEdit: (CommitmentsEntity entity) => _onEdit(context, ref, entity),
+            onDelete: (CommitmentsEntity entity) => _onDelete(context, ref, entity),
+          ),
         ),
         loading: () => const Center(child: MaxiPocketLoadingWidget()),
         error: (Object error, StackTrace stackTrace) => error is ErrorRetrievingExpensesExceptions

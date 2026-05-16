@@ -1,7 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import 'package:maxi_pocket/core/shared/constants/app_constants.dart' show AppConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesFrequency, MaxiPocketExpensesType;
+import 'package:maxi_pocket/core/shared/constants/app_constants.dart'
+    show AppConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketExpensesFrequency, MaxiPocketExpensesType;
 import 'package:path_provider/path_provider.dart';
 import 'package:maxi_pocket/core/data/repo/source/dto/table/data_table.dart';
 
@@ -10,9 +12,17 @@ part 'database_source_impl.g.dart';
 /// Drift database that owns all expense-related tables.
 ///
 /// Registered as a singleton in DI and injected into [ExpensesDbSourceImpl].
-@DriftDatabase(tables: <Type>[CommonDataTable, FinancingTable, SubscriptionsTable, AppointmentsTable])
+@DriftDatabase(
+  tables: <Type>[
+    CommonDataTable,
+    FinancingTable,
+    SubscriptionsTable,
+    AppointmentsTable,
+  ],
+)
 class MaxiPocketDatabase extends _$MaxiPocketDatabase {
-  MaxiPocketDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
+  MaxiPocketDatabase([QueryExecutor? executor])
+    : super(executor ?? _openConnection());
 
   @override
   int get schemaVersion => 3;
@@ -52,7 +62,9 @@ class MaxiPocketDatabase extends _$MaxiPocketDatabase {
   static QueryExecutor _openConnection() {
     return driftDatabase(
       name: AppConstants.databaseName,
-      native: const DriftNativeOptions(databaseDirectory: getApplicationSupportDirectory),
+      native: const DriftNativeOptions(
+        databaseDirectory: getApplicationSupportDirectory,
+      ),
     );
   }
 }

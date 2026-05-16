@@ -22,7 +22,10 @@ class ErrorRetrievingAppointmentsExceptions implements Exception {
   final Object error;
   final StackTrace stackTrace;
 
-  ErrorRetrievingAppointmentsExceptions({required this.error, required this.stackTrace});
+  ErrorRetrievingAppointmentsExceptions({
+    required this.error,
+    required this.stackTrace,
+  });
 
   @override
   String toString() {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/shared/constants/assets_constants.dart' show AssetsConstants;
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/shared/constants/assets_constants.dart'
+    show AssetsConstants;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
 
 /// Displays the empty-data GIF with soft faded edges via a radial gradient mask.
 class MaxiPocketEmptyDataImageWidget extends StatelessWidget {

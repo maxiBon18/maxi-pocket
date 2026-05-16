@@ -11,7 +11,12 @@ class AppInfo {
   final String? packageName;
   final String? appName;
 
-  const AppInfo({this.version, this.buildNumber, this.packageName, this.appName});
+  const AppInfo({
+    this.version,
+    this.buildNumber,
+    this.packageName,
+    this.appName,
+  });
 
   @override
   String toString() {

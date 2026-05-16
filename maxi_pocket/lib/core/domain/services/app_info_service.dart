@@ -7,5 +7,6 @@ class AppInfoService {
 
   const AppInfoService(this._appInfoRepo);
 
+  /// Retrieves the current application version and build metadata from the device.
   Future<AppInfo> getAppInfo() => _appInfoRepo.getAppInfo();
 }

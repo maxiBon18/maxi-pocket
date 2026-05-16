@@ -9,9 +9,20 @@ part 'app_info_dto.g.dart';
 abstract class AppInfoDto with _$AppInfoDto {
   const AppInfoDto._();
 
-  const factory AppInfoDto({String? buildNumber, String? version, String? appName, String? packageName}) = _AppInfoDto;
+  const factory AppInfoDto({
+    String? buildNumber,
+    String? version,
+    String? appName,
+    String? packageName,
+  }) = _AppInfoDto;
 
-  factory AppInfoDto.fromJson(Map<String, Object?> json) => _$AppInfoDtoFromJson(json);
+  factory AppInfoDto.fromJson(Map<String, Object?> json) =>
+      _$AppInfoDtoFromJson(json);
 
-  AppInfo toEntity() => AppInfo(buildNumber: buildNumber, version: version, appName: appName, packageName: packageName);
+  AppInfo toEntity() => AppInfo(
+    buildNumber: buildNumber,
+    version: version,
+    appName: appName,
+    packageName: packageName,
+  );
 }

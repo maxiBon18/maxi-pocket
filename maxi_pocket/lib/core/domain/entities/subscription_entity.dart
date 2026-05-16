@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesFrequency;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketExpensesFrequency;
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
 
 /// Domain entity representing a recurring subscription expense.

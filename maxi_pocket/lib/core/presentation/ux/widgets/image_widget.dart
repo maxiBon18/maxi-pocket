@@ -90,7 +90,10 @@ class MaxiPocketImage extends StatelessWidget {
       child: GestureDetector(
         onTap: onPressed,
         child: borderRadius != null
-            ? ClipRRect(borderRadius: BorderRadius.circular(borderRadius!), child: imageWidget)
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(borderRadius!),
+                child: imageWidget,
+              )
             : imageWidget,
       ),
     );

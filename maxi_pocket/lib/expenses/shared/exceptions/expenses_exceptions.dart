@@ -22,7 +22,10 @@ class ErrorRetrievingExpensesExceptions implements Exception {
   final Object error;
   final StackTrace stackTrace;
 
-  ErrorRetrievingExpensesExceptions({required this.error, required this.stackTrace});
+  ErrorRetrievingExpensesExceptions({
+    required this.error,
+    required this.stackTrace,
+  });
 
   @override
   String toString() {

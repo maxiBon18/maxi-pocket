@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors;
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeLightColors;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
 
 /// A fixed-size circular progress indicator using the primary brand colour.
 class MaxiPocketLoadingWidget extends StatelessWidget {
@@ -25,7 +27,9 @@ class MaxiPocketSplashLoadingWidget extends StatelessWidget {
     return const SizedBox(
       height: DesignConstants.loadingSize,
       width: DesignConstants.loadingSize,
-      child: CircularProgressIndicator(color: ThemeLightColors.onSurfaceVariantColor),
+      child: CircularProgressIndicator(
+        color: ThemeLightColors.onSurfaceVariantColor,
+      ),
     );
   }
 }

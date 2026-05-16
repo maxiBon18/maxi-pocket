@@ -33,17 +33,14 @@ class MaxiPocketSectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: DesignConstants.spacing16),
-      child: Padding(
-        padding: const EdgeInsets.all(DesignConstants.spacing16),
-        child: _MaxiPocketSectionContent(
-          themeMode: themeMode,
-          isAppointment: isAppointment,
-          totalAmountOfExpense: totalAmountOfExpense,
-          numberOfCommitments: numberOfExpenses,
-          entityToShow: entityToShow,
-          onEdit: onEdit,
-          onDelete: onDelete,
-        ),
+      child: _MaxiPocketSectionContent(
+        themeMode: themeMode,
+        isAppointment: isAppointment,
+        totalAmountOfExpense: totalAmountOfExpense,
+        numberOfCommitments: numberOfExpenses,
+        entityToShow: entityToShow,
+        onEdit: onEdit,
+        onDelete: onDelete,
       ),
     );
   }

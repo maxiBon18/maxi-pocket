@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketThemeMode;
 
 /// Wraps [child] in a [DecoratedBox] with a themed top border and outer drop shadows.
 class MaxiPocketBoxDecorationWidget extends StatelessWidget {
@@ -21,7 +22,11 @@ class MaxiPocketBoxDecorationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(borderRadius: borderRadius, border: border, boxShadow: boxShadows),
+      decoration: BoxDecoration(
+        borderRadius: borderRadius,
+        border: border,
+        boxShadow: boxShadows,
+      ),
       child: child,
     );
   }

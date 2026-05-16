@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show TextInputFormatter;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
@@ -24,9 +25,9 @@ import 'package:maxi_pocket/core/shared/utils/helpers_method.dart';
 
 /// The bottom-sheet container for adding a new expense.
 ///
-/// Bottom padding grows by [keyboardHeight] so the sheet shifts up when the
-/// keyboard appears, keeping all form fields visible. Requires the bottom
-/// sheet to be opened with [isScrollControlled] set to true.
+/// Bottom padding uses the keyboard height when the keyboard is visible, or the
+/// system navigation bar inset otherwise, keeping form fields above system UI.
+/// Requires the bottom sheet to be opened with [isScrollControlled] set to true.
 class MaxiPocketAddExpensesWidget extends StatelessWidget {
   const MaxiPocketAddExpensesWidget({required this.themeMode, super.key});
 
@@ -52,11 +53,11 @@ class MaxiPocketAddExpensesWidget extends StatelessWidget {
     color: _backgroundColor,
   );
 
-  EdgeInsets _sheetPadding(double keyboardHeight) => EdgeInsets.only(
+  EdgeInsets _sheetPadding(double bottomPadding) => EdgeInsets.only(
     left: DesignConstants.spacing16,
     right: DesignConstants.spacing16,
     top: DesignConstants.spacing16,
-    bottom: DesignConstants.spacing16 + keyboardHeight,
+    bottom: DesignConstants.spacing16 + bottomPadding,
   );
 
   @override
@@ -64,8 +65,10 @@ class MaxiPocketAddExpensesWidget extends StatelessWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double modalHeight = screenHeight.responsiveHeight(DesignConstants.modalHeight);
     final double keyboardHeight = MediaQuery.viewInsetsOf(context).bottom;
+    final double bottomInset = MediaQuery.viewPaddingOf(context).bottom;
+    final double effectiveBottomPadding = keyboardHeight > 0.0 ? keyboardHeight : bottomInset;
     return Container(
-      padding: _sheetPadding(keyboardHeight),
+      padding: _sheetPadding(effectiveBottomPadding),
       height: modalHeight,
       width: double.infinity,
       decoration: _sheetDecoration,
@@ -418,6 +421,7 @@ class _MaxiPocketAddExpensesCommonFields extends StatelessWidget {
               : WidgetConstants.addExpensesDate,
           validator: dateValidator,
           hint: WidgetConstants.addExpensesDate,
+          textInputAction: TextInputAction.next,
         ),
       ],
     );
@@ -474,8 +478,9 @@ class _MaxiPocketSubscriptionFields extends StatelessWidget {
       controller: amountController,
       autocorrect: false,
       enableSuggestions: false,
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
       keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
+      inputFormatters: const <TextInputFormatter>[CommaToDotInputFormatter()],
       label: WidgetConstants.addSubscriptionsAmount,
       enabled: true,
       validator: amountValidator,
@@ -519,6 +524,7 @@ class _MaxiPocketFinancingFields extends StatelessWidget {
           enableSuggestions: false,
           textInputAction: TextInputAction.next,
           keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
+          inputFormatters: const <TextInputFormatter>[CommaToDotInputFormatter()],
           label: WidgetConstants.addFinancingAmount,
           enabled: true,
           validator: amountValidator,
@@ -548,7 +554,7 @@ class _MaxiPocketFinancingFields extends StatelessWidget {
           controller: financingPaidInstallmentsController,
           autocorrect: false,
           enableSuggestions: false,
-          textInputAction: TextInputAction.next,
+          textInputAction: TextInputAction.done,
           keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
           label: WidgetConstants.addExpensesFinancingPaidInstallments,
           enabled: true,
@@ -573,7 +579,7 @@ class _MaxiPocketAppointmentFields extends StatelessWidget {
       controller: locationController,
       autocorrect: false,
       enableSuggestions: true,
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
       keyboardType: TextInputType.text,
       label: WidgetConstants.addExpensesAppointmentLocation,
       enabled: true,
@@ -676,7 +682,7 @@ class _MaxiPocketAddExpensesHeaderWidget extends StatelessWidget {
                 style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
               ),
             ),
-            Expanded(child: _MaxiPocketAddExpensesCloseButton(iconColor: _closeIconColor)),
+            _MaxiPocketAddExpensesCloseButton(iconColor: _closeIconColor),
           ],
         ),
       ),

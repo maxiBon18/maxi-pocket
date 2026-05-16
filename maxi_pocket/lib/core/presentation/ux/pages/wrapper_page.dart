@@ -45,6 +45,11 @@ class MaxiPocketPage extends ConsumerWidget {
     this.bottomSafeArea = true,
     this.backgroundColor,
     this.showFloatingActionButton = false,
+    this.onDetached,
+    this.onResumed,
+    this.onInactive,
+    this.onHidden,
+    this.onPaused,
   });
 
   final Widget? child;
@@ -58,6 +63,7 @@ class MaxiPocketPage extends ConsumerWidget {
   /// Route name used by [LifecyclePage] for logging and analytics.
   final String routeName;
 
+  /// Whether the [AppBar] is rendered; set to `false` for full-screen or branded pages.
   final bool showAppBar;
 
   /// Forwarded to [Scaffold.resizeToAvoidBottomInset].
@@ -69,6 +75,7 @@ class MaxiPocketPage extends ConsumerWidget {
   /// When `false`, the system back gesture is blocked entirely.
   final bool allowBack;
 
+  /// Whether the leading slot of the app bar is rendered.
   final bool showLeading;
 
   /// Forwarded to [AppBar.automaticallyImplyLeading].
@@ -101,19 +108,43 @@ class MaxiPocketPage extends ConsumerWidget {
   /// Forwarded to [Scaffold.backgroundColor].
   final Color? backgroundColor;
 
+  /// Whether the persistent bottom navigation bar is rendered.
   final bool showBottomBar;
 
+  /// Widget placed in the [AppBar] title slot; use [MaxiPocketAppBarTitle] for branded titles.
   final Widget? title;
 
+  /// When `true` the leading widget renders a back button; when `false` [leading] is used instead.
   final bool leadingIsBackButton;
 
+  /// Whether the floating action button is shown; position is fixed to [FloatingActionButtonLocation.endFloat].
   final bool showFloatingActionButton;
+
+  /// Called when the app is detached from the UI engine.
+  final VoidCallback? onDetached;
+
+  /// Called when the app returns to the foreground and regains focus.
+  final VoidCallback? onResumed;
+
+  /// Called when the app loses focus but remains visible.
+  final VoidCallback? onInactive;
+
+  /// Called when the app is hidden but not yet paused.
+  final VoidCallback? onHidden;
+
+  /// Called when the app is paused (moved to background).
+  final VoidCallback? onPaused;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MaxiPocketThemeMode themeMode = ref.watch(themeProvider);
     final double screenHeight = MediaQuery.of(context).size.height;
     return LifecyclePage(
+      onDetached: onDetached,
+      onResumed: onResumed,
+      onInactive: onInactive,
+      onHidden: onHidden,
+      onPaused: onPaused,
       didPopNext: didPopNext,
       didPush: didPush,
       didPushNext: didPushNext,
@@ -138,7 +169,10 @@ class MaxiPocketPage extends ConsumerWidget {
                   customOnBack: customOnBack,
                   leading: leading,
                   actions: actions,
-                  title: title,
+                  title: Padding(
+                    padding: const EdgeInsets.only(bottom: DesignConstants.spacing8),
+                    child: title,
+                  ),
                   automaticallyImplyLeading: automaticallyImplyLeading,
                 )
               : null,
@@ -181,7 +215,9 @@ class _MaxiPocketAppBarWidget extends StatelessWidget implements PreferredSizeWi
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: screenHeight.responsiveHeight(DesignConstants.bottomBarDesignHeight),
+      toolbarHeight: screenHeight
+          .responsiveHeight(DesignConstants.bottomBarDesignHeight)
+          .normalizedSizeWithTextScaler(context),
       automaticallyImplyLeading: automaticallyImplyLeading,
       shadowColor: getShadowsColor(themeMode).withValues(alpha: DesignConstants.bottomBarShadowOpacity),
       leading: showLeading

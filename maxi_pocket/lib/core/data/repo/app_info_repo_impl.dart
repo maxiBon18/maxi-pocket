@@ -9,5 +9,6 @@ class AppInfoRepoImpl implements AppInfoRepo {
   const AppInfoRepoImpl(this._appInfoSource);
 
   @override
-  Future<AppInfo> getAppInfo() async => (await _appInfoSource.getAppInfo()).toEntity();
+  Future<AppInfo> getAppInfo() async =>
+      (await _appInfoSource.getAppInfo()).toEntity();
 }

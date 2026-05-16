@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/appointments/presentation/viewmodel/appointment_viewmodel.dart';
 import 'package:maxi_pocket/appointments/shared/constants/widget_constants.dart';
-import 'package:maxi_pocket/appointments/shared/exceptions/appointment_exceptions.dart' show NullOrEmptyAppointmentsExceptions;
+import 'package:maxi_pocket/appointments/shared/exceptions/appointment_exceptions.dart'
+    show NullOrEmptyAppointmentsExceptions;
 import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
 import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors;
@@ -48,17 +49,20 @@ class MaxiPocketAppointmentsPage extends ConsumerWidget {
         themeMode: themeMode,
       ),
       child: appointments.when(
-        data: (List<AppointmentEntity> data) => MaxiPocketSectionPage(
-          themeMode: themeMode,
-          numberOfExpenses: data.length,
-          entityToShow: getAppointmentsWrapperCommitments(data),
-          onEdit: (CommitmentsEntity entity) => _onEdit(context, ref, entity),
-          onDelete: (CommitmentsEntity entity) => _onDelete(context, ref, entity),
-          isAppointment: true,
+        data: (List<AppointmentEntity> data) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: DesignConstants.spacing16),
+          child: MaxiPocketSectionPage(
+            themeMode: themeMode,
+            numberOfExpenses: data.length,
+            entityToShow: getAppointmentsWrapperCommitments(data),
+            onEdit: (CommitmentsEntity entity) => _onEdit(context, ref, entity),
+            onDelete: (CommitmentsEntity entity) => _onDelete(context, ref, entity),
+            isAppointment: true,
+          ),
         ),
         loading: () => const Center(child: MaxiPocketLoadingWidget()),
         error: (Object error, StackTrace stackTrace) => error is NullOrEmptyAppointmentsExceptions
-            ? const MaxiPocketEmptyContentWidget()
+            ? const MaxiPocketEmptyContentWidget(isAppointment: true)
             : const MaxiPocketErrorContentWidget(),
       ),
     );

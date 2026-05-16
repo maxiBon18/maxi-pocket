@@ -10,5 +10,6 @@ class AppointmentService {
   const AppointmentService(this._appointmentDbRepo);
 
   /// Returns all appointment records relevant to the current display period.
-  Future<List<AppointmentEntity>> getAppointmentsData() => _appointmentDbRepo.getAppointmentsData();
+  Future<List<AppointmentEntity>> getAppointmentsData() =>
+      _appointmentDbRepo.getAppointmentsData();
 }

@@ -8,6 +8,7 @@ paths:
 - One ViewModel per file. File name: `<n>_viewmodel.dart`.
 - ViewModel communicates only with domain layer (use cases / services).
 - Never import data layer or Firebase-specific code.
+- In viewmodel you MUST use only services class.
 
 ## Riverpod State Management
 

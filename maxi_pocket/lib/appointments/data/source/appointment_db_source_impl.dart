@@ -14,7 +14,7 @@ class AppointmentDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
     implements AppointmentDbSource {
   AppointmentDbSourceImpl(super.database);
 
-  /// Fetches all subscriptions joined with their common expense data.
+  /// Fetches all upcoming appointments joined with their common expense data, ordered by event date.
   @override
   Future<List<AppointmentDto>> getAppointmentsData() async {
     final JoinedSelectStatement<HasResultSet, dynamic> querySubscription = select(commonDataTable).join(
@@ -30,6 +30,7 @@ class AppointmentDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
       final CommonData commonData = row.readTable(commonDataTable);
       final Appointment appointmentData = row.readTable(appointmentsTable);
       final ExpenseDbDto commonDbDto = ExpenseDbDto(
+        id: commonData.primaryId,
         name: commonData.name,
         eventType: commonData.eventType,
         eventDate: commonData.eventDate,

@@ -1,14 +1,18 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:maxi_pocket/core/data/repo/source/dto/expense_db_dto.dart';
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesFrequency;
-import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart' show SubscriptionEntity;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketExpensesFrequency;
+import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart'
+    show SubscriptionEntity;
 
 part 'subscription_dto.freezed.dart';
 part 'subscription_dto.g.dart';
 
 /// Persistence DTO for a subscription expense, embedding shared fields via [ExpenseDbDto].
 @Freezed()
-abstract class SubscriptionDto with _$SubscriptionDto implements ExpenseDbInsertDto {
+abstract class SubscriptionDto
+    with _$SubscriptionDto
+    implements ExpenseDbInsertDto {
   const SubscriptionDto._();
 
   /// Creates a [SubscriptionDto] with all required recurring-charge fields.
@@ -25,7 +29,8 @@ abstract class SubscriptionDto with _$SubscriptionDto implements ExpenseDbInsert
     BigInt? commonId,
   }) = _SubscriptionDto;
 
-  factory SubscriptionDto.fromJson(Map<String, Object?> json) => _$SubscriptionDtoFromJson(json);
+  factory SubscriptionDto.fromJson(Map<String, Object?> json) =>
+      _$SubscriptionDtoFromJson(json);
 
   /// Reconstructs a [SubscriptionEntity] from this DTO.
   SubscriptionEntity toEntity() => SubscriptionEntity(

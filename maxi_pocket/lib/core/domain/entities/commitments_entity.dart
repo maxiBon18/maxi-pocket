@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesFrequency, MaxiPocketExpensesType;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketExpensesFrequency, MaxiPocketExpensesType;
 
 /// Marker interface for all expense and appointment commitment domain objects.
 @immutable
@@ -8,6 +9,9 @@ abstract class CommitmentsEntity {}
 /// Shared identity fields carried by every expense or appointment commitment.
 @immutable
 class ExpenseCommitmentEntity {
+  /// Database primary key from [CommonDataTable], populated when reading from DB.
+  final BigInt? id;
+
   /// User-defined label for this expense or appointment.
   final String name;
 
@@ -17,7 +21,12 @@ class ExpenseCommitmentEntity {
   /// Classifies the commitment as a subscription, financing, or appointment.
   final MaxiPocketExpensesType eventType;
 
-  const ExpenseCommitmentEntity({required this.name, required this.eventDate, required this.eventType});
+  const ExpenseCommitmentEntity({
+    required this.name,
+    required this.eventDate,
+    required this.eventType,
+    this.id,
+  });
 }
 
 /// Pairs a [CommitmentsEntity] with its concrete [type] for display in a mixed list.

@@ -54,26 +54,47 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaxiPocketListTileWidget(
-      title: Text(_getTitle(), style: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+      themeMode: themeMode,
+      title: Row(
+        mainAxisAlignment: .spaceBetween,
+        children: <Widget>[
+          Text(_getTitle(), style: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+          if (!isFromHome)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: onEdit,
+                  child: Icon(
+                    Icons.edit_outlined,
+                    color: _iconColor,
+                    size: DesignConstants.icon24,
+                    applyTextScaling: false,
+                  ),
+                ),
+                const SizedBox(width: DesignConstants.spacing12),
+                GestureDetector(
+                  onTap: onDelete,
+                  child: Icon(
+                    Icons.delete_outlined,
+                    color: _iconColor,
+                    size: DesignConstants.icon24,
+                    applyTextScaling: false,
+                  ),
+                ),
+              ],
+            ),
+        ],
+      ),
       subtitle: _ExpenseTileSubtitle(
         iconColor: _iconColor,
         isAppointment: isAppointment,
         themeMode: themeMode,
         type: type,
         entityToShow: entityToShow,
-      ),
-      trailing: _MaxiPocketTileTrailing(
-        isAppointment: isAppointment,
-        iconColor: _iconColor,
         amountColor: _amountColor,
-        type: type,
-        entityToShow: entityToShow,
         isFromHome: isFromHome,
-        onEdit: onEdit,
-        onDelete: onDelete,
       ),
-      isThreeLine: true,
-      themeMode: themeMode,
     );
   }
 }
@@ -82,26 +103,20 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
 ///
 /// The amount row is hidden when [isAppointment] is true.
 @immutable
-class _MaxiPocketTileTrailing extends StatelessWidget {
-  const _MaxiPocketTileTrailing({
+class _MaxiPocketAmount extends StatelessWidget {
+  const _MaxiPocketAmount({
     required this.isAppointment,
-    required this.iconColor,
     required this.amountColor,
     required this.type,
     required this.entityToShow,
     required this.isFromHome,
-    this.onEdit,
-    this.onDelete,
   });
 
   final bool isAppointment;
-  final Color iconColor;
   final Color amountColor;
   final MaxiPocketExpensesType type;
   final CommitmentsEntity entityToShow;
   final bool isFromHome;
-  final VoidCallback? onEdit;
-  final VoidCallback? onDelete;
 
   double _getAmount() => switch (entityToShow) {
     final SubscriptionEntity s => s.amount,
@@ -111,42 +126,20 @@ class _MaxiPocketTileTrailing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        if (!isAppointment)
-          Text(
-            '${_getAmount().toStringAsFixed(2)} ${WidgetConstants.currencySymbol}',
-            style: ThemeTextStyles.monetaryAmountSmallLight.copyWith(color: amountColor),
-          ),
-        if (!isAppointment) const SizedBox(height: DesignConstants.spacing8),
-        if (!isFromHome)
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              GestureDetector(
-                onTap: onEdit,
-                child: Icon(
-                  Icons.edit_outlined,
-                  color: iconColor,
-                  size: DesignConstants.icon24,
-                  applyTextScaling: false,
-                ),
-              ),
-              const SizedBox(width: DesignConstants.spacing12),
-              GestureDetector(
-                onTap: onDelete,
-                child: Icon(
-                  Icons.delete_outlined,
-                  color: iconColor,
-                  size: DesignConstants.icon24,
-                  applyTextScaling: false,
-                ),
-              ),
-            ],
-          ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(left: DesignConstants.spacing32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          if (!isAppointment)
+            Text(
+              '${_getAmount().toStringAsFixed(2)} ${WidgetConstants.currencySymbol}',
+              style: ThemeTextStyles.monetaryAmountSmallLight.copyWith(color: amountColor),
+            ),
+          if (!isAppointment) const Flexible(child: SizedBox(height: DesignConstants.spacing8)),
+        ],
+      ),
     );
   }
 }
@@ -160,6 +153,8 @@ class _ExpenseTileSubtitle extends StatelessWidget {
     required this.themeMode,
     required this.type,
     required this.entityToShow,
+    required this.amountColor,
+    required this.isFromHome,
   });
 
   final Color iconColor;
@@ -167,6 +162,8 @@ class _ExpenseTileSubtitle extends StatelessWidget {
   final MaxiPocketThemeMode themeMode;
   final MaxiPocketExpensesType type;
   final CommitmentsEntity entityToShow;
+  final Color amountColor;
+  final bool isFromHome;
 
   String _getType() => switch (entityToShow) {
     final SubscriptionEntity _ => WidgetConstants.addExpensesTypeSubscription,
@@ -191,19 +188,33 @@ class _ExpenseTileSubtitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const SizedBox(height: DesignConstants.spacing8),
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            MaxiPocketBadgeWidget(label: _getType(), expensesType: type, themeMode: themeMode),
-
             if (!isAppointment)
-              MaxiPocketBadgeWidget(
-                label: _getFrequencyLabel(),
-                expensesFrequency: _getFrequency(),
-                themeMode: themeMode,
+              Expanded(
+                child: MaxiPocketBadgeWidget(label: _getType(), expensesType: type, themeMode: themeMode),
+              )
+            else
+              MaxiPocketBadgeWidget(label: _getType(), expensesType: type, themeMode: themeMode),
+            if (!isAppointment)
+              Expanded(
+                child: MaxiPocketBadgeWidget(
+                  label: _getFrequencyLabel(),
+                  expensesFrequency: _getFrequency(),
+                  themeMode: themeMode,
+                ),
               ),
-            const Spacer(),
+            _MaxiPocketAmount(
+              isAppointment: isAppointment,
+              amountColor: amountColor,
+              type: type,
+              entityToShow: entityToShow,
+              isFromHome: isFromHome,
+            ),
           ],
         ),
         const SizedBox(height: DesignConstants.spacing4),
@@ -237,17 +248,34 @@ class _ExpenseTileDateRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: DesignConstants.spacing4,
+      mainAxisAlignment: .spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Icon(Icons.calendar_today_outlined, color: iconColor, size: DesignConstants.icon16, applyTextScaling: false),
-        Flexible(
-          child: Text(
-            isAppointment
-                ? '${WidgetConstants.nextAppointment} ${_getDate()}'
-                : '${WidgetConstants.nextExpenses} ${_getDate()}',
-            style: context.textTheme.bodyMedium?.copyWith(fontSize: DesignConstants.textSize12),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: DesignConstants.spacing4,
+            children: <Widget>[
+              Icon(
+                Icons.calendar_today_outlined,
+                color: iconColor,
+                size: DesignConstants.icon16,
+                applyTextScaling: false,
+              ),
+              Expanded(
+                child: Text(
+                  isAppointment ? WidgetConstants.nextAppointment : WidgetConstants.nextExpenses,
+                  style: context.textTheme.bodyMedium?.copyWith(fontSize: DesignConstants.textSize12),
+                ),
+              ),
+            ],
           ),
+        ),
+        Text(
+          isAppointment ? _getDate() : _getDate(),
+          style: context.textTheme.bodyMedium?.copyWith(fontSize: DesignConstants.textSize12),
         ),
       ],
     );

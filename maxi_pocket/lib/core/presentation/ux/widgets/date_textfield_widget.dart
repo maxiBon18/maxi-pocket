@@ -3,9 +3,12 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors;
-import 'package:maxi_pocket/core/shared/constants/app_constants.dart' show AppConstants;
-import 'package:maxi_pocket/core/shared/constants/widget_constants.dart' show WidgetConstants;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeLightColors, ThemeDarkColors;
+import 'package:maxi_pocket/core/shared/constants/app_constants.dart'
+    show AppConstants;
+import 'package:maxi_pocket/core/shared/constants/widget_constants.dart'
+    show WidgetConstants;
 import 'package:maxi_pocket/core/shared/utils/enums.dart';
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 import 'package:maxi_pocket/core/shared/utils/loggers.dart';
@@ -56,7 +59,8 @@ class MaxiPocketDateTextField extends StatefulWidget {
   final MaxiPocketThemeMode themeMode;
 
   @override
-  State<MaxiPocketDateTextField> createState() => _MaxiPocketDateTextFieldState();
+  State<MaxiPocketDateTextField> createState() =>
+      _MaxiPocketDateTextFieldState();
 }
 
 class _MaxiPocketDateTextFieldState extends State<MaxiPocketDateTextField> {
@@ -79,7 +83,9 @@ class _MaxiPocketDateTextFieldState extends State<MaxiPocketDateTextField> {
     try {
       _focusNode.addListener(_validateFocusedNode);
     } catch (e, stacktrace) {
-      customDebugPrint('[MaxiPocketDateTextField] FocusNode already disposed: $e\n $stacktrace');
+      customDebugPrint(
+        '[MaxiPocketDateTextField] FocusNode already disposed: $e\n $stacktrace',
+      );
     }
   }
 
@@ -145,7 +151,8 @@ class _MaxiPocketDateTextFieldState extends State<MaxiPocketDateTextField> {
         textInputAction: widget.textInputAction,
         validator: widget.validator,
         onTap: _openPicker,
-        onTapOutside: (PointerDownEvent event) => FocusManager.instance.primaryFocus?.unfocus(),
+        onTapOutside: (PointerDownEvent event) =>
+            FocusManager.instance.primaryFocus?.unfocus(),
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           labelText: widget.label,
@@ -161,8 +168,13 @@ class _MaxiPocketDateTextFieldState extends State<MaxiPocketDateTextField> {
                 ? ThemeLightColors.textPrimaryColor
                 : ThemeDarkColors.textPrimaryColor,
           ),
-          errorStyle: context.textTheme.bodyMedium!.copyWith(color: ThemeLightColors.errorColor),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14.0),
+          errorStyle: context.textTheme.bodyMedium!.copyWith(
+            color: ThemeLightColors.errorColor,
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14.0,
+          ),
           suffixIcon: IconButton(
             tooltip: WidgetConstants.dateTextFieldPickDate,
             icon: Icon(
