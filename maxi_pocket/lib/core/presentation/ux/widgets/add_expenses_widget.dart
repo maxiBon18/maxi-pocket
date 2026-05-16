@@ -25,9 +25,9 @@ import 'package:maxi_pocket/core/shared/utils/helpers_method.dart';
 
 /// The bottom-sheet container for adding a new expense.
 ///
-/// Bottom padding grows by [keyboardHeight] so the sheet shifts up when the
-/// keyboard appears, keeping all form fields visible. Requires the bottom
-/// sheet to be opened with [isScrollControlled] set to true.
+/// Bottom padding uses the keyboard height when the keyboard is visible, or the
+/// system navigation bar inset otherwise, keeping form fields above system UI.
+/// Requires the bottom sheet to be opened with [isScrollControlled] set to true.
 class MaxiPocketAddExpensesWidget extends StatelessWidget {
   const MaxiPocketAddExpensesWidget({required this.themeMode, super.key});
 
@@ -53,11 +53,11 @@ class MaxiPocketAddExpensesWidget extends StatelessWidget {
     color: _backgroundColor,
   );
 
-  EdgeInsets _sheetPadding(double keyboardHeight) => EdgeInsets.only(
+  EdgeInsets _sheetPadding(double bottomPadding) => EdgeInsets.only(
     left: DesignConstants.spacing16,
     right: DesignConstants.spacing16,
     top: DesignConstants.spacing16,
-    bottom: DesignConstants.spacing16 + keyboardHeight,
+    bottom: DesignConstants.spacing16 + bottomPadding,
   );
 
   @override
@@ -65,8 +65,10 @@ class MaxiPocketAddExpensesWidget extends StatelessWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double modalHeight = screenHeight.responsiveHeight(DesignConstants.modalHeight);
     final double keyboardHeight = MediaQuery.viewInsetsOf(context).bottom;
+    final double bottomInset = MediaQuery.viewPaddingOf(context).bottom;
+    final double effectiveBottomPadding = keyboardHeight > 0.0 ? keyboardHeight : bottomInset;
     return Container(
-      padding: _sheetPadding(keyboardHeight),
+      padding: _sheetPadding(effectiveBottomPadding),
       height: modalHeight,
       width: double.infinity,
       decoration: _sheetDecoration,
