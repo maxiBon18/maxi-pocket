@@ -1,7 +1,7 @@
 name: maxi_pocket
 description: "Flutter mobile app for managing fixed expenses, such as subscriptions and financing"
 publish_to: "none"
-version: 0.1.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ^3.11.4

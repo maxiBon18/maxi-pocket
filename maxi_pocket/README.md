@@ -47,6 +47,7 @@ Flutter mobile app for managing fixed expenses, such as subscriptions and financ
     - [Commit Messages](#commit-messages)
     - [Pull Request Process](#pull-request-process)
   - [Changelog](#changelog)
+  - [Release on store command](#release-on-store-command)
   - [License](#license)
 
 ---
@@ -268,22 +269,22 @@ Cross-cutting key-value storage uses domain services: `SharedPrefAsyncService` f
 
 ## Scripts & Commands
 
-| Task                            | Command                                                        |
-| ------------------------------- | -------------------------------------------------------------- |
-| Install dependencies            | `fvm flutter pub get`                                          |
-| Run (debug)                     | `fvm flutter run`                                              |
-| Run on specific device          | `fvm flutter run -d <device-id>`                               |
-| Build Android APK (release)     | `fvm flutter build apk --release`                              |
-| Build Android App Bundle        | `fvm flutter build appbundle --release`                        |
-| Build iOS (release)             | `fvm flutter build ios --release`                              |
-| Regenerate launcher icons       | `fvm dart run flutter_launcher_icons`                          |
-| Analyse code                    | `fvm dart analyze`                                             |
-| Format code                     | `fvm dart format lib/`                                         |
-| Code generation (Freezed, etc.) | `fvm dart run build_runner build --delete-conflicting-outputs` |
+| Task                            | Command                                                               |
+| ------------------------------- | --------------------------------------------------------------------- |
+| Install dependencies            | `fvm flutter pub get`                                                 |
+| Run (debug)                     | `fvm flutter run`                                                     |
+| Run on specific device          | `fvm flutter run -d <device-id>`                                      |
+| Build Android APK (release)     | `fvm flutter build apk --release`                                     |
+| Build Android App Bundle        | `fvm flutter build appbundle --release`                               |
+| Build iOS (release)             | `fvm flutter build ios --release`                                     |
+| Regenerate launcher icons       | `fvm dart run flutter_launcher_icons`                                 |
+| Analyse code                    | `fvm dart analyze`                                                    |
+| Format code                     | `fvm dart format lib/`                                                |
+| Code generation (Freezed, etc.) | `fvm dart run build_runner build --delete-conflicting-outputs`        |
 | Code generation (alternative)   | `fvm flutter pub run build_runner build --delete-conflicting-outputs` |
-| Run tests                       | `fvm flutter test`                                             |
-| Clean build artefacts           | `fvm flutter clean`                                            |
-| List available devices          | `fvm flutter devices`                                          |
+| Run tests                       | `fvm flutter test`                                                    |
+| Clean build artefacts           | `fvm flutter clean`                                                   |
+| List available devices          | `fvm flutter devices`                                                 |
 
 ---
 
@@ -354,6 +355,15 @@ Commit message linting is enforced via `commitlint.config.js`.
 ## Changelog
 
 Version history is recorded in [`CHANGELOG.md`](CHANGELOG.md) using [Keep a Changelog](https://keepachangelog.com/) and Semantic Versioning.
+
+---
+
+---
+
+## Release on store command
+
+**IOS:** fvm flutter build ipa --release --obfuscate --split-debug-info=build/debug-info/ios
+**Android:** fvm flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info/android 
 
 ---
 
