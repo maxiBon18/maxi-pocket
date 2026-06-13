@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
-import 'package:maxi_pocket/core/presentation/ux/widgets/list_widget.dart' show MaxiPocketListWidget;
+import 'package:maxi_pocket/core/presentation/ux/widgets/list_widget.dart'
+    show MaxiPocketListWidget;
 import 'package:maxi_pocket/core/presentation/ux/widgets/recap_widget.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketThemeMode;
 
 /// A section layout combining a recap card with a scrollable tile list.
 ///

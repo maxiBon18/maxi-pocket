@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeDarkColors;
-import 'package:maxi_pocket/core/presentation/ux/widgets/box_decoration_widget.dart' show MaxiPocketBoxDecorationWidget;
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeDarkColors;
+import 'package:maxi_pocket/core/presentation/ux/widgets/box_decoration_widget.dart'
+    show MaxiPocketBoxDecorationWidget;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketThemeMode;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
-import 'package:maxi_pocket/core/shared/utils/methods.dart' show getShadowsColor, getListTileBorderColor;
+import 'package:maxi_pocket/core/shared/utils/methods.dart'
+    show getShadowsColor, getListTileBorderColor;
 
 /// A styled list-tile card with rounded corners, a border, and a two-layer drop shadow.
 ///
@@ -38,14 +43,18 @@ class MaxiPocketListTileWidget extends StatelessWidget {
       offset: DesignConstants.listTileOffset,
       blurRadius: DesignConstants.listTileBlurRadiusFirst,
       blurStyle: BlurStyle.outer,
-      color: getShadowsColor(themeMode).withValues(alpha: DesignConstants.listTileShadowOpacity),
+      color: getShadowsColor(
+        themeMode,
+      ).withValues(alpha: DesignConstants.listTileShadowOpacity),
       spreadRadius: DesignConstants.listTileSpreadRadiusFirst,
     ),
     BoxShadow(
       offset: DesignConstants.listTileOffset,
       blurRadius: DesignConstants.listTileBlurRadiusSecond,
       blurStyle: BlurStyle.outer,
-      color: getShadowsColor(themeMode).withValues(alpha: DesignConstants.listTileShadowOpacity),
+      color: getShadowsColor(
+        themeMode,
+      ).withValues(alpha: DesignConstants.listTileShadowOpacity),
       spreadRadius: DesignConstants.listTileSpreadRadiusSecond,
     ),
   ];
@@ -57,10 +66,15 @@ class MaxiPocketListTileWidget extends StatelessWidget {
       themeMode: themeMode,
       boxShadows: _getBoxShadows(themeMode),
       borderRadius: BorderRadiusGeometry.circular(DesignConstants.radius16),
-      border: Border.all(color: getListTileBorderColor(themeMode), width: DesignConstants.bottomBarBorderWidth),
+      border: Border.all(
+        color: getListTileBorderColor(themeMode),
+        width: DesignConstants.bottomBarBorderWidth,
+      ),
       child: ListTile(
         minTileHeight: height != null
-            ? screenSize.responsiveHeight(height!).normalizedSizeWithTextScaler(context)
+            ? screenSize
+                  .responsiveHeight(height!)
+                  .normalizedSizeWithTextScaler(context)
             : null,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: DesignConstants.spacing16,
@@ -74,7 +88,9 @@ class MaxiPocketListTileWidget extends StatelessWidget {
         trailing: trailing,
         onTap: onTap,
         isThreeLine: isThreeLine,
-        splashColor: ThemeDarkColors.primaryColor.withValues(alpha: DesignConstants.alpha20),
+        splashColor: ThemeDarkColors.primaryColor.withValues(
+          alpha: DesignConstants.alpha20,
+        ),
       ),
     );
   }

@@ -56,7 +56,7 @@ Future<void> setupDependencies(GetIt getIt) async {
     final FlutterLocalNotificationsPlugin plugin =
         FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings androidSettings =
-        AndroidInitializationSettings('ic_launcher_foreground');
+        AndroidInitializationSettings('ic_stat_notification');
     const DarwinInitializationSettings darwinSettings =
         DarwinInitializationSettings(
           requestAlertPermission: false,

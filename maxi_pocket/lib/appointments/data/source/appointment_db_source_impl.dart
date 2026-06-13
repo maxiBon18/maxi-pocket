@@ -17,16 +17,25 @@ class AppointmentDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
   /// Fetches all upcoming appointments joined with their common expense data, ordered by event date.
   @override
   Future<List<AppointmentDto>> getAppointmentsData() async {
-    final JoinedSelectStatement<HasResultSet, dynamic> querySubscription = select(commonDataTable).join(
-      <Join<HasResultSet, dynamic>>[
-        innerJoin(appointmentsTable, commonDataTable.primaryId.equalsExp(appointmentsTable.foreignId)),
-      ],
-    )..orderBy(<OrderingTerm>[OrderingTerm.asc(commonDataTable.eventDate)]);
+    final JoinedSelectStatement<HasResultSet, dynamic> querySubscription =
+        select(commonDataTable).join(<Join<HasResultSet, dynamic>>[
+          innerJoin(
+            appointmentsTable,
+            commonDataTable.primaryId.equalsExp(appointmentsTable.foreignId),
+          ),
+        ])..orderBy(<OrderingTerm>[
+          OrderingTerm.asc(commonDataTable.eventDate),
+        ]);
 
     final List<TypedResult> appointmentRows =
-        await (querySubscription..where(commonDataTable.eventDate.isBiggerOrEqualValue(DateTime.now()))).get();
+        await (querySubscription..where(
+              commonDataTable.eventDate.isBiggerOrEqualValue(DateTime.now()),
+            ))
+            .get();
 
-    final List<AppointmentDto> appointmentDto = appointmentRows.map((TypedResult row) {
+    final List<AppointmentDto> appointmentDto = appointmentRows.map((
+      TypedResult row,
+    ) {
       final CommonData commonData = row.readTable(commonDataTable);
       final Appointment appointmentData = row.readTable(appointmentsTable);
       final ExpenseDbDto commonDbDto = ExpenseDbDto(
@@ -35,7 +44,12 @@ class AppointmentDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
         eventType: commonData.eventType,
         eventDate: commonData.eventDate,
       );
-      return AppointmentDto(expense: commonDbDto, location: appointmentData.location, commonId: commonData.primaryId);
+      return AppointmentDto(
+        expense: commonDbDto,
+        location: appointmentData.location,
+        hour: appointmentData.hour,
+        commonId: commonData.primaryId,
+      );
     }).toList();
 
     return appointmentDto;

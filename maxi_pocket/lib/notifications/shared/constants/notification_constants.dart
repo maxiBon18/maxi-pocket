@@ -40,6 +40,18 @@ abstract final class NotificationChannelConstants {
   static const String financingThreadId = 'financings';
 }
 
+/// Android drawable resource names used for notification icons.
+abstract final class NotificationIconConstants {
+  /// Status-bar small icon: a transparent, white-silhouette drawable.
+  ///
+  /// Android renders the small icon using its alpha channel only, so this MUST
+  /// be a transparent silhouette — a full-colour image renders as a solid square.
+  static const String smallIcon = 'ic_stat_notification';
+
+  /// Full-colour large icon shown in the notification body (the app logo).
+  static const String largeIcon = 'ic_launcher_foreground';
+}
+
 /// Notification titles, body builders, and scheduling parameters for all expense categories.
 abstract final class NotificationContentConstants {
   /// Title for appointment reminder notifications.

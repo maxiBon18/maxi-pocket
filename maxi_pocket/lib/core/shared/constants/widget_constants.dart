@@ -55,10 +55,12 @@ class WidgetConstants {
   static const String addExpensesFinancingPaidInstallments =
       'Numero di rate pagate';
   static const String addExpensesAppointmentLocation = 'Luogo';
+  static const String addExpensesAppointmentHour = 'Ora';
   static const String addExpensesCategory = 'Categoria';
   static const String addExpensesFrequency = 'Tipologia';
   static const String addExpensesDate = 'Data inizio pagamento';
   static const String appointmentDate = 'Data';
+  static const String appointmentHour = 'Ora';
   static const String addExpensesButton = 'Aggiungi';
   static const String editExpensesButton = 'Aggiorna';
   static const String editNewTitle = 'Modifica spesa';
@@ -71,6 +73,7 @@ class WidgetConstants {
   static const String addExpensesAmountRequired = 'Importo è obbligatorio';
   static const String addExpensesAmountInvalid = 'Importo non valido';
   static const String addExpensesDateRequired = 'Data è obbligatoria';
+  static const String appointmentHourRequired = 'L \'ora è obbligatoria';
   static const String addExpensesFinancingInstallmentsRequired =
       'Numero di rate è obbligatorio';
   static const String addExpensesFinancingInstallmentsInvalid =
@@ -96,12 +99,19 @@ class WidgetConstants {
   static const String addExpensesFrequencyAnnual = 'Annuale';
   static const String addExpensesFrequencyMonthly = 'Mensile';
 
+  /// Prefix label for the active-expenses count shown in the expenses header.
   static const String activeNumberExpenses = 'Spese attive: ';
 
   /// Expense tile placeholders — replaced by ViewModel data once wired.
   static const String expenseTitlePlaceholder = 'Netflix';
+
+  /// Placeholder expense-type label shown before real data loads.
   static const String expenseTypePlaceholder = 'Subscription';
+
+  /// Prefix label for the next-payment date row in an expense tile.
   static const String nextExpenses = 'Prossimo Pagamento: ';
+
+  /// Placeholder monetary amount shown before real data loads.
   static const double expenseAmountPlaceholder = 100.0;
 
   /// Appointments

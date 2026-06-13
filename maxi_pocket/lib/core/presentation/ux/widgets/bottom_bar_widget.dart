@@ -3,11 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/box_decoration_widget.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/bottom_bar_viewmodel.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
 import 'package:maxi_pocket/core/shared/constants/widget_constants.dart';
 import 'package:maxi_pocket/core/shared/utils/enums.dart';
-import 'package:maxi_pocket/core/shared/utils/extensions.dart' show DoubleExtension;
-import 'package:maxi_pocket/core/shared/utils/methods.dart' show getShadowsColor, getBottomBarBorderColor;
+import 'package:maxi_pocket/core/shared/utils/extensions.dart'
+    show DoubleExtension;
+import 'package:maxi_pocket/core/shared/utils/methods.dart'
+    show getShadowsColor, getBottomBarBorderColor;
 
 /// App-wide bottom navigation bar with themed border, shadow, and page-index state.
 ///
@@ -49,14 +52,18 @@ class MaxiPocketBottomBarWidget extends ConsumerWidget {
       offset: DesignConstants.bottomBarOffsetFirst,
       blurStyle: BlurStyle.outer,
       blurRadius: DesignConstants.bottomBarBlurRadiusFirst,
-      color: getShadowsColor(themeMode).withValues(alpha: DesignConstants.bottomBarShadowOpacity),
+      color: getShadowsColor(
+        themeMode,
+      ).withValues(alpha: DesignConstants.bottomBarShadowOpacity),
       spreadRadius: DesignConstants.bottomBarSpreadRadiusFirst,
     ),
     BoxShadow(
       offset: DesignConstants.bottomBarOffsetSecond,
       blurStyle: BlurStyle.outer,
       blurRadius: DesignConstants.bottomBarBlurRadiusSecond,
-      color: getShadowsColor(themeMode).withValues(alpha: DesignConstants.bottomBarShadowOpacity),
+      color: getShadowsColor(
+        themeMode,
+      ).withValues(alpha: DesignConstants.bottomBarShadowOpacity),
       spreadRadius: DesignConstants.bottomBarSpreadRadiusSecond,
     ),
   ];
@@ -71,7 +78,10 @@ class MaxiPocketBottomBarWidget extends ConsumerWidget {
       themeMode: themeMode,
       boxShadows: _getBoxShadows(themeMode),
       border: Border(
-        top: BorderSide(width: DesignConstants.bottomBarBorderWidth, color: getBottomBarBorderColor(themeMode)),
+        top: BorderSide(
+          width: DesignConstants.bottomBarBorderWidth,
+          color: getBottomBarBorderColor(themeMode),
+        ),
       ),
       child: NavigationBar(
         destinations: _getDestinations(),

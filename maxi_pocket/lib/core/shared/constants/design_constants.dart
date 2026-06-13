@@ -6,8 +6,13 @@ import 'package:flutter/material.dart' show Offset;
 class DesignConstants {
   const DesignConstants._();
 
+  /// Maximum text-scale factor applied by [MediaQuery] to prevent layout overflow.
   static const double appMaxTextScaler = 1.6;
+
+  /// Logical height of the Figma design canvas in pixels; used for proportional scaling.
   static const double appHeightByDesign = 853;
+
+  /// Logical width of the Figma design canvas in pixels; used for proportional scaling.
   static const double appWidthByDesign = 448;
 
   /// Elevation
@@ -29,6 +34,7 @@ class DesignConstants {
   static const double icon16 = 16.0;
   static const double icon24 = 24.0;
   static const double icon32 = 32.0;
+  static const double icon36 = 36.0;
   static const double icon40 = 40.0;
   static const double icon48 = 48.0;
 
@@ -45,6 +51,7 @@ class DesignConstants {
   static const double containerSize88 = 88.0;
   static const double containerSize100 = 100.0;
   static const double containerSize120 = 120.0;
+  static const double containerSize128 = 128.0;
 
   /// Alpha
   static const double alpha10 = 0.1;
@@ -58,7 +65,7 @@ class DesignConstants {
   static const double alpha90 = 0.9;
   static const double alpha100 = 1.0;
 
-  // Spacing
+  /// Spacing
   static const double spacing4 = 4.0;
   static const double spacing8 = 8.0;
   static const double spacing12 = 12.0;
@@ -128,4 +135,7 @@ class DesignConstants {
 
   /// Selector
   static const double selectorChipForRowCount = 2;
+
+  /// Border
+  static const double borderWidth1 = 1.0;
 }

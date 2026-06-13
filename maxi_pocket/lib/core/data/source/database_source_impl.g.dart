@@ -185,11 +185,22 @@ class $CommonDataTableTable extends CommonDataTable
 }
 
 class CommonData extends DataClass implements Insertable<CommonData> {
+  /// Auto-incremented surrogate key shared by all expense types.
   final BigInt primaryId;
+
+  /// Human-readable label for the expense entry; must be non-empty.
   final String name;
+
+  /// Discriminator storing which feature table this row belongs to.
   final MaxiPocketExpensesType eventType;
+
+  /// Date of the tracked event or first payment.
   final DateTime eventDate;
+
+  /// Timestamp when the row was first inserted.
   final DateTime createdAt;
+
+  /// Timestamp of the most recent update to this row.
   final DateTime updatedAt;
   const CommonData({
     required this.primaryId,
@@ -610,11 +621,22 @@ class $FinancingTableTable extends FinancingTable
 }
 
 class Financing extends DataClass implements Insertable<Financing> {
+  /// Auto-incremented primary key for this table.
   final BigInt primaryId;
+
+  /// Per-instalment charge amount; must be non-negative.
   final double amount;
+
+  /// Total number of instalments for this financing agreement.
   final int numberOfInstallments;
+
+  /// Count of instalments already paid off.
   final int numberOfPaidInstallments;
+
+  /// Date of the next scheduled instalment payment.
   final DateTime nextPaymentDate;
+
+  /// Foreign key linking this row to its [CommonDataTable] parent record.
   final BigInt foreignId;
   const Financing({
     required this.primaryId,
@@ -1023,10 +1045,19 @@ class $SubscriptionsTableTable extends SubscriptionsTable
 }
 
 class Subscriptions extends DataClass implements Insertable<Subscriptions> {
+  /// Auto-incremented primary key for this table.
   final BigInt primaryId;
+
+  /// Monthly or annual charge amount; must be non-negative.
   final double amount;
+
+  /// Billing cycle (monthly or annual) stored as an integer enum.
   final MaxiPocketExpensesFrequency expensesFrequency;
+
+  /// Date of the upcoming payment for this subscription.
   final DateTime nextPaymentDate;
+
+  /// Foreign key linking this row to its [CommonDataTable] parent record.
   final BigInt foreignId;
   const Subscriptions({
     required this.primaryId,
@@ -1275,6 +1306,16 @@ class $AppointmentsTableTable extends AppointmentsTable
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _hourMeta = const VerificationMeta('hour');
+  @override
+  late final GeneratedColumn<String> hour = GeneratedColumn<String>(
+    'hour',
+    aliasedName,
+    false,
+    check: () => ComparableExpr(hour.length).isBiggerThanValue(0),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _foreignIdMeta = const VerificationMeta(
     'foreignId',
   );
@@ -1290,7 +1331,7 @@ class $AppointmentsTableTable extends AppointmentsTable
     ),
   );
   @override
-  List<GeneratedColumn> get $columns => [primaryId, location, foreignId];
+  List<GeneratedColumn> get $columns => [primaryId, location, hour, foreignId];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1317,6 +1358,14 @@ class $AppointmentsTableTable extends AppointmentsTable
     } else if (isInserting) {
       context.missing(_locationMeta);
     }
+    if (data.containsKey('hour')) {
+      context.handle(
+        _hourMeta,
+        hour.isAcceptableOrUnknown(data['hour']!, _hourMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_hourMeta);
+    }
     if (data.containsKey('foreign_id')) {
       context.handle(
         _foreignIdMeta,
@@ -1342,6 +1391,10 @@ class $AppointmentsTableTable extends AppointmentsTable
         DriftSqlType.string,
         data['${effectivePrefix}location'],
       )!,
+      hour: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}hour'],
+      )!,
       foreignId: attachedDatabase.typeMapping.read(
         DriftSqlType.bigInt,
         data['${effectivePrefix}foreign_id'],
@@ -1356,12 +1409,21 @@ class $AppointmentsTableTable extends AppointmentsTable
 }
 
 class Appointment extends DataClass implements Insertable<Appointment> {
+  /// Auto-incremented primary key for this table.
   final BigInt primaryId;
+
+  /// Physical or virtual venue for the appointment; must be non-empty.
   final String location;
+
+  /// Hour of the appointment; must be non-empty.
+  final String hour;
+
+  /// Foreign key linking this row to its [CommonDataTable] parent record.
   final BigInt foreignId;
   const Appointment({
     required this.primaryId,
     required this.location,
+    required this.hour,
     required this.foreignId,
   });
   @override
@@ -1369,6 +1431,7 @@ class Appointment extends DataClass implements Insertable<Appointment> {
     final map = <String, Expression>{};
     map['primary_id'] = Variable<BigInt>(primaryId);
     map['location'] = Variable<String>(location);
+    map['hour'] = Variable<String>(hour);
     map['foreign_id'] = Variable<BigInt>(foreignId);
     return map;
   }
@@ -1377,6 +1440,7 @@ class Appointment extends DataClass implements Insertable<Appointment> {
     return AppointmentsTableCompanion(
       primaryId: Value(primaryId),
       location: Value(location),
+      hour: Value(hour),
       foreignId: Value(foreignId),
     );
   }
@@ -1389,6 +1453,7 @@ class Appointment extends DataClass implements Insertable<Appointment> {
     return Appointment(
       primaryId: serializer.fromJson<BigInt>(json['primaryId']),
       location: serializer.fromJson<String>(json['location']),
+      hour: serializer.fromJson<String>(json['hour']),
       foreignId: serializer.fromJson<BigInt>(json['foreignId']),
     );
   }
@@ -1398,6 +1463,7 @@ class Appointment extends DataClass implements Insertable<Appointment> {
     return <String, dynamic>{
       'primaryId': serializer.toJson<BigInt>(primaryId),
       'location': serializer.toJson<String>(location),
+      'hour': serializer.toJson<String>(hour),
       'foreignId': serializer.toJson<BigInt>(foreignId),
     };
   }
@@ -1405,16 +1471,19 @@ class Appointment extends DataClass implements Insertable<Appointment> {
   Appointment copyWith({
     BigInt? primaryId,
     String? location,
+    String? hour,
     BigInt? foreignId,
   }) => Appointment(
     primaryId: primaryId ?? this.primaryId,
     location: location ?? this.location,
+    hour: hour ?? this.hour,
     foreignId: foreignId ?? this.foreignId,
   );
   Appointment copyWithCompanion(AppointmentsTableCompanion data) {
     return Appointment(
       primaryId: data.primaryId.present ? data.primaryId.value : this.primaryId,
       location: data.location.present ? data.location.value : this.location,
+      hour: data.hour.present ? data.hour.value : this.hour,
       foreignId: data.foreignId.present ? data.foreignId.value : this.foreignId,
     );
   }
@@ -1424,45 +1493,53 @@ class Appointment extends DataClass implements Insertable<Appointment> {
     return (StringBuffer('Appointment(')
           ..write('primaryId: $primaryId, ')
           ..write('location: $location, ')
+          ..write('hour: $hour, ')
           ..write('foreignId: $foreignId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(primaryId, location, foreignId);
+  int get hashCode => Object.hash(primaryId, location, hour, foreignId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Appointment &&
           other.primaryId == this.primaryId &&
           other.location == this.location &&
+          other.hour == this.hour &&
           other.foreignId == this.foreignId);
 }
 
 class AppointmentsTableCompanion extends UpdateCompanion<Appointment> {
   final Value<BigInt> primaryId;
   final Value<String> location;
+  final Value<String> hour;
   final Value<BigInt> foreignId;
   const AppointmentsTableCompanion({
     this.primaryId = const Value.absent(),
     this.location = const Value.absent(),
+    this.hour = const Value.absent(),
     this.foreignId = const Value.absent(),
   });
   AppointmentsTableCompanion.insert({
     this.primaryId = const Value.absent(),
     required String location,
+    required String hour,
     required BigInt foreignId,
   }) : location = Value(location),
+       hour = Value(hour),
        foreignId = Value(foreignId);
   static Insertable<Appointment> custom({
     Expression<BigInt>? primaryId,
     Expression<String>? location,
+    Expression<String>? hour,
     Expression<BigInt>? foreignId,
   }) {
     return RawValuesInsertable({
       if (primaryId != null) 'primary_id': primaryId,
       if (location != null) 'location': location,
+      if (hour != null) 'hour': hour,
       if (foreignId != null) 'foreign_id': foreignId,
     });
   }
@@ -1470,11 +1547,13 @@ class AppointmentsTableCompanion extends UpdateCompanion<Appointment> {
   AppointmentsTableCompanion copyWith({
     Value<BigInt>? primaryId,
     Value<String>? location,
+    Value<String>? hour,
     Value<BigInt>? foreignId,
   }) {
     return AppointmentsTableCompanion(
       primaryId: primaryId ?? this.primaryId,
       location: location ?? this.location,
+      hour: hour ?? this.hour,
       foreignId: foreignId ?? this.foreignId,
     );
   }
@@ -1488,6 +1567,9 @@ class AppointmentsTableCompanion extends UpdateCompanion<Appointment> {
     if (location.present) {
       map['location'] = Variable<String>(location.value);
     }
+    if (hour.present) {
+      map['hour'] = Variable<String>(hour.value);
+    }
     if (foreignId.present) {
       map['foreign_id'] = Variable<BigInt>(foreignId.value);
     }
@@ -1499,6 +1581,7 @@ class AppointmentsTableCompanion extends UpdateCompanion<Appointment> {
     return (StringBuffer('AppointmentsTableCompanion(')
           ..write('primaryId: $primaryId, ')
           ..write('location: $location, ')
+          ..write('hour: $hour, ')
           ..write('foreignId: $foreignId')
           ..write(')'))
         .toString();
@@ -2781,12 +2864,14 @@ typedef $$AppointmentsTableTableCreateCompanionBuilder =
     AppointmentsTableCompanion Function({
       Value<BigInt> primaryId,
       required String location,
+      required String hour,
       required BigInt foreignId,
     });
 typedef $$AppointmentsTableTableUpdateCompanionBuilder =
     AppointmentsTableCompanion Function({
       Value<BigInt> primaryId,
       Value<String> location,
+      Value<String> hour,
       Value<BigInt> foreignId,
     });
 
@@ -2845,6 +2930,11 @@ class $$AppointmentsTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get hour => $composableBuilder(
+    column: $table.hour,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$CommonDataTableTableFilterComposer get foreignId {
     final $$CommonDataTableTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -2888,6 +2978,11 @@ class $$AppointmentsTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get hour => $composableBuilder(
+    column: $table.hour,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$CommonDataTableTableOrderingComposer get foreignId {
     final $$CommonDataTableTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -2926,6 +3021,9 @@ class $$AppointmentsTableTableAnnotationComposer
 
   GeneratedColumn<String> get location =>
       $composableBuilder(column: $table.location, builder: (column) => column);
+
+  GeneratedColumn<String> get hour =>
+      $composableBuilder(column: $table.hour, builder: (column) => column);
 
   $$CommonDataTableTableAnnotationComposer get foreignId {
     final $$CommonDataTableTableAnnotationComposer composer = $composerBuilder(
@@ -2986,20 +3084,24 @@ class $$AppointmentsTableTableTableManager
               ({
                 Value<BigInt> primaryId = const Value.absent(),
                 Value<String> location = const Value.absent(),
+                Value<String> hour = const Value.absent(),
                 Value<BigInt> foreignId = const Value.absent(),
               }) => AppointmentsTableCompanion(
                 primaryId: primaryId,
                 location: location,
+                hour: hour,
                 foreignId: foreignId,
               ),
           createCompanionCallback:
               ({
                 Value<BigInt> primaryId = const Value.absent(),
                 required String location,
+                required String hour,
                 required BigInt foreignId,
               }) => AppointmentsTableCompanion.insert(
                 primaryId: primaryId,
                 location: location,
+                hour: hour,
                 foreignId: foreignId,
               ),
           withReferenceMapper: (p0) => p0

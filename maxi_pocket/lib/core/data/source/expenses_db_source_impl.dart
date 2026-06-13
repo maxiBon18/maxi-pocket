@@ -75,6 +75,7 @@ class ExpensesDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
           await into(appointmentsTable).insert(
             AppointmentsTableCompanion.insert(
               location: dto.location,
+              hour: dto.hour,
               foreignId: BigInt.from(insertedCommonId),
             ),
           );
@@ -116,7 +117,7 @@ class ExpensesDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
             ))
             .go();
       default:
-        break;
+        throw ArgumentError('Unsupported expense type: $type');
     }
     await (delete(
       commonDataTable,
@@ -199,7 +200,10 @@ class ExpensesDbSourceImpl extends DatabaseAccessor<MaxiPocketDatabase>
               ($AppointmentsTableTable t) => t.foreignId.equals(commonId),
             ))
             .write(
-              AppointmentsTableCompanion(location: Value<String>(dto.location)),
+              AppointmentsTableCompanion(
+                location: Value<String>(dto.location),
+                hour: Value<String>(dto.hour),
+              ),
             );
       default:
         break;

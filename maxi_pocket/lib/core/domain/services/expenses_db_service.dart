@@ -48,6 +48,7 @@ class ExpensesDbService {
       final AppointmentEntity a => AppointmentEntity(
         commitmentEntity: a.commitmentEntity,
         location: a.location,
+        hour: a.hour,
       ),
       _ => object,
     };
@@ -96,6 +97,7 @@ class ExpensesDbService {
       final AppointmentEntity a => AppointmentEntity(
         commitmentEntity: a.commitmentEntity,
         location: a.location,
+        hour: a.hour,
         id: a.id,
       ),
       _ => object,

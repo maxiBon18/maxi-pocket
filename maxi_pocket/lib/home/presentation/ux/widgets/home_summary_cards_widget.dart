@@ -42,34 +42,34 @@ class MaxiPocketHomeSummaryCardsWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-        Expanded(
-          child: MaxiPocketSummaryCardWidget(
-            themeMode: themeMode,
-            label: HomeWidgetConstants.weeklyCardTitle,
-            amount: isInError
-                ? '${HomeWidgetConstants.weeklyCardAmountErrorPlaceholder} ${WidgetConstants.currencySymbol}'
-                : '${weeklyAmount.toStringAsFixed(2)} ${WidgetConstants.currencySymbol}',
-            subtitle: HomeWidgetConstants.weeklyCardSubtitle,
-            iconData: Icons.calendar_today_outlined,
+          Expanded(
+            child: MaxiPocketSummaryCardWidget(
+              themeMode: themeMode,
+              label: HomeWidgetConstants.weeklyCardTitle,
+              amount: isInError
+                  ? '${HomeWidgetConstants.weeklyCardAmountErrorPlaceholder} ${WidgetConstants.currencySymbol}'
+                  : '${weeklyAmount.toStringAsFixed(2)} ${WidgetConstants.currencySymbol}',
+              subtitle: HomeWidgetConstants.weeklyCardSubtitle,
+              iconData: Icons.calendar_today_outlined,
+            ),
           ),
-        ),
-        const SizedBox(width: DesignConstants.spacing16),
-        Expanded(
-          child: MaxiPocketSummaryCardWidget(
-            themeMode: themeMode,
-            label: HomeWidgetConstants.monthlyCardTitle,
-            amount: isInError
-                ? '${HomeWidgetConstants.weeklyCardAmountErrorPlaceholder} ${WidgetConstants.currencySymbol}'
-                : '${monthlyAmount.toStringAsFixed(2)} ${WidgetConstants.currencySymbol}',
-            subtitle: HomeWidgetConstants.monthlyCardSubtitle,
-            iconData: Icons.calendar_month_outlined,
-            colorsGradient: const <Color>[
-              ThemeLightColors.tertiaryColor,
-              ThemeLightColors.cardGradientColor1,
-            ],
+          const SizedBox(width: DesignConstants.spacing16),
+          Expanded(
+            child: MaxiPocketSummaryCardWidget(
+              themeMode: themeMode,
+              label: HomeWidgetConstants.monthlyCardTitle,
+              amount: isInError
+                  ? '${HomeWidgetConstants.weeklyCardAmountErrorPlaceholder} ${WidgetConstants.currencySymbol}'
+                  : '${monthlyAmount.toStringAsFixed(2)} ${WidgetConstants.currencySymbol}',
+              subtitle: HomeWidgetConstants.monthlyCardSubtitle,
+              iconData: Icons.calendar_month_outlined,
+              colorsGradient: const <Color>[
+                ThemeLightColors.tertiaryColor,
+                ThemeLightColors.cardGradientColor1,
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
       ),
     );
   }

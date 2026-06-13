@@ -1,15 +1,20 @@
 import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
-import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart' show WrapperCommitmentsEntity;
+import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart'
+    show WrapperCommitmentsEntity;
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/home_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart';
-import 'package:maxi_pocket/core/shared/constants/widget_constants.dart' show WidgetConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesFrequency, MaxiPocketExpensesType;
+import 'package:maxi_pocket/core/shared/constants/widget_constants.dart'
+    show WidgetConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketExpensesFrequency, MaxiPocketExpensesType;
 
 /// Returns an error message if [date] is null or blank, otherwise null.
-String? dateValidator(String? date) {
+String? dateValidator(String? date, {bool isHour = false}) {
   if (date == null || date.trim().isEmpty) {
-    return WidgetConstants.addExpensesDateRequired;
+    return isHour
+        ? WidgetConstants.appointmentHourRequired
+        : WidgetConstants.addExpensesDateRequired;
   }
   return null;
 }
@@ -46,7 +51,8 @@ String? financingInstallmentsValidator(String? financingInstallments) {
 
 /// Returns an error message if [financingPaidInstallments] is null, blank, non-numeric, or ≤ 0.
 String? financingPaidInstallmentsValidator(String? financingPaidInstallments) {
-  if (financingPaidInstallments == null || financingPaidInstallments.trim().isEmpty) {
+  if (financingPaidInstallments == null ||
+      financingPaidInstallments.trim().isEmpty) {
     return WidgetConstants.addExpensesFinancingPaidInstallmentsRequired;
   }
   final int? parsed = int.tryParse(financingPaidInstallments);
@@ -76,8 +82,11 @@ String? appointmentLocationValidator(String? appointmentLocation) {
 }
 
 /// Builds a flat list of [WrapperCommitmentsEntity] from the appointments snapshot for display in the list widget.
-List<WrapperCommitmentsEntity> getAppointmentsWrapperCommitments(List<AppointmentEntity> appointments) {
-  final List<WrapperCommitmentsEntity> wrapperCommitments = <WrapperCommitmentsEntity>[];
+List<WrapperCommitmentsEntity> getAppointmentsWrapperCommitments(
+  List<AppointmentEntity> appointments,
+) {
+  final List<WrapperCommitmentsEntity> wrapperCommitments =
+      <WrapperCommitmentsEntity>[];
   if (appointments.isEmpty) return wrapperCommitments;
 
   wrapperCommitments.addAll(
@@ -95,14 +104,20 @@ List<WrapperCommitmentsEntity> getAppointmentsWrapperCommitments(List<Appointmen
 }
 
 /// Builds a flat list of [WrapperCommitmentsEntity] from the weekly snapshot for display in the list widget.
-List<WrapperCommitmentsEntity> getHomeWrapperCommitments(HomeEntity? homeEntity, MaxiPocketExpensesType expensesType) {
-  final List<WrapperCommitmentsEntity> wrapperCommitments = <WrapperCommitmentsEntity>[];
+List<WrapperCommitmentsEntity> getHomeWrapperCommitments(
+  HomeEntity? homeEntity,
+  MaxiPocketExpensesType expensesType,
+) {
+  final List<WrapperCommitmentsEntity> wrapperCommitments =
+      <WrapperCommitmentsEntity>[];
   if (homeEntity == null) return wrapperCommitments;
 
   final bool includeSubscriptions =
-      expensesType == MaxiPocketExpensesType.subscription || expensesType == MaxiPocketExpensesType.all;
+      expensesType == MaxiPocketExpensesType.subscription ||
+      expensesType == MaxiPocketExpensesType.all;
   final bool includeFinancings =
-      expensesType == MaxiPocketExpensesType.financing || expensesType == MaxiPocketExpensesType.all;
+      expensesType == MaxiPocketExpensesType.financing ||
+      expensesType == MaxiPocketExpensesType.all;
 
   if (includeSubscriptions && homeEntity.subscriptionEntity.isNotEmpty) {
     wrapperCommitments.addAll(
@@ -110,7 +125,8 @@ List<WrapperCommitmentsEntity> getHomeWrapperCommitments(HomeEntity? homeEntity,
         (SubscriptionEntity entity) => WrapperCommitmentsEntity(
           type: MaxiPocketExpensesType.subscription,
           commitments: entity,
-          nextPaymentDate: entity.nextPaymentDate!,
+          nextPaymentDate:
+              entity.nextPaymentDate ?? entity.commitmentEntity.eventDate,
           frequency: entity.frequency,
         ),
       ),
@@ -123,7 +139,8 @@ List<WrapperCommitmentsEntity> getHomeWrapperCommitments(HomeEntity? homeEntity,
         (FinancingEntity entity) => WrapperCommitmentsEntity(
           type: MaxiPocketExpensesType.financing,
           commitments: entity,
-          nextPaymentDate: entity.nextPaymentDate!,
+          nextPaymentDate:
+              entity.nextPaymentDate ?? entity.commitmentEntity.eventDate,
           frequency: MaxiPocketExpensesFrequency.monthly,
         ),
       ),
@@ -131,7 +148,8 @@ List<WrapperCommitmentsEntity> getHomeWrapperCommitments(HomeEntity? homeEntity,
   }
 
   wrapperCommitments.sort(
-    (WrapperCommitmentsEntity a, WrapperCommitmentsEntity b) => a.nextPaymentDate.compareTo(b.nextPaymentDate),
+    (WrapperCommitmentsEntity a, WrapperCommitmentsEntity b) =>
+        a.nextPaymentDate.compareTo(b.nextPaymentDate),
   );
 
   return wrapperCommitments;
@@ -144,4 +162,6 @@ List<WrapperCommitmentsEntity> getHomeWrapperCommitments(HomeEntity? homeEntity,
 List<WrapperCommitmentsEntity> getSpecificFrequencyWrapperCommitments(
   List<WrapperCommitmentsEntity> wrapperCommitments,
   MaxiPocketExpensesFrequency frequency,
-) => wrapperCommitments.where((WrapperCommitmentsEntity entity) => entity.frequency == frequency).toList();
+) => wrapperCommitments
+    .where((WrapperCommitmentsEntity entity) => entity.frequency == frequency)
+    .toList();
