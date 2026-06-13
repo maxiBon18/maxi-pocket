@@ -25,12 +25,15 @@ class MaxiPocketDatabase extends _$MaxiPocketDatabase {
     : super(executor ?? _openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   /// Handles schema upgrades from earlier versions.
   ///
   /// v1/v2 → v3: `amount` moved from `CommonDataTable` to `SubscriptionsTable`
   /// and `FinancingTable`; existing rows receive a 0.0 default.
+  ///
+  /// v3 → v4: non-nullable `hour` column added to `AppointmentsTable`; existing
+  /// rows are backfilled with `'00:00'` to satisfy the `length > 0` check.
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onUpgrade: (Migrator m, int from, int to) async {
@@ -51,6 +54,18 @@ class MaxiPocketDatabase extends _$MaxiPocketDatabase {
             financingTable,
             columnTransformer: <GeneratedColumn<Object>, Expression<Object>>{
               financingTable.amount: const Constant<double>(0.0),
+            },
+          ),
+        );
+      }
+      if (from < 4) {
+        // hour added to AppointmentsTable as a non-nullable, length-checked column;
+        // backfill existing appointments with a placeholder time.
+        await m.alterTable(
+          TableMigration(
+            appointmentsTable,
+            columnTransformer: <GeneratedColumn<Object>, Expression<Object>>{
+              appointmentsTable.hour: const Constant<String>('00:00'),
             },
           ),
         );

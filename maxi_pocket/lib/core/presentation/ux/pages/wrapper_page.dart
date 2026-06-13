@@ -3,11 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maxi_pocket/core/presentation/ux/pages/lifecycle_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/bottom_bar_widget.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/fab_widget.dart';
-import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart' show themeProvider;
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
-import 'package:maxi_pocket/core/shared/utils/extensions.dart' show DoubleExtension;
-import 'package:maxi_pocket/core/shared/utils/methods.dart' show getShadowsColor;
+import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart'
+    show themeProvider;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/shared/utils/extensions.dart'
+    show DoubleExtension;
+import 'package:maxi_pocket/core/shared/utils/methods.dart'
+    show getShadowsColor;
 
 /// Standard page scaffold that every screen in MaxiPocket must use as its root.
 ///
@@ -170,23 +175,34 @@ class MaxiPocketPage extends ConsumerWidget {
                   leading: leading,
                   actions: actions,
                   title: Padding(
-                    padding: const EdgeInsets.only(bottom: DesignConstants.spacing8),
+                    padding: const EdgeInsets.only(
+                      bottom: DesignConstants.spacing8,
+                    ),
                     child: title,
                   ),
                   automaticallyImplyLeading: automaticallyImplyLeading,
                 )
               : null,
-          floatingActionButton: showFloatingActionButton ? const MaxiPocketFloatingActionButtonWidget() : null,
+          floatingActionButton: showFloatingActionButton
+              ? const MaxiPocketFloatingActionButtonWidget()
+              : null,
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          bottomNavigationBar: showBottomBar ? const MaxiPocketBottomBarWidget() : null,
-          body: SafeArea(top: topSafeArea, bottom: bottomSafeArea, child: child ?? const SizedBox()),
+          bottomNavigationBar: showBottomBar
+              ? const MaxiPocketBottomBarWidget()
+              : null,
+          body: SafeArea(
+            top: topSafeArea,
+            bottom: bottomSafeArea,
+            child: child ?? const SizedBox(),
+          ),
         ),
       ),
     );
   }
 }
 
-class _MaxiPocketAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
+class _MaxiPocketAppBarWidget extends StatelessWidget
+    implements PreferredSizeWidget {
   const _MaxiPocketAppBarWidget({
     required this.screenHeight,
     required this.themeMode,
@@ -210,7 +226,9 @@ class _MaxiPocketAppBarWidget extends StatelessWidget implements PreferredSizeWi
   final Widget? title;
 
   @override
-  Size get preferredSize => Size.fromHeight(screenHeight.responsiveHeight(DesignConstants.bottomBarDesignHeight));
+  Size get preferredSize => Size.fromHeight(
+    screenHeight.responsiveHeight(DesignConstants.bottomBarDesignHeight),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +237,9 @@ class _MaxiPocketAppBarWidget extends StatelessWidget implements PreferredSizeWi
           .responsiveHeight(DesignConstants.bottomBarDesignHeight)
           .normalizedSizeWithTextScaler(context),
       automaticallyImplyLeading: automaticallyImplyLeading,
-      shadowColor: getShadowsColor(themeMode).withValues(alpha: DesignConstants.bottomBarShadowOpacity),
+      shadowColor: getShadowsColor(
+        themeMode,
+      ).withValues(alpha: DesignConstants.bottomBarShadowOpacity),
       leading: showLeading
           ? leadingIsBackButton
                 ? _MaxiPocketBackButtonWidget(customOnBack: customOnBack)
@@ -239,7 +259,8 @@ class _MaxiPocketBackButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => customOnBack != null ? customOnBack!.call() : Navigator.pop(context),
+      onPressed: () =>
+          customOnBack != null ? customOnBack!.call() : Navigator.pop(context),
       enableFeedback: true,
       icon: const Icon(Icons.arrow_back_ios_new),
     );

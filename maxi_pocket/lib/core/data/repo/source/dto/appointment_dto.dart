@@ -15,6 +15,7 @@ abstract class AppointmentDto
   const factory AppointmentDto({
     required ExpenseDbDto expense,
     required String location,
+    required String hour,
     BigInt? commonId,
   }) = _AppointmentDto;
 
@@ -25,6 +26,7 @@ abstract class AppointmentDto
   AppointmentEntity toEntity() => AppointmentEntity(
     commitmentEntity: expense.toEntity(),
     location: location,
+    hour: hour,
     id: commonId,
   );
 }

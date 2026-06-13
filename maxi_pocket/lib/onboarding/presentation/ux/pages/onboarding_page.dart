@@ -4,9 +4,7 @@ import 'package:maxi_pocket/core/presentation/theme/theme.dart'
     show ThemeLightColors, ThemeDarkColors;
 import 'package:maxi_pocket/core/presentation/ux/pages/wrapper_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/button_widget.dart';
-import 'package:maxi_pocket/core/presentation/ux/widgets/icon_container_widget.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/image_widget.dart';
-import 'package:maxi_pocket/core/presentation/ux/widgets/leading_trailing_icon_widget.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/loading_viewmodel.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart';
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
@@ -30,15 +28,19 @@ class MaxiPocketOnboardingPage extends ConsumerWidget {
         : ThemeDarkColors.onboardingScaffoldBackgroundColor;
   }
 
-  Color _getColorIconBackground(MaxiPocketThemeMode themeMode) =>
-      themeMode == MaxiPocketThemeMode.light
-      ? ThemeLightColors.expensesSubscriptionIconBackgroundColor
-      : ThemeDarkColors.expensesSubscriptionIconBackgroundColor;
+  Color _getBackgroundColor(MaxiPocketThemeMode themeMode) {
+    return themeMode == MaxiPocketThemeMode.light
+        ? ThemeLightColors.expensesSubscriptionIconBackgroundColor
+        : ThemeDarkColors.expensesSubscriptionIconBackgroundColor;
+  }
 
-  Color _getColorIcon(MaxiPocketThemeMode themeMode) =>
-      themeMode == MaxiPocketThemeMode.light
-      ? ThemeLightColors.expensesSubscriptionIconColor
-      : ThemeDarkColors.expensesSubscriptionIconColor;
+  Color _getBackgroundAppointmentsColor(MaxiPocketThemeMode themeMode) {
+    return themeMode == MaxiPocketThemeMode.light
+        ? ThemeLightColors.onboardingAppointmentsContainerBackgroundColor
+        : ThemeDarkColors.appointmentsBulletPointColor.withValues(
+            alpha: DesignConstants.alpha10,
+          );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -60,17 +62,7 @@ class MaxiPocketOnboardingPage extends ConsumerWidget {
                 mainAxisAlignment: .center,
                 crossAxisAlignment: .center,
                 children: <Widget>[
-                  MaxiPocketIconContainerWidget(
-                    colorBackground: _getColorIconBackground(themeMode),
-                    width: DesignConstants.containerSize88,
-                    height: DesignConstants.containerSize88,
-                    child: MaxiPocketLeadingTrailingIconWidget(
-                      themeMode: themeMode,
-                      icon: Icons.notifications_outlined,
-                      colorIcon: _getColorIcon(themeMode),
-                      size: DesignConstants.icon48,
-                    ),
-                  ),
+                  const _TopIconWidget(),
                   const SizedBox(height: DesignConstants.spacing32),
                   Text(
                     OnboardingWidgetConstants.onboardingTitle,
@@ -86,7 +78,28 @@ class MaxiPocketOnboardingPage extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: DesignConstants.spacing40),
-                  _NotificationInfoContainerWidget(themeMode: themeMode),
+                  _NotificationInfoContainerWidget(
+                    themeMode: themeMode,
+                    title: OnboardingWidgetConstants
+                        .onboardingNotificationContainerTitle,
+                    subtitle: OnboardingWidgetConstants
+                        .onboardingNotificationContainerSubtitle,
+                    iconName: OnboardingAssetsConstants.notificationIcon,
+                    backgroundIconColor: _getBackgroundColor(themeMode),
+                  ),
+                  const SizedBox(height: DesignConstants.spacing16),
+                  _NotificationInfoContainerWidget(
+                    themeMode: themeMode,
+                    title: OnboardingWidgetConstants
+                        .onboardingNotificationAppointmentsContainerTitle,
+                    subtitle: OnboardingWidgetConstants
+                        .onboardingNotificationAppointmentsContainerSubtitle,
+                    iconName:
+                        OnboardingAssetsConstants.notificationAppointmentsIcon,
+                    backgroundIconColor: _getBackgroundAppointmentsColor(
+                      themeMode,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -112,15 +125,68 @@ class MaxiPocketOnboardingPage extends ConsumerWidget {
   }
 }
 
+/// Circular gradient icon displayed at the top of the onboarding page.
+///
+/// Uses the gradient defined in [ThemeLightColors.onboardingGradientColors]
+/// regardless of the current theme, matching the Figma design spec.
+class _TopIconWidget extends StatelessWidget {
+  const _TopIconWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: DesignConstants.containerSize80,
+      height: DesignConstants.containerSize80,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          colors: ThemeLightColors.onboardingGradientColors,
+          stops: <double>[0.0, 0.4, 1.0],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: const Icon(
+        Icons.notifications_outlined,
+        color: ThemeLightColors.bottomNavigationBarBackgroundColor,
+        size: DesignConstants.icon36,
+      ),
+    );
+  }
+}
+
+/// Info card that explains a single notification feature (payments or appointments).
+///
+/// Renders a rounded container with a coloured icon box on the left and
+/// [title] / [subtitle] text on the right. Surface and border colours adapt
+/// to [themeMode] via [_getBackgroundColor] and [_getStrokeBorderColor].
 class _NotificationInfoContainerWidget extends StatelessWidget {
-  const _NotificationInfoContainerWidget({required this.themeMode});
+  const _NotificationInfoContainerWidget({
+    required this.themeMode,
+    required this.title,
+    required this.subtitle,
+    required this.iconName,
+    required this.backgroundIconColor,
+  });
 
   final MaxiPocketThemeMode themeMode;
+  final String title;
+  final String subtitle;
+  final String iconName;
+  final Color backgroundIconColor;
 
   Color _getBackgroundColor(MaxiPocketThemeMode themeMode) {
     return themeMode == MaxiPocketThemeMode.light
         ? ThemeLightColors.onboardingNotificationContainerBackgroundColor
-        : ThemeDarkColors.onboardingNotificationContainerBackgroundColor;
+        : ThemeDarkColors.surfaceColor.withValues(
+            alpha: DesignConstants.alpha70,
+          );
+  }
+
+  Color _getStrokeBorderColor(MaxiPocketThemeMode themeMode) {
+    return themeMode == MaxiPocketThemeMode.light
+        ? ThemeLightColors.surfaceVariantColor
+        : ThemeDarkColors.listTileBorderColor;
   }
 
   @override
@@ -129,29 +195,49 @@ class _NotificationInfoContainerWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: _getBackgroundColor(themeMode),
         borderRadius: BorderRadius.circular(DesignConstants.radius16),
+        border: Border.all(
+          color: _getStrokeBorderColor(themeMode),
+          width: DesignConstants.borderWidth1,
+        ),
       ),
       padding: const EdgeInsets.all(DesignConstants.spacing16),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: .start,
         crossAxisAlignment: .start,
         children: <Widget>[
-          MaxiPocketImage(
-            image: OnboardingAssetsConstants.notificationIcon,
-            width: DesignConstants.icon24,
-            height: DesignConstants.icon24,
-            fit: BoxFit.contain,
-            quality: FilterQuality.high,
+          Container(
+            width: DesignConstants.containerSize56,
+            height: DesignConstants.containerSize56,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: backgroundIconColor,
+              borderRadius: BorderRadius.circular(DesignConstants.radius16),
+            ),
+            child: MaxiPocketImage(
+              image: iconName,
+              width: DesignConstants.icon24,
+              height: DesignConstants.icon24,
+              fit: BoxFit.fitHeight,
+              quality: FilterQuality.high,
+            ),
           ),
-          SizedBox(width: DesignConstants.spacing16),
-          _NotificationContainerTextWidget(),
+          const SizedBox(width: DesignConstants.spacing16),
+          _NotificationContainerTextWidget(title: title, subtitle: subtitle),
         ],
       ),
     );
   }
 }
 
+/// Text column displaying a bold [title] above a lighter [subtitle] inside a notification info card.
 class _NotificationContainerTextWidget extends StatelessWidget {
-  const _NotificationContainerTextWidget();
+  const _NotificationContainerTextWidget({
+    required this.title,
+    required this.subtitle,
+  });
+
+  final String title;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -164,18 +250,13 @@ class _NotificationContainerTextWidget extends StatelessWidget {
         children: <Widget>[
           Flexible(
             child: Text(
-              OnboardingWidgetConstants.onboardingNotificationContainerTitle,
-              style: context.textTheme.titleLarge?.copyWith(
-                fontSize: DesignConstants.textSize18,
+              title,
+              style: context.textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
-          Flexible(
-            child: Text(
-              OnboardingWidgetConstants.onboardingNotificationContainerSubtitle,
-              style: context.textTheme.bodyMedium,
-            ),
-          ),
+          Flexible(child: Text(subtitle, style: context.textTheme.bodyMedium)),
         ],
       ),
     );

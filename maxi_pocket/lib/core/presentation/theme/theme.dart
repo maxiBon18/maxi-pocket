@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
 
 /// Font family name constants used as reference tokens across the design system.
 class ThemeConstants {
@@ -62,34 +63,52 @@ class ThemeLightColors {
   /// Bottom navigation bar background color.
   static const Color bottomNavigationBarBackgroundColor = Color(0xFFFFFFFF);
 
-  /// Text Colors
+  /// Primary heading and data text in light mode.
   static const Color textPrimaryColor = Color(0xFF2B2024);
+
+  /// Secondary and supporting text in light mode.
   static const Color textSecondaryColor = Color(0xFF5C4F53);
+
+  /// Placeholder and disabled-state text in light mode.
   static const Color textDisabledColor = Color(0xFFA8A0AE);
+
+  /// Text rendered on top of the primary colour (e.g. button labels).
   static const Color textOnPrimaryColor = Color(0xFF2B2024);
+
+  /// Text rendered on surface-coloured backgrounds in light mode.
   static const Color textOnSurfaceColor = Color(0xFF2B2024);
+
+  /// Text colour used when the surface is dark (e.g. tooltip text on dark overlays).
   static const Color textInverseColor = Color(0xFFF5F0EB);
+
+  /// Accent colour applied to annual-frequency labels and amounts.
   static const Color textAnnualColor = Color(0xFFF59E0B);
+
+  /// Accent colour applied to monthly-frequency labels and amounts.
   static const Color textMonthlyColor = Color(0xFF3B82F6);
 
-  /// Navigation Bottom Bar Colors
+  /// Top border separating the navigation bar from page content in light mode.
   static const Color bottomNavigationBarTopBorderColor = Color(0xFFF0E6EB);
+
+  /// Drop-shadow colour for the navigation bar in light mode.
   static const Color bottomNavigationBarShadowsColor = Color(0xFF000000);
 
-  /// Theme Settings Colors
+  /// Background colour of the theme-toggle icon container in light mode.
   static const Color changeThemeIconColor = Color(0xFFEDE4F0);
 
   /// Switch track color in the unchecked state.
   static const Color switchTrackColor = Color(0xFFE5E5E5);
 
-  /// Card Colors
+  /// Gradient end colour used on expense-summary cards.
   static const Color cardGradientColor1 = Color(0xFFB399BA);
 
-  /// Badge Colors
+  /// Background fill for the financing-type badge chip.
   static const Color badgeFinancingBackgroundColor = Color(0xFFD6EFE0);
 
   /// Expenses Colors
-  static const Color expensesSubscriptionIconBackgroundColor = Color(0xFFFFF0F3);
+  static const Color expensesSubscriptionIconBackgroundColor = Color(
+    0xFFFFF0F3,
+  );
   static const Color expensesFinancingIconBackgroundColor = Color(0xFFF0F8F4);
   static const Color expensesAllIconBackgroundColor = Color(0xFFF7F3F8);
   static const Color expensesSubscriptionIconColor = Color(0xFFFFB3C1);
@@ -110,7 +129,30 @@ class ThemeLightColors {
   static const Color dialogBarrierColor = Color(0xFF000000);
 
   /// Onboarding Colors
-  static const Color onboardingNotificationContainerBackgroundColor = Color(0xFFF0E6E8);
+  static const Color onboardingNotificationContainerBackgroundColor = Color(
+    0xFFFFFFFF,
+  );
+
+  /// Lightest stop of the onboarding hero gradient (top-left).
+  static const Color onboardingGradientColor3 = Color(0xFFFFB3C1);
+
+  /// Mid stop of the onboarding hero gradient.
+  static const Color onboardinGradientColor2 = Color(0xFFF3A2B2);
+
+  /// Darkest stop of the onboarding hero gradient (bottom-right).
+  static const Color onboardingGradientColor1 = Color(0xFFE0899B);
+
+  /// Ordered gradient stops used by the onboarding icon circle (dark → mid → light).
+  static const List<Color> onboardingGradientColors = <Color>[
+    onboardingGradientColor1,
+    onboardinGradientColor2,
+    onboardingGradientColor3,
+  ];
+
+  /// Background fill of the appointments info card on the onboarding page.
+  static const Color onboardingAppointmentsContainerBackgroundColor = Color(
+    0xFFFFF7E6,
+  );
 }
 
 /// Color tokens for the dark theme.
@@ -162,27 +204,49 @@ class ThemeDarkColors {
   /// Dividers and disabled fields in dark mode.
   static const Color surfaceVariantColor = Color(0xFF3D2F33);
 
-  /// Text Colors
+  /// Primary heading and data text in dark mode.
   static const Color textPrimaryColor = Color(0xFFF5F0EB);
+
+  /// Secondary and supporting text in dark mode.
   static const Color textSecondaryColor = Color(0xFFC9B8C0);
+
+  /// Placeholder and disabled-state text in dark mode.
   static const Color textDisabledColor = Color(0xFF6B5F72);
+
+  /// Text rendered on top of the primary colour (e.g. button labels) in dark mode.
   static const Color textOnPrimaryColor = Color(0xFF2B2024);
+
+  /// Text rendered on surface-coloured backgrounds in dark mode.
   static const Color textOnSurfaceColor = Color(0xFFF5F0EB);
+
+  /// Text colour used when the surface is light (e.g. text on light overlays in dark mode).
   static const Color textInverseColor = Color(0xFF2B2024);
+
+  /// Accent colour applied to annual-frequency labels and amounts in dark mode.
   static const Color textAnnualColor = Color(0xFFF59E0B);
+
+  /// Accent colour applied to monthly-frequency labels and amounts in dark mode.
   static const Color textMonthlyColor = Color(0xFF3B82F6);
 
-  /// Navigation Bottom Bar Colors
+  /// Background fill of the navigation bar in dark mode.
   static const Color bottomNavigationBarBackgroundColor = Color(0xFF1A1216);
+
+  /// Top border separating the navigation bar from page content in dark mode.
   static const Color bottomNavigationBarTopBorderColor = Color(0xFF2E2329);
+
+  /// Drop-shadow colour for the navigation bar in dark mode.
   static const Color bottomNavigationBarShadowsColor = Color(0xFFFFFFFF);
 
-  /// List Tile Colors
+  /// Border colour for list tile separators in dark mode.
   static const Color listTileBorderColor = Color(0xFF3D3438);
+
+  /// Background colour of the theme-toggle icon container in dark mode.
   static const Color changeThemeIconColor = Color(0xFFC9B1D0);
 
   /// Expenses Colors
-  static const Color expensesSubscriptionIconBackgroundColor = Color(0xFF3D2830);
+  static const Color expensesSubscriptionIconBackgroundColor = Color(
+    0xFF3D2830,
+  );
   static const Color expensesFinancingIconBackgroundColor = Color(0xFF2A3832);
   static const Color expensesAllIconBackgroundColor = Color(0xFF352E38);
   static const Color expensesSubscriptionIconColor = Color(0xFFFFB3C1);
@@ -203,7 +267,12 @@ class ThemeDarkColors {
 
   // Onboarding Colors
   static const Color onboardingScaffoldBackgroundColor = Color(0xFF1A1518);
-  static const Color onboardingNotificationContainerBackgroundColor = Color(0xFF3D3438);
+  static const Color onboardingNotificationContainerBackgroundColor = Color(
+    0xFF3D3438,
+  );
+  static const Color onboardingAppointmentsContainerBackgroundColor = Color(
+    0xFF3D3438,
+  );
 }
 
 /// Pre-built [TextTheme]s and custom monetary [TextStyle]s for light and dark modes.
@@ -539,7 +608,9 @@ final ThemeData lightAppTheme = ThemeData(
     surfaceTintColor: Colors.transparent,
     elevation: DesignConstants.appBarElevation,
     centerTitle: true,
-    titleTextStyle: ThemeTextStyles.appLightTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
+    titleTextStyle: ThemeTextStyles.appLightTextTheme.titleLarge!.copyWith(
+      fontWeight: FontWeight.w700,
+    ),
     iconTheme: const IconThemeData(
       color: ThemeLightColors.onSurfaceVariantColor,
       size: DesignConstants.icon24,
@@ -556,7 +627,9 @@ final ThemeData lightAppTheme = ThemeData(
     backgroundColor: ThemeLightColors.backgroundColor,
     elevation: 5,
     labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> state) {
+    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((
+      Set<WidgetState> state,
+    ) {
       if (state.contains(WidgetState.selected)) {
         return const IconThemeData(
           size: DesignConstants.icon24,
@@ -570,7 +643,9 @@ final ThemeData lightAppTheme = ThemeData(
         applyTextScaling: false,
       );
     }),
-    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((Set<WidgetState> state) {
+    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((
+      Set<WidgetState> state,
+    ) {
       if (state.contains(WidgetState.selected)) {
         return ThemeTextStyles.appLightTextTheme.labelMedium!.copyWith(
           color: ThemeLightColors.primaryColor,
@@ -585,7 +660,9 @@ final ThemeData lightAppTheme = ThemeData(
   ),
   switchTheme: SwitchThemeData(
     trackOutlineWidth: const WidgetStatePropertyAll<double>(0),
-    thumbColor: WidgetStateProperty.all<Color>(ThemeLightColors.backgroundColor),
+    thumbColor: WidgetStateProperty.all<Color>(
+      ThemeLightColors.backgroundColor,
+    ),
     trackColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
       if (states.contains(WidgetState.selected)) {
         return ThemeLightColors.primaryColor;
@@ -673,7 +750,9 @@ final ThemeData darkAppTheme = ThemeData(
     surfaceTintColor: Colors.transparent,
     elevation: DesignConstants.appBarElevation,
     centerTitle: true,
-    titleTextStyle: ThemeTextStyles.appDarkTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
+    titleTextStyle: ThemeTextStyles.appDarkTextTheme.titleLarge!.copyWith(
+      fontWeight: FontWeight.w700,
+    ),
     iconTheme: const IconThemeData(
       color: ThemeDarkColors.onSurfaceVariantColor,
       size: DesignConstants.icon24,
@@ -690,7 +769,9 @@ final ThemeData darkAppTheme = ThemeData(
     backgroundColor: ThemeDarkColors.scaffoldBackgroundColor,
     elevation: 5,
     labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> state) {
+    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((
+      Set<WidgetState> state,
+    ) {
       if (state.contains(WidgetState.selected)) {
         return const IconThemeData(
           size: DesignConstants.icon24,
@@ -704,7 +785,9 @@ final ThemeData darkAppTheme = ThemeData(
         applyTextScaling: false,
       );
     }),
-    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((Set<WidgetState> state) {
+    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((
+      Set<WidgetState> state,
+    ) {
       if (state.contains(WidgetState.selected)) {
         return ThemeTextStyles.appDarkTextTheme.labelMedium!.copyWith(
           color: ThemeDarkColors.primaryColor,
@@ -719,7 +802,9 @@ final ThemeData darkAppTheme = ThemeData(
   ),
   switchTheme: SwitchThemeData(
     thumbColor: WidgetStateProperty.all<Color>(ThemeDarkColors.backgroundColor),
-    trackColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+    trackColor: WidgetStateProperty.resolveWith<Color>((
+      Set<WidgetState> states,
+    ) {
       if (states.contains(WidgetState.selected)) {
         return ThemeDarkColors.primaryDarkColor;
       }
@@ -782,11 +867,16 @@ final ThemeData darkAppTheme = ThemeData(
     style: ListTileStyle.list,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadiusGeometry.circular(DesignConstants.radius16),
-      side: const BorderSide(color: ThemeDarkColors.listTileBorderColor, width: DesignConstants.bottomBarBorderWidth),
+      side: const BorderSide(
+        color: ThemeDarkColors.listTileBorderColor,
+        width: DesignConstants.bottomBarBorderWidth,
+      ),
     ),
     titleAlignment: .center,
     titleTextStyle: ThemeTextStyles.appDarkTextTheme.titleMedium,
-    subtitleTextStyle: ThemeTextStyles.appDarkTextTheme.titleSmall!.copyWith(color: ThemeDarkColors.textSecondaryColor),
+    subtitleTextStyle: ThemeTextStyles.appDarkTextTheme.titleSmall!.copyWith(
+      color: ThemeDarkColors.textSecondaryColor,
+    ),
     dense: false,
     tileColor: ThemeDarkColors.surfaceColor,
     selectedTileColor: ThemeDarkColors.primaryColor,

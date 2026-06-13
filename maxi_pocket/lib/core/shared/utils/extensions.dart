@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:maxi_pocket/core/shared/constants/app_constants.dart' show AppConstants;
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode, MaxiPocketExpensesFrequency;
-import 'package:maxi_pocket/core/shared/utils/loggers.dart' show customDebugPrint;
+import 'package:maxi_pocket/core/shared/constants/app_constants.dart'
+    show AppConstants;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart'
+    show MaxiPocketThemeMode, MaxiPocketExpensesFrequency;
+import 'package:maxi_pocket/core/shared/utils/loggers.dart'
+    show customDebugPrint;
 
 /// Convenience accessors on [BuildContext].
 extension BuildContextExtension on BuildContext {
@@ -45,14 +49,17 @@ extension MaterialThemeModeExtension on MaxiPocketThemeMode {
 /// Responsive sizing helpers for screen-dimension doubles.
 extension DoubleExtension on double {
   /// Scales [componentHeight] relative to the design canvas height.
-  double responsiveHeight(double componentHeight) => this * componentHeight / DesignConstants.appHeightByDesign;
+  double responsiveHeight(double componentHeight) =>
+      this * componentHeight / DesignConstants.appHeightByDesign;
 
   /// Scales [componentWidth] relative to the design canvas width.
-  double responsiveWidth(double componentWidth) => this * componentWidth / DesignConstants.appWidthByDesign;
+  double responsiveWidth(double componentWidth) =>
+      this * componentWidth / DesignConstants.appWidthByDesign;
 
   double normalizedSizeWithTextScaler(BuildContext context) {
     final double textScaler = MediaQuery.textScalerOf(context).scale(1.0);
-    final double normalizedTextScaler = textScaler > DesignConstants.appMaxTextScaler
+    final double normalizedTextScaler =
+        textScaler > DesignConstants.appMaxTextScaler
         ? DesignConstants.appMaxTextScaler
         : textScaler;
     return this * normalizedTextScaler;
@@ -94,7 +101,9 @@ extension DateFromDateTimeExtensions on DateTime? {
     try {
       return DateFormat(format).format(this ?? DateTime.now());
     } catch (e, st) {
-      customDebugPrint('[DateFromDateTimeExtensions] formattedDate failed: $e\n$st');
+      customDebugPrint(
+        '[DateFromDateTimeExtensions] formattedDate failed: $e\n$st',
+      );
       return DateFormat(format).format(DateTime.now());
     }
   }
@@ -113,7 +122,9 @@ extension DateFromStringExtensions on String {
       try {
         return DateFormat.yMd(AppConstants.languageCode).parse(this);
       } catch (e, st) {
-        customDebugPrint('[DateFromStringExtensions] parseFromStringDate failed: $e\n$st');
+        customDebugPrint(
+          '[DateFromStringExtensions] parseFromStringDate failed: $e\n$st',
+        );
         return DateTime.now();
       }
     }

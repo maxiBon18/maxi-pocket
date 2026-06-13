@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:maxi_pocket/core/domain/entities/home_entity.dart' show HomeEntity;
-import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors;
+import 'package:maxi_pocket/core/domain/entities/home_entity.dart'
+    show HomeEntity;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart'
+    show ThemeLightColors;
 import 'package:maxi_pocket/core/presentation/ux/pages/wrapper_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/circular_loading.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/image_widget.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/home_viewmodel.dart';
 import 'package:maxi_pocket/core/shared/constants/app_constants.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
+    show DesignConstants;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 import 'package:maxi_pocket/routes.dart' show Routes;
 import 'package:maxi_pocket/splashscreen/shared/constants/assets_constants.dart';
@@ -24,7 +27,10 @@ class MaxiPocketSplashPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(homeNotifierProvider, (AsyncValue<HomeEntity?>? previous, AsyncValue<HomeEntity?> next) {
+    ref.listen(homeNotifierProvider, (
+      AsyncValue<HomeEntity?>? previous,
+      AsyncValue<HomeEntity?> next,
+    ) {
       next.when(
         data: (_) {
           if (ref.read(homeNotifierProvider.notifier).onboardingCompleted) {
@@ -84,7 +90,9 @@ class _SplashContent extends StatelessWidget {
         ),
         Text(
           AppConstants.appDescription,
-          style: (context.textTheme.bodyLarge ?? const TextStyle()).copyWith(color: ThemeLightColors.textInverseColor),
+          style: (context.textTheme.bodyLarge ?? const TextStyle()).copyWith(
+            color: ThemeLightColors.textInverseColor,
+          ),
           semanticsLabel: AppConstants.appDescription,
           textAlign: .center,
         ),

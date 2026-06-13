@@ -6,19 +6,27 @@ class OnboardingWidgetConstants {
   const OnboardingWidgetConstants._();
 
   /// Main headline welcoming the user to the app.
-  static const String onboardingTitle = 'Benvenuto in Maxi Pocket';
+  static const String onboardingTitle = 'Mantieni in controllo';
 
   /// Subtitle beneath the main headline describing the app's purpose.
   static const String onboardingSubtitle =
-      'La tua app per gestire le spese e appuntamenti';
+      'Attiva le notifiche per ricevere promemoria tempestivi per le tue spese e i tuoi appuntamenti.';
 
   /// Title inside the notification info container card.
   static const String onboardingNotificationContainerTitle =
-      'Non perderti nessun pagamento o appuntamento';
+      'Non perderti nessun pagamento';
 
   /// Description inside the notification info container card explaining what notifications do.
   static const String onboardingNotificationContainerSubtitle =
-      'Abilita le notifiche per ricevere un promemoria il giorno prima di ogni pagamento o appuntamento';
+      'Ricevi notifiche prima della scadenza dei tuoi pagamenti.';
+
+  /// Title inside the notification info container card.
+  static const String onboardingNotificationAppointmentsContainerTitle =
+      'Non mancare nessuna data';
+
+  /// Description inside the notification info container card explaining what notifications do.
+  static const String onboardingNotificationAppointmentsContainerSubtitle =
+      'Promemoria puntuali per tutti i tuoi appuntamenti.';
 
   /// Label on the primary CTA button that completes onboarding.
   static const String onboardingContinueButtonText = 'Continua';
@@ -29,7 +37,11 @@ class OnboardingWidgetConstants {
 class OnboardingAssetsConstants {
   const OnboardingAssetsConstants._();
 
-  /// Illustration displayed in the notification info container on the onboarding page.
+  /// Illustration displayed in the subscription/payments notification info container on the onboarding page.
   static const String notificationIcon =
       'assets/images/onboarding_notification_container.png';
+
+  /// Illustration displayed in the appointments notification info container on the onboarding page.
+  static const String notificationAppointmentsIcon =
+      'assets/images/scheduled_notification_image.png';
 }

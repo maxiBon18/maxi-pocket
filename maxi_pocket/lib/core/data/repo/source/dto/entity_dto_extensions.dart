@@ -21,8 +21,11 @@ extension ExpenseCommitmentEntityExtension on ExpenseCommitmentEntity {
 /// Converts [AppointmentEntity] to its Drift-compatible DTO.
 extension AppointmentEntityExtension on AppointmentEntity {
   /// Maps this entity to an [AppointmentDto] for database persistence.
-  AppointmentDto toDto() =>
-      AppointmentDto(expense: commitmentEntity.toDto(), location: location);
+  AppointmentDto toDto() => AppointmentDto(
+    expense: commitmentEntity.toDto(),
+    location: location,
+    hour: hour,
+  );
 }
 
 /// Converts [SubscriptionEntity] to its Drift-compatible DTO.

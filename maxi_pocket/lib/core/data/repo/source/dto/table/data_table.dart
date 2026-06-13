@@ -83,6 +83,9 @@ class AppointmentsTable extends Table {
   TextColumn get location =>
       text().check(location.length.isBiggerThanValue(0))();
 
+  /// Hour of the appointment; must be non-empty.
+  TextColumn get hour => text().check(hour.length.isBiggerThanValue(0))();
+
   /// Foreign key linking this row to its [CommonDataTable] parent record.
   Int64Column get foreignId =>
       int64().unique().references(CommonDataTable, #primaryId)();

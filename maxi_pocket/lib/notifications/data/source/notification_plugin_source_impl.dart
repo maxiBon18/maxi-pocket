@@ -22,6 +22,10 @@ class NotificationPluginSourceImpl implements NotificationPluginSource {
           NotificationChannelConstants.appointmentChannelDescription,
       importance: Importance.high,
       priority: Priority.high,
+      icon: NotificationIconConstants.smallIcon,
+      largeIcon: DrawableResourceAndroidBitmap(
+        NotificationIconConstants.largeIcon,
+      ),
     ),
     iOS: DarwinNotificationDetails(
       presentAlert: true,
@@ -39,6 +43,10 @@ class NotificationPluginSourceImpl implements NotificationPluginSource {
           NotificationChannelConstants.subscriptionChannelDescription,
       importance: Importance.high,
       priority: Priority.high,
+      icon: NotificationIconConstants.smallIcon,
+      largeIcon: DrawableResourceAndroidBitmap(
+        NotificationIconConstants.largeIcon,
+      ),
     ),
     iOS: DarwinNotificationDetails(
       presentAlert: true,
@@ -56,6 +64,10 @@ class NotificationPluginSourceImpl implements NotificationPluginSource {
           NotificationChannelConstants.financingChannelDescription,
       importance: Importance.high,
       priority: Priority.high,
+      icon: NotificationIconConstants.smallIcon,
+      largeIcon: DrawableResourceAndroidBitmap(
+        NotificationIconConstants.largeIcon,
+      ),
     ),
     iOS: DarwinNotificationDetails(
       presentAlert: true,
@@ -79,7 +91,7 @@ class NotificationPluginSourceImpl implements NotificationPluginSource {
     body: body,
     scheduledDate: scheduledDate,
     notificationDetails: _detailsForType(type),
-    androidScheduleMode: AndroidScheduleMode.inexact,
+    androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
   );
 
   /// Cancels all pending notifications via the plugin.
@@ -117,6 +129,10 @@ class NotificationPluginSourceImpl implements NotificationPluginSource {
   @override
   Future<bool> openSettings() async => await openAppSettings();
 
+  /// Returns the pre-built [NotificationDetails] for the given expense [type].
+  ///
+  /// Appointments and financings use their dedicated channel; all other types
+  /// (including subscriptions) fall back to [_subscriptionDetails].
   NotificationDetails _detailsForType(MaxiPocketExpensesType type) =>
       switch (type) {
         MaxiPocketExpensesType.appointments => _appointmentDetails,
