@@ -28,12 +28,13 @@ import 'package:maxi_pocket/core/shared/utils/enums.dart'
     show MaxiPocketThemeMode, MaxiPocketDialogType, MaxiPocketExpensesType;
 import 'package:maxi_pocket/core/shared/utils/helpers_method.dart'
     show getAppointmentsWrapperCommitments;
+import 'package:maxi_pocket/core/presentation/viewmodel/home_viewmodel.dart' show homeNotifierProvider;
 import 'package:maxi_pocket/routes.dart';
 
 /// Entry point for the appointments feature, rendered inside the shared page shell.
 ///
-/// Shows a placeholder until the appointments domain is connected. Hides the back
-/// arrow and bottom navigation is always visible because this is a root destination.
+/// Hides the back arrow and always shows bottom navigation because this is a root
+/// destination. Renders loading, empty, and error states based on [appointmentProvider].
 class MaxiPocketAppointmentsPage extends ConsumerWidget {
   const MaxiPocketAppointmentsPage({super.key});
 
@@ -78,6 +79,8 @@ class MaxiPocketAppointmentsPage extends ConsumerWidget {
     );
   }
 
+  /// Opens the edit bottom sheet for [entity], ignoring taps on non-appointment
+  /// entities or appointments missing an id.
   Future<void> _onEdit(
     BuildContext context,
     WidgetRef ref,
@@ -93,6 +96,8 @@ class MaxiPocketAppointmentsPage extends ConsumerWidget {
     );
   }
 
+  /// Confirms deletion of [entity] then removes it, refreshing the appointments
+  /// and home providers only if the delete call succeeds.
   Future<void> _onDelete(
     BuildContext context,
     WidgetRef ref,
@@ -127,6 +132,7 @@ class MaxiPocketAppointmentsPage extends ConsumerWidget {
 
         if (ref.read(fabViewmodelProvider).hasValue) {
           ref.invalidate(appointmentProvider);
+          ref.invalidate(homeNotifierProvider);
         }
         getDI<LoadingViewmodel>().hideLoading();
       },

@@ -82,6 +82,17 @@ class $CommonDataTableTable extends CommonDataTable
     requiredDuringInsert: false,
     defaultValue: currentDateAndTime,
   );
+  static const VerificationMeta _localeTimezoneMeta = const VerificationMeta(
+    'localeTimezone',
+  );
+  @override
+  late final GeneratedColumn<String> localeTimezone = GeneratedColumn<String>(
+    'locale_timezone',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     primaryId,
@@ -90,6 +101,7 @@ class $CommonDataTableTable extends CommonDataTable
     eventDate,
     createdAt,
     updatedAt,
+    localeTimezone,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -135,6 +147,17 @@ class $CommonDataTableTable extends CommonDataTable
         updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
       );
     }
+    if (data.containsKey('locale_timezone')) {
+      context.handle(
+        _localeTimezoneMeta,
+        localeTimezone.isAcceptableOrUnknown(
+          data['locale_timezone']!,
+          _localeTimezoneMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_localeTimezoneMeta);
+    }
     return context;
   }
 
@@ -170,6 +193,10 @@ class $CommonDataTableTable extends CommonDataTable
         DriftSqlType.dateTime,
         data['${effectivePrefix}updated_at'],
       )!,
+      localeTimezone: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}locale_timezone'],
+      )!,
     );
   }
 
@@ -202,6 +229,9 @@ class CommonData extends DataClass implements Insertable<CommonData> {
 
   /// Timestamp of the most recent update to this row.
   final DateTime updatedAt;
+
+  /// The timezone of the event date, used for chronological sorting of mixed commitment lists.
+  final String localeTimezone;
   const CommonData({
     required this.primaryId,
     required this.name,
@@ -209,6 +239,7 @@ class CommonData extends DataClass implements Insertable<CommonData> {
     required this.eventDate,
     required this.createdAt,
     required this.updatedAt,
+    required this.localeTimezone,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -223,6 +254,7 @@ class CommonData extends DataClass implements Insertable<CommonData> {
     map['event_date'] = Variable<DateTime>(eventDate);
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
+    map['locale_timezone'] = Variable<String>(localeTimezone);
     return map;
   }
 
@@ -234,6 +266,7 @@ class CommonData extends DataClass implements Insertable<CommonData> {
       eventDate: Value(eventDate),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
+      localeTimezone: Value(localeTimezone),
     );
   }
 
@@ -251,6 +284,7 @@ class CommonData extends DataClass implements Insertable<CommonData> {
       eventDate: serializer.fromJson<DateTime>(json['eventDate']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      localeTimezone: serializer.fromJson<String>(json['localeTimezone']),
     );
   }
   @override
@@ -265,6 +299,7 @@ class CommonData extends DataClass implements Insertable<CommonData> {
       'eventDate': serializer.toJson<DateTime>(eventDate),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'localeTimezone': serializer.toJson<String>(localeTimezone),
     };
   }
 
@@ -275,6 +310,7 @@ class CommonData extends DataClass implements Insertable<CommonData> {
     DateTime? eventDate,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? localeTimezone,
   }) => CommonData(
     primaryId: primaryId ?? this.primaryId,
     name: name ?? this.name,
@@ -282,6 +318,7 @@ class CommonData extends DataClass implements Insertable<CommonData> {
     eventDate: eventDate ?? this.eventDate,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
+    localeTimezone: localeTimezone ?? this.localeTimezone,
   );
   CommonData copyWithCompanion(CommonDataTableCompanion data) {
     return CommonData(
@@ -291,6 +328,9 @@ class CommonData extends DataClass implements Insertable<CommonData> {
       eventDate: data.eventDate.present ? data.eventDate.value : this.eventDate,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      localeTimezone: data.localeTimezone.present
+          ? data.localeTimezone.value
+          : this.localeTimezone,
     );
   }
 
@@ -302,14 +342,22 @@ class CommonData extends DataClass implements Insertable<CommonData> {
           ..write('eventType: $eventType, ')
           ..write('eventDate: $eventDate, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('localeTimezone: $localeTimezone')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(primaryId, name, eventType, eventDate, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+    primaryId,
+    name,
+    eventType,
+    eventDate,
+    createdAt,
+    updatedAt,
+    localeTimezone,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -319,7 +367,8 @@ class CommonData extends DataClass implements Insertable<CommonData> {
           other.eventType == this.eventType &&
           other.eventDate == this.eventDate &&
           other.createdAt == this.createdAt &&
-          other.updatedAt == this.updatedAt);
+          other.updatedAt == this.updatedAt &&
+          other.localeTimezone == this.localeTimezone);
 }
 
 class CommonDataTableCompanion extends UpdateCompanion<CommonData> {
@@ -329,6 +378,7 @@ class CommonDataTableCompanion extends UpdateCompanion<CommonData> {
   final Value<DateTime> eventDate;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
+  final Value<String> localeTimezone;
   const CommonDataTableCompanion({
     this.primaryId = const Value.absent(),
     this.name = const Value.absent(),
@@ -336,6 +386,7 @@ class CommonDataTableCompanion extends UpdateCompanion<CommonData> {
     this.eventDate = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
+    this.localeTimezone = const Value.absent(),
   });
   CommonDataTableCompanion.insert({
     this.primaryId = const Value.absent(),
@@ -344,8 +395,10 @@ class CommonDataTableCompanion extends UpdateCompanion<CommonData> {
     this.eventDate = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
+    required String localeTimezone,
   }) : name = Value(name),
-       eventType = Value(eventType);
+       eventType = Value(eventType),
+       localeTimezone = Value(localeTimezone);
   static Insertable<CommonData> custom({
     Expression<BigInt>? primaryId,
     Expression<String>? name,
@@ -353,6 +406,7 @@ class CommonDataTableCompanion extends UpdateCompanion<CommonData> {
     Expression<DateTime>? eventDate,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
+    Expression<String>? localeTimezone,
   }) {
     return RawValuesInsertable({
       if (primaryId != null) 'primary_id': primaryId,
@@ -361,6 +415,7 @@ class CommonDataTableCompanion extends UpdateCompanion<CommonData> {
       if (eventDate != null) 'event_date': eventDate,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
+      if (localeTimezone != null) 'locale_timezone': localeTimezone,
     });
   }
 
@@ -371,6 +426,7 @@ class CommonDataTableCompanion extends UpdateCompanion<CommonData> {
     Value<DateTime>? eventDate,
     Value<DateTime>? createdAt,
     Value<DateTime>? updatedAt,
+    Value<String>? localeTimezone,
   }) {
     return CommonDataTableCompanion(
       primaryId: primaryId ?? this.primaryId,
@@ -379,6 +435,7 @@ class CommonDataTableCompanion extends UpdateCompanion<CommonData> {
       eventDate: eventDate ?? this.eventDate,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      localeTimezone: localeTimezone ?? this.localeTimezone,
     );
   }
 
@@ -405,6 +462,9 @@ class CommonDataTableCompanion extends UpdateCompanion<CommonData> {
     if (updatedAt.present) {
       map['updated_at'] = Variable<DateTime>(updatedAt.value);
     }
+    if (localeTimezone.present) {
+      map['locale_timezone'] = Variable<String>(localeTimezone.value);
+    }
     return map;
   }
 
@@ -416,7 +476,8 @@ class CommonDataTableCompanion extends UpdateCompanion<CommonData> {
           ..write('eventType: $eventType, ')
           ..write('eventDate: $eventDate, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('localeTimezone: $localeTimezone')
           ..write(')'))
         .toString();
   }
@@ -1619,6 +1680,7 @@ typedef $$CommonDataTableTableCreateCompanionBuilder =
       Value<DateTime> eventDate,
       Value<DateTime> createdAt,
       Value<DateTime> updatedAt,
+      required String localeTimezone,
     });
 typedef $$CommonDataTableTableUpdateCompanionBuilder =
     CommonDataTableCompanion Function({
@@ -1628,6 +1690,7 @@ typedef $$CommonDataTableTableUpdateCompanionBuilder =
       Value<DateTime> eventDate,
       Value<DateTime> createdAt,
       Value<DateTime> updatedAt,
+      Value<String> localeTimezone,
     });
 
 final class $$CommonDataTableTableReferences
@@ -1770,6 +1833,11 @@ class $$CommonDataTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get localeTimezone => $composableBuilder(
+    column: $table.localeTimezone,
+    builder: (column) => ColumnFilters(column),
+  );
+
   Expression<bool> financingTableRefs(
     Expression<bool> Function($$FinancingTableTableFilterComposer f) f,
   ) {
@@ -1884,6 +1952,11 @@ class $$CommonDataTableTableOrderingComposer
     column: $table.updatedAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get localeTimezone => $composableBuilder(
+    column: $table.localeTimezone,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$CommonDataTableTableAnnotationComposer
@@ -1912,6 +1985,11 @@ class $$CommonDataTableTableAnnotationComposer
 
   GeneratedColumn<DateTime> get updatedAt =>
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get localeTimezone => $composableBuilder(
+    column: $table.localeTimezone,
+    builder: (column) => column,
+  );
 
   Expression<T> financingTableRefs<T extends Object>(
     Expression<T> Function($$FinancingTableTableAnnotationComposer a) f,
@@ -2031,6 +2109,7 @@ class $$CommonDataTableTableTableManager
                 Value<DateTime> eventDate = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> updatedAt = const Value.absent(),
+                Value<String> localeTimezone = const Value.absent(),
               }) => CommonDataTableCompanion(
                 primaryId: primaryId,
                 name: name,
@@ -2038,6 +2117,7 @@ class $$CommonDataTableTableTableManager
                 eventDate: eventDate,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
+                localeTimezone: localeTimezone,
               ),
           createCompanionCallback:
               ({
@@ -2047,6 +2127,7 @@ class $$CommonDataTableTableTableManager
                 Value<DateTime> eventDate = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> updatedAt = const Value.absent(),
+                required String localeTimezone,
               }) => CommonDataTableCompanion.insert(
                 primaryId: primaryId,
                 name: name,
@@ -2054,6 +2135,7 @@ class $$CommonDataTableTableTableManager
                 eventDate: eventDate,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
+                localeTimezone: localeTimezone,
               ),
           withReferenceMapper: (p0) => p0
               .map(

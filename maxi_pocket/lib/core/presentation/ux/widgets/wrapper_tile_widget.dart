@@ -3,23 +3,14 @@ import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart'
-    show ThemeDarkColors, ThemeLightColors, ThemeTextStyles;
-import 'package:maxi_pocket/core/presentation/ux/widgets/badge_widget.dart'
-    show MaxiPocketBadgeWidget;
-import 'package:maxi_pocket/core/presentation/ux/widgets/list_tile_widget.dart'
-    show MaxiPocketListTileWidget;
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
-    show DesignConstants;
-import 'package:maxi_pocket/core/shared/constants/widget_constants.dart'
-    show WidgetConstants;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeDarkColors, ThemeLightColors, ThemeTextStyles;
+import 'package:maxi_pocket/core/presentation/ux/widgets/badge_widget.dart' show MaxiPocketBadgeWidget;
+import 'package:maxi_pocket/core/presentation/ux/widgets/list_tile_widget.dart' show MaxiPocketListTileWidget;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/shared/constants/widget_constants.dart' show WidgetConstants;
 import 'package:maxi_pocket/core/shared/utils/enums.dart'
-    show
-        MaxiPocketExpensesType,
-        MaxiPocketThemeMode,
-        MaxiPocketExpensesFrequency;
-import 'package:maxi_pocket/core/shared/utils/extensions.dart'
-    show BuildContextExtension, DateFromDateTimeExtensions;
+    show MaxiPocketExpensesType, MaxiPocketThemeMode, MaxiPocketExpensesFrequency;
+import 'package:maxi_pocket/core/shared/utils/extensions.dart' show BuildContextExtension, DateFromDateTimeExtensions;
 
 /// A list tile displaying an expense or appointment item with edit and delete actions.
 ///
@@ -50,17 +41,14 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
       ? ThemeLightColors.textSecondaryColor
       : ThemeDarkColors.onSurfaceVariantColor;
 
-  Color get _amountColor => themeMode == MaxiPocketThemeMode.light
-      ? ThemeLightColors.onSurfaceColor
-      : ThemeDarkColors.onSurfaceColor;
+  Color get _amountColor =>
+      themeMode == MaxiPocketThemeMode.light ? ThemeLightColors.onSurfaceColor : ThemeDarkColors.onSurfaceColor;
 
   String _getTitle() => switch (entityToShow) {
     final SubscriptionEntity s => s.commitmentEntity.name,
     final FinancingEntity f => f.commitmentEntity.name,
     final AppointmentEntity a => a.commitmentEntity.name,
-    _ => throw UnimplementedError(
-      'Unhandled entity type: ${entityToShow.runtimeType}',
-    ),
+    _ => throw UnimplementedError('Unhandled entity type: ${entityToShow.runtimeType}'),
   };
 
   @override
@@ -70,12 +58,7 @@ class MaxiPocketWrapperTileWidget extends StatelessWidget {
       title: Row(
         mainAxisAlignment: .spaceBetween,
         children: <Widget>[
-          Text(
-            _getTitle(),
-            style: context.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          Text(_getTitle(), style: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
           if (!isFromHome)
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -160,8 +143,7 @@ class _MaxiPocketAmount extends StatelessWidget {
                           : ThemeTextStyles.monetaryAmountSmallDark)
                       .copyWith(color: amountColor),
             ),
-          if (!isAppointment)
-            const Flexible(child: SizedBox(height: DesignConstants.spacing8)),
+          if (!isAppointment) const Flexible(child: SizedBox(height: DesignConstants.spacing8)),
         ],
       ),
     );
@@ -193,9 +175,7 @@ class _ExpenseTileSubtitle extends StatelessWidget {
     final SubscriptionEntity _ => WidgetConstants.addExpensesTypeSubscription,
     final FinancingEntity _ => WidgetConstants.addExpensesTypeFinancing,
     final AppointmentEntity _ => WidgetConstants.addExpensesTypeAppointments,
-    _ => throw UnimplementedError(
-      'Unhandled entity type: ${entityToShow.runtimeType}',
-    ),
+    _ => throw UnimplementedError('Unhandled entity type: ${entityToShow.runtimeType}'),
   };
 
   String _getFrequencyLabel() => switch (entityToShow) {
@@ -222,18 +202,10 @@ class _ExpenseTileSubtitle extends StatelessWidget {
           children: <Widget>[
             if (!isAppointment)
               Expanded(
-                child: MaxiPocketBadgeWidget(
-                  label: _getType(),
-                  expensesType: type,
-                  themeMode: themeMode,
-                ),
+                child: MaxiPocketBadgeWidget(label: _getType(), expensesType: type, themeMode: themeMode),
               )
             else
-              MaxiPocketBadgeWidget(
-                label: _getType(),
-                expensesType: type,
-                themeMode: themeMode,
-              ),
+              MaxiPocketBadgeWidget(label: _getType(), expensesType: type, themeMode: themeMode),
             if (!isAppointment)
               Expanded(
                 child: MaxiPocketBadgeWidget(
@@ -253,12 +225,7 @@ class _ExpenseTileSubtitle extends StatelessWidget {
           ],
         ),
         const SizedBox(height: DesignConstants.spacing4),
-        _ExpenseTileDateRow(
-          iconColor: iconColor,
-          isAppointment: isAppointment,
-          entityToShow: entityToShow,
-          type: type,
-        ),
+        _ExpenseTileDateRow(iconColor: iconColor, isAppointment: isAppointment, entityToShow: entityToShow, type: type),
       ],
     );
   }
@@ -286,10 +253,8 @@ class _ExpenseTileDateRow extends StatelessWidget {
     final SubscriptionEntity s => s.nextPaymentDate.formattedDate(),
     final FinancingEntity f => f.nextPaymentDate.formattedDate(),
     final AppointmentEntity a =>
-      '${a.commitmentEntity.eventDate.formattedDate()} - ${a.hour}',
-    _ => throw UnimplementedError(
-      'Unhandled entity type: ${entityToShow.runtimeType}',
-    ),
+      '${a.commitmentEntity.eventDate.formattedDate()} ${WidgetConstants.appointmentDateTimeSeparator} ${a.hour}',
+    _ => throw UnimplementedError('Unhandled entity type: ${entityToShow.runtimeType}'),
   };
 
   @override
@@ -313,23 +278,14 @@ class _ExpenseTileDateRow extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  isAppointment
-                      ? WidgetConstants.nextAppointment
-                      : WidgetConstants.nextExpenses,
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    fontSize: DesignConstants.textSize12,
-                  ),
+                  isAppointment ? WidgetConstants.nextAppointment : WidgetConstants.nextExpenses,
+                  style: context.textTheme.bodyMedium?.copyWith(fontSize: DesignConstants.textSize12),
                 ),
               ),
             ],
           ),
         ),
-        Text(
-          _getDate(),
-          style: context.textTheme.bodyMedium?.copyWith(
-            fontSize: DesignConstants.textSize12,
-          ),
-        ),
+        Text(_getDate(), style: context.textTheme.bodyMedium?.copyWith(fontSize: DesignConstants.textSize12)),
       ],
     );
   }

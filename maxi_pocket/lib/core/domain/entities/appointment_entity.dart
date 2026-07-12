@@ -13,13 +13,8 @@ class AppointmentEntity implements CommitmentsEntity {
   /// Database primary key; `null` before the record is persisted.
   final BigInt? id;
 
-  /// Hour of the appointment.
+  /// Appointment time as a locale-formatted string, parsed using the commitment's locale.
   final String hour;
 
-  const AppointmentEntity({
-    required this.commitmentEntity,
-    required this.location,
-    required this.hour,
-    this.id,
-  });
+  const AppointmentEntity({required this.commitmentEntity, required this.location, required this.hour, this.id});
 }

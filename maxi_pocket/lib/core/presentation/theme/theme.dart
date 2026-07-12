@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
-    show DesignConstants;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
 
 /// Font family name constants used as reference tokens across the design system.
 class ThemeConstants {
@@ -106,9 +105,7 @@ class ThemeLightColors {
   static const Color badgeFinancingBackgroundColor = Color(0xFFD6EFE0);
 
   /// Expenses Colors
-  static const Color expensesSubscriptionIconBackgroundColor = Color(
-    0xFFFFF0F3,
-  );
+  static const Color expensesSubscriptionIconBackgroundColor = Color(0xFFFFF0F3);
   static const Color expensesFinancingIconBackgroundColor = Color(0xFFF0F8F4);
   static const Color expensesAllIconBackgroundColor = Color(0xFFF7F3F8);
   static const Color expensesSubscriptionIconColor = Color(0xFFFFB3C1);
@@ -129,9 +126,7 @@ class ThemeLightColors {
   static const Color dialogBarrierColor = Color(0xFF000000);
 
   /// Onboarding Colors
-  static const Color onboardingNotificationContainerBackgroundColor = Color(
-    0xFFFFFFFF,
-  );
+  static const Color onboardingNotificationContainerBackgroundColor = Color(0xFFFFFFFF);
 
   /// Lightest stop of the onboarding hero gradient (top-left).
   static const Color onboardingGradientColor3 = Color(0xFFFFB3C1);
@@ -149,10 +144,14 @@ class ThemeLightColors {
     onboardingGradientColor3,
   ];
 
+  static const List<Color> onboardingBackgroundGradientColors = <Color>[
+    onboardingGradientColor3,
+    appointmentsBulletPointColor,
+    onboardingNotificationContainerBackgroundColor,
+  ];
+
   /// Background fill of the appointments info card on the onboarding page.
-  static const Color onboardingAppointmentsContainerBackgroundColor = Color(
-    0xFFFFF7E6,
-  );
+  static const Color onboardingAppointmentsContainerBackgroundColor = Color(0xFFFFF7E6);
 }
 
 /// Color tokens for the dark theme.
@@ -244,9 +243,7 @@ class ThemeDarkColors {
   static const Color changeThemeIconColor = Color(0xFFC9B1D0);
 
   /// Expenses Colors
-  static const Color expensesSubscriptionIconBackgroundColor = Color(
-    0xFF3D2830,
-  );
+  static const Color expensesSubscriptionIconBackgroundColor = Color(0xFF3D2830);
   static const Color expensesFinancingIconBackgroundColor = Color(0xFF2A3832);
   static const Color expensesAllIconBackgroundColor = Color(0xFF352E38);
   static const Color expensesSubscriptionIconColor = Color(0xFFFFB3C1);
@@ -267,12 +264,8 @@ class ThemeDarkColors {
 
   // Onboarding Colors
   static const Color onboardingScaffoldBackgroundColor = Color(0xFF1A1518);
-  static const Color onboardingNotificationContainerBackgroundColor = Color(
-    0xFF3D3438,
-  );
-  static const Color onboardingAppointmentsContainerBackgroundColor = Color(
-    0xFF3D3438,
-  );
+  static const Color onboardingNotificationContainerBackgroundColor = Color(0xFF3D3438);
+  static const Color onboardingAppointmentsContainerBackgroundColor = Color(0xFF3D3438);
 }
 
 /// Pre-built [TextTheme]s and custom monetary [TextStyle]s for light and dark modes.
@@ -281,7 +274,7 @@ class ThemeTextStyles {
 
   /// Complete [TextTheme] for the light mode, with each role mapped to Inter or Outfit at design-system sizes.
   static final TextTheme appLightTextTheme = TextTheme(
-    /// displayLarge — hero banners, onboarding screens.
+    // displayLarge — hero banners, onboarding screens.
     displayLarge: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
       fontSize: 60,
@@ -290,7 +283,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textPrimaryColor,
     ),
 
-    /// displayMedium — section heroes, large totals.
+    // displayMedium — section heroes, large totals.
     displayMedium: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
       fontSize: 45,
@@ -299,7 +292,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textPrimaryColor,
     ),
 
-    /// displaySmall — dashboard balance, month summary.
+    // displaySmall — dashboard balance, month summary.
     displaySmall: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
       fontSize: 36,
@@ -308,7 +301,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textPrimaryColor,
     ),
 
-    /// headlineLarge — closest mapping to source `font.display.lg` (32sp/40sp).
+    // headlineLarge — closest mapping to source `font.display.lg` (32sp/40sp).
     headlineLarge: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
       fontSize: 32,
@@ -317,7 +310,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textPrimaryColor,
     ),
 
-    /// headlineMedium — maps to source `font.display.md` (28sp/36sp).
+    // headlineMedium — maps to source `font.display.md` (28sp/36sp).
     headlineMedium: GoogleFonts.outfit(
       fontWeight: FontWeight.w600,
       fontSize: 28,
@@ -326,7 +319,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textPrimaryColor,
     ),
 
-    /// headlineSmall — maps to source `font.headline` (22sp/28sp).
+    // headlineSmall — maps to source `font.headline` (22sp/28sp).
     headlineSmall: GoogleFonts.outfit(
       fontWeight: FontWeight.w600,
       fontSize: 22,
@@ -335,7 +328,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textPrimaryColor,
     ),
 
-    /// titleLarge — card titles, dialog headers.
+    // titleLarge — card titles, dialog headers.
     titleLarge: GoogleFonts.inter(
       fontWeight: FontWeight.w600,
       fontSize: 20,
@@ -344,7 +337,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textPrimaryColor,
     ),
 
-    /// titleMedium — list-tile titles, tab labels.
+    // titleMedium — list-tile titles, tab labels.
     titleMedium: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
       fontSize: 18,
@@ -353,7 +346,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textPrimaryColor,
     ),
 
-    /// titleSmall — sub-headers, grouped list section titles.
+    // titleSmall — sub-headers, grouped list section titles.
     titleSmall: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
       fontSize: 14,
@@ -362,7 +355,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textPrimaryColor,
     ),
 
-    /// bodyLarge — primary paragraph text.
+    // bodyLarge — primary paragraph text.
     bodyLarge: GoogleFonts.inter(
       fontWeight: FontWeight.w400,
       fontSize: 16,
@@ -371,7 +364,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textPrimaryColor,
     ),
 
-    /// bodyMedium — default body, transaction descriptions.
+    // bodyMedium — default body, transaction descriptions.
     bodyMedium: GoogleFonts.inter(
       fontWeight: FontWeight.w400,
       fontSize: 14,
@@ -380,7 +373,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textSecondaryColor,
     ),
 
-    /// bodySmall — timestamps, metadata, fine print.
+    // bodySmall — timestamps, metadata, fine print.
     bodySmall: GoogleFonts.inter(
       fontWeight: FontWeight.w400,
       fontSize: 12,
@@ -389,7 +382,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textSecondaryColor,
     ),
 
-    /// labelLarge — button text, prominent chips.
+    // labelLarge — button text, prominent chips.
     labelLarge: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
       fontSize: 14,
@@ -398,7 +391,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textSecondaryColor,
     ),
 
-    /// labelMedium — navigation labels, input hints.
+    // labelMedium — navigation labels, input hints.
     labelMedium: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
       fontSize: 12,
@@ -407,7 +400,7 @@ class ThemeTextStyles {
       color: ThemeLightColors.textSecondaryColor,
     ),
 
-    /// labelSmall — captions, badges, overline text.
+    // labelSmall — captions, badges, overline text.
     labelSmall: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
       fontSize: 11,
@@ -419,7 +412,7 @@ class ThemeTextStyles {
 
   /// Complete [TextTheme] for the dark mode, mirroring [appLightTextTheme] with dark-mode color tokens.
   static final TextTheme appDarkTextTheme = TextTheme(
-    /// displayLarge — hero banners, onboarding screens.
+    // displayLarge — hero banners, onboarding screens.
     displayLarge: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
       fontSize: 60,
@@ -428,7 +421,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textPrimaryColor,
     ),
 
-    /// displayMedium — section heroes, large totals.
+    // displayMedium — section heroes, large totals.
     displayMedium: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
       fontSize: 45,
@@ -437,7 +430,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textPrimaryColor,
     ),
 
-    /// displaySmall — dashboard balance, month summary.
+    // displaySmall — dashboard balance, month summary.
     displaySmall: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
       fontSize: 36,
@@ -446,7 +439,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textPrimaryColor,
     ),
 
-    /// headlineLarge — closest mapping to source `font.display.lg` (32sp/40sp).
+    // headlineLarge — closest mapping to source `font.display.lg` (32sp/40sp).
     headlineLarge: GoogleFonts.outfit(
       fontWeight: FontWeight.w700,
       fontSize: 32,
@@ -455,7 +448,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textPrimaryColor,
     ),
 
-    /// headlineMedium — maps to source `font.display.md` (28sp/36sp).
+    // headlineMedium — maps to source `font.display.md` (28sp/36sp).
     headlineMedium: GoogleFonts.outfit(
       fontWeight: FontWeight.w600,
       fontSize: 28,
@@ -464,7 +457,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textPrimaryColor,
     ),
 
-    /// headlineSmall — maps to source `font.headline` (22sp/28sp).
+    // headlineSmall — maps to source `font.headline` (22sp/28sp).
     headlineSmall: GoogleFonts.outfit(
       fontWeight: FontWeight.w600,
       fontSize: 22,
@@ -473,7 +466,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textPrimaryColor,
     ),
 
-    /// titleLarge — card titles, dialog headers.
+    // titleLarge — card titles, dialog headers.
     titleLarge: GoogleFonts.inter(
       fontWeight: FontWeight.w600,
       fontSize: 20,
@@ -482,7 +475,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textPrimaryColor,
     ),
 
-    /// titleMedium — list-tile titles, tab labels.
+    // titleMedium — list-tile titles, tab labels.
     titleMedium: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
       fontSize: 18,
@@ -491,7 +484,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textPrimaryColor,
     ),
 
-    /// titleSmall — sub-headers, grouped list section titles.
+    // titleSmall — sub-headers, grouped list section titles.
     titleSmall: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
       fontSize: 14,
@@ -500,7 +493,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textPrimaryColor,
     ),
 
-    /// bodyLarge — primary paragraph text.
+    // bodyLarge — primary paragraph text.
     bodyLarge: GoogleFonts.inter(
       fontWeight: FontWeight.w400,
       fontSize: 16,
@@ -509,7 +502,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textPrimaryColor,
     ),
 
-    /// bodyMedium — default body, transaction descriptions.
+    // bodyMedium — default body, transaction descriptions.
     bodyMedium: GoogleFonts.inter(
       fontWeight: FontWeight.w400,
       fontSize: 14,
@@ -518,7 +511,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textSecondaryColor,
     ),
 
-    /// bodySmall — timestamps, metadata, fine print.
+    // bodySmall — timestamps, metadata, fine print.
     bodySmall: GoogleFonts.inter(
       fontWeight: FontWeight.w400,
       fontSize: 12,
@@ -527,7 +520,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textSecondaryColor,
     ),
 
-    /// labelLarge — button text, prominent chips.
+    // labelLarge — button text, prominent chips.
     labelLarge: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
       fontSize: 14,
@@ -536,7 +529,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textSecondaryColor,
     ),
 
-    /// labelMedium — navigation labels, input hints.
+    // labelMedium — navigation labels, input hints.
     labelMedium: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
       fontSize: 12,
@@ -545,7 +538,7 @@ class ThemeTextStyles {
       color: ThemeDarkColors.textSecondaryColor,
     ),
 
-    /// labelSmall — captions, badges, overline text.
+    // labelSmall — captions, badges, overline text.
     labelSmall: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
       fontSize: 11,
@@ -608,9 +601,7 @@ final ThemeData lightAppTheme = ThemeData(
     surfaceTintColor: Colors.transparent,
     elevation: DesignConstants.appBarElevation,
     centerTitle: true,
-    titleTextStyle: ThemeTextStyles.appLightTextTheme.titleLarge!.copyWith(
-      fontWeight: FontWeight.w700,
-    ),
+    titleTextStyle: ThemeTextStyles.appLightTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
     iconTheme: const IconThemeData(
       color: ThemeLightColors.onSurfaceVariantColor,
       size: DesignConstants.icon24,
@@ -627,9 +618,7 @@ final ThemeData lightAppTheme = ThemeData(
     backgroundColor: ThemeLightColors.backgroundColor,
     elevation: 5,
     labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((
-      Set<WidgetState> state,
-    ) {
+    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> state) {
       if (state.contains(WidgetState.selected)) {
         return const IconThemeData(
           size: DesignConstants.icon24,
@@ -643,9 +632,7 @@ final ThemeData lightAppTheme = ThemeData(
         applyTextScaling: false,
       );
     }),
-    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((
-      Set<WidgetState> state,
-    ) {
+    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((Set<WidgetState> state) {
       if (state.contains(WidgetState.selected)) {
         return ThemeTextStyles.appLightTextTheme.labelMedium!.copyWith(
           color: ThemeLightColors.primaryColor,
@@ -660,9 +647,7 @@ final ThemeData lightAppTheme = ThemeData(
   ),
   switchTheme: SwitchThemeData(
     trackOutlineWidth: const WidgetStatePropertyAll<double>(0),
-    thumbColor: WidgetStateProperty.all<Color>(
-      ThemeLightColors.backgroundColor,
-    ),
+    thumbColor: WidgetStateProperty.all<Color>(ThemeLightColors.backgroundColor),
     trackColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
       if (states.contains(WidgetState.selected)) {
         return ThemeLightColors.primaryColor;
@@ -750,9 +735,7 @@ final ThemeData darkAppTheme = ThemeData(
     surfaceTintColor: Colors.transparent,
     elevation: DesignConstants.appBarElevation,
     centerTitle: true,
-    titleTextStyle: ThemeTextStyles.appDarkTextTheme.titleLarge!.copyWith(
-      fontWeight: FontWeight.w700,
-    ),
+    titleTextStyle: ThemeTextStyles.appDarkTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
     iconTheme: const IconThemeData(
       color: ThemeDarkColors.onSurfaceVariantColor,
       size: DesignConstants.icon24,
@@ -769,9 +752,7 @@ final ThemeData darkAppTheme = ThemeData(
     backgroundColor: ThemeDarkColors.scaffoldBackgroundColor,
     elevation: 5,
     labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((
-      Set<WidgetState> state,
-    ) {
+    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> state) {
       if (state.contains(WidgetState.selected)) {
         return const IconThemeData(
           size: DesignConstants.icon24,
@@ -785,9 +766,7 @@ final ThemeData darkAppTheme = ThemeData(
         applyTextScaling: false,
       );
     }),
-    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((
-      Set<WidgetState> state,
-    ) {
+    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((Set<WidgetState> state) {
       if (state.contains(WidgetState.selected)) {
         return ThemeTextStyles.appDarkTextTheme.labelMedium!.copyWith(
           color: ThemeDarkColors.primaryColor,
@@ -802,9 +781,7 @@ final ThemeData darkAppTheme = ThemeData(
   ),
   switchTheme: SwitchThemeData(
     thumbColor: WidgetStateProperty.all<Color>(ThemeDarkColors.backgroundColor),
-    trackColor: WidgetStateProperty.resolveWith<Color>((
-      Set<WidgetState> states,
-    ) {
+    trackColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
       if (states.contains(WidgetState.selected)) {
         return ThemeDarkColors.primaryDarkColor;
       }
@@ -867,16 +844,11 @@ final ThemeData darkAppTheme = ThemeData(
     style: ListTileStyle.list,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadiusGeometry.circular(DesignConstants.radius16),
-      side: const BorderSide(
-        color: ThemeDarkColors.listTileBorderColor,
-        width: DesignConstants.bottomBarBorderWidth,
-      ),
+      side: const BorderSide(color: ThemeDarkColors.listTileBorderColor, width: DesignConstants.bottomBarBorderWidth),
     ),
     titleAlignment: .center,
     titleTextStyle: ThemeTextStyles.appDarkTextTheme.titleMedium,
-    subtitleTextStyle: ThemeTextStyles.appDarkTextTheme.titleSmall!.copyWith(
-      color: ThemeDarkColors.textSecondaryColor,
-    ),
+    subtitleTextStyle: ThemeTextStyles.appDarkTextTheme.titleSmall!.copyWith(color: ThemeDarkColors.textSecondaryColor),
     dense: false,
     tileColor: ThemeDarkColors.surfaceColor,
     selectedTileColor: ThemeDarkColors.primaryColor,

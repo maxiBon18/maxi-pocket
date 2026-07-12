@@ -228,6 +228,8 @@ class _MaxiPocketEditExpensesBodyWidgetState
     _prefillFromEntity(widget.entity);
   }
 
+  /// Populates the form controllers from [entity]'s concrete type, leaving fields
+  /// unused by that type at their default empty value.
   void _prefillFromEntity(CommitmentsEntity entity) {
     switch (entity) {
       case final SubscriptionEntity s:
@@ -268,42 +270,56 @@ class _MaxiPocketEditExpensesBodyWidgetState
     super.dispose();
   }
 
-  CommitmentsEntity get _updatedEntity => switch (widget.entity) {
-    final SubscriptionEntity s => SubscriptionEntity(
-      commitmentEntity: ExpenseCommitmentEntity(
-        name: _nameController.text,
-        eventDate: _dateController.text.parseFromStringDate(),
-        eventType: s.commitmentEntity.eventType,
+  /// Rebuilds [widget.entity]'s concrete type from the current form field values,
+  /// preserving [widget.commonId] as the persisted id.
+  ///
+  /// [_selectedFrequency] is guaranteed non-null in the [SubscriptionEntity] branch
+  /// because [_prefillFromEntity] always sets it for that entity type in [initState].
+  CommitmentsEntity _updatedEntity(BuildContext context) {
+    assert(
+      widget.entity is! SubscriptionEntity || _selectedFrequency != null,
+      '_selectedFrequency must be set by _prefillFromEntity for SubscriptionEntity',
+    );
+    return switch (widget.entity) {
+      final SubscriptionEntity s => SubscriptionEntity(
+        commitmentEntity: ExpenseCommitmentEntity(
+          name: _nameController.text,
+          eventDate: _dateController.text.parseFromStringDate(),
+          eventType: s.commitmentEntity.eventType,
+          localeTimezone: deviceLocaleString(),
+        ),
+        frequency: _selectedFrequency!,
+        amount: double.tryParse(_amountController.text) ?? 0.0,
+        id: widget.commonId,
       ),
-      frequency: _selectedFrequency!,
-      amount: double.tryParse(_amountController.text) ?? 0.0,
-      id: widget.commonId,
-    ),
-    final FinancingEntity f => FinancingEntity(
-      commitmentEntity: ExpenseCommitmentEntity(
-        name: _nameController.text,
-        eventDate: _dateController.text.parseFromStringDate(),
-        eventType: f.commitmentEntity.eventType,
+      final FinancingEntity f => FinancingEntity(
+        commitmentEntity: ExpenseCommitmentEntity(
+          name: _nameController.text,
+          eventDate: _dateController.text.parseFromStringDate(),
+          eventType: f.commitmentEntity.eventType,
+          localeTimezone: deviceLocaleString(),
+        ),
+        numberOfInstallments:
+            int.tryParse(_financingInstallmentsController.text) ?? 0,
+        numberOfPaidInstallments:
+            int.tryParse(_financingPaidInstallmentsController.text) ?? 0,
+        amount: double.tryParse(_amountController.text) ?? 0.0,
+        id: widget.commonId,
       ),
-      numberOfInstallments:
-          int.tryParse(_financingInstallmentsController.text) ?? 0,
-      numberOfPaidInstallments:
-          int.tryParse(_financingPaidInstallmentsController.text) ?? 0,
-      amount: double.tryParse(_amountController.text) ?? 0.0,
-      id: widget.commonId,
-    ),
-    final AppointmentEntity a => AppointmentEntity(
-      commitmentEntity: ExpenseCommitmentEntity(
-        name: _nameController.text,
-        eventDate: _dateController.text.parseFromStringDate(),
-        eventType: a.commitmentEntity.eventType,
+      final AppointmentEntity a => AppointmentEntity(
+        commitmentEntity: ExpenseCommitmentEntity(
+          name: _nameController.text,
+          eventDate: _dateController.text.parseFromStringDate(),
+          eventType: a.commitmentEntity.eventType,
+          localeTimezone: deviceLocaleString(),
+        ),
+        location: _locationController.text,
+        hour: _hourController.text,
+        id: widget.commonId,
       ),
-      location: _locationController.text,
-      hour: _hourController.text,
-      id: widget.commonId,
-    ),
-    _ => widget.entity,
-  };
+      _ => widget.entity,
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -326,7 +342,7 @@ class _MaxiPocketEditExpensesBodyWidgetState
         onFrequencyChanged: (MaxiPocketExpensesFrequency v) =>
             setState(() => _selectedFrequency = v),
         formKey: _formKey,
-        getUpdatedEntity: () => _updatedEntity,
+        getUpdatedEntity: () => _updatedEntity(context),
         onSuccess: widget.onSuccess,
       ),
     );
@@ -490,7 +506,7 @@ class _AmountField extends StatelessWidget {
         color: themeMode == MaxiPocketThemeMode.light
             ? ThemeLightColors.onSurfaceVariantColor
             : ThemeDarkColors.onSurfaceVariantColor,
-        size: 24.0,
+        size: DesignConstants.icon24,
         applyTextScaling: false,
       ),
     );

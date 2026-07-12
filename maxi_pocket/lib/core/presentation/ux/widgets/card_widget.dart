@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart'
-    show ThemeLightColors, ThemeDarkColors, ThemeTextStyles;
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
-    show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart'
-    show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors, ThemeTextStyles;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
-import 'package:maxi_pocket/core/shared/utils/methods.dart'
-    show getShadowsColor;
+import 'package:maxi_pocket/core/shared/utils/methods.dart' show getShadowsColor;
 
 /// Summary card with an icon + label header, a large amount, and a subtitle.
 ///
@@ -20,28 +16,21 @@ class MaxiPocketSummaryCardWidget extends StatelessWidget {
     required this.themeMode,
     required this.label,
     required this.amount,
-    required this.subtitle,
     required this.iconData,
     super.key,
     this.colorsGradient = _defaultGradient,
   });
 
-  static const List<Color> _defaultGradient = <Color>[
-    ThemeLightColors.primaryColor,
-    ThemeDarkColors.primaryDarkColor,
-  ];
+  static const List<Color> _defaultGradient = <Color>[ThemeLightColors.primaryColor, ThemeDarkColors.primaryDarkColor];
 
   final MaxiPocketThemeMode themeMode;
   final String label;
   final String amount;
-  final String subtitle;
   final IconData iconData;
   final List<Color> colorsGradient;
 
   List<BoxShadow> _getBoxShadows() {
-    final Color shadowColor = getShadowsColor(
-      themeMode,
-    ).withValues(alpha: DesignConstants.cardShadowOpacity);
+    final Color shadowColor = getShadowsColor(themeMode).withValues(alpha: DesignConstants.cardShadowOpacity);
     return <BoxShadow>[
       BoxShadow(
         offset: DesignConstants.cardOffsetFirst,
@@ -60,29 +49,18 @@ class MaxiPocketSummaryCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final BorderRadius borderRadius = BorderRadius.circular(
-      DesignConstants.radius16,
-    );
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: borderRadius,
-        boxShadow: _getBoxShadows(),
-      ),
-      child: ClipRRect(
-        borderRadius: borderRadius,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: colorsGradient,
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+    final BorderRadius borderRadius = BorderRadius.circular(DesignConstants.radius16);
+    return SizedBox(
+      width: double.infinity,
+      child: DecoratedBox(
+        decoration: BoxDecoration(borderRadius: borderRadius, boxShadow: _getBoxShadows()),
+        child: ClipRRect(
+          borderRadius: borderRadius,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: colorsGradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
             ),
-          ),
-          child: _SummaryCardContent(
-            label: label,
-            amount: amount,
-            subtitle: subtitle,
-            iconData: iconData,
+            child: _SummaryCardContent(label: label, amount: amount, iconData: iconData),
           ),
         ),
       ),
@@ -92,16 +70,10 @@ class MaxiPocketSummaryCardWidget extends StatelessWidget {
 
 @immutable
 class _SummaryCardContent extends StatelessWidget {
-  const _SummaryCardContent({
-    required this.label,
-    required this.amount,
-    required this.subtitle,
-    required this.iconData,
-  });
+  const _SummaryCardContent({required this.label, required this.amount, required this.iconData});
 
   final String label;
   final String amount;
-  final String subtitle;
   final IconData iconData;
 
   @override
@@ -110,23 +82,11 @@ class _SummaryCardContent extends StatelessWidget {
       padding: const EdgeInsets.all(DesignConstants.spacing16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           _SummaryCardHeader(iconData: iconData, label: label),
           const SizedBox(height: DesignConstants.spacing8),
-          Text(
-            amount,
-            style: ThemeTextStyles.monetaryAmountLight.copyWith(
-              color: ThemeDarkColors.backgroundColor,
-            ),
-          ),
-          const SizedBox(height: DesignConstants.spacing4),
-          Text(
-            subtitle,
-            style: context.textTheme.bodySmall?.copyWith(
-              color: ThemeDarkColors.backgroundColor,
-            ),
-          ),
+          Text(amount, style: ThemeTextStyles.monetaryAmountLight.copyWith(color: ThemeDarkColors.backgroundColor)),
         ],
       ),
     );
@@ -145,19 +105,9 @@ class _SummaryCardHeader extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Icon(
-          iconData,
-          color: ThemeDarkColors.backgroundColor,
-          size: DesignConstants.icon16,
-          applyTextScaling: false,
-        ),
+        Icon(iconData, color: ThemeDarkColors.backgroundColor, size: DesignConstants.icon16, applyTextScaling: false),
         const SizedBox(width: DesignConstants.spacing8),
-        Text(
-          label,
-          style: context.textTheme.labelMedium?.copyWith(
-            color: ThemeDarkColors.backgroundColor,
-          ),
-        ),
+        Text(label, style: context.textTheme.bodyLarge?.copyWith(color: ThemeDarkColors.backgroundColor)),
       ],
     );
   }

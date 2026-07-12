@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart'
-    show ThemeLightColors, ThemeDarkColors;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors;
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
-    show DesignConstants;
-import 'package:maxi_pocket/core/shared/constants/widget_constants.dart'
-    show WidgetConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart'
-    show MaxiPocketThemeMode;
-import 'package:maxi_pocket/core/presentation/ux/widgets/add_expenses_widget.dart'
-    show showAddExpensesBottomSheet;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/shared/constants/widget_constants.dart' show WidgetConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/presentation/ux/widgets/add_expenses_widget.dart' show showAddExpensesBottomSheet;
 
 /// The app-wide floating action button for adding a new expense.
 ///
@@ -27,9 +22,7 @@ class MaxiPocketFloatingActionButtonWidget extends ConsumerWidget {
       backgroundColor: ThemeDarkColors.primaryDarkColor,
       tooltip: WidgetConstants.floatingActionButtonTooltip,
       enableFeedback: true,
-      splashColor: ThemeLightColors.primaryColor.withValues(
-        alpha: DesignConstants.alpha30,
-      ),
+      splashColor: ThemeLightColors.primaryColor.withValues(alpha: DesignConstants.alpha30),
       elevation: 5,
       child: const Icon(
         Icons.add,

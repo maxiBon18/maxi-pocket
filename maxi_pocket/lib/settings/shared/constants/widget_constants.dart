@@ -9,8 +9,7 @@ class SettingsWidgetConstants {
   static const String notificationsTitle = 'Notifiche';
 
   /// List-tile subtitle for the notifications entry on the settings page.
-  static const String notificationsSubtitle =
-      'Gestisci le notifiche delle tue spese';
+  static const String notificationsSubtitle = 'Gestisci le notifiche delle tue spese';
 
   /// List-tile title for the theme entry on the settings page.
   static const String themeTitle = 'Tema';
@@ -34,23 +33,20 @@ class SettingsWidgetConstants {
   static const String enableNotificationsTitle = 'Abilita notifiche';
 
   /// Toggle tile subtitle explaining what notifications are sent.
-  static const String enableNotificationsSubtitle =
-      'Ricevi un promemoria sulle spese future';
+  static const String enableNotificationsSubtitle = 'Ricevi un promemoria sulle spese future';
 
   /// Section heading above the notification type description.
   static const String notificationsTypeSectionTitle = 'Tipo di notifica';
 
   /// Name of the only currently supported notification type.
-  static const String notificationsTypeTitle = 'Pagamenti futuri';
+  static const String notificationsTypeTitle = 'Pagamenti e appuntamenti futuri';
 
   /// Description of when the payment reminder is delivered.
-  static const String notificationsTypeSubtitle =
-      'Il promemoria verrà inviato 1 giorno prima del pagamento';
+  static const String notificationsTypeSubtitle = 'Il promemoria verrà inviato 1 giorno dell\'evento';
 
   /// Error dialog title shown when toggling notifications fails.
   static const String enableNotificationsErrorTitle = 'Errore';
 
   /// Error dialog body shown when toggling notifications fails.
-  static const String enableNotificationsErrorSubtitle =
-      'Impossibile abilitare/disabilitare le notifiche';
+  static const String enableNotificationsErrorSubtitle = 'Impossibile abilitare/disabilitare le notifiche';
 }

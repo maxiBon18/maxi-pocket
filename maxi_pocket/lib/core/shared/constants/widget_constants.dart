@@ -122,4 +122,7 @@ class WidgetConstants {
       'Cancellare l\'appuntamento?';
   static const String deleteAppointmentDialogSubTitle =
       'Sei sicuro di volerlo cancellare? \n Questa azione non potrà essere annullata.';
+
+  /// Separator between the appointment date and hour shown on expense tiles.
+  static const String appointmentDateTimeSeparator = 'alle';
 }

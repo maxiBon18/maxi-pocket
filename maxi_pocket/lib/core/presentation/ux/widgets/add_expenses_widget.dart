@@ -8,27 +8,18 @@ import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart';
 import 'package:maxi_pocket/core/presentation/theme/theme.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/button_widget.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/date_textfield_widget.dart';
-import 'package:maxi_pocket/core/presentation/ux/widgets/dialog_widget.dart'
-    show showAlertDialog;
-import 'package:maxi_pocket/core/presentation/ux/widgets/hour_textfield_widget.dart'
-    show MaxiPocketHourTextField;
+import 'package:maxi_pocket/core/presentation/ux/widgets/dialog_widget.dart' show showAlertDialog;
+import 'package:maxi_pocket/core/presentation/ux/widgets/hour_textfield_widget.dart' show MaxiPocketHourTextField;
 import 'package:maxi_pocket/core/presentation/ux/widgets/selector_widget.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/textfield_widget.dart';
-import 'package:maxi_pocket/core/presentation/viewmodel/fab_viewmodel.dart'
-    show fabViewmodelProvider;
-import 'package:maxi_pocket/core/presentation/viewmodel/home_viewmodel.dart'
-    show homeNotifierProvider;
+import 'package:maxi_pocket/core/presentation/viewmodel/fab_viewmodel.dart' show fabViewmodelProvider;
+import 'package:maxi_pocket/core/presentation/viewmodel/home_viewmodel.dart' show homeNotifierProvider;
 import 'package:maxi_pocket/core/presentation/viewmodel/loading_viewmodel.dart';
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart';
-import 'package:maxi_pocket/core/shared/constants/widget_constants.dart'
-    show WidgetConstants;
+import 'package:maxi_pocket/core/shared/constants/widget_constants.dart' show WidgetConstants;
 import 'package:maxi_pocket/core/shared/controllers/di.dart' show getDI;
 import 'package:maxi_pocket/core/shared/utils/enums.dart'
-    show
-        MaxiPocketThemeMode,
-        MaxiPocketExpensesType,
-        MaxiPocketExpensesFrequency,
-        MaxiPocketDialogType;
+    show MaxiPocketThemeMode, MaxiPocketExpensesType, MaxiPocketExpensesFrequency, MaxiPocketDialogType;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart'
     show BuildContextExtension, DateFromStringExtensions, DoubleExtension;
 import 'package:maxi_pocket/core/shared/utils/helpers_method.dart';
@@ -56,18 +47,9 @@ class MaxiPocketAddExpensesWidget extends StatelessWidget {
       right: Radius.circular(DesignConstants.radius24),
     ),
     border: Border(
-      left: BorderSide(
-        color: _borderColor,
-        width: DesignConstants.bottomBarBorderWidth,
-      ),
-      right: BorderSide(
-        color: _borderColor,
-        width: DesignConstants.bottomBarBorderWidth,
-      ),
-      top: BorderSide(
-        color: _borderColor,
-        width: DesignConstants.bottomBarBorderWidth,
-      ),
+      left: BorderSide(color: _borderColor, width: DesignConstants.bottomBarBorderWidth),
+      right: BorderSide(color: _borderColor, width: DesignConstants.bottomBarBorderWidth),
+      top: BorderSide(color: _borderColor, width: DesignConstants.bottomBarBorderWidth),
     ),
     color: _backgroundColor,
   );
@@ -82,14 +64,10 @@ class MaxiPocketAddExpensesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    final double modalHeight = screenHeight.responsiveHeight(
-      DesignConstants.modalHeight,
-    );
+    final double modalHeight = screenHeight.responsiveHeight(DesignConstants.modalHeight);
     final double keyboardHeight = MediaQuery.viewInsetsOf(context).bottom;
     final double bottomInset = MediaQuery.viewPaddingOf(context).bottom;
-    final double effectiveBottomPadding = keyboardHeight > 0.0
-        ? keyboardHeight
-        : bottomInset;
+    final double effectiveBottomPadding = keyboardHeight > 0.0 ? keyboardHeight : bottomInset;
     return Container(
       padding: _sheetPadding(effectiveBottomPadding),
       height: modalHeight,
@@ -99,13 +77,8 @@ class MaxiPocketAddExpensesWidget extends StatelessWidget {
         mainAxisAlignment: .start,
         crossAxisAlignment: .start,
         children: <Widget>[
-          _MaxiPocketAddExpensesHeaderWidget(
-            themeMode: themeMode,
-            borderColor: _borderColor,
-          ),
-          Expanded(
-            child: _MaxiPocketAddExpensesBodyWidget(themeMode: themeMode),
-          ),
+          _MaxiPocketAddExpensesHeaderWidget(themeMode: themeMode, borderColor: _borderColor),
+          Expanded(child: _MaxiPocketAddExpensesBodyWidget(themeMode: themeMode)),
         ],
       ),
     );
@@ -122,12 +95,10 @@ class _MaxiPocketAddExpensesBodyWidget extends StatefulWidget {
   final MaxiPocketThemeMode themeMode;
 
   @override
-  State<_MaxiPocketAddExpensesBodyWidget> createState() =>
-      _MaxiPocketAddExpensesBodyWidgetState();
+  State<_MaxiPocketAddExpensesBodyWidget> createState() => _MaxiPocketAddExpensesBodyWidgetState();
 }
 
-class _MaxiPocketAddExpensesBodyWidgetState
-    extends State<_MaxiPocketAddExpensesBodyWidget> {
+class _MaxiPocketAddExpensesBodyWidgetState extends State<_MaxiPocketAddExpensesBodyWidget> {
   late final GlobalKey<FormState> _formKey;
   late final TextEditingController _nameController;
   late final TextEditingController _amountController;
@@ -138,8 +109,7 @@ class _MaxiPocketAddExpensesBodyWidgetState
   late final TextEditingController _financingPaidInstallmentsController;
 
   MaxiPocketExpensesType _selectedType = MaxiPocketExpensesType.subscription;
-  MaxiPocketExpensesFrequency _selectedFrequency =
-      MaxiPocketExpensesFrequency.monthly;
+  MaxiPocketExpensesFrequency _selectedFrequency = MaxiPocketExpensesFrequency.monthly;
 
   void _onTypeChanged(MaxiPocketExpensesType value) {
     _formKey.currentState?.reset();
@@ -192,15 +162,13 @@ class _MaxiPocketAddExpensesBodyWidgetState
         amountController: _amountController,
         dateController: _dateController,
         financingInstallmentsController: _financingInstallmentsController,
-        financingPaidInstallmentsController:
-            _financingPaidInstallmentsController,
+        financingPaidInstallmentsController: _financingPaidInstallmentsController,
         appointmentLocationController: _appointmentLocationController,
         appointmentHourController: _appointmentHourController,
         selectedType: _selectedType,
         selectedFrequency: _selectedFrequency,
         onTypeChanged: _onTypeChanged,
-        onFrequencyChanged: (MaxiPocketExpensesFrequency value) =>
-            setState(() => _selectedFrequency = value),
+        onFrequencyChanged: (MaxiPocketExpensesFrequency value) => setState(() => _selectedFrequency = value),
         formKey: _formKey,
       ),
     );
@@ -242,16 +210,16 @@ class _MaxiPocketAddExpensesFormContent extends StatelessWidget {
   final ValueChanged<MaxiPocketExpensesFrequency> onFrequencyChanged;
   final GlobalKey<FormState> formKey;
   MaxiPocketExpensesFrequency get _effectiveFrequency =>
-      selectedType == MaxiPocketExpensesType.financing
-      ? MaxiPocketExpensesFrequency.monthly
-      : selectedFrequency;
+      selectedType == MaxiPocketExpensesType.financing ? MaxiPocketExpensesFrequency.monthly : selectedFrequency;
 
-  CommitmentsEntity get _commitmentsEntity => switch (selectedType) {
+  CommitmentsEntity _commitmentsEntity(BuildContext context) => switch (selectedType) {
     MaxiPocketExpensesType.appointments => AppointmentEntity(
       commitmentEntity: ExpenseCommitmentEntity(
         name: nameController.text,
         eventDate: dateController.text.parseFromStringDate(),
         eventType: selectedType,
+        localeTimezone:
+            deviceLocaleString(),
       ),
       location: appointmentLocationController.text,
       hour: appointmentHourController.text,
@@ -261,11 +229,11 @@ class _MaxiPocketAddExpensesFormContent extends StatelessWidget {
         name: nameController.text,
         eventDate: dateController.text.parseFromStringDate(),
         eventType: selectedType,
+        localeTimezone:
+            deviceLocaleString(),
       ),
-      numberOfInstallments:
-          int.tryParse(financingInstallmentsController.text) ?? 0,
-      numberOfPaidInstallments:
-          int.tryParse(financingPaidInstallmentsController.text) ?? 0,
+      numberOfInstallments: int.tryParse(financingInstallmentsController.text) ?? 0,
+      numberOfPaidInstallments: int.tryParse(financingPaidInstallmentsController.text) ?? 0,
       amount: double.tryParse(amountController.text) ?? 0.0,
     ),
     MaxiPocketExpensesType.subscription => SubscriptionEntity(
@@ -273,13 +241,13 @@ class _MaxiPocketAddExpensesFormContent extends StatelessWidget {
         name: nameController.text,
         eventDate: dateController.text.parseFromStringDate(),
         eventType: selectedType,
+        localeTimezone:
+            deviceLocaleString(),
       ),
       frequency: selectedFrequency,
       amount: double.tryParse(amountController.text) ?? 0.0,
     ),
-    _ => throw UnimplementedError(
-      'Selected type not implemented: $selectedType',
-    ),
+    _ => throw UnimplementedError('Selected type not implemented: $selectedType'),
   };
 
   @override
@@ -306,13 +274,12 @@ class _MaxiPocketAddExpensesFormContent extends StatelessWidget {
             appointmentLocationController: appointmentLocationController,
             appointmentHourController: appointmentHourController,
             financingInstallmentsController: financingInstallmentsController,
-            financingPaidInstallmentsController:
-                financingPaidInstallmentsController,
+            financingPaidInstallmentsController: financingPaidInstallmentsController,
             selectedType: selectedType,
           ),
           _MaxiPocketAddExpensesSubmitButton(
             themeMode: themeMode,
-            getCommitmentsEntity: () => _commitmentsEntity,
+            getCommitmentsEntity: () => _commitmentsEntity(context),
             formKey: formKey,
           ),
         ],
@@ -340,40 +307,20 @@ class _MaxiPocketAddExpensesSelectors extends StatelessWidget {
   final ValueChanged<MaxiPocketExpensesType> onTypeChanged;
   final ValueChanged<MaxiPocketExpensesFrequency> onFrequencyChanged;
 
-  static const List<(String, MaxiPocketExpensesType)> _typeOptions =
-      <(String, MaxiPocketExpensesType)>[
-        (
-          WidgetConstants.addExpensesTypeSubscription,
-          MaxiPocketExpensesType.subscription,
-        ),
-        (
-          WidgetConstants.addExpensesTypeFinancing,
-          MaxiPocketExpensesType.financing,
-        ),
-        (
-          WidgetConstants.addExpensesTypeAppointments,
-          MaxiPocketExpensesType.appointments,
-        ),
-      ];
-
-  static const List<(String, MaxiPocketExpensesFrequency)> _frequencyOptions =
-      <(String, MaxiPocketExpensesFrequency)>[
-        (
-          WidgetConstants.addExpensesFrequencyAnnual,
-          MaxiPocketExpensesFrequency.annual,
-        ),
-        (
-          WidgetConstants.addExpensesFrequencyMonthly,
-          MaxiPocketExpensesFrequency.monthly,
-        ),
-      ];
-  static const List<(String, MaxiPocketExpensesFrequency)>
-  _frequencyOptionsFinancing = <(String, MaxiPocketExpensesFrequency)>[
-    (
-      WidgetConstants.addExpensesFrequencyMonthly,
-      MaxiPocketExpensesFrequency.monthly,
-    ),
+  static const List<(String, MaxiPocketExpensesType)> _typeOptions = <(String, MaxiPocketExpensesType)>[
+    (WidgetConstants.addExpensesTypeSubscription, MaxiPocketExpensesType.subscription),
+    (WidgetConstants.addExpensesTypeFinancing, MaxiPocketExpensesType.financing),
+    (WidgetConstants.addExpensesTypeAppointments, MaxiPocketExpensesType.appointments),
   ];
+
+  static const List<(String, MaxiPocketExpensesFrequency)> _frequencyOptions = <(String, MaxiPocketExpensesFrequency)>[
+    (WidgetConstants.addExpensesFrequencyAnnual, MaxiPocketExpensesFrequency.annual),
+    (WidgetConstants.addExpensesFrequencyMonthly, MaxiPocketExpensesFrequency.monthly),
+  ];
+  static const List<(String, MaxiPocketExpensesFrequency)> _frequencyOptionsFinancing =
+      <(String, MaxiPocketExpensesFrequency)>[
+        (WidgetConstants.addExpensesFrequencyMonthly, MaxiPocketExpensesFrequency.monthly),
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -391,9 +338,7 @@ class _MaxiPocketAddExpensesSelectors extends StatelessWidget {
         if (selectedType != MaxiPocketExpensesType.appointments)
           MaxiPocketSelectorWidget<MaxiPocketExpensesFrequency>(
             label: WidgetConstants.addExpensesFrequencyLabel,
-            options: selectedType == MaxiPocketExpensesType.financing
-                ? _frequencyOptionsFinancing
-                : _frequencyOptions,
+            options: selectedType == MaxiPocketExpensesType.financing ? _frequencyOptionsFinancing : _frequencyOptions,
             selectedValue: selectedFrequency,
             onChanged: onFrequencyChanged,
             themeMode: themeMode,
@@ -447,8 +392,7 @@ class _MaxiPocketAddExpensesInputFields extends StatelessWidget {
           amountController: amountController,
           financingInstallmentsController: financingInstallmentsController,
           appointmentLocationController: appointmentLocationController,
-          financingPaidInstallmentsController:
-              financingPaidInstallmentsController,
+          financingPaidInstallmentsController: financingPaidInstallmentsController,
           appointmentHourController: appointmentHourController,
         ),
       ],
@@ -533,23 +477,16 @@ class _MaxiPocketAddExpensesTypeSpecificFields extends StatelessWidget {
         themeMode: themeMode,
         amountController: amountController,
         installmentsController: financingInstallmentsController,
-        financingPaidInstallmentsController:
-            financingPaidInstallmentsController,
+        financingPaidInstallmentsController: financingPaidInstallmentsController,
       ),
-      _ => _MaxiPocketSubscriptionFields(
-        themeMode: themeMode,
-        amountController: amountController,
-      ),
+      _ => _MaxiPocketSubscriptionFields(themeMode: themeMode, amountController: amountController),
     };
   }
 }
 
 /// Amount field for subscription (and all) expense types.
 class _MaxiPocketSubscriptionFields extends StatelessWidget {
-  const _MaxiPocketSubscriptionFields({
-    required this.themeMode,
-    required this.amountController,
-  });
+  const _MaxiPocketSubscriptionFields({required this.themeMode, required this.amountController});
 
   final MaxiPocketThemeMode themeMode;
   final TextEditingController amountController;
@@ -562,10 +499,7 @@ class _MaxiPocketSubscriptionFields extends StatelessWidget {
       autocorrect: false,
       enableSuggestions: false,
       textInputAction: TextInputAction.done,
-      keyboardType: const TextInputType.numberWithOptions(
-        decimal: true,
-        signed: false,
-      ),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
       inputFormatters: const <TextInputFormatter>[CommaToDotInputFormatter()],
       label: WidgetConstants.addSubscriptionsAmount,
       enabled: true,
@@ -576,7 +510,7 @@ class _MaxiPocketSubscriptionFields extends StatelessWidget {
             ? ThemeLightColors.onSurfaceVariantColor
             : ThemeDarkColors.onSurfaceVariantColor,
         fontWeight: FontWeight.bold,
-        size: 24.0,
+        size: DesignConstants.icon24,
         applyTextScaling: false,
       ),
     );
@@ -609,13 +543,8 @@ class _MaxiPocketFinancingFields extends StatelessWidget {
           autocorrect: false,
           enableSuggestions: false,
           textInputAction: TextInputAction.next,
-          keyboardType: const TextInputType.numberWithOptions(
-            decimal: true,
-            signed: false,
-          ),
-          inputFormatters: const <TextInputFormatter>[
-            CommaToDotInputFormatter(),
-          ],
+          keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
+          inputFormatters: const <TextInputFormatter>[CommaToDotInputFormatter()],
           label: WidgetConstants.addFinancingAmount,
           enabled: true,
           validator: amountValidator,
@@ -625,7 +554,7 @@ class _MaxiPocketFinancingFields extends StatelessWidget {
                 ? ThemeLightColors.onSurfaceVariantColor
                 : ThemeDarkColors.onSurfaceVariantColor,
             fontWeight: FontWeight.bold,
-            size: 24.0,
+            size: DesignConstants.icon24,
             applyTextScaling: false,
           ),
         ),
@@ -635,10 +564,7 @@ class _MaxiPocketFinancingFields extends StatelessWidget {
           autocorrect: false,
           enableSuggestions: false,
           textInputAction: TextInputAction.next,
-          keyboardType: const TextInputType.numberWithOptions(
-            decimal: false,
-            signed: false,
-          ),
+          keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
           label: WidgetConstants.addExpensesFinancingInstallments,
           enabled: true,
           validator: financingInstallmentsValidator,
@@ -649,10 +575,7 @@ class _MaxiPocketFinancingFields extends StatelessWidget {
           autocorrect: false,
           enableSuggestions: false,
           textInputAction: TextInputAction.done,
-          keyboardType: const TextInputType.numberWithOptions(
-            decimal: false,
-            signed: false,
-          ),
+          keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
           label: WidgetConstants.addExpensesFinancingPaidInstallments,
           enabled: true,
           validator: financingPaidInstallmentsValidator,
@@ -720,10 +643,7 @@ class _MaxiPocketAddExpensesSubmitButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(fabViewmodelProvider, (
-      AsyncValue<void>? previous,
-      AsyncValue<void> next,
-    ) {
+    ref.listen(fabViewmodelProvider, (AsyncValue<void>? previous, AsyncValue<void> next) {
       next.whenOrNull(
         error: (Object e, StackTrace? st) async {
           getDI<LoadingViewmodel>().hideLoading();
@@ -752,13 +672,9 @@ class _MaxiPocketAddExpensesSubmitButton extends ConsumerWidget {
       width: double.infinity,
       onPressed: () async {
         getDI<LoadingViewmodel>().showLoading(context: context);
-        final Set<FormFieldState<Object?>>? validateFields = formKey
-            .currentState
-            ?.validateGranularly();
+        final Set<FormFieldState<Object?>>? validateFields = formKey.currentState?.validateGranularly();
         if (validateFields != null && validateFields.isEmpty) {
-          await ref
-              .read(fabViewmodelProvider.notifier)
-              .insertCommitments(getCommitmentsEntity());
+          await ref.read(fabViewmodelProvider.notifier).insertCommitments(getCommitmentsEntity());
           if (context.mounted) {
             if (ref.read(fabViewmodelProvider).hasValue) {
               ref.invalidate(homeNotifierProvider);
@@ -775,10 +691,7 @@ class _MaxiPocketAddExpensesSubmitButton extends ConsumerWidget {
 
 /// Sheet header with the form title and a close button, separated from the body by a bottom border.
 class _MaxiPocketAddExpensesHeaderWidget extends StatelessWidget {
-  const _MaxiPocketAddExpensesHeaderWidget({
-    required this.themeMode,
-    required this.borderColor,
-  });
+  const _MaxiPocketAddExpensesHeaderWidget({required this.themeMode, required this.borderColor});
 
   final MaxiPocketThemeMode themeMode;
   final Color borderColor;
@@ -792,10 +705,7 @@ class _MaxiPocketAddExpensesHeaderWidget extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(
-            color: borderColor,
-            width: DesignConstants.bottomBarBorderWidth,
-          ),
+          bottom: BorderSide(color: borderColor, width: DesignConstants.bottomBarBorderWidth),
         ),
       ),
       child: Padding(
@@ -807,9 +717,7 @@ class _MaxiPocketAddExpensesHeaderWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 WidgetConstants.addNewTitle,
-                style: context.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
+                style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
               ),
             ),
             _MaxiPocketAddExpensesCloseButton(iconColor: _closeIconColor),
@@ -831,11 +739,7 @@ class _MaxiPocketAddExpensesCloseButton extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: IconButton(
         onPressed: () => Navigator.pop(context),
-        icon: Icon(
-          Icons.close_outlined,
-          size: DesignConstants.icon24,
-          color: iconColor,
-        ),
+        icon: Icon(Icons.close_outlined, size: DesignConstants.icon24, color: iconColor),
       ),
     );
   }
@@ -845,10 +749,7 @@ class _MaxiPocketAddExpensesCloseButton extends StatelessWidget {
 ///
 /// Uses [isScrollControlled] so [MaxiPocketAddExpensesWidget] can shift above
 /// the keyboard via its own [MediaQuery.viewInsetsOf] bottom padding.
-Future<void> showAddExpensesBottomSheet(
-  BuildContext context,
-  MaxiPocketThemeMode themeMode,
-) {
+Future<void> showAddExpensesBottomSheet(BuildContext context, MaxiPocketThemeMode themeMode) {
   final Color barrierColor = themeMode == MaxiPocketThemeMode.light
       ? ThemeLightColors.bottomNavigationBarShadowsColor
       : ThemeDarkColors.bottomNavigationBarShadowsColor;
@@ -859,7 +760,6 @@ Future<void> showAddExpensesBottomSheet(
     backgroundColor: Colors.transparent,
     barrierColor: barrierColor.withValues(alpha: DesignConstants.alpha50),
     elevation: DesignConstants.elevation5,
-    builder: (BuildContext context) =>
-        MaxiPocketAddExpensesWidget(themeMode: themeMode),
+    builder: (BuildContext context) => MaxiPocketAddExpensesWidget(themeMode: themeMode),
   );
 }

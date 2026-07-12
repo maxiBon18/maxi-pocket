@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart' show TimeOfDay;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:maxi_pocket/appointments/domain/services/appointment_service.dart';
@@ -5,13 +6,13 @@ import 'package:maxi_pocket/appointments/shared/exceptions/appointment_exception
     show NullOrEmptyAppointmentsExceptions;
 import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/shared/controllers/di.dart';
+import 'package:maxi_pocket/core/shared/utils/helpers_method.dart' show parseLocalizedTime;
 
-/// Auto-dispose Riverpod provider that exposes [ExpensesNotifier].
+/// Auto-dispose Riverpod provider that exposes [AppointmentsNotifier].
 ///
 /// Retry is disabled because a failed read must surface as an error state rather
 /// than silently loop. Auto-dispose frees the state when no expense page is active.
-final AsyncNotifierProvider<AppointmentsNotifier, List<AppointmentEntity>>
-appointmentProvider =
+final AsyncNotifierProvider<AppointmentsNotifier, List<AppointmentEntity>> appointmentProvider =
     AsyncNotifierProvider<AppointmentsNotifier, List<AppointmentEntity>>(
       AppointmentsNotifier.new,
       retry: (int retryCount, Object error) => null,
@@ -20,9 +21,10 @@ appointmentProvider =
 
 /// Loads all upcoming appointments and exposes them as an [AsyncValue] list.
 ///
-/// On [build], fetches the full appointment dataset and throws
+/// On [build], fetches the full appointment dataset, throws
 /// [NullOrEmptyAppointmentsExceptions] when the list is empty so the UI
-/// can show the appropriate empty-state widget.
+/// can show the appropriate empty-state widget, and filters out any
+/// appointment whose date and parsed hour have already passed.
 class AppointmentsNotifier extends AsyncNotifier<List<AppointmentEntity>> {
   final Logger _logger = getDI<Logger>();
   final AppointmentService _appointmentService = getDI<AppointmentService>();
@@ -38,7 +40,21 @@ class AppointmentsNotifier extends AsyncNotifier<List<AppointmentEntity>> {
         throw const NullOrEmptyAppointmentsExceptions();
       }
 
-      return _appointmentEntities;
+      return _appointmentEntities.where((AppointmentEntity entity) {
+        final DateTime eventDate = entity.commitmentEntity.eventDate;
+        final TimeOfDay? hour = parseLocalizedTime(entity.hour, locale: entity.commitmentEntity.localeTimezone);
+        if (hour == null) {
+          return false;
+        }
+        final DateTime eventDateWithHour = DateTime(
+          eventDate.year,
+          eventDate.month,
+          eventDate.day,
+          hour.hour,
+          hour.minute,
+        );
+        return eventDateWithHour.isAfter(DateTime.now());
+      }).toList();
     } catch (e, st) {
       _logger.e('Error retrieving Appointments data', error: e, stackTrace: st);
       rethrow;
