@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:maxi_pocket/core/presentation/theme/theme.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
-    show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart'
-    show MaxiPocketThemeMode;
-import 'package:maxi_pocket/core/shared/utils/extensions.dart'
-    show DoubleExtension, BuildContextExtension;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/shared/utils/extensions.dart' show DoubleExtension, BuildContextExtension;
 
 /// A full-width primary action button with responsive height.
 ///
 /// Height scales with the screen via [responsiveHeight]. When [enabled] is
 /// false the tap handler is removed and disabled color tokens are applied.
-/// Pass [textStyle] to override the default label typography.
+/// Default background and text colors adapt to [themeMode]; pass
+/// [backgroundColor] or [textColor] to override them, and [textStyle] to
+/// override the default label typography.
 class MaxiPocketButtonWidget extends StatelessWidget {
   const MaxiPocketButtonWidget({
     required this.themeMode,
@@ -23,6 +22,7 @@ class MaxiPocketButtonWidget extends StatelessWidget {
     this.textStyle,
     this.enabled = true,
     this.backgroundColor,
+    this.textColor,
   });
 
   final VoidCallback? onPressed;
@@ -33,35 +33,40 @@ class MaxiPocketButtonWidget extends StatelessWidget {
   final bool enabled;
   final MaxiPocketThemeMode themeMode;
   final Color? backgroundColor;
+  final Color? textColor;
 
-  Color get _textColor => themeMode == MaxiPocketThemeMode.light
-      ? enabled
-            ? ThemeLightColors.textPrimaryColor
-            : ThemeLightColors.textDisabledColor
-      : enabled
-      ? ThemeDarkColors.textPrimaryColor
-      : ThemeDarkColors.textDisabledColor;
+  Color get _textColor {
+    if (textColor != null) return textColor!;
+    if (!enabled) {
+      return themeMode == MaxiPocketThemeMode.light
+          ? ThemeLightColors.textDisabledColor
+          : ThemeDarkColors.textDisabledColor;
+    }
+    return themeMode == MaxiPocketThemeMode.light
+        ? ThemeLightColors.textOnPrimaryColor
+        : ThemeDarkColors.textOnPrimaryColor;
+  }
+
+  Color get _backgroundColor =>
+      backgroundColor ??
+      (themeMode == MaxiPocketThemeMode.light ? ThemeLightColors.primaryColor : ThemeDarkColors.primaryDarkColor);
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    final double buttonHeight = screenHeight.responsiveHeight(
-      height ?? DesignConstants.minButtonHeight,
-    );
+    final double buttonHeight = screenHeight.responsiveHeight(height ?? DesignConstants.minButtonHeight);
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(DesignConstants.radius16),
-        color: backgroundColor ?? ThemeDarkColors.primaryDarkColor,
+        color: _backgroundColor,
       ),
       width: width,
       height: buttonHeight,
       child: FilledButton(
         onPressed: enabled ? onPressed : null,
         style: ButtonStyle(
-          backgroundColor: const WidgetStatePropertyAll<Color>(
-            Colors.transparent,
-          ),
+          backgroundColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
           shadowColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
           enableFeedback: enabled,
           elevation: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
@@ -72,17 +77,10 @@ class MaxiPocketButtonWidget extends StatelessWidget {
             }
           }),
           padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
-            EdgeInsets.symmetric(
-              horizontal: DesignConstants.spacing16,
-              vertical: DesignConstants.spacing12,
-            ),
+            EdgeInsets.symmetric(horizontal: DesignConstants.spacing16, vertical: DesignConstants.spacing12),
           ),
           shape: const WidgetStatePropertyAll<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(DesignConstants.radius16),
-              ),
-            ),
+            RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(DesignConstants.radius16))),
           ),
         ),
         child: Text(
@@ -92,10 +90,7 @@ class MaxiPocketButtonWidget extends StatelessWidget {
           maxLines: 1,
           style:
               textStyle ??
-              context.textTheme.titleLarge?.copyWith(
-                fontSize: DesignConstants.textSize16,
-                color: _textColor,
-              ),
+              context.textTheme.titleLarge?.copyWith(fontSize: DesignConstants.textSize16, color: _textColor),
         ),
       ),
     );

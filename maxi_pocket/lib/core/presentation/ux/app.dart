@@ -35,6 +35,14 @@ class _MaxiPocketAppConsumerState extends ConsumerState<MaxiPocketApp> {
   @override
   Widget build(BuildContext context) {
     final MaxiPocketThemeMode themeMode = ref.watch(themeProvider);
+    final Locale deviceLocale = WidgetsBinding.instance.platformDispatcher.locale;
+    final String languageCode = deviceLocale.languageCode.isNotEmpty
+        ? deviceLocale.languageCode
+        : AppConstants.languageCode;
+    final String countryCode = (deviceLocale.countryCode?.isNotEmpty ?? false)
+        ? deviceLocale.countryCode!
+        : AppConstants.countryCode;
+    final Locale resolvedLocale = Locale(languageCode, countryCode);
     return MaterialApp(
       title: AppConstants.appName,
       theme: lightAppTheme,
@@ -45,13 +53,13 @@ class _MaxiPocketAppConsumerState extends ConsumerState<MaxiPocketApp> {
       debugShowCheckedModeBanner: false,
       debugShowMaterialGrid: false,
       showSemanticsDebugger: false,
-      locale: AppConstants.appLocale,
+      locale: resolvedLocale,
       localizationsDelegates: const <LocalizationsDelegate<Object>>[
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const <Locale>[AppConstants.appLocale],
+      supportedLocales: <Locale>[resolvedLocale],
       navigatorObservers: <NavigatorObserver>[
         _routingService.navigatorObserver,
         _routingService.routeObserver,

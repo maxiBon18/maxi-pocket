@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:maxi_pocket/core/domain/entities/appointment_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/commitments_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/financing_entity.dart';
 import 'package:maxi_pocket/core/domain/entities/subscription_entity.dart';
@@ -12,8 +13,8 @@ class HomeEntity implements CommitmentsEntity {
   /// Fixed-term financing commitments included in this snapshot.
   final List<FinancingEntity> financingEntity;
 
-  const HomeEntity({
-    required this.subscriptionEntity,
-    required this.financingEntity,
-  });
+  /// Upcoming appointments included in this snapshot, or `null` when not loaded.
+  final List<AppointmentEntity>? appointmentEntity;
+
+  const HomeEntity({required this.subscriptionEntity, required this.financingEntity, this.appointmentEntity});
 }

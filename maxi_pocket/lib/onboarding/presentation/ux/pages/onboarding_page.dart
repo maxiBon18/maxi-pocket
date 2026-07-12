@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:maxi_pocket/core/presentation/theme/theme.dart'
-    show ThemeLightColors, ThemeDarkColors;
+import 'package:maxi_pocket/core/presentation/theme/theme.dart' show ThemeLightColors, ThemeDarkColors;
 import 'package:maxi_pocket/core/presentation/ux/pages/wrapper_page.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/button_widget.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/image_widget.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/loading_viewmodel.dart';
 import 'package:maxi_pocket/core/presentation/viewmodel/theme_viewmodel.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
-    show DesignConstants;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
 import 'package:maxi_pocket/core/shared/controllers/di.dart';
-import 'package:maxi_pocket/core/shared/utils/enums.dart'
-    show MaxiPocketThemeMode;
+import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 import 'package:maxi_pocket/onboarding/presentation/viewmodel/onboarding_viewmodel.dart';
 import 'package:maxi_pocket/onboarding/shared/constants/widget_constant.dart';
@@ -37,9 +34,11 @@ class MaxiPocketOnboardingPage extends ConsumerWidget {
   Color _getBackgroundAppointmentsColor(MaxiPocketThemeMode themeMode) {
     return themeMode == MaxiPocketThemeMode.light
         ? ThemeLightColors.onboardingAppointmentsContainerBackgroundColor
-        : ThemeDarkColors.appointmentsBulletPointColor.withValues(
-            alpha: DesignConstants.alpha10,
-          );
+        : ThemeDarkColors.appointmentsBulletPointColor.withValues(alpha: DesignConstants.alpha10);
+  }
+
+  Color _getTitleColor(MaxiPocketThemeMode themeMode) {
+    return themeMode == MaxiPocketThemeMode.light ? ThemeDarkColors.textPrimaryColor : ThemeLightColors.onSurfaceColor;
   }
 
   @override
@@ -51,74 +50,80 @@ class MaxiPocketOnboardingPage extends ConsumerWidget {
       showLeading: false,
       allowBack: false,
       backgroundColor: _getScaffoldBackgroundColor(themeMode),
+      extendBodyBehindAppBar: true,
+      topSafeArea: false,
+      bottomSafeArea: false,
       routeName: Routes.onboardingRoute,
-      child: Padding(
-        padding: const EdgeInsets.all(DesignConstants.spacing32),
-        child: Column(
-          crossAxisAlignment: .center,
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                mainAxisAlignment: .center,
-                crossAxisAlignment: .center,
-                children: <Widget>[
-                  const _TopIconWidget(),
-                  const SizedBox(height: DesignConstants.spacing32),
-                  Text(
-                    OnboardingWidgetConstants.onboardingTitle,
-                    textAlign: .center,
-                    style: context.textTheme.headlineLarge,
-                  ),
-                  const SizedBox(height: DesignConstants.spacing16),
-                  Text(
-                    OnboardingWidgetConstants.onboardingSubtitle,
-                    textAlign: .center,
-                    style: context.textTheme.bodyLarge?.copyWith(
-                      fontSize: DesignConstants.textSize18,
+      child: DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: ThemeLightColors.onboardingBackgroundGradientColors,
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            stops: <double>[0.3, 0.6, 1.0],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(DesignConstants.spacing32),
+          child: Column(
+            crossAxisAlignment: .center,
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: .center,
+                  crossAxisAlignment: .center,
+                  children: <Widget>[
+                    const _TopIconWidget(),
+                    const SizedBox(height: DesignConstants.spacing32),
+                    Text(
+                      OnboardingWidgetConstants.onboardingTitle,
+                      textAlign: .center,
+                      style: context.textTheme.headlineLarge?.copyWith(color: _getTitleColor(themeMode)),
                     ),
-                  ),
-                  const SizedBox(height: DesignConstants.spacing40),
-                  _NotificationInfoContainerWidget(
-                    themeMode: themeMode,
-                    title: OnboardingWidgetConstants
-                        .onboardingNotificationContainerTitle,
-                    subtitle: OnboardingWidgetConstants
-                        .onboardingNotificationContainerSubtitle,
-                    iconName: OnboardingAssetsConstants.notificationIcon,
-                    backgroundIconColor: _getBackgroundColor(themeMode),
-                  ),
-                  const SizedBox(height: DesignConstants.spacing16),
-                  _NotificationInfoContainerWidget(
-                    themeMode: themeMode,
-                    title: OnboardingWidgetConstants
-                        .onboardingNotificationAppointmentsContainerTitle,
-                    subtitle: OnboardingWidgetConstants
-                        .onboardingNotificationAppointmentsContainerSubtitle,
-                    iconName:
-                        OnboardingAssetsConstants.notificationAppointmentsIcon,
-                    backgroundIconColor: _getBackgroundAppointmentsColor(
-                      themeMode,
+                    const SizedBox(height: DesignConstants.spacing16),
+                    Text(
+                      OnboardingWidgetConstants.onboardingSubtitle,
+                      textAlign: .center,
+                      style: context.textTheme.bodyLarge?.copyWith(
+                        fontSize: DesignConstants.textSize18,
+                        color: _getTitleColor(themeMode),
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: DesignConstants.spacing40),
+                    _NotificationInfoContainerWidget(
+                      themeMode: themeMode,
+                      title: OnboardingWidgetConstants.onboardingNotificationContainerTitle,
+                      subtitle: OnboardingWidgetConstants.onboardingNotificationContainerSubtitle,
+                      iconName: OnboardingAssetsConstants.notificationIcon,
+                      backgroundIconColor: _getBackgroundColor(themeMode),
+                    ),
+                    const SizedBox(height: DesignConstants.spacing16),
+                    _NotificationInfoContainerWidget(
+                      themeMode: themeMode,
+                      title: OnboardingWidgetConstants.onboardingNotificationAppointmentsContainerTitle,
+                      subtitle: OnboardingWidgetConstants.onboardingNotificationAppointmentsContainerSubtitle,
+                      iconName: OnboardingAssetsConstants.notificationAppointmentsIcon,
+                      backgroundIconColor: _getBackgroundAppointmentsColor(themeMode),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            MaxiPocketButtonWidget(
-              label: OnboardingWidgetConstants.onboardingContinueButtonText,
-              width: double.infinity,
-              themeMode: themeMode,
-              onPressed: () async {
-                getDI<LoadingViewmodel>().showLoading(context: context);
-                await ref
-                    .read(onboardingProvider.notifier)
-                    .setOnboardingCompleted();
-                getDI<LoadingViewmodel>().hideLoading();
-                if (context.mounted) {
-                  Navigator.of(context).pushReplacementNamed(Routes.homeRoute);
-                }
-              },
-            ),
-          ],
+              MaxiPocketButtonWidget(
+                label: OnboardingWidgetConstants.onboardingContinueButtonText,
+                width: double.infinity,
+                themeMode: themeMode,
+                onPressed: () async {
+                  getDI<LoadingViewmodel>().showLoading(context: context);
+                  await ref.read(onboardingProvider.notifier).setOnboardingCompleted();
+                  getDI<LoadingViewmodel>().hideLoading();
+                  if (context.mounted) {
+                    Navigator.of(context).pushReplacementNamed(Routes.homeRoute);
+                  }
+                },
+              ),
+              const SizedBox(height: DesignConstants.spacing32),
+            ],
+          ),
         ),
       ),
     );
@@ -178,9 +183,7 @@ class _NotificationInfoContainerWidget extends StatelessWidget {
   Color _getBackgroundColor(MaxiPocketThemeMode themeMode) {
     return themeMode == MaxiPocketThemeMode.light
         ? ThemeLightColors.onboardingNotificationContainerBackgroundColor
-        : ThemeDarkColors.surfaceColor.withValues(
-            alpha: DesignConstants.alpha70,
-          );
+        : ThemeDarkColors.surfaceColor.withValues(alpha: DesignConstants.alpha70);
   }
 
   Color _getStrokeBorderColor(MaxiPocketThemeMode themeMode) {
@@ -195,10 +198,7 @@ class _NotificationInfoContainerWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: _getBackgroundColor(themeMode),
         borderRadius: BorderRadius.circular(DesignConstants.radius16),
-        border: Border.all(
-          color: _getStrokeBorderColor(themeMode),
-          width: DesignConstants.borderWidth1,
-        ),
+        border: Border.all(color: _getStrokeBorderColor(themeMode), width: DesignConstants.borderWidth1),
       ),
       padding: const EdgeInsets.all(DesignConstants.spacing16),
       child: Row(
@@ -231,10 +231,7 @@ class _NotificationInfoContainerWidget extends StatelessWidget {
 
 /// Text column displaying a bold [title] above a lighter [subtitle] inside a notification info card.
 class _NotificationContainerTextWidget extends StatelessWidget {
-  const _NotificationContainerTextWidget({
-    required this.title,
-    required this.subtitle,
-  });
+  const _NotificationContainerTextWidget({required this.title, required this.subtitle});
 
   final String title;
   final String subtitle;
@@ -249,12 +246,7 @@ class _NotificationContainerTextWidget extends StatelessWidget {
         crossAxisAlignment: .start,
         children: <Widget>[
           Flexible(
-            child: Text(
-              title,
-              style: context.textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+            child: Text(title, style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700)),
           ),
           Flexible(child: Text(subtitle, style: context.textTheme.bodyMedium)),
         ],

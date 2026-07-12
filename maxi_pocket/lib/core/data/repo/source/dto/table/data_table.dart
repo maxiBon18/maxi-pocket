@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:maxi_pocket/core/shared/utils/enums.dart'
-    show MaxiPocketExpensesType, MaxiPocketExpensesFrequency;
+import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketExpensesType, MaxiPocketExpensesFrequency;
 
 /// Drift table holding shared metadata for every expense record (subscriptions, financing, appointments).
 ///
@@ -24,6 +23,9 @@ class CommonDataTable extends Table {
 
   /// Timestamp of the most recent update to this row.
   DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
+
+  /// The timezone of the event date, used for chronological sorting of mixed commitment lists.
+  TextColumn get localeTimezone => text()();
 }
 
 /// Drift table for recurring subscription expenses, joined to [CommonDataTable] via [foreignId].
@@ -39,12 +41,10 @@ class SubscriptionsTable extends Table {
   IntColumn get expensesFrequency => intEnum<MaxiPocketExpensesFrequency>()();
 
   /// Date of the upcoming payment for this subscription.
-  DateTimeColumn get nextPaymentDate =>
-      dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get nextPaymentDate => dateTime().withDefault(currentDateAndTime)();
 
   /// Foreign key linking this row to its [CommonDataTable] parent record.
-  Int64Column get foreignId =>
-      int64().unique().references(CommonDataTable, #primaryId)();
+  Int64Column get foreignId => int64().unique().references(CommonDataTable, #primaryId)();
 }
 
 /// Drift table for instalment-based financing expenses, joined to [CommonDataTable] via [foreignId].
@@ -57,20 +57,16 @@ class FinancingTable extends Table {
   RealColumn get amount => real().check(amount.isBiggerOrEqualValue(0))();
 
   /// Total number of instalments for this financing agreement.
-  IntColumn get numberOfInstallments =>
-      integer().check(numberOfInstallments.isBiggerOrEqualValue(0))();
+  IntColumn get numberOfInstallments => integer().check(numberOfInstallments.isBiggerOrEqualValue(0))();
 
   /// Count of instalments already paid off.
-  IntColumn get numberOfPaidInstallments =>
-      integer().check(numberOfPaidInstallments.isBiggerOrEqualValue(0))();
+  IntColumn get numberOfPaidInstallments => integer().check(numberOfPaidInstallments.isBiggerOrEqualValue(0))();
 
   /// Date of the next scheduled instalment payment.
-  DateTimeColumn get nextPaymentDate =>
-      dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get nextPaymentDate => dateTime().withDefault(currentDateAndTime)();
 
   /// Foreign key linking this row to its [CommonDataTable] parent record.
-  Int64Column get foreignId =>
-      int64().unique().references(CommonDataTable, #primaryId)();
+  Int64Column get foreignId => int64().unique().references(CommonDataTable, #primaryId)();
 }
 
 /// Drift table for appointment records, joined to [CommonDataTable] via [foreignId].
@@ -80,13 +76,11 @@ class AppointmentsTable extends Table {
   Int64Column get primaryId => int64().autoIncrement()();
 
   /// Physical or virtual venue for the appointment; must be non-empty.
-  TextColumn get location =>
-      text().check(location.length.isBiggerThanValue(0))();
+  TextColumn get location => text().check(location.length.isBiggerThanValue(0))();
 
   /// Hour of the appointment; must be non-empty.
   TextColumn get hour => text().check(hour.length.isBiggerThanValue(0))();
 
   /// Foreign key linking this row to its [CommonDataTable] parent record.
-  Int64Column get foreignId =>
-      int64().unique().references(CommonDataTable, #primaryId)();
+  Int64Column get foreignId => int64().unique().references(CommonDataTable, #primaryId)();
 }

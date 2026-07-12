@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:maxi_pocket/core/shared/constants/app_constants.dart'
-    show AppConstants;
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
-    show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart'
-    show MaxiPocketThemeMode, MaxiPocketExpensesFrequency;
-import 'package:maxi_pocket/core/shared/utils/loggers.dart'
-    show customDebugPrint;
+import 'package:maxi_pocket/core/shared/constants/app_constants.dart' show AppConstants;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode, MaxiPocketExpensesFrequency;
+import 'package:maxi_pocket/core/shared/utils/loggers.dart' show customDebugPrint;
 
 /// Convenience accessors on [BuildContext].
 extension BuildContextExtension on BuildContext {
@@ -49,17 +45,16 @@ extension MaterialThemeModeExtension on MaxiPocketThemeMode {
 /// Responsive sizing helpers for screen-dimension doubles.
 extension DoubleExtension on double {
   /// Scales [componentHeight] relative to the design canvas height.
-  double responsiveHeight(double componentHeight) =>
-      this * componentHeight / DesignConstants.appHeightByDesign;
+  double responsiveHeight(double componentHeight) => this * componentHeight / DesignConstants.appHeightByDesign;
 
   /// Scales [componentWidth] relative to the design canvas width.
-  double responsiveWidth(double componentWidth) =>
-      this * componentWidth / DesignConstants.appWidthByDesign;
+  double responsiveWidth(double componentWidth) => this * componentWidth / DesignConstants.appWidthByDesign;
 
+  /// Scales this size by the system text scaler, capped at [DesignConstants.appMaxTextScaler]
+  /// so oversized accessibility settings don't break layouts.
   double normalizedSizeWithTextScaler(BuildContext context) {
     final double textScaler = MediaQuery.textScalerOf(context).scale(1.0);
-    final double normalizedTextScaler =
-        textScaler > DesignConstants.appMaxTextScaler
+    final double normalizedTextScaler = textScaler > DesignConstants.appMaxTextScaler
         ? DesignConstants.appMaxTextScaler
         : textScaler;
     return this * normalizedTextScaler;
@@ -70,10 +65,15 @@ extension DoubleExtension on double {
 extension DateTimeExtension on DateTime {
   /// Returns the next billing date based on [frequency].
   ///
-  /// For monthly frequency, advances by one calendar month and clamps the day
-  /// to the last valid day of that month (e.g. 31 Jan -> 28/29 Feb).
-  /// For annual frequency, advances by one year keeping the same month and day.
+  /// If this date is still in the future and within the current month, it is
+  /// returned unchanged (no roll-forward needed yet). Otherwise, for monthly
+  /// frequency it advances by one calendar month and clamps the day to the last
+  /// valid day of that month (e.g. 31 Jan -> 28/29 Feb); for annual frequency it
+  /// advances by one year keeping the same month and day.
   DateTime nextPaymentDate(MaxiPocketExpensesFrequency frequency) {
+    if (isAfter(DateTime.now()) && month == DateTime.now().month) {
+      return this;
+    }
     switch (frequency) {
       case MaxiPocketExpensesFrequency.monthly:
         final int nextY = month == 12 ? year + 1 : year;
@@ -101,9 +101,7 @@ extension DateFromDateTimeExtensions on DateTime? {
     try {
       return DateFormat(format).format(this ?? DateTime.now());
     } catch (e, st) {
-      customDebugPrint(
-        '[DateFromDateTimeExtensions] formattedDate failed: $e\n$st',
-      );
+      customDebugPrint('[DateFromDateTimeExtensions] formattedDate failed: $e\n$st');
       return DateFormat(format).format(DateTime.now());
     }
   }
@@ -122,9 +120,7 @@ extension DateFromStringExtensions on String {
       try {
         return DateFormat.yMd(AppConstants.languageCode).parse(this);
       } catch (e, st) {
-        customDebugPrint(
-          '[DateFromStringExtensions] parseFromStringDate failed: $e\n$st',
-        );
+        customDebugPrint('[DateFromStringExtensions] parseFromStringDate failed: $e\n$st');
         return DateTime.now();
       }
     }

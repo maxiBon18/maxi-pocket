@@ -25,7 +25,7 @@ class MaxiPocketDatabase extends _$MaxiPocketDatabase {
     : super(executor ?? _openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   /// Handles schema upgrades from earlier versions.
   ///
@@ -34,6 +34,9 @@ class MaxiPocketDatabase extends _$MaxiPocketDatabase {
   ///
   /// v3 → v4: non-nullable `hour` column added to `AppointmentsTable`; existing
   /// rows are backfilled with `'00:00'` to satisfy the `length > 0` check.
+  ///
+  /// v4 → v5: non-nullable `locale_timezone` column added to `CommonDataTable`;
+  /// existing rows are backfilled with `'en'`.
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onUpgrade: (Migrator m, int from, int to) async {
@@ -66,6 +69,18 @@ class MaxiPocketDatabase extends _$MaxiPocketDatabase {
             appointmentsTable,
             columnTransformer: <GeneratedColumn<Object>, Expression<Object>>{
               appointmentsTable.hour: const Constant<String>('00:00'),
+            },
+          ),
+        );
+      }
+      if (from < 5) {
+        // locale_timezone added to CommonDataTable as a non-nullable text column;
+        // backfill existing rows with 'en' as a safe default.
+        await m.alterTable(
+          TableMigration(
+            commonDataTable,
+            columnTransformer: <GeneratedColumn<Object>, Expression<Object>>{
+              commonDataTable.localeTimezone: const Constant<String>('en'),
             },
           ),
         );

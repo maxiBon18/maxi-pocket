@@ -97,7 +97,7 @@ Clean Architecture with **MVVM** pattern and **feature-first** approach.
 5. Repository **interfaces** live in `domain/repo/`. Repository **implementations** live in `data/repo/`.
 6. Data source **interfaces** live in `data/repo/source/`. Data source **implementations** live in `data/source/`.
 7. ViewModels communicate exclusively with the domain layer (use cases / services).
-8. Local storage currently uses **SharedPreferences** only. Drift is planned but not yet added to `pubspec.yaml`.
+8. Local storage uses **Drift** (SQLite) for expense/appointment records and **SharedPreferences** for lightweight app preferences (e.g. onboarding/theme flags). Both are unencrypted; treat any change to that as a deliberate security decision requiring developer approval.
 9. All cross-layer shared code MUST reside in the feature's `shared/` folder.
 
 ## Rules Files

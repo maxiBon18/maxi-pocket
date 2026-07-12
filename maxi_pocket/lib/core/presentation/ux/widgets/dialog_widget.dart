@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:maxi_pocket/core/presentation/theme/theme.dart';
 import 'package:maxi_pocket/core/presentation/ux/widgets/button_widget.dart';
-import 'package:maxi_pocket/core/shared/constants/design_constants.dart'
-    show DesignConstants;
-import 'package:maxi_pocket/core/shared/utils/enums.dart'
-    show MaxiPocketThemeMode, MaxiPocketDialogType;
+import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
+import 'package:maxi_pocket/core/shared/utils/enums.dart' show MaxiPocketThemeMode, MaxiPocketDialogType;
 import 'package:maxi_pocket/core/shared/utils/extensions.dart';
 
 /// Presents a themed adaptive alert dialog and returns the value the caller chooses.
@@ -71,52 +69,37 @@ class MaxiPocketAlertDialog extends StatelessWidget {
   final MaxiPocketThemeMode themeMode;
   final MaxiPocketDialogType dialogType;
 
+  /// Picks action-button background colors for the current [dialogType], [themeMode],
+  /// and which of [onCancel]/[onConfirm] are actually present.
+  ///
+  /// When both actions are present, index 0 is the cancel color and index 1 is the
+  /// confirm color; when only one action is present, index 0 is that action's color.
   List<Color> _getActionBackgroundColor() {
-    final bool hasCancel =
-        cancelButtonText != null &&
-        cancelButtonText!.isNotEmpty &&
-        onCancel != null;
-    final bool hasConfirm =
-        confirmButtonText != null &&
-        confirmButtonText!.isNotEmpty &&
-        onConfirm != null;
+    final bool hasCancel = cancelButtonText != null && cancelButtonText!.isNotEmpty && onCancel != null;
+    final bool hasConfirm = confirmButtonText != null && confirmButtonText!.isNotEmpty && onConfirm != null;
     final List<Color> actionBackgroundColors = <Color>[];
 
     switch (dialogType) {
       case MaxiPocketDialogType.error:
         if (hasCancel && hasConfirm) {
           if (themeMode == MaxiPocketThemeMode.light) {
-            actionBackgroundColors.add(
-              ThemeLightColors.dialogCancelBackgroundColor,
-            );
-            actionBackgroundColors.add(
-              ThemeLightColors.dialogErrorBackgroundColor,
-            );
+            actionBackgroundColors.add(ThemeLightColors.dialogCancelBackgroundColor);
+            actionBackgroundColors.add(ThemeLightColors.dialogErrorBackgroundColor);
           } else {
-            actionBackgroundColors.add(
-              ThemeDarkColors.dialogErrorBackgroundColor,
-            );
-            actionBackgroundColors.add(
-              ThemeLightColors.dialogErrorBackgroundColor,
-            );
+            actionBackgroundColors.add(ThemeDarkColors.dialogErrorBackgroundColor);
+            actionBackgroundColors.add(ThemeLightColors.dialogErrorBackgroundColor);
           }
           return actionBackgroundColors;
         }
         if (!hasCancel && hasConfirm) {
-          actionBackgroundColors.add(
-            ThemeLightColors.dialogErrorBackgroundColor,
-          );
+          actionBackgroundColors.add(ThemeLightColors.dialogErrorBackgroundColor);
           return actionBackgroundColors;
         }
         if (hasCancel && !hasConfirm) {
           if (themeMode == MaxiPocketThemeMode.light) {
-            actionBackgroundColors.add(
-              ThemeLightColors.dialogCancelBackgroundColor,
-            );
+            actionBackgroundColors.add(ThemeLightColors.dialogCancelBackgroundColor);
           } else {
-            actionBackgroundColors.add(
-              ThemeDarkColors.dialogErrorBackgroundColor,
-            );
+            actionBackgroundColors.add(ThemeDarkColors.dialogErrorBackgroundColor);
           }
 
           return actionBackgroundColors;
@@ -125,14 +108,10 @@ class MaxiPocketAlertDialog extends StatelessWidget {
       case MaxiPocketDialogType.success:
         if (hasCancel && hasConfirm) {
           if (themeMode == MaxiPocketThemeMode.light) {
-            actionBackgroundColors.add(
-              ThemeLightColors.dialogCancelBackgroundColor,
-            );
+            actionBackgroundColors.add(ThemeLightColors.dialogCancelBackgroundColor);
             actionBackgroundColors.add(ThemeLightColors.secondaryColor);
           } else {
-            actionBackgroundColors.add(
-              ThemeDarkColors.dialogErrorBackgroundColor,
-            );
+            actionBackgroundColors.add(ThemeDarkColors.dialogErrorBackgroundColor);
             actionBackgroundColors.add(ThemeDarkColors.secondaryColor);
           }
           return actionBackgroundColors;
@@ -143,13 +122,9 @@ class MaxiPocketAlertDialog extends StatelessWidget {
         }
         if (hasCancel && !hasConfirm) {
           if (themeMode == MaxiPocketThemeMode.light) {
-            actionBackgroundColors.add(
-              ThemeLightColors.dialogCancelBackgroundColor,
-            );
+            actionBackgroundColors.add(ThemeLightColors.dialogCancelBackgroundColor);
           } else {
-            actionBackgroundColors.add(
-              ThemeDarkColors.dialogErrorBackgroundColor,
-            );
+            actionBackgroundColors.add(ThemeDarkColors.dialogErrorBackgroundColor);
           }
           return actionBackgroundColors;
         }
@@ -159,16 +134,12 @@ class MaxiPocketAlertDialog extends StatelessWidget {
     }
   }
 
+  /// Builds the dialog's action buttons, side by side when both [onCancel] and
+  /// [onConfirm] are present, or full-width when only one is present.
   List<Widget> _buildActions() {
     final List<Widget> actions = <Widget>[];
-    final bool hasCancel =
-        cancelButtonText != null &&
-        cancelButtonText!.isNotEmpty &&
-        onCancel != null;
-    final bool hasConfirm =
-        confirmButtonText != null &&
-        confirmButtonText!.isNotEmpty &&
-        onConfirm != null;
+    final bool hasCancel = cancelButtonText != null && cancelButtonText!.isNotEmpty && onCancel != null;
+    final bool hasConfirm = confirmButtonText != null && confirmButtonText!.isNotEmpty && onConfirm != null;
     final List<Color> actionBackgroundColors = _getActionBackgroundColor();
 
     if (hasConfirm && hasCancel) {
@@ -181,6 +152,9 @@ class MaxiPocketAlertDialog extends StatelessWidget {
                 onPressed: onCancel,
                 themeMode: themeMode,
                 backgroundColor: actionBackgroundColors[0],
+                textColor: themeMode == MaxiPocketThemeMode.light
+                    ? ThemeLightColors.textPrimaryColor
+                    : ThemeDarkColors.textPrimaryColor,
               ),
             ),
             const SizedBox(width: DesignConstants.spacing8),
@@ -190,6 +164,9 @@ class MaxiPocketAlertDialog extends StatelessWidget {
                 onPressed: onConfirm,
                 themeMode: themeMode,
                 backgroundColor: actionBackgroundColors[1],
+                textColor: themeMode == MaxiPocketThemeMode.light
+                    ? ThemeLightColors.textPrimaryColor
+                    : ThemeDarkColors.textPrimaryColor,
               ),
             ),
           ],
@@ -204,6 +181,9 @@ class MaxiPocketAlertDialog extends StatelessWidget {
             width: double.infinity,
             themeMode: themeMode,
             backgroundColor: actionBackgroundColors[0],
+            textColor: themeMode == MaxiPocketThemeMode.light
+                ? ThemeLightColors.textPrimaryColor
+                : ThemeDarkColors.textPrimaryColor,
           ),
         );
       }
@@ -215,6 +195,9 @@ class MaxiPocketAlertDialog extends StatelessWidget {
             width: double.infinity,
             themeMode: themeMode,
             backgroundColor: actionBackgroundColors[0],
+            textColor: themeMode == MaxiPocketThemeMode.light
+                ? ThemeLightColors.textPrimaryColor
+                : ThemeDarkColors.textPrimaryColor,
           ),
         );
       }
@@ -229,9 +212,7 @@ class MaxiPocketAlertDialog extends StatelessWidget {
           ? ThemeLightColors.bottomNavigationBarBackgroundColor
           : ThemeDarkColors.bottomNavigationBarBackgroundColor,
       icon: _DialogIcon(dialogType: dialogType, themeMode: themeMode),
-      titleTextStyle: context.textTheme.titleLarge?.copyWith(
-        fontWeight: FontWeight.w700,
-      ),
+      titleTextStyle: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
       title: title != null ? Text(title!, textAlign: TextAlign.center) : null,
       content: subtitle != null ? Text(subtitle!, textAlign: .center) : null,
       contentTextStyle: context.textTheme.bodyLarge,
@@ -288,10 +269,7 @@ class _DialogIcon extends StatelessWidget {
     return Container(
       height: DesignConstants.containerSize56,
       width: DesignConstants.containerSize56,
-      decoration: BoxDecoration(
-        color: _getBackgroundColor,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: _getBackgroundColor, shape: BoxShape.circle),
       child: _getIcon,
     );
   }
