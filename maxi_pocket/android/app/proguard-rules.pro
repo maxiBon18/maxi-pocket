@@ -23,6 +23,14 @@
 -keep class androidx.sqlite.db.** { *; }
 -keep class com.google.crypto.tink.** { *; }
 
+# flutter_local_notifications
+# Scheduled notifications are persisted as Gson JSON and rebuilt inside
+# ScheduledNotificationReceiver when the alarm fires. The Gson models and their
+# JsonDeserializer implementations are only reached reflectively, so R8 strips
+# members such as ScheduleMode$Deserializer.deserialize(), which makes the
+# receiver throw and the notification never appear in release builds.
+-keep class com.dexterous.** { *; }
+
 # Keep R8 from stripping annotation processors
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable

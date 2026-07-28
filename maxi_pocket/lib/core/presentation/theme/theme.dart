@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:maxi_pocket/core/shared/constants/design_constants.dart' show DesignConstants;
 
 /// Font family name constants used as reference tokens across the design system.
@@ -273,9 +272,10 @@ class ThemeTextStyles {
   ThemeTextStyles._();
 
   /// Complete [TextTheme] for the light mode, with each role mapped to Inter or Outfit at design-system sizes.
-  static final TextTheme appLightTextTheme = TextTheme(
+  static const TextTheme appLightTextTheme = TextTheme(
     // displayLarge — hero banners, onboarding screens.
-    displayLarge: GoogleFonts.outfit(
+    displayLarge: TextStyle(
+      fontFamily: ThemeConstants.outfitFontFamily,
       fontWeight: FontWeight.w700,
       fontSize: 60,
       height: 64 / 60,
@@ -284,7 +284,8 @@ class ThemeTextStyles {
     ),
 
     // displayMedium — section heroes, large totals.
-    displayMedium: GoogleFonts.outfit(
+    displayMedium: TextStyle(
+      fontFamily: ThemeConstants.outfitFontFamily,
       fontWeight: FontWeight.w700,
       fontSize: 45,
       height: 52 / 45,
@@ -293,7 +294,8 @@ class ThemeTextStyles {
     ),
 
     // displaySmall — dashboard balance, month summary.
-    displaySmall: GoogleFonts.outfit(
+    displaySmall: TextStyle(
+      fontFamily: ThemeConstants.outfitFontFamily,
       fontWeight: FontWeight.w700,
       fontSize: 36,
       height: 44 / 36,
@@ -302,7 +304,8 @@ class ThemeTextStyles {
     ),
 
     // headlineLarge — closest mapping to source `font.display.lg` (32sp/40sp).
-    headlineLarge: GoogleFonts.outfit(
+    headlineLarge: TextStyle(
+      fontFamily: ThemeConstants.outfitFontFamily,
       fontWeight: FontWeight.w700,
       fontSize: 32,
       height: 40 / 32,
@@ -311,7 +314,8 @@ class ThemeTextStyles {
     ),
 
     // headlineMedium — maps to source `font.display.md` (28sp/36sp).
-    headlineMedium: GoogleFonts.outfit(
+    headlineMedium: TextStyle(
+      fontFamily: ThemeConstants.outfitFontFamily,
       fontWeight: FontWeight.w600,
       fontSize: 28,
       height: 36 / 28,
@@ -320,7 +324,8 @@ class ThemeTextStyles {
     ),
 
     // headlineSmall — maps to source `font.headline` (22sp/28sp).
-    headlineSmall: GoogleFonts.outfit(
+    headlineSmall: TextStyle(
+      fontFamily: ThemeConstants.outfitFontFamily,
       fontWeight: FontWeight.w600,
       fontSize: 22,
       height: 28 / 22,
@@ -329,7 +334,8 @@ class ThemeTextStyles {
     ),
 
     // titleLarge — card titles, dialog headers.
-    titleLarge: GoogleFonts.inter(
+    titleLarge: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w600,
       fontSize: 20,
       height: 28 / 20,
@@ -338,7 +344,8 @@ class ThemeTextStyles {
     ),
 
     // titleMedium — list-tile titles, tab labels.
-    titleMedium: GoogleFonts.inter(
+    titleMedium: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w500,
       fontSize: 18,
       height: 24 / 16,
@@ -347,7 +354,8 @@ class ThemeTextStyles {
     ),
 
     // titleSmall — sub-headers, grouped list section titles.
-    titleSmall: GoogleFonts.inter(
+    titleSmall: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w500,
       fontSize: 14,
       height: 20 / 14,
@@ -356,7 +364,8 @@ class ThemeTextStyles {
     ),
 
     // bodyLarge — primary paragraph text.
-    bodyLarge: GoogleFonts.inter(
+    bodyLarge: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w400,
       fontSize: 16,
       height: 24 / 16,
@@ -365,7 +374,8 @@ class ThemeTextStyles {
     ),
 
     // bodyMedium — default body, transaction descriptions.
-    bodyMedium: GoogleFonts.inter(
+    bodyMedium: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w400,
       fontSize: 14,
       height: 20 / 14,
@@ -374,7 +384,8 @@ class ThemeTextStyles {
     ),
 
     // bodySmall — timestamps, metadata, fine print.
-    bodySmall: GoogleFonts.inter(
+    bodySmall: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w400,
       fontSize: 12,
       height: 16 / 12,
@@ -383,7 +394,8 @@ class ThemeTextStyles {
     ),
 
     // labelLarge — button text, prominent chips.
-    labelLarge: GoogleFonts.inter(
+    labelLarge: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w500,
       fontSize: 14,
       height: 20 / 14,
@@ -392,7 +404,8 @@ class ThemeTextStyles {
     ),
 
     // labelMedium — navigation labels, input hints.
-    labelMedium: GoogleFonts.inter(
+    labelMedium: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w500,
       fontSize: 12,
       height: 16 / 12,
@@ -401,7 +414,8 @@ class ThemeTextStyles {
     ),
 
     // labelSmall — captions, badges, overline text.
-    labelSmall: GoogleFonts.inter(
+    labelSmall: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w500,
       fontSize: 11,
       height: 16 / 11,
@@ -411,9 +425,10 @@ class ThemeTextStyles {
   );
 
   /// Complete [TextTheme] for the dark mode, mirroring [appLightTextTheme] with dark-mode color tokens.
-  static final TextTheme appDarkTextTheme = TextTheme(
+  static const TextTheme appDarkTextTheme = TextTheme(
     // displayLarge — hero banners, onboarding screens.
-    displayLarge: GoogleFonts.outfit(
+    displayLarge: TextStyle(
+      fontFamily: ThemeConstants.outfitFontFamily,
       fontWeight: FontWeight.w700,
       fontSize: 60,
       height: 64 / 60,
@@ -422,7 +437,8 @@ class ThemeTextStyles {
     ),
 
     // displayMedium — section heroes, large totals.
-    displayMedium: GoogleFonts.outfit(
+    displayMedium: TextStyle(
+      fontFamily: ThemeConstants.outfitFontFamily,
       fontWeight: FontWeight.w700,
       fontSize: 45,
       height: 52 / 45,
@@ -431,7 +447,8 @@ class ThemeTextStyles {
     ),
 
     // displaySmall — dashboard balance, month summary.
-    displaySmall: GoogleFonts.outfit(
+    displaySmall: TextStyle(
+      fontFamily: ThemeConstants.outfitFontFamily,
       fontWeight: FontWeight.w700,
       fontSize: 36,
       height: 44 / 36,
@@ -440,7 +457,8 @@ class ThemeTextStyles {
     ),
 
     // headlineLarge — closest mapping to source `font.display.lg` (32sp/40sp).
-    headlineLarge: GoogleFonts.outfit(
+    headlineLarge: TextStyle(
+      fontFamily: ThemeConstants.outfitFontFamily,
       fontWeight: FontWeight.w700,
       fontSize: 32,
       height: 40 / 32,
@@ -449,7 +467,8 @@ class ThemeTextStyles {
     ),
 
     // headlineMedium — maps to source `font.display.md` (28sp/36sp).
-    headlineMedium: GoogleFonts.outfit(
+    headlineMedium: TextStyle(
+      fontFamily: ThemeConstants.outfitFontFamily,
       fontWeight: FontWeight.w600,
       fontSize: 28,
       height: 36 / 28,
@@ -458,7 +477,8 @@ class ThemeTextStyles {
     ),
 
     // headlineSmall — maps to source `font.headline` (22sp/28sp).
-    headlineSmall: GoogleFonts.outfit(
+    headlineSmall: TextStyle(
+      fontFamily: ThemeConstants.outfitFontFamily,
       fontWeight: FontWeight.w600,
       fontSize: 22,
       height: 28 / 22,
@@ -467,7 +487,8 @@ class ThemeTextStyles {
     ),
 
     // titleLarge — card titles, dialog headers.
-    titleLarge: GoogleFonts.inter(
+    titleLarge: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w600,
       fontSize: 20,
       height: 28 / 20,
@@ -476,7 +497,8 @@ class ThemeTextStyles {
     ),
 
     // titleMedium — list-tile titles, tab labels.
-    titleMedium: GoogleFonts.inter(
+    titleMedium: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w500,
       fontSize: 18,
       height: 24 / 16,
@@ -485,7 +507,8 @@ class ThemeTextStyles {
     ),
 
     // titleSmall — sub-headers, grouped list section titles.
-    titleSmall: GoogleFonts.inter(
+    titleSmall: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w500,
       fontSize: 14,
       height: 20 / 14,
@@ -494,7 +517,8 @@ class ThemeTextStyles {
     ),
 
     // bodyLarge — primary paragraph text.
-    bodyLarge: GoogleFonts.inter(
+    bodyLarge: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w400,
       fontSize: 16,
       height: 24 / 16,
@@ -503,7 +527,8 @@ class ThemeTextStyles {
     ),
 
     // bodyMedium — default body, transaction descriptions.
-    bodyMedium: GoogleFonts.inter(
+    bodyMedium: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w400,
       fontSize: 14,
       height: 20 / 14,
@@ -512,7 +537,8 @@ class ThemeTextStyles {
     ),
 
     // bodySmall — timestamps, metadata, fine print.
-    bodySmall: GoogleFonts.inter(
+    bodySmall: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w400,
       fontSize: 12,
       height: 16 / 12,
@@ -521,7 +547,8 @@ class ThemeTextStyles {
     ),
 
     // labelLarge — button text, prominent chips.
-    labelLarge: GoogleFonts.inter(
+    labelLarge: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w500,
       fontSize: 14,
       height: 20 / 14,
@@ -530,7 +557,8 @@ class ThemeTextStyles {
     ),
 
     // labelMedium — navigation labels, input hints.
-    labelMedium: GoogleFonts.inter(
+    labelMedium: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w500,
       fontSize: 12,
       height: 16 / 12,
@@ -539,7 +567,8 @@ class ThemeTextStyles {
     ),
 
     // labelSmall — captions, badges, overline text.
-    labelSmall: GoogleFonts.inter(
+    labelSmall: TextStyle(
+      fontFamily: ThemeConstants.interFontFamily,
       fontWeight: FontWeight.w500,
       fontSize: 11,
       height: 16 / 11,
@@ -549,43 +578,47 @@ class ThemeTextStyles {
   );
 
   /// Monospaced style for monetary amounts and financial data.
-  static final TextStyle monetaryAmountLight = GoogleFonts.jetBrainsMono(
+  static const TextStyle monetaryAmountLight = TextStyle(
+    fontFamily: ThemeConstants.jetBrainsMonoFontFamily,
     fontWeight: FontWeight.w700,
     fontSize: 24,
     height: 28 / 24,
     letterSpacing: 0,
     color: ThemeLightColors.textSecondaryColor,
-    fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
+    fontFeatures: <FontFeature>[FontFeature.tabularFigures()],
   );
 
   /// Smaller monetary amount variant for inline / list-item use (14sp).
-  static final TextStyle monetaryAmountSmallLight = GoogleFonts.jetBrainsMono(
+  static const TextStyle monetaryAmountSmallLight = TextStyle(
+    fontFamily: ThemeConstants.jetBrainsMonoFontFamily,
     fontWeight: FontWeight.w700,
     fontSize: 18,
     height: 24 / 18,
     letterSpacing: 0,
     color: ThemeLightColors.textSecondaryColor,
-    fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
+    fontFeatures: <FontFeature>[FontFeature.tabularFigures()],
   );
 
   /// Monospaced style for monetary amounts and financial data.
-  static final TextStyle monetaryAmountDark = GoogleFonts.jetBrainsMono(
+  static const TextStyle monetaryAmountDark = TextStyle(
+    fontFamily: ThemeConstants.jetBrainsMonoFontFamily,
     fontWeight: FontWeight.w600,
     fontSize: 20,
     height: 28 / 20,
     letterSpacing: 0,
     color: ThemeDarkColors.textSecondaryColor,
-    fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
+    fontFeatures: <FontFeature>[FontFeature.tabularFigures()],
   );
 
   /// Smaller monetary amount variant for inline / list-item use (14sp).
-  static final TextStyle monetaryAmountSmallDark = GoogleFonts.jetBrainsMono(
+  static const TextStyle monetaryAmountSmallDark = TextStyle(
+    fontFamily: ThemeConstants.jetBrainsMonoFontFamily,
     fontWeight: FontWeight.w600,
     fontSize: 14,
     height: 20 / 14,
     letterSpacing: 0,
     color: ThemeDarkColors.textSecondaryColor,
-    fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
+    fontFeatures: <FontFeature>[FontFeature.tabularFigures()],
   );
 }
 

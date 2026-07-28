@@ -101,7 +101,7 @@ class NotificationPluginRepoImpl implements NotificationPluginRepo {
     // final tz.TZDateTime scheduledDate = tz.TZDateTime.now(tz.local).add(const Duration(minutes: 1));
     if (scheduledDate.isBefore(tz.TZDateTime.now(tz.local))) return;
     await _source.schedule(
-      id: id,
+      id: _notificationIdFor(id, type),
       title: title,
       body: body,
       scheduledDate: scheduledDate,
@@ -111,6 +111,27 @@ class NotificationPluginRepoImpl implements NotificationPluginRepo {
       'Notification scheduled for $title at $scheduledDate with body $body',
     );
   }
+
+  /// Maps the expense [id] into the notification ID namespace reserved for [type].
+  ///
+  /// Expense IDs are unique per database table but not across tables, so an
+  /// appointment and a subscription can share the same raw ID and would
+  /// otherwise overwrite each other's reminder. Each type is therefore offset
+  /// into its own [NotificationContentConstants.notificationIdRange] block.
+  int _notificationIdFor(int id, MaxiPocketExpensesType type) =>
+      _idOffsetFor(type) +
+      (id % NotificationContentConstants.notificationIdRange);
+
+  /// Returns the first notification ID of the block reserved for [type].
+  ///
+  /// Subscriptions occupy the first block; financings and appointments follow.
+  int _idOffsetFor(MaxiPocketExpensesType type) => switch (type) {
+    MaxiPocketExpensesType.financing =>
+      NotificationContentConstants.notificationIdRange,
+    MaxiPocketExpensesType.appointments =>
+      NotificationContentConstants.notificationIdRange * 2,
+    _ => 0,
+  };
 
   /// Returns the current OS-level notification permission state without prompting the user.
   @override

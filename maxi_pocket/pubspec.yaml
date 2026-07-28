@@ -1,7 +1,7 @@
 name: maxi_pocket
 description: "Flutter mobile app for managing fixed expenses, such as subscriptions and financing"
 publish_to: "none"
-version: 1.0.0+3
+version: 1.0.3+7
 
 environment:
   sdk: ^3.11.4
@@ -24,7 +24,6 @@ dependencies:
   freezed: ^3.2.5
   freezed_annotation: ^3.1.0
   get_it: ^9.2.1
-  google_fonts: ^8.0.2
   intl: any
   json_annotation: ^4.11.0
   logger: ^2.7.0
@@ -50,6 +49,28 @@ flutter:
 
   assets:
     - assets/images/
+
+  fonts:
+    - family: Outfit
+      fonts:
+        - asset: assets/fonts/Outfit-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Outfit-Bold.ttf
+          weight: 700
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/JetBrainsMono-Bold.ttf
+          weight: 700
 
 flutter_launcher_icons:
   android: true
